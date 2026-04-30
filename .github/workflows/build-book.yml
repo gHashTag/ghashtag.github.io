@@ -1,0 +1,40 @@
+name: Build & Deploy GOLDEN SUNFLOWERS book
+
+on:
+  push:
+    branches: [main]
+    paths: ['docs-src/**', '.github/workflows/build-book.yml', 'ops/**']
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install --quiet psycopg2-binary
+      - name: Install mdBook
+        run: |
+          MDBOOK_VERSION="0.4.40"
+          curl -fsSL "https://github.com/rust-lang/mdBook/releases/download/v${MDBOOK_VERSION}/mdbook-v${MDBOOK_VERSION}-x86_64-unknown-linux-gnu.tar.gz" \
+            | tar -xz -C /usr/local/bin
+      - name: Sync chapters from Neon SSOT
+        if: env.DATABASE_URL != ''
+        run: python3 ops/sync_neon_to_mdbook.py
+      - name: Build mdBook
+        run: mdbook build docs-src --dest-dir ../docs
+      - name: Commit & push (if changed)
+        run: |
+          git config user.name  'goldensunflowers-bot'
+          git config user.email 'bot@goldensunflowers'
+          git add docs/ docs-src/src/
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(book): rebuild from Neon SSOT [skip ci]"
+            git push
+          fi
