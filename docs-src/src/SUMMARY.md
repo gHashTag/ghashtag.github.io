@@ -1,6 +1,7 @@
 # Summary
 
 [Introduction](intro.md)
+[About the Author](about.md)
 
 
 # Part I — Body

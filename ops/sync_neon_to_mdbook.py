@@ -99,7 +99,7 @@ for ch in chapters:
     open(f"{ROOT}/{fname}","w").write(header + body)
 
 # SUMMARY.md
-summary = ["# Summary\n", "[Introduction](intro.md)\n", "\n# Part I — Body\n"]
+summary = ["# Summary\n", "[Introduction](intro.md)", "[About the Author](about.md)\n", "\n# Part I — Body\n"]
 ch_nums = [c[0] for c in chapters if c[0].startswith('Ch.')]
 for c in chapters:
     if c[0].startswith('Ch.'):

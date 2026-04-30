@@ -61,6 +61,12 @@ footer{padding:2rem 1rem;text-align:center;color:var(--ink-dim);font-size:.9em;b
 .petal.done{fill:var(--gold-3)}
 .petal.running{fill:var(--orange)}
 .petal.pending{fill:var(--gold-2);opacity:.4}
+
+.author-card{display:flex;gap:1.6em;align-items:center;background:#161005;border:1px solid #2c2010;border-radius:10px;padding:1.4em;flex-wrap:wrap}
+.author-photo{width:180px;height:180px;border-radius:50%;object-fit:cover;border:4px solid #FFD700;box-shadow:0 0 30px rgba(244,196,48,0.25);background:#1a1306}
+.author-meta h3{margin:.1em 0;color:var(--gold-3);font-size:1.5em}
+.author-meta p{margin:.3em 0}
+@media(max-width:600px){.author-card{flex-direction:column;text-align:center}}
 </style>
 </head>
 <body>
@@ -187,6 +193,27 @@ footer{padding:2rem 1rem;text-align:center;color:var(--ink-dim);font-size:.9em;b
 </section>
 
 </div><!-- /wrap -->
+
+<section id="author">
+<h2>About the author</h2>
+<div class="author-card">
+  <img src="assets/author.jpg" alt="Dmitrii Vasilev"
+       onerror="this.onerror=null;this.src='assets/author-fallback.svg'"
+       class="author-photo">
+  <div class="author-meta">
+    <h3>Dmitrii Vasilev</h3>
+    <p class="muted">φ-Numerics · FPGA · Formal Verification</p>
+    <p>
+      <a href="https://github.com/gHashTag">GitHub @gHashTag</a> ·
+      <a href="https://t27.ai/">t27.ai</a> ·
+      <a href="https://zenodo.org/search?q=metadata.creators.person_or_org.identifiers.identifier:%22ghashtag%22">Zenodo</a> ·
+      <a href="https://github.com/gHashTag/trinity-clara">trinity-clara</a> ·
+      <a href="https://github.com/gHashTag/trios">trios</a>
+    </p>
+    <p class="muted" style="font-size:.9em">Trinity S³AI Research Group · Anchor: φ²+φ⁻²=3</p>
+  </div>
+</div>
+</section>
 
 <footer>
   <div class="wrap">
