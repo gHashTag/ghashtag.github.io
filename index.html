@@ -1,109 +1,354 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-  <link rel="manifest" href="/manifest.json" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="TRINITY" />
-  <meta name="description"
-    content="TRINITY v5.0: Native Ternary Hardware. 100x Faster AI Inference at 99.8% Less Power. The Binary Era is Over." />
-  <meta name="theme-color" content="#000000" />
-  <meta name="keywords" content="ternary computing, AI hardware, SU(3), quantum computing, FPGA, ASIC, energy efficient AI, BitNet, inference acceleration" />
-  <meta name="author" content="Dmitrii Vasilev" />
-  <title>TRINITY | Native Ternary Singularity</title>
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://ghashtag.github.io/trinity/" />
-  <meta property="og:title" content="TRINITY | Native Ternary Hardware for AI" />
-  <meta property="og:description" content="100x Faster AI Inference at 99.8% Less Power. First chip with native SU(3) Unitary Core. The Binary Era is Over." />
-  <meta property="og:image" content="https://ghashtag.github.io/trinity/og-image.svg" />
-  <meta property="og:site_name" content="TRINITY" />
-  <meta property="og:locale" content="en_US" />
-  
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://ghashtag.github.io/trinity/" />
-  <meta name="twitter:title" content="TRINITY | Native Ternary Hardware for AI" />
-  <meta name="twitter:description" content="100x Faster AI Inference at 99.8% Less Power. First chip with native SU(3) Unitary Core." />
-  <meta name="twitter:image" content="https://ghashtag.github.io/trinity/og-image.svg" />
-  
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://ghashtag.github.io/trinity/" />
-  
-  <!-- Structured Data (JSON-LD) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "TRINITY",
-    "url": "https://ghashtag.github.io/trinity/",
-    "logo": "https://ghashtag.github.io/trinity/trinity-logo-with-label.svg",
-    "description": "Native Ternary Hardware for AI. 100x Faster Inference at 99.8% Less Power.",
-    "foundingDate": "2024",
-    "founder": {
-      "@type": "Person",
-      "name": "Dmitrii Vasilev"
-    },
-    "sameAs": [
-      "https://github.com/gHashTag/trinity"
-    ]
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "TRINITY OS",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cross-platform",
-    "description": "Native Ternary Computing Platform with SU(3) Unitary Core",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    }
-  }
-  </script>
-  
-  <!-- Preconnect to critical origins -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="dns-prefetch" href="https://media.licdn.com" />
-  <link rel="dns-prefetch" href="https://blockchain.info" />
-  
-  <!-- Preload critical font (Outfit - main body font) -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" />
-  
-  <!-- Load fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet" />
-  <script type="module" crossorigin src="/assets/index-DeK_VfPw.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/three-BT0Umq2b.js">
-  <link rel="stylesheet" crossorigin href="/assets/index-BQVTNvXP.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GOLDEN SUNFLOWERS · PhD · φ-Numerics for Neural Network Training</title>
+<meta name="description" content="GOLDEN SUNFLOWERS — PhD on φ-Numerics for Neural Network Training. 297 Qed canonical Coq theorems · 44 chapters · 13 Zenodo DOIs · QMTech XC7A100T 0 DSP · 63 toks/sec @ 1W. Anchor: φ² + φ⁻² = 3.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+:root{--gold:#d4a017;--gold-2:#b8860b;--gold-3:#f4c430;--bg:#0c0a05;--bg-2:#181206;--ink:#f7e8b0;--ink-dim:#a89060;--green:#5cd95c;--orange:#ffae42;--red:#ff5a5a}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,Helvetica,sans-serif;line-height:1.55}
+a{color:var(--gold-3);text-decoration:none}a:hover{text-decoration:underline}
+code,kbd{background:#1a1306;color:var(--gold);padding:2px 6px;border-radius:3px;font-family:ui-monospace,Menlo,monospace}
+.wrap{max-width:1100px;margin:0 auto;padding:1rem 1.4rem}
+header.hero{position:relative;text-align:center;padding:3.5rem 1rem 2rem;background:radial-gradient(ellipse at center,#1f1605 0%,var(--bg) 70%)}
+.sunflower{display:block;margin:0 auto 1.5rem;width:280px;height:280px}
+h1{font-size:clamp(1.9rem,5vw,3.2rem);margin:.2em 0;color:var(--gold-3);letter-spacing:.5px;font-weight:800}
+.tagline{color:var(--ink);font-size:1.15rem;margin-bottom:.4em}
+.identity{font-family:ui-monospace,Menlo,monospace;color:var(--gold);font-size:1.4rem;margin:.6em 0}
+.metrics{display:flex;flex-wrap:wrap;gap:.6em;justify-content:center;margin:1em 0 .4em}
+.metric{background:#1a1306;border:1px solid var(--gold-2);padding:.4em .9em;border-radius:99px;font-size:.95em}
+.metric b{color:var(--gold-3)}
+.cta{margin-top:1.4em;display:flex;gap:.8em;justify-content:center;flex-wrap:wrap}
+.btn{background:linear-gradient(180deg,var(--gold-3),var(--gold-2));color:#1a0e02;padding:.7em 1.6em;border-radius:6px;font-weight:700;border:none;cursor:pointer;font-size:1em}
+.btn.ghost{background:transparent;color:var(--gold-3);border:1.5px solid var(--gold-2)}
+.btn:hover{filter:brightness(1.08)}
+section{padding:2.4rem 0;border-top:1px solid #2a1f0c}
+h2{color:var(--gold-3);margin:0 0 .8em;font-size:1.7rem}
+h2 small{color:var(--ink-dim);font-weight:400;font-size:.7em;margin-left:.6em}
+.axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2em}
+.axis{background:#161005;border:1px solid #2c2010;border-radius:8px;padding:1.2em}
+.axis h3{color:var(--gold);margin:0 0 .4em}
+.bar{height:8px;background:#2a1f0c;border-radius:99px;overflow:hidden;margin-top:.5em}
+.bar>span{display:block;height:100%;background:linear-gradient(90deg,var(--gold-2),var(--gold-3));transition:width .3s}
+table{width:100%;border-collapse:collapse;font-size:.92em;margin-top:.5em}
+th,td{text-align:left;padding:.45em .6em;border-bottom:1px solid #2a1f0c}
+th{background:#1a1306;color:var(--gold-3);position:sticky;top:0}
+.status-done{color:var(--green)}.status-running{color:var(--orange)}.status-pending{color:var(--ink-dim)}
+.tbl-wrap{max-height:520px;overflow:auto;border:1px solid #2a1f0c;border-radius:6px}
+.census{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1em;margin-top:1em}
+.census .stat{text-align:center;background:#161005;padding:1.2em;border-radius:8px;border:1px solid #2c2010}
+.census .num{font-size:2.4em;font-weight:800;color:var(--gold-3);font-family:ui-monospace,Menlo,monospace}
+.census .lbl{color:var(--ink-dim);font-size:.95em;margin-top:.2em}
+.seeds{display:flex;flex-wrap:wrap;gap:.5em;margin-top:1em}
+.seed-chip{background:#1a1306;border:1px solid var(--gold-2);padding:.35em .8em;border-radius:99px;font-size:.85em;cursor:default}
+.seed-chip.invariant{border-color:var(--green);color:var(--green)}
+.seed-chip.doi{border-color:var(--gold-3);color:var(--gold-3)}
+.seed-chip.hw{border-color:var(--orange);color:var(--orange)}
+.seed-chip.theorem{border-color:#9aa9ff;color:#9aa9ff}
+.seed-chip.branch{border-color:#ff9ce0;color:#ff9ce0}
+.seed-chip.config{border-color:var(--ink-dim);color:var(--ink-dim)}
+footer{padding:2rem 1rem;text-align:center;color:var(--ink-dim);font-size:.9em;border-top:1px solid #2a1f0c}
+.dot{display:inline-block;width:.7em;height:.7em;border-radius:50%;margin-right:.3em;vertical-align:baseline}
+.dot.done{background:var(--green)}.dot.running{background:var(--orange)}.dot.pending{background:var(--ink-dim)}
+.muted{color:var(--ink-dim)}
+.refresh{font-size:.85em;color:var(--ink-dim);margin-left:.6em}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sunflower .core{transform-origin:140px 140px;animation:spin 60s linear infinite}
+.petal{fill:var(--gold);transform-origin:140px 140px}
+.petal.done{fill:var(--gold-3)}
+.petal.running{fill:var(--orange)}
+.petal.pending{fill:var(--gold-2);opacity:.4}
+
+.author-card{display:flex;gap:1.6em;align-items:center;background:#161005;border:1px solid #2c2010;border-radius:10px;padding:1.4em;flex-wrap:wrap}
+.author-photo{width:180px;height:180px;border-radius:50%;object-fit:cover;border:4px solid #FFD700;box-shadow:0 0 30px rgba(244,196,48,0.25);background:#1a1306}
+.author-meta h3{margin:.1em 0;color:var(--gold-3);font-size:1.5em}
+.author-meta p{margin:.3em 0}
+@media(max-width:600px){.author-card{flex-direction:column;text-align:center}}
+</style>
 </head>
 <body>
-  <div id="root"></div>
-  <!-- GitHub Pages SPA redirect handler -->
-  <script>
-    (function(l) {
-      if (l.search[1] === '/') {
-        var decoded = l.search.slice(1).split('&').map(function(s) {
-          return s.replace(/~and~/g, '&')
-        }).join('?');
-        window.history.replaceState(null, null,
-          l.pathname.slice(0, -1) + decoded + l.hash
-        );
-      }
-    }(window.location))
-  </script>
+
+<header class="hero">
+  <svg class="sunflower" viewBox="0 0 280 280" id="sf-svg" aria-label="34-petal Fibonacci sunflower">
+    <g class="core" id="sf-petals"></g>
+    <circle cx="140" cy="140" r="48" fill="#3a2604"/>
+    <g id="sf-seeds"></g>
+    <circle cx="140" cy="140" r="14" fill="var(--gold)"/>
+    <text x="140" y="146" text-anchor="middle" fill="#1a0e02" font-family="ui-monospace,monospace" font-size="11" font-weight="900">φ²+φ⁻²=3</text>
+  </svg>
+  <h1>🌻 GOLDEN SUNFLOWERS</h1>
+  <div class="tagline">PhD · φ-Numerics for Neural Network Training</div>
+  <div class="identity">φ² + φ⁻² = 3 · TRINITY</div>
+  <div class="metrics">
+    <span class="metric"><b id="m-qed">297</b> Qed canonical</span>
+    <span class="metric"><b id="m-thm">438</b> theorems</span>
+    <span class="metric"><b id="m-ch">44</b> chapters</span>
+    <span class="metric"><b id="m-doi">13</b> Zenodo DOIs</span>
+    <span class="metric"><b>QMTech XC7A100T</b> · 0 DSP · 1 W · 63 toks/s</span>
+  </div>
+  <div class="cta">
+    <a class="btn" href="/docs/" >📖 Read book online</a>
+    <a class="btn" href="#read" id="cta-pdf">📕 PhD PDF</a>
+    <a class="btn ghost" href="#progress">Live progress</a>
+    <a class="btn ghost" href="https://github.com/gHashTag/trios/issues/372">SSOT issue</a>
+    <a class="btn ghost" href="https://github.com/gHashTag/t27/pull/569">Coq SSOT (#569)</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section id="axes">
+<h2>Three evidence axes <small>R5-honest, peer-mintable</small></h2>
+<div class="axes">
+  <div class="axis">
+    <h3>① Empirical</h3>
+    <p>BPB benchmark vs FineWeb · multi-agent IGLA RACE · pre-registered seeds.</p>
+    <p><b id="ax1-pct">~37%</b> drafted · <span class="muted" id="ax1-detail">awaiting bench-agent</span></p>
+    <div class="bar"><span id="ax1-bar" style="width:37%"></span></div>
+  </div>
+  <div class="axis">
+    <h3>② Formal Verification</h3>
+    <p><b>297 Qed</b> in <code>t27/proofs/canonical/</code> · 38 bundles · 11 IGLA invariants · 28 falsification examples · CI-gated (Coq 8.18).</p>
+    <p><b id="ax2-pct">100%</b> canonical home open · <span class="muted" id="ax2-detail">PR #569 open</span></p>
+    <div class="bar"><span id="ax2-bar" style="width:100%"></span></div>
+  </div>
+  <div class="axis">
+    <h3>③ Hardware</h3>
+    <p>Bench-measured: 0 DSP · 0.94–1.07 W · 63 toks/sec @ 92 MHz · 5.8 / 19.6 % LUT · 9.8 / 52 % BRAM · 1003 toks HSLM.</p>
+    <p><b id="ax3-pct">~62%</b> drafted · <span class="muted" id="ax3-detail">openXC7 · prjxray · no Vivado</span></p>
+    <div class="bar"><span id="ax3-bar" style="width:62%"></span></div>
+  </div>
+</div>
+</section>
+
+<section id="progress">
+<h2>Live chapter progress <small><span id="ch-meta">loading…</span><a class="refresh" href="#" onclick="loadAll();return false">↻ refresh</a></small></h2>
+<div class="tbl-wrap">
+  <table id="ch-tbl">
+    <thead><tr><th>Ch.</th><th>Title</th><th>P</th><th>Axis</th><th>Status</th><th>Words</th><th>Thm</th><th>Issue</th></tr></thead>
+    <tbody><tr><td colspan="8" class="muted">Loading…</td></tr></tbody>
+  </table>
+</div>
+</section>
+
+<section id="census">
+<h2>Coq theorem census <small>SSOT: <a href="https://github.com/gHashTag/t27/tree/feat/canonical-coq-home/proofs/canonical">t27/proofs/canonical/</a></small></h2>
+<div class="census">
+  <div class="stat"><div class="num" id="c-qed">376</div><div class="lbl">Qed (proven)</div></div>
+  <div class="stat"><div class="num" id="c-adm">48</div><div class="lbl">Admitted (R5-honest)</div></div>
+  <div class="stat"><div class="num" id="c-abt">14</div><div class="lbl">Abort / WIP</div></div>
+  <div class="stat"><div class="num" id="c-files">65</div><div class="lbl">Canonical .v files</div></div>
+  <div class="stat"><div class="num" id="c-bundles">38</div><div class="lbl">Bundles in t27 home</div></div>
+</div>
+<p class="muted" style="margin-top:1em">11 IGLA invariants (INV-1..INV-9), 17 sacred (CorePhi, AlphaPhi, Bounds_*, CKM/PMNS unitarity), 9 kernel (Phi, PhiAttractor, Trit, FlowerE8). 28 falsification lemmas.</p>
+</section>
+
+<section id="seeds">
+<h2>Seed map <small>from <code>ssot.seeds</code></small></h2>
+<div class="seeds" id="seeds-list"><span class="muted">Loading…</span></div>
+</section>
+
+<section id="agents">
+<h2>Agent swarm <small>from <code>ssot.agent_heartbeats</code></small></h2>
+<div class="tbl-wrap">
+  <table id="ag-tbl">
+    <thead><tr><th>Ch.</th><th>Agent</th><th>Status</th><th>Progress</th><th>Heartbeat</th></tr></thead>
+    <tbody><tr><td colspan="5" class="muted">Loading… (no active agents = no rows)</td></tr></tbody>
+  </table>
+</div>
+</section>
+
+<section id="read">
+<h2>Read the PhD <small>compiled live from Neon SSOT</small></h2>
+<p>The full PhD PDF is regenerated on demand from <code>ssot.chapters.body_md</code> via Rust → pandoc → tectonic (≈5 s). Compile pipeline runs in the dashboard service (<code>POST /compile/all</code>).</p>
+<p>
+  <a class="btn" href="/docs/">📖 Read book online (mdBook)</a>
+  <a class="btn" id="dl-pdf" href="#">📕 Download PhD.pdf</a>
+  <a class="btn ghost" href="https://github.com/gHashTag/trios/issues/380">Master Book v3.0 (issue #380)</a>
+  <a class="btn ghost" href="https://github.com/gHashTag/trios/issues/373#issuecomment-4351659821">Coq Census report</a>
+</p>
+</section>
+
+<section id="zenodo">
+<h2>Primary citations <small>13 Zenodo DOIs</small></h2>
+<table>
+<tr><th>ID</th><th>Title</th><th>DOI</th></tr>
+<tr><td>B001</td><td>HSLM Ternary NN</td><td><a href="https://doi.org/10.5281/zenodo.19227865">10.5281/zenodo.19227865</a></td></tr>
+<tr><td>B002</td><td>FPGA Zero-DSP Architecture</td><td><a href="https://doi.org/10.5281/zenodo.19227867">10.5281/zenodo.19227867</a></td></tr>
+<tr><td>B003</td><td>TRI-27 Verifiable VM</td><td><a href="https://doi.org/10.5281/zenodo.19227869">10.5281/zenodo.19227869</a></td></tr>
+<tr><td>B004</td><td>Queen Lotus Adaptive Reasoning</td><td><a href="https://doi.org/10.5281/zenodo.19227871">10.5281/zenodo.19227871</a></td></tr>
+<tr><td>B005</td><td>Tri Language Formal DSL</td><td><a href="https://doi.org/10.5281/zenodo.19227873">10.5281/zenodo.19227873</a></td></tr>
+<tr><td>B006</td><td>GF16 Probabilistic Format</td><td><a href="https://doi.org/10.5281/zenodo.19227875">10.5281/zenodo.19227875</a></td></tr>
+<tr><td>B007</td><td>VSA Operations for Ternary (anchor)</td><td><a href="https://doi.org/10.5281/zenodo.19227877">10.5281/zenodo.19227877</a></td></tr>
+<tr><td>Z01</td><td>FPGA Autoregressive Ternary LLM</td><td><a href="https://doi.org/10.5281/zenodo.18939352">10.5281/zenodo.18939352</a></td></tr>
+<tr><td>Z02</td><td>Latest version FPGA AR</td><td><a href="https://doi.org/10.5281/zenodo.18950696">10.5281/zenodo.18950696</a></td></tr>
+<tr><td>Z03</td><td>Self-Evolving Ouroboros</td><td><a href="https://doi.org/10.5281/zenodo.19020211">10.5281/zenodo.19020211</a></td></tr>
+<tr><td>Z04</td><td>VSA Balanced Ternary SIMD</td><td><a href="https://doi.org/10.5281/zenodo.19020213">10.5281/zenodo.19020213</a></td></tr>
+<tr><td>Z05</td><td>φ-RoPE Attention</td><td><a href="https://doi.org/10.5281/zenodo.19020215">10.5281/zenodo.19020215</a></td></tr>
+<tr><td>Z06</td><td>Sparse Ternary MatMul</td><td><a href="https://doi.org/10.5281/zenodo.19020217">10.5281/zenodo.19020217</a></td></tr>
+</table>
+</section>
+
+</div><!-- /wrap -->
+
+<section id="author">
+<h2>About the author</h2>
+<div class="author-card">
+  <img src="assets/author.jpg" alt="Dmitrii Vasilev"
+       onerror="this.onerror=null;this.src='assets/author-fallback.svg'"
+       class="author-photo">
+  <div class="author-meta">
+    <h3>Dmitrii Vasilev</h3>
+    <p class="muted">φ-Numerics · FPGA · Formal Verification</p>
+    <p>
+      <a href="https://github.com/gHashTag">GitHub @gHashTag</a> ·
+      <a href="https://t27.ai/">t27.ai</a> ·
+      <a href="https://zenodo.org/search?q=metadata.creators.person_or_org.identifiers.identifier:%22ghashtag%22">Zenodo</a> ·
+      <a href="https://github.com/gHashTag/trinity-clara">trinity-clara</a> ·
+      <a href="https://github.com/gHashTag/trios">trios</a>
+    </p>
+    <p class="muted" style="font-size:.9em">Trinity S³AI Research Group · Anchor: φ²+φ⁻²=3</p>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div style="font-family:ui-monospace,monospace;color:var(--gold)">phi^2 + phi^-2 = 3 · TRINITY · NEVER STOP 🌻</div>
+    <p>
+      <a href="https://github.com/gHashTag/t27">t27</a> ·
+      <a href="https://github.com/gHashTag/trios">trios</a> ·
+      <a href="https://github.com/gHashTag/trinity-clara">trinity-clara</a> ·
+      <a href="https://github.com/gHashTag/trinity-fpga">trinity-fpga</a> ·
+      <a href="https://github.com/gHashTag/trinity">trinity</a>
+    </p>
+    <p class="muted" style="font-size:.85em">DARPA CLARA PA-25-07-02 mirror · AI-assisted code generation · Apache 2.0</p>
+  </div>
+</footer>
+
+<script>
+// Sunflower: 34 petals (Fibonacci angle 137.5°), live status colour
+(function buildSunflower(){
+  const PHI = (1+Math.sqrt(5))/2;
+  const ANG = 360/(PHI*PHI); // 137.507...°
+  const cx=140, cy=140, R0=58;
+  const g = document.getElementById('sf-petals');
+  for (let i=0;i<34;i++){
+    const r = R0 + Math.sqrt(i)*9.5;
+    const t = (i*ANG)*Math.PI/180;
+    const x = cx + r*Math.cos(t);
+    const y = cy + r*Math.sin(t);
+    const rot = (i*ANG);
+    const el = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+    el.setAttribute('cx',x);el.setAttribute('cy',y);
+    el.setAttribute('rx',12);el.setAttribute('ry',5);
+    el.setAttribute('class','petal pending');
+    el.setAttribute('transform',`rotate(${rot} ${x} ${y})`);
+    el.setAttribute('data-i',i);
+    g.appendChild(el);
+  }
+})();
+
+// Endpoint discovery — try Railway dashboard first, fallback to GitHub Pages-only mode
+const DASHBOARD = (window.PHD_DASHBOARD_URL) || 'https://phd-dashboard.up.railway.app';
+const PDF_URL   = DASHBOARD + '/pdf/full';
+document.getElementById('cta-pdf').href = PDF_URL;
+document.getElementById('dl-pdf').href = PDF_URL;
+
+const STATUS_DOT = {done:'done', running:'running', pending:'pending'};
+
+async function safeFetch(url){
+  try {
+    const r = await fetch(url, {mode:'cors'});
+    if (!r.ok) return null;
+    return await r.json();
+  } catch(e){ return null; }
+}
+
+async function loadChapters(){
+  const data = await safeFetch(DASHBOARD+'/api/chapters');
+  if (!data) return loadStaticFallback();
+  const tbody = document.querySelector('#ch-tbl tbody');
+  tbody.innerHTML = '';
+  let drafted=0, total=data.length;
+  data.forEach(c => {
+    const status = c.status || 'stub';
+    const cls = status==='drafted'||status==='done' ? 'done' : status==='running' ? 'running' : 'pending';
+    if (cls==='done') drafted++;
+    const issueLink = c.issue_url ? `<a href="${c.issue_url}">${(c.issue_url.split('/').pop())}</a>` : '-';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><b>${c.ch_num}</b></td><td>${escapeHTML(c.title)}</td><td>${c.priority||'-'}</td><td>${axisLabel(c.evidence_axis)}</td><td><span class="dot ${cls}"></span><span class="status-${cls}">${status}</span></td><td>${c.word_count||'-'}</td><td>${c.theorems_count||0}</td><td>${issueLink}</td>`;
+    tbody.appendChild(tr);
+  });
+  document.getElementById('ch-meta').textContent = `${drafted} / ${total} drafted`;
+  document.getElementById('m-ch').textContent = total;
+  // Update sunflower petals
+  document.querySelectorAll('.petal').forEach((p,i) => {
+    if (!data[i]) return;
+    p.classList.remove('done','running','pending');
+    const s = data[i].status;
+    p.classList.add(s==='drafted'||s==='done' ? 'done' : s==='running' ? 'running' : 'pending');
+  });
+}
+
+async function loadSeeds(){
+  const data = await safeFetch(DASHBOARD+'/api/seeds');
+  if (!data) { document.getElementById('seeds-list').innerHTML='<span class="muted">Live seed feed unavailable. View on GitHub: <a href="https://github.com/gHashTag/trios/issues/372">trios#372</a></span>'; return; }
+  const root = document.getElementById('seeds-list');
+  root.innerHTML='';
+  data.forEach(s => {
+    const a = document.createElement('a');
+    a.href = s.ref_url || '#';
+    a.target='_blank';
+    a.className = 'seed-chip ' + (s.seed_type||'');
+    a.title = s.seed_type;
+    a.textContent = s.seed_name;
+    root.appendChild(a);
+  });
+}
+
+async function loadStatus(){
+  const data = await safeFetch(DASHBOARD+'/api/status');
+  if (!data) return;
+  const tbody = document.querySelector('#ag-tbl tbody');
+  if (!data.length){
+    tbody.innerHTML = '<tr><td colspan="5" class="muted">No active agents · all idle 🌻</td></tr>';
+    return;
+  }
+  tbody.innerHTML='';
+  data.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><b>${r.ch_num}</b></td><td><code>${escapeHTML(r.agent||'')}</code></td><td>${r.status}</td><td>${r.pct||0}%</td><td class="muted">${r.heartbeat_at? new Date(r.heartbeat_at).toLocaleString() : '-'}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+async function loadCensus(){
+  const data = await safeFetch(DASHBOARD+'/api/theorems');
+  if (!data) return;
+  const stats = data.reduce((a,r)=>{a[r.status]=(a[r.status]||0)+1;return a;},{});
+  document.getElementById('c-qed').textContent = stats.Qed || '376';
+  document.getElementById('c-adm').textContent = stats.Admitted || '48';
+  document.getElementById('c-abt').textContent = stats.Abort || '14';
+}
+
+function loadStaticFallback(){
+  const tbody = document.querySelector('#ch-tbl tbody');
+  tbody.innerHTML = '<tr><td colspan="8" class="muted">Live dashboard offline. View static SSOT on GitHub: <a href="https://github.com/gHashTag/trios/issues/372">trios#372</a></td></tr>';
+}
+
+function axisLabel(a){return {1:'Empirical',2:'Formal',3:'Hardware'}[a]||'-'}
+function escapeHTML(s){return (s||'').replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]);}
+
+async function loadAll(){
+  await Promise.all([loadChapters(), loadSeeds(), loadStatus(), loadCensus()]);
+}
+loadAll();
+setInterval(loadAll, 30000);
+</script>
+
 </body>
 </html>

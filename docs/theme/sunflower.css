@@ -1,0 +1,18 @@
+/* GOLDEN SUNFLOWERS mdBook theme overlay */
+:root,.navy{
+  --bg:#0c0a05;--sidebar-bg:#181206;--fg:#f7e8b0;
+  --links:#f4c430;--inline-code-color:#d4a017;
+  --theme-popup-bg:#181206;--theme-popup-border:#3a2604;
+  --table-border-color:#2a1f0c;--table-header-bg:#1a1306;
+}
+.navy .nav-chapters,.navy .menu-bar,.navy .menu-bar .menu-title{background:#0c0a05}
+h1,h2,h3,h4{color:#f4c430}
+.chapter li.chapter-item a{color:#d4a017}
+.chapter li.chapter-item a.active{color:#f4c430;font-weight:600}
+.sidebar{border-right:1px solid #2a1f0c}
+code{background:#1a1306 !important;color:#d4a017 !important}
+pre{background:#15100a !important;border:1px solid #2a1f0c}
+table th{background:#1a1306;color:#f4c430}
+.status-done{color:#5cd95c}
+.status-running{color:#ffae42}
+.status-pending{color:#a89060}
