@@ -1,0 +1,85 @@
+name: Pages domain guard
+
+# After every successful Pages deploy, verify that the GitHub Pages API
+# still has 't27.ai' as the custom domain. If it was silently dropped
+# (a known GitHub Pages bug after some pushes), this workflow logs a
+# clear remediation and fails — making the regression visible immediately.
+#
+# This workflow does NOT auto-rebind the domain because that requires
+# admin privileges that should not be in CI by default. Instead it
+# surfaces the regression so the operator can re-bind via:
+#   gh api -X PUT repos/gHashTag/ghashtag.github.io/pages -f cname=t27.ai
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Hourly health check — catches drift even without pushes.
+    - cron: "17 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  verify-pages-domain:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Pages to settle (60s)
+        if: github.event_name == 'push'
+        run: sleep 60
+
+      - name: Check Pages API custom domain
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          payload=$(gh api repos/${{ github.repository }}/pages 2>&1 || true)
+          echo "Pages API payload:"
+          echo "$payload"
+
+          cname=$(echo "$payload" | jq -r '.cname // "null"')
+          status=$(echo "$payload" | jq -r '.status // "unknown"')
+
+          echo "cname=$cname"
+          echo "status=$status"
+
+          if [ "$cname" != "t27.ai" ]; then
+            echo "::error::❌ GitHub Pages custom domain is '$cname', expected 't27.ai'."
+            echo "::error::Remediation:"
+            echo "::error::  1. Check no other repo holds t27.ai:"
+            echo "::error::     gh api search/code -f q='t27.ai filename:CNAME user:gHashTag'"
+            echo "::error::  2. Clear any conflicting binding:"
+            echo "::error::     gh api -X PUT repos/<owner>/<conflicting>/pages -f cname=''"
+            echo "::error::  3. Re-bind:"
+            echo "::error::     gh api -X PUT repos/${{ github.repository }}/pages -f cname=t27.ai"
+            exit 1
+          fi
+
+          if [ "$status" != "built" ]; then
+            echo "::warning::Pages status is '$status' (not 'built'). May still be deploying."
+          fi
+
+          echo "✅ Pages custom domain is correctly bound to t27.ai (status=$status)"
+
+  verify-public-reachability:
+    runs-on: ubuntu-latest
+    needs: verify-pages-domain
+    steps:
+      - name: HTTPS reachability check
+        run: |
+          set -e
+          # Allow up to 6 attempts (1 min total) for CDN propagation.
+          for i in 1 2 3 4 5 6; do
+            code=$(curl -sko /dev/null -w "%{http_code}" --max-time 10 https://t27.ai/ || echo "000")
+            echo "Attempt $i: HTTP $code"
+            if [ "$code" = "200" ]; then
+              echo "✅ https://t27.ai/ returns 200 OK"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::❌ https://t27.ai/ did not return 200 after 6 attempts."
+          echo "::error::Last status code: $code"
+          echo "::error::This usually means GitHub Pages domain binding was lost."
+          exit 1

@@ -1,0 +1,46 @@
+name: CNAME guard
+
+# Refuse any push/PR that removes or changes the CNAME file.
+# t27.ai is the canonical custom domain — protected from accidental deletion.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify CNAME file exists with t27.ai
+        run: |
+          set -e
+          if [ ! -f CNAME ]; then
+            echo "::error::CNAME file is missing! t27.ai custom domain will be lost."
+            echo "::error::Run: echo 't27.ai' > CNAME && git add CNAME && git commit --amend --no-edit"
+            exit 1
+          fi
+          actual=$(tr -d '[:space:]' < CNAME)
+          expected="t27.ai"
+          if [ "$actual" != "$expected" ]; then
+            echo "::error::CNAME content is '$actual', expected '$expected'."
+            echo "::error::Restore with: echo '$expected' > CNAME"
+            exit 1
+          fi
+          echo "✅ CNAME contains t27.ai"
+
+      - name: Verify CNAME is at repo root (GitHub Pages requires this)
+        run: |
+          set -e
+          # Pages only reads CNAME at the SOURCE of Pages — root for our config.
+          if [ "$(dirname CNAME)" != "." ]; then
+            echo "::error::CNAME must live at repo root for Pages to pick it up."
+            exit 1
+          fi
+          echo "✅ CNAME at repo root"
