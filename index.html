@@ -192,129 +192,164 @@
 </section>
 <!-- ===== /PhD GOLDEN SUNFLOWERS augmentation ===== -->
 
-<!-- ===== Flos Aureus v5.21.2 — Da Vinci x Azbuka monograph augmentation ===== -->
+<!-- ===== Flos Aureus v5.21.2 — Da Vinci x Azbuka monograph (BLACK CODEX style) ===== -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-.flos{font-family:'Inter','Outfit',-apple-system,sans-serif;background:#fdfbf3;color:#2a1f0a;padding:4rem 1.4rem;border-top:2px solid #b8860b}
-.flos .flos-wrap{max-width:1200px;margin:0 auto}
-.flos h2{color:#1a0e02;font-size:2.4rem;margin:0 0 .3em;letter-spacing:.5px;font-weight:800}
-.flos h3{color:#2a1f0a;margin:1.2em 0 .4em;font-size:1.4rem}
-.flos .flos-tag{color:#7a5c10;font-size:1.15rem;font-style:italic;margin-bottom:.4em}
-.flos .flos-anchor{font-family:'JetBrains Mono',ui-monospace,monospace;color:#b8860b;font-size:1.2rem;display:inline-block;padding:.4em 1em;border:1.5px solid #b8860b;border-radius:99px;margin:1em 0 1.6em}
-.flos a{color:#b8860b;text-decoration:none;font-weight:600}
-.flos a:hover{color:#8a6308;text-decoration:underline}
-.flos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1em;margin:2em 0}
-.flos-fig{background:#fff;border:1px solid #d4c896;border-radius:6px;overflow:hidden;box-shadow:0 2px 8px rgba(184,134,11,.08)}
+.flos{font-family:'Cormorant Garamond','EB Garamond',Georgia,serif;background:radial-gradient(ellipse at center,#0f0a05 0%,#050302 75%);color:#d8c89a;padding:5rem 1.4rem 4rem;border-top:1px solid #3a2a10;position:relative;overflow:hidden}
+.flos::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 25% 18%,rgba(212,160,23,.07) 0%,transparent 35%),radial-gradient(circle at 75% 75%,rgba(212,160,23,.05) 0%,transparent 40%);pointer-events:none}
+.flos .flos-wrap{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.flos .flos-hero{display:grid;grid-template-columns:minmax(280px,420px) 1fr;gap:3rem;align-items:center;margin-bottom:3.5rem}
+.flos .flos-cover{position:relative;border:1px solid #6b4f1a;box-shadow:0 0 60px rgba(212,160,23,.18),0 20px 50px rgba(0,0,0,.6)}
+.flos .flos-cover img{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 18px rgba(0,0,0,.5))}
+.flos .flos-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(3rem,7vw,5.5rem);line-height:.95;margin:0 0 .2em;background:linear-gradient(180deg,#f4d97a 0%,#d4a017 50%,#8a6308 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 40px rgba(212,160,23,.15)}
+.flos .flos-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:#d8c89a;font-size:1.25rem;line-height:1.5;margin:.4em 0 1.2em;max-width:42ch}
+.flos .flos-quotes{display:flex;gap:2em;font-family:'Cormorant Garamond',serif;font-style:italic;color:#9a8550;font-size:.92rem;margin-bottom:1.6em;flex-wrap:wrap}
+.flos .flos-quotes em{display:block;font-size:.78em;color:#7a6840;font-style:normal;margin-top:.3em;letter-spacing:.5px}
+.flos .flos-anchor{font-family:'Cinzel',serif;color:#d4a017;font-size:1.15rem;letter-spacing:3px;display:inline-block;padding:.5em 1.4em;border:1px solid #6b4f1a;border-radius:0;margin:.4em 0 1.4em;text-transform:uppercase}
+.flos h2{display:none}
+.flos h3{font-family:'Cinzel',serif;color:#d4a017;font-weight:500;letter-spacing:4px;text-transform:uppercase;font-size:1.05rem;margin:3em 0 1em;padding-bottom:.6em;border-bottom:1px solid #3a2a10}
+.flos h3::before{content:"❖  ";color:#8a6308}
+.flos a{color:#d4a017;text-decoration:none;transition:color .2s}
+.flos a:hover{color:#f4d97a;text-decoration:underline;text-decoration-color:rgba(212,160,23,.5)}
+.flos .flos-tag{font-family:'Cinzel',serif;color:#8a6308;font-size:.78rem;letter-spacing:5px;text-transform:uppercase;margin:0 0 1.2em}
+.flos-defense{background:linear-gradient(180deg,#1a1006 0%,#0a0603 100%);border:1px solid #6b4f1a;color:#f4d97a;padding:1.6em 1.8em;margin:2.5em 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5em}
+.flos-defense .when{font-family:'Cinzel',serif;font-size:1.6rem;font-weight:500;letter-spacing:3px;color:#f4d97a}
+.flos-defense .what{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05em;color:#d8c89a}
+.flos-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8em;margin:1.8em 0}
+.flos-stat{background:rgba(15,10,5,.6);border:1px solid #3a2a10;padding:1.4em 1em;text-align:center;transition:border-color .2s,box-shadow .2s}
+.flos-stat:hover{border-color:#6b4f1a;box-shadow:0 0 20px rgba(212,160,23,.1)}
+.flos-stat .num{font-family:'Cinzel',serif;font-size:2.4rem;color:#f4d97a;font-weight:500;display:block;line-height:1;text-shadow:0 0 18px rgba(212,160,23,.25)}
+.flos-stat .lbl{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.92em;color:#9a8550;margin-top:.5em;display:block;line-height:1.3}
+.flos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2em;margin:1.5em 0}
+.flos-fig{background:#fff;border:1px solid #6b4f1a;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.flos-fig:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(212,160,23,.18)}
 .flos-fig img{width:100%;height:auto;display:block}
-.flos-fig .cap{padding:.7em 1em;font-size:.85em;color:#5a4818;border-top:1px solid #ede4c2}
-.flos-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1em;margin:1.5em 0}
-.flos-stat{background:#fff;border:1px solid #d4c896;border-radius:8px;padding:1.2em 1em;text-align:center}
-.flos-stat .num{font-size:2.2rem;color:#b8860b;font-weight:800;display:block;line-height:1}
-.flos-stat .lbl{font-size:.85em;color:#5a4818;margin-top:.4em;display:block}
-.flos-cta{display:flex;gap:.7em;flex-wrap:wrap;margin:1.5em 0}
-.flos-btn{background:linear-gradient(180deg,#f4c430,#b8860b);color:#1a0e02;padding:.85em 1.6em;border-radius:6px;font-weight:700;text-decoration:none;border:none;font-size:1em}
-.flos-btn.ghost{background:transparent;color:#b8860b;border:1.5px solid #b8860b}
-.flos-btn:hover{filter:brightness(1.05);text-decoration:none;color:#1a0e02}
-.flos-btn.ghost:hover{background:#fff8e1}
-.flos-defense{background:#1a0e02;color:#f4c430;padding:1.4em 1.6em;border-radius:8px;margin:2em 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1em}
-.flos-defense .when{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:1.4rem;font-weight:700}
-.flos-defense .what{font-size:.95em;color:#f7e8b0}
-.flos-meta{font-size:.92em;color:#5a4818;line-height:1.7}
-.flos-meta b{color:#2a1f0a}
+.flos-fig .cap{padding:.8em 1.1em;font-family:'Cormorant Garamond',serif;font-size:.95em;color:#d8c89a;background:#0a0603;border-top:1px solid #3a2a10;line-height:1.4}
+.flos-fig .cap b{color:#d4a017;font-style:italic;font-weight:600}
+.flos-cta{display:flex;gap:.8em;flex-wrap:wrap;margin:1.8em 0}
+.flos-btn{font-family:'Cinzel',serif;background:linear-gradient(180deg,#d4a017 0%,#8a6308 100%);color:#0a0603;padding:.85em 1.6em;border:1px solid #f4d97a;text-decoration:none;font-size:.85em;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;transition:filter .2s,transform .15s}
+.flos-btn.ghost{background:transparent;color:#d4a017;border:1px solid #6b4f1a}
+.flos-btn:hover{filter:brightness(1.15);text-decoration:none;color:#0a0603;transform:translateY(-1px)}
+.flos-btn.ghost:hover{background:rgba(212,160,23,.1);color:#f4d97a;border-color:#d4a017}
+.flos-meta{font-family:'Cormorant Garamond',serif;font-size:1.08em;color:#bca878;line-height:1.75;max-width:78ch}
+.flos-meta b{color:#f4d97a;font-style:italic}
+.flos-meta code{font-family:'JetBrains Mono',ui-monospace,monospace;background:rgba(212,160,23,.08);color:#d4a017;padding:.1em .4em;font-size:.88em;border:1px solid #3a2a10}
 .flos-langs{display:grid;grid-template-columns:1fr 1fr;gap:1.2em;margin-top:1em}
-.flos-langs .lang{background:#fff;border:1px solid #d4c896;border-radius:8px;padding:1.4em}
-.flos-langs h4{margin:0 0 .4em;color:#2a1f0a;font-size:1.15rem}
-.flos-langs p{margin:.3em 0;font-size:.9em;color:#5a4818}
-@media(max-width:600px){.flos-langs{grid-template-columns:1fr}.flos h2{font-size:1.8rem}}
+.flos-langs .lang{background:rgba(15,10,5,.6);border:1px solid #3a2a10;padding:1.6em}
+.flos-langs .lang:hover{border-color:#6b4f1a}
+.flos-langs h4{font-family:'Cinzel',serif;letter-spacing:2px;margin:0 0 .6em;color:#d4a017;font-size:.95rem;text-transform:uppercase}
+.flos-langs p{font-family:'Cormorant Garamond',serif;margin:.4em 0;font-size:1em;color:#d8c89a}
+.flos-langs p b{color:#f4d97a;font-style:italic;font-weight:500;font-size:1.15em}
+.flos ul.flos-meta li{margin:.6em 0}
+.flos-divider{text-align:center;color:#6b4f1a;font-size:1.5rem;letter-spacing:1em;margin:3em 0 1em}
+.flos-author{font-family:'Cormorant Garamond',serif;font-style:italic;color:#8a6308;text-align:center;margin-top:3em;padding-top:2em;border-top:1px solid #3a2a10;font-size:.95em;letter-spacing:.5px}
+.flos-author b{color:#d4a017;font-style:normal;font-family:'Cinzel',serif;letter-spacing:2.5px;font-size:.92em;text-transform:uppercase}
+@media(max-width:840px){.flos .flos-hero{grid-template-columns:1fr;gap:2rem}.flos .flos-cover{max-width:380px;margin:0 auto}.flos-langs{grid-template-columns:1fr}}
 </style>
 
 <section class="flos" id="flos-aureus">
 <div class="flos-wrap">
-<p class="flos-tag">Latest revision · v5.21.2 · 2026-05-10 · T-36 to defense</p>
-<h2>Flos Aureus — Da Vinci × Azbuka PhD monograph</h2>
-<span class="flos-anchor">φ² + φ⁻² = 3</span>
 
-<p class="flos-meta">
-A bilingual (Russian + English) doctoral monograph on φ-numerics for neural-network training, hardware ternary inference, and formal verification — illustrated as a Leonardo da Vinci codex crossed with a Russian fairy-tale azbuka of the Tridevyatoe Tsarstvo («thrice-ninth kingdom»). Each chapter opens with a black-and-white triptych on pure white #FFFFFF: scientific atlas plate by day, child's alphabet primer by night.
-</p>
+<div class="flos-hero">
+  <div class="flos-cover">
+    <img src="phd-assets/flos-aureus/cover.jpg" alt="Flos Aureus — PhD monograph cover" loading="lazy">
+  </div>
+  <div>
+    <p class="flos-tag">Codex · v5.21.2 · T-36 to defense</p>
+    <h1 class="flos-title">Flos Aureus</h1>
+    <p class="flos-sub">A Trinity Framework for the Golden Ratio: mechanized proofs, empirical anchors, and a Coq-bounded neural architecture search.</p>
+    <div class="flos-quotes">
+      <div>«La natura è piena di ragioni che sembrano numeri»<em>— Leonardo da Vinci</em></div>
+      <div>«Senza la matematica nulla si comprende»<em>— Leonardo da Vinci</em></div>
+    </div>
+    <span class="flos-anchor">φ² + φ⁻² = 3</span>
+    <div class="flos-cta">
+      <a class="flos-btn" href="https://github.com/gHashTag/trios/pull/627">Read PR #627</a>
+      <a class="flos-btn ghost" href="https://github.com/gHashTag/trios/blob/feat/phd-v5.3-engraved-figures/docs/phd/main.tex">EN source</a>
+      <a class="flos-btn ghost" href="https://github.com/gHashTag/trios/blob/feat/phd-v5.3-engraved-figures/docs/phd/main_ru.tex">RU source</a>
+    </div>
+  </div>
+</div>
+
+<p class="flos-meta" style="max-width:none">A bilingual (Russian + English) doctoral monograph on φ-numerics for neural-network training, hardware ternary inference, and formal verification — illustrated as a Leonardo da Vinci codex crossed with a Russian fairy-tale azbuka of the Tridevyatoe Tsarstvo («thrice-ninth kingdom»). Each chapter opens with a black-and-white triptych on pure white #FFFFFF: scientific atlas plate by day, child's alphabet primer by night.</p>
 
 <div class="flos-defense">
-<div>
-<div class="when">2026-06-15</div>
-<div class="what">PhD viva defense — Saint Petersburg State University</div>
-</div>
-<a class="flos-btn" href="https://github.com/gHashTag/trios/pull/627">PR #627 →</a>
+  <div>
+    <div class="when">2026 · 06 · 15</div>
+    <div class="what">PhD viva defense — Saint Petersburg State University</div>
+  </div>
+  <a class="flos-btn" href="https://github.com/gHashTag/trios/pull/627">PR #627 →</a>
 </div>
 
+<h3>The codex by the numbers</h3>
 <div class="flos-stats">
-<div class="flos-stat"><span class="num">154</span><span class="lbl">Da Vinci × Azbuka illustrations</span></div>
-<div class="flos-stat"><span class="num">154</span><span class="lbl">unique placements (zero duplicates)</span></div>
-<div class="flos-stat"><span class="num">84</span><span class="lbl">/84 theme-matched chapter primaries</span></div>
-<div class="flos-stat"><span class="num">734</span><span class="lbl">English pages · 63.4 MB</span></div>
-<div class="flos-stat"><span class="num">725</span><span class="lbl">Russian pages · 52.7 MB</span></div>
-<div class="flos-stat"><span class="num">331</span><span class="lbl">Coq theorems across 44 .v files</span></div>
-<div class="flos-stat"><span class="num">212</span><span class="lbl">bibliography entries</span></div>
-<div class="flos-stat"><span class="num">84</span><span class="lbl">tex files (70 chapters + 14 appendices)</span></div>
+  <div class="flos-stat"><span class="num">154</span><span class="lbl">Da Vinci × Azbuka illustrations</span></div>
+  <div class="flos-stat"><span class="num">154</span><span class="lbl">unique placements (zero duplicates)</span></div>
+  <div class="flos-stat"><span class="num">84 / 84</span><span class="lbl">theme-matched chapter primaries</span></div>
+  <div class="flos-stat"><span class="num">734</span><span class="lbl">English pages · 63.4 MB</span></div>
+  <div class="flos-stat"><span class="num">725</span><span class="lbl">Russian pages · 52.7 MB</span></div>
+  <div class="flos-stat"><span class="num">331</span><span class="lbl">Coq theorems across 44 .v files</span></div>
+  <div class="flos-stat"><span class="num">212</span><span class="lbl">bibliography entries</span></div>
+  <div class="flos-stat"><span class="num">84</span><span class="lbl">tex files (70 chapters + 14 appendices)</span></div>
 </div>
 
 <h3>Selected triptychs from the codex</h3>
 <div class="flos-grid">
-<figure class="flos-fig"><img src="phd-assets/flos-aureus/v516-01-golden-egg.jpg" alt="Golden Seed: The Vesica Opens"><figcaption class="cap"><b>Glava 01</b> — Golden Seed: The Vesica Opens. Seed → vesica piscis → sprout.</figcaption></figure>
-<figure class="flos-fig"><img src="phd-assets/flos-aureus/v516-13-metatron-cube.jpg" alt="Metatron's Cube and the Lucas-12 Orbit"><figcaption class="cap"><b>Glava 13</b> — Metatron's Cube and the Lucas-12 Orbit.</figcaption></figure>
-<figure class="flos-fig"><img src="phd-assets/flos-aureus/v520-05-clock-cog.jpg" alt="Clock Cog"><figcaption class="cap"><b>v520 universal</b> — Clock Cog: escapement → wheel → striker.</figcaption></figure>
-<figure class="flos-fig"><img src="phd-assets/flos-aureus/v520-07-compass-rose.jpg" alt="Compass Rose"><figcaption class="cap"><b>v520 universal</b> — Compass Rose: needle → 32-point dial → chart.</figcaption></figure>
-<figure class="flos-fig"><img src="phd-assets/flos-aureus/v521-04-quadrant.jpg" alt="Astronomer's Quadrant"><figcaption class="cap"><b>v521 new</b> — Astronomer's Quadrant: limb → plumb → alidade.</figcaption></figure>
-<figure class="flos-fig"><img src="phd-assets/flos-aureus/v521-05-armillary.jpg" alt="Armillary Sphere"><figcaption class="cap"><b>v521 new</b> — Armillary Sphere: equator → ecliptic → meridian.</figcaption></figure>
+  <figure class="flos-fig"><img src="phd-assets/flos-aureus/v516-01-golden-egg.jpg" alt="Golden Seed: The Vesica Opens" loading="lazy"><figcaption class="cap"><b>Glava 01</b> — Golden Seed: The Vesica Opens. Seed → vesica piscis → sprout.</figcaption></figure>
+  <figure class="flos-fig"><img src="phd-assets/flos-aureus/v516-13-metatron-cube.jpg" alt="Metatron's Cube and the Lucas-12 Orbit" loading="lazy"><figcaption class="cap"><b>Glava 13</b> — Metatron's Cube and the Lucas-12 Orbit.</figcaption></figure>
+  <figure class="flos-fig"><img src="phd-assets/flos-aureus/v520-05-clock-cog.jpg" alt="Clock Cog" loading="lazy"><figcaption class="cap"><b>v520 universal</b> — Clock Cog: escapement → wheel → striker.</figcaption></figure>
+  <figure class="flos-fig"><img src="phd-assets/flos-aureus/v520-07-compass-rose.jpg" alt="Compass Rose" loading="lazy"><figcaption class="cap"><b>v520 universal</b> — Compass Rose: needle → 32-point dial → chart.</figcaption></figure>
+  <figure class="flos-fig"><img src="phd-assets/flos-aureus/v521-04-quadrant.jpg" alt="Astronomer's Quadrant" loading="lazy"><figcaption class="cap"><b>v521 new</b> — Astronomer's Quadrant: limb → plumb → alidade.</figcaption></figure>
+  <figure class="flos-fig"><img src="phd-assets/flos-aureus/v521-05-armillary.jpg" alt="Armillary Sphere" loading="lazy"><figcaption class="cap"><b>v521 new</b> — Armillary Sphere: equator → ecliptic → meridian.</figcaption></figure>
 </div>
 
 <h3>Read it in your language</h3>
 <div class="flos-langs">
-<div class="lang">
-<h4>🇬🇧 English edition</h4>
-<p><b>Flos Aureus: φ-Numerics for Neural Networks</b></p>
-<p>63.4 MB · 734 pages · LaTeX + Tectonic build</p>
-<p style="margin-top:1em"><a class="flos-btn" href="https://github.com/gHashTag/trios/blob/feat/phd-v5.3-engraved-figures/docs/phd/main.tex">Source →</a></p>
-</div>
-<div class="lang">
-<h4>🇷🇺 Русское издание</h4>
-<p><b>Золотой Цветок: φ-Численность для Нейросетей</b></p>
-<p>52.7 MB · 725 страниц · LaTeX + Tectonic</p>
-<p style="margin-top:1em"><a class="flos-btn" href="https://github.com/gHashTag/trios/blob/feat/phd-v5.3-engraved-figures/docs/phd/main_ru.tex">Источник →</a></p>
-</div>
+  <div class="lang">
+    <h4>English edition</h4>
+    <p><b>Flos Aureus: φ-Numerics for Neural Networks</b></p>
+    <p>63.4 MB · 734 pages · LaTeX + Tectonic build</p>
+    <p style="margin-top:1.2em"><a class="flos-btn" href="https://github.com/gHashTag/trios/blob/feat/phd-v5.3-engraved-figures/docs/phd/main.tex">Source →</a></p>
+  </div>
+  <div class="lang">
+    <h4>Русское издание</h4>
+    <p><b>Золотой Цветок: φ-Численность для Нейросетей</b></p>
+    <p>52.7 MB · 725 страниц · LaTeX + Tectonic</p>
+    <p style="margin-top:1.2em"><a class="flos-btn" href="https://github.com/gHashTag/trios/blob/feat/phd-v5.3-engraved-figures/docs/phd/main_ru.tex">Источник →</a></p>
+  </div>
 </div>
 
-<h3>Style anchors — the Two-Reading Principle</h3>
-<p class="flos-meta">
-Every figure satisfies two readings simultaneously: a rigorous engineering blueprint fitting a 19th-century scientific atlas plate, and a fairy-tale azbuka page understandable to a child. Pure black ink on pure white #FFFFFF, three vertical panels, curly-fleuron bracket cartouches, hairline cross-hatching, tiny x/y/z axis arrows, serif-typeset φ formulae, and a TRINITY S³AI ribbon at the bottom. <b>No human figures, no faces, no heraldry, no Cyrillic captions inside the artwork.</b>
-</p>
+<h3>The Two-Reading Principle</h3>
+<p class="flos-meta">Every figure satisfies two readings simultaneously: a rigorous engineering blueprint fitting a 19th-century scientific atlas plate, and a fairy-tale azbuka page understandable to a child. Pure black ink on pure white #FFFFFF, three vertical panels, curly-fleuron bracket cartouches, hairline cross-hatching, tiny x/y/z axis arrows, serif-typeset φ formulae, and a TRINITY S³AI ribbon at the bottom. <b>No human figures, no faces, no heraldry, no Cyrillic captions inside the artwork.</b></p>
 
 <h3>Pool composition (154 figures)</h3>
 <ul class="flos-meta">
-<li><b>84 v516</b> — chapter-slug-matched primary triptychs (Golden Seed, Golden Cut, Vesica Piscis, Flower of Life, Metatron's Cube, Platonic Solids, Kepler Solids, Standard Model, Quantum Field, E8 Symmetry, GF(16) Algebra, Lucas Closure, …)</li>
-<li><b>40 v520</b> — universal triptychs (azbuka-alpha, trinity-axis, codex-quill, temple-pillar, clock-cog, anvil-hammer, compass-rose, pyramid-section, bell-curve, prism-spectrum, hourglass, key-lock, spectacle-lens, musical-staff, tree-branch, honey-comb, mill-wheel, tetractys, magic-square, orrery, …)</li>
-<li><b>30 v521</b> — newest additions (Foucault pendulum, gothic vault, apothecary balance, astronomer's quadrant, armillary sphere, trebuchet, pulley block, screw press, windmill, smelting furnace, aviary, vertical sundial, ink quill, Roman dome, syllogism plate, coin mint, ratchet, calipers, architect's torch, cannon section, portcullis, bell tower, zither, sextant, microscope, vellum, trumpet, Galton quincunx, Sumerian tablet, thaumatrope)</li>
+  <li><b>84 v516</b> — chapter-slug-matched primary triptychs (Golden Seed, Golden Cut, Vesica Piscis, Flower of Life, Metatron's Cube, Platonic Solids, Kepler Solids, Standard Model, Quantum Field, E8 Symmetry, GF(16) Algebra, Lucas Closure, …)</li>
+  <li><b>40 v520</b> — universal triptychs (azbuka-alpha, trinity-axis, codex-quill, temple-pillar, clock-cog, anvil-hammer, compass-rose, pyramid-section, bell-curve, prism-spectrum, hourglass, key-lock, spectacle-lens, musical-staff, tree-branch, honey-comb, mill-wheel, tetractys, magic-square, orrery, …)</li>
+  <li><b>30 v521</b> — newest additions (Foucault pendulum, gothic vault, apothecary balance, astronomer's quadrant, armillary sphere, trebuchet, pulley block, screw press, windmill, smelting furnace, aviary, vertical sundial, ink quill, Roman dome, syllogism plate, coin mint, ratchet, calipers, architect's torch, cannon section, portcullis, bell tower, zither, sextant, microscope, vellum, trumpet, Galton quincunx, Sumerian tablet, thaumatrope)</li>
 </ul>
 
 <h3>Distribution invariant</h3>
-<p class="flos-meta">
-Distributor <code>scripts/theme_match.py</code> enforces two invariants: <b>(1)</b> each figure appears at most once across the whole monograph (RU + EN + appendix combined); <b>(2)</b> every chapter's PRIMARY figure thematically matches its real title — Russian chapters use exact slug-match v516 (e.g. <code>02-golden-cut</code> → <code>v516-02-golden-cut</code>), English mirrors are mapped by REAL title (e.g. <code>ch_06 GoldenFloat Family</code> → <code>v520-25-globe-meridian</code>). Verified histogram: <code>{1: 154}</code> — every placement unique, <b>84/84</b> primaries correct.
-</p>
+<p class="flos-meta">Distributor <code>scripts/theme_match.py</code> enforces two invariants: <b>(1)</b> each figure appears at most once across the whole monograph (RU + EN + appendix combined); <b>(2)</b> every chapter's PRIMARY figure thematically matches its real title — Russian chapters use exact slug-match v516 (e.g. <code>02-golden-cut</code> → <code>v516-02-golden-cut</code>), English mirrors are mapped by REAL title (e.g. <code>ch_06 GoldenFloat Family</code> → <code>v520-25-globe-meridian</code>). Verified histogram: <code>{1: 154}</code> — every placement unique, <b>84/84</b> primaries correct.</p>
 
 <div class="flos-cta">
-<a class="flos-btn" href="https://github.com/gHashTag/trios/pull/627">PR #627 — v5.21.2</a>
-<a class="flos-btn ghost" href="https://github.com/gHashTag/trios/tree/feat/phd-v5.3-engraved-figures/docs/phd">Browse source</a>
-<a class="flos-btn ghost" href="https://github.com/gHashTag/trios/tree/feat/phd-v5.3-engraved-figures/docs/phd/assets/illustrations/v516">All 154 figures</a>
-<a class="flos-btn ghost" href="https://doi.org/10.5281/zenodo.19227877">Zenodo DOI</a>
-<a class="flos-btn ghost" href="https://orcid.org/0009-0008-4294-6159">ORCID</a>
+  <a class="flos-btn" href="https://github.com/gHashTag/trios/pull/627">PR #627 · v5.21.2</a>
+  <a class="flos-btn ghost" href="https://github.com/gHashTag/trios/tree/feat/phd-v5.3-engraved-figures/docs/phd">Browse source</a>
+  <a class="flos-btn ghost" href="https://github.com/gHashTag/trios/tree/feat/phd-v5.3-engraved-figures/docs/phd/assets/illustrations/v516">All 154 figures</a>
+  <a class="flos-btn ghost" href="https://doi.org/10.5281/zenodo.19227877">Zenodo DOI</a>
+  <a class="flos-btn ghost" href="https://orcid.org/0009-0008-4294-6159">ORCID</a>
 </div>
 
 <h3>Defense logistics</h3>
-<p class="flos-meta">
-Viva voce 2026-06-15 at SPbGU under «sobstvennye pravila» (own rules, English admissible, no ВАК triple-publication requirement, RF + international recognition). Rehearsal cadence: R1 T-21d (full walkthrough ≈90 min, 2026-05-25), R2 T-10d (adversarial Q&A drill ≈60 min, 2026-06-05), R3 T-3d (final timing run ≈45 min, 2026-06-12). Examiner pack at <code>docs/phd/defense/examiner-pack/</code>; Coq citation map appendix F regenerated weekly; bibliography fresh-pull on every commit.
+<p class="flos-meta">Viva voce 2026-06-15 at SPbGU under «sobstvennye pravila» (own rules, English admissible, no ВАК triple-publication requirement, RF + international recognition). Rehearsal cadence: R1 T-21d (full walkthrough ≈90 min, 2026-05-25), R2 T-10d (adversarial Q&A drill ≈60 min, 2026-06-05), R3 T-3d (final timing run ≈45 min, 2026-06-12). Examiner pack at <code>docs/phd/defense/examiner-pack/</code>; Coq citation map appendix F regenerated weekly; bibliography fresh-pull on every commit.</p>
+
+<div class="flos-divider">❖ ❖ ❖</div>
+
+<p class="flos-author">
+  <b>Dmitrii Vasilev</b><br>
+  raoffonom@icloud.com · ORCID 0009-0008-4294-6159 · Apache 2.0
 </p>
 
-<p style="color:#7a5c10;margin-top:2em;font-size:.85em">
-Author: Dmitrii Vasilev — raoffonom@icloud.com — ORCID 0009-0008-4294-6159 — Apache 2.0
-</p>
 </div>
 </section>
 <!-- ===== /Flos Aureus v5.21.2 augmentation ===== -->
