@@ -192,7 +192,7 @@
 </section>
 <!-- ===== /PhD GOLDEN SUNFLOWERS augmentation ===== -->
 
-<!-- ===== Flos Aureus v5.21.1 — Da Vinci x Azbuka monograph augmentation ===== -->
+<!-- ===== Flos Aureus v5.21.2 — Da Vinci x Azbuka monograph augmentation ===== -->
 <style>
 .flos{font-family:'Inter','Outfit',-apple-system,sans-serif;background:#fdfbf3;color:#2a1f0a;padding:4rem 1.4rem;border-top:2px solid #b8860b}
 .flos .flos-wrap{max-width:1200px;margin:0 auto}
@@ -229,7 +229,7 @@
 
 <section class="flos" id="flos-aureus">
 <div class="flos-wrap">
-<p class="flos-tag">Latest revision · v5.21.1 · 2026-05-10</p>
+<p class="flos-tag">Latest revision · v5.21.2 · 2026-05-10 · T-36 to defense</p>
 <h2>Flos Aureus — Da Vinci × Azbuka PhD monograph</h2>
 <span class="flos-anchor">φ² + φ⁻² = 3</span>
 
@@ -247,11 +247,13 @@ A bilingual (Russian + English) doctoral monograph on φ-numerics for neural-net
 
 <div class="flos-stats">
 <div class="flos-stat"><span class="num">154</span><span class="lbl">Da Vinci × Azbuka illustrations</span></div>
-<div class="flos-stat"><span class="num">151</span><span class="lbl">unique placements (zero duplicates)</span></div>
-<div class="flos-stat"><span class="num">62</span><span class="lbl">MB English PDF</span></div>
-<div class="flos-stat"><span class="num">52</span><span class="lbl">MB Russian PDF</span></div>
-<div class="flos-stat"><span class="num">33</span><span class="lbl">chapters · 14 appendices</span></div>
-<div class="flos-stat"><span class="num">208</span><span class="lbl">bibliography entries</span></div>
+<div class="flos-stat"><span class="num">154</span><span class="lbl">unique placements (zero duplicates)</span></div>
+<div class="flos-stat"><span class="num">84</span><span class="lbl">/84 theme-matched chapter primaries</span></div>
+<div class="flos-stat"><span class="num">734</span><span class="lbl">English pages · 63.4 MB</span></div>
+<div class="flos-stat"><span class="num">725</span><span class="lbl">Russian pages · 52.7 MB</span></div>
+<div class="flos-stat"><span class="num">331</span><span class="lbl">Coq theorems across 44 .v files</span></div>
+<div class="flos-stat"><span class="num">212</span><span class="lbl">bibliography entries</span></div>
+<div class="flos-stat"><span class="num">84</span><span class="lbl">tex files (70 chapters + 14 appendices)</span></div>
 </div>
 
 <h3>Selected triptychs from the codex</h3>
@@ -269,13 +271,13 @@ A bilingual (Russian + English) doctoral monograph on φ-numerics for neural-net
 <div class="lang">
 <h4>🇬🇧 English edition</h4>
 <p><b>Flos Aureus: φ-Numerics for Neural Networks</b></p>
-<p>~62 MB · ~480 pages · LaTeX + Tectonic build</p>
+<p>63.4 MB · 734 pages · LaTeX + Tectonic build</p>
 <p style="margin-top:1em"><a class="flos-btn" href="https://github.com/gHashTag/trios/blob/feat/phd-v5.3-engraved-figures/docs/phd/main.tex">Source →</a></p>
 </div>
 <div class="lang">
 <h4>🇷🇺 Русское издание</h4>
 <p><b>Золотой Цветок: φ-Численность для Нейросетей</b></p>
-<p>~52 MB · ~420 страниц · LaTeX + Tectonic</p>
+<p>52.7 MB · 725 страниц · LaTeX + Tectonic</p>
 <p style="margin-top:1em"><a class="flos-btn" href="https://github.com/gHashTag/trios/blob/feat/phd-v5.3-engraved-figures/docs/phd/main_ru.tex">Источник →</a></p>
 </div>
 </div>
@@ -294,11 +296,11 @@ Every figure satisfies two readings simultaneously: a rigorous engineering bluep
 
 <h3>Distribution invariant</h3>
 <p class="flos-meta">
-Distributor <code>distribute_no_dups.py</code> enforces: <b>each figure appears at most once across the whole monograph (RU + EN + appendix combined)</b>. English mirror chapters skip the slug-match primary because that primary is already claimed by the Russian sibling. Verified histogram: <code>{1: 151}</code> — every placement unique.
+Distributor <code>scripts/theme_match.py</code> enforces two invariants: <b>(1)</b> each figure appears at most once across the whole monograph (RU + EN + appendix combined); <b>(2)</b> every chapter's PRIMARY figure thematically matches its real title — Russian chapters use exact slug-match v516 (e.g. <code>02-golden-cut</code> → <code>v516-02-golden-cut</code>), English mirrors are mapped by REAL title (e.g. <code>ch_06 GoldenFloat Family</code> → <code>v520-25-globe-meridian</code>). Verified histogram: <code>{1: 154}</code> — every placement unique, <b>84/84</b> primaries correct.
 </p>
 
 <div class="flos-cta">
-<a class="flos-btn" href="https://github.com/gHashTag/trios/pull/627">PR #627 — v5.21.1</a>
+<a class="flos-btn" href="https://github.com/gHashTag/trios/pull/627">PR #627 — v5.21.2</a>
 <a class="flos-btn ghost" href="https://github.com/gHashTag/trios/tree/feat/phd-v5.3-engraved-figures/docs/phd">Browse source</a>
 <a class="flos-btn ghost" href="https://github.com/gHashTag/trios/tree/feat/phd-v5.3-engraved-figures/docs/phd/assets/illustrations/v516">All 154 figures</a>
 <a class="flos-btn ghost" href="https://doi.org/10.5281/zenodo.19227877">Zenodo DOI</a>
@@ -315,7 +317,7 @@ Author: Dmitrii Vasilev — raoffonom@icloud.com — ORCID 0009-0008-4294-6159 �
 </p>
 </div>
 </section>
-<!-- ===== /Flos Aureus v5.21.1 augmentation ===== -->
+<!-- ===== /Flos Aureus v5.21.2 augmentation ===== -->
 
 </body>
 </html>
