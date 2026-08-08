@@ -258,7 +258,10 @@ a{color:var(--accent)}
 .wrap{max-width:820px;margin:0 auto;padding:28px 20px 72px}
 header.top{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid var(--rule)}
 .brand{font-weight:700;letter-spacing:.18em;font-size:12px;color:var(--accent);text-decoration:none}
-nav.top a{font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;color:var(--muted);margin-left:14px}
+/* Inline anchors wrap by word, which split "CASE STUDIES" across two lines and
+   pushed "CASE" off the right edge at 375px. Flex with a gap wraps whole items. */
+nav.top{display:flex;flex-wrap:wrap;gap:6px 14px}
+nav.top a{font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;color:var(--muted);white-space:nowrap}
 nav.top a:hover,nav.top a[aria-current]{color:var(--accent)}
 .eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:12px;margin:38px 0 10px}
 h1{font-size:clamp(1.9rem,5.5vw,2.7rem);line-height:1.15;margin:0 0 14px;text-wrap:balance}
