@@ -256,18 +256,21 @@ CSS = """*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--accent)}
-.wrap{max-width:820px;margin:0 auto;padding:28px 20px 72px}
-header.top{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid var(--rule)}
+/* Centred to match the app. These pages were left-aligned while every page in
+   the SPA centres its content, so landing here from a link felt like a different
+   site with everything shoved against the left edge. */
+.wrap{max-width:820px;margin:0 auto;padding:28px 20px 72px;text-align:center}
+header.top{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:center;padding-bottom:18px;border-bottom:1px solid var(--rule)}
 .brand{font-weight:700;letter-spacing:.18em;font-size:12px;color:var(--accent);text-decoration:none}
 /* Inline anchors wrap by word, which split "CASE STUDIES" across two lines and
    pushed "CASE" off the right edge at 375px. Flex with a gap wraps whole items. */
-nav.top{display:flex;flex-wrap:wrap;gap:6px 14px}
+nav.top{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center}
 nav.top a{font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;color:var(--muted);white-space:nowrap}
 nav.top a:hover,nav.top a[aria-current]{color:var(--accent)}
 .eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:12px;margin:38px 0 10px}
 h1{font-size:clamp(1.9rem,5.5vw,2.7rem);line-height:1.15;margin:0 0 14px;text-wrap:balance}
-.lede{font-size:1.08rem;color:var(--muted);margin:0 0 26px;max-width:62ch}
-h2{font-size:1.25rem;margin:40px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.lede{font-size:1.08rem;color:var(--muted);margin:0 auto 26px;max-width:62ch}
+h2{font-size:1.25rem;margin:40px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--rule);text-align:center}
 .items{display:grid;gap:14px}
 .item{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:16px 18px}
 .item h3{font-size:1rem;margin:0 0 6px;color:var(--accent)}
@@ -276,7 +279,7 @@ h2{font-size:1.25rem;margin:40px 0 14px;padding-bottom:8px;border-bottom:1px sol
 .cta p{margin:0 0 16px;color:#c6d5d0}
 .btn{display:inline-block;background:var(--accent);color:#04140d;font-weight:700;text-decoration:none;padding:12px 24px;border-radius:999px;font-size:.92rem}
 .btn.sec{background:transparent;color:var(--ink);border:1px solid var(--rule);font-weight:500}
-.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
 footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--rule);color:var(--muted);font-size:.85rem}
 footer a{color:var(--muted)}
 @media(prefers-color-scheme:light){:root{--bg:#fbfdfc;--card:#fff;--ink:#101a17;--muted:#5b6f68;--accent:#0a7a4c;--rule:#dde7e3}.item p{color:#394944}.cta p{color:#394944}.btn{color:#fff}}
