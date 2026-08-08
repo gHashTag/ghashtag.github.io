@@ -16,10 +16,89 @@
 <meta name="twitter:title" content="Hardware-verified RTL — measured on live silicon" />
 <meta name="twitter:description" content="Send your RTL and get it measured on a live Xilinx Artix-7: bit-exact conformance against an independent reference model, achieved timing, resources and the bitstream — on a fully open-source flow. From $300 per core, first module free." />
 <link rel="icon" href="/favicon.svg" />
-<script>location.replace('/#/verification')</script>
-<meta http-equiv="refresh" content="0; url=/#/verification" />
+<style>*,*::before,*::after{box-sizing:border-box}
+:root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:820px;margin:0 auto;padding:28px 20px 72px}
+header.top{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid var(--rule)}
+.brand{font-weight:700;letter-spacing:.18em;font-size:12px;color:var(--accent);text-decoration:none}
+nav.top a{font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;color:var(--muted);margin-left:14px}
+nav.top a:hover,nav.top a[aria-current]{color:var(--accent)}
+.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:12px;margin:38px 0 10px}
+h1{font-size:clamp(1.9rem,5.5vw,2.7rem);line-height:1.15;margin:0 0 14px;text-wrap:balance}
+.lede{font-size:1.08rem;color:var(--muted);margin:0 0 26px;max-width:62ch}
+h2{font-size:1.25rem;margin:40px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.items{display:grid;gap:14px}
+.item{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:16px 18px}
+.item h3{font-size:1rem;margin:0 0 6px;color:var(--accent)}
+.item p{margin:0;font-size:.95rem;color:#c6d5d0}
+.cta{margin-top:42px;background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:24px}
+.cta p{margin:0 0 16px;color:#c6d5d0}
+.btn{display:inline-block;background:var(--accent);color:#04140d;font-weight:700;text-decoration:none;padding:12px 24px;border-radius:999px;font-size:.92rem}
+.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--rule);font-weight:500}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--rule);color:var(--muted);font-size:.85rem}
+footer a{color:var(--muted)}
+@media(prefers-color-scheme:light){:root{--bg:#fbfdfc;--card:#fff;--ink:#101a17;--muted:#5b6f68;--accent:#0a7a4c;--rule:#dde7e3}.item p{color:#394944}.cta p{color:#394944}.btn{color:#fff}}
+</style>
 </head>
 <body>
-<p>Redirecting to <a href="/#/verification">Hardware-verified RTL — measured on live silicon</a>…</p>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/verification/" aria-current="page">Verification</a><a href="/proof/">Evidence</a><a href="/ip/">Licensing</a><a href="/course/">Course</a><a href="/cases/">Case studies</a><a href="/about/">About</a></nav>
+</header>
+
+<p class="eyebrow">Verification service</p>
+<h1>Not simulated. Measured on live silicon.</h1>
+<p class="lede">Send your RTL. It runs on a real Xilinx Artix-7 and comes back with a signed report: bit-exact conformance against an independent model, achieved timing, resource usage, and the bitstream — on a fully open-source toolchain, so every number can be reproduced.</p>
+
+<h2>What the report contains</h2>
+<div class="items">
+<div class="item"><h3>Bit-exact conformance</h3><p>Every node of your datapath checked against an independent reference model with known-answer vectors. Divergence between specification and RTL surfaces before synthesis, not after tape-out.</p></div>
+<div class="item"><h3>Timing and resources</h3><p>Achieved frequency, slack, LUT/FF/BRAM/DSP usage and a latch-free check — measured on a live Artix-7, not estimated from a report.</p></div>
+<div class="item"><h3>Reproducible artefacts</h3><p>Bitstream, test vectors, logs and the exact toolchain versions, so anyone can re-run the whole flow themselves.</p></div>
+<div class="item"><h3>No vendor lock-in</h3><p>Yosys, nextpnr-xilinx, prjxray, openFPGALoader, iverilog. Nothing in the report depends on a proprietary licence you would need to buy.</p></div>
+</div>
+<h2>How it works</h2>
+<div class="items">
+<div class="item"><h3>1. You send RTL or a specification</h3><p>And say what “correct” means for it.</p></div>
+<div class="item"><h3>2. I build an independent model</h3><p>Written from the operation, never from your RTL — a testbench derived from the same assumptions as a design agrees with the design&#x27;s bugs.</p></div>
+<div class="item"><h3>3. You get a signed report</h3><p>Measured numbers, vectors, bitstream, and every command needed to reproduce it.</p></div>
+</div>
+<h2>Pricing</h2>
+<div class="items">
+<div class="item"><h3>Single core — $300</h3><p>One module or IP core: bit-exact check, timing, resources, report.</p></div>
+<div class="item"><h3>Block — $800</h3><p>A full block with multiple cores, integration checks and a written analysis.</p></div>
+<div class="item"><h3>Tape-out ready — $2 000</h3><p>Everything above plus the preparation a shuttle submission needs.</p></div>
+<div class="item"><h3>Retainer — $1–3k / month</h3><p>Ongoing verification as your design changes.</p></div>
+</div>
+<h2>What this is not</h2>
+<div class="items">
+<div class="item"><h3>One device family</h3><p>Measurements come from a Xilinx Artix-7. This is not multi-corner characterisation and does not claim to be.</p></div>
+<div class="item"><h3>Not a sign-off flow</h3><p>It is an independent check, not a substitute for a full commercial sign-off.</p></div>
+<div class="item"><h3>No encrypted netlists</h3><p>I verify what I can read. Encrypted IP cannot be checked this way.</p></div>
+<div class="item"><h3>Estimates are labelled</h3><p>Anything estimated rather than measured says so, here and in every report.</p></div>
+</div>
+
+<div class="cta">
+  <p>Have a design to verify? The first module is free, so you can judge the report before paying for anything.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:admin@t27.dev?subject=Hardware-verified RTL — measured on live silicon">admin@t27.dev</a>
+    <a class="btn sec" href="https://github.com/gHashTag/trinity/blob/main/docs/verification/SAMPLE-REPORT.md">Read a sample report</a>
+    <a class="btn sec" href="/#/verification">Open the interactive site</a>
+  </div>
+</div>
+
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
 </body>
 </html>

@@ -4,22 +4,97 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Every number here was measured · TRINITY</title>
-<meta name="description" content="The evidence behind every hardware claim: what was built, what it measured, how it was verified — and a plain statement of what these results are not." />
+<meta name="description" content="Every hardware claim behind this site with the measurement that produced it — 323 MHz and zero DSP48 on Artix-7, a neural network training on-chip, a SKY130 tape-out — and a plain statement of what these results are not." />
 <link rel="canonical" href="https://t27.ai/proof/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="TRINITY" />
 <meta property="og:url" content="https://t27.ai/proof/" />
 <meta property="og:title" content="Every number here was measured" />
-<meta property="og:description" content="The evidence behind every hardware claim: what was built, what it measured, how it was verified — and a plain statement of what these results are not." />
+<meta property="og:description" content="Every hardware claim behind this site with the measurement that produced it — 323 MHz and zero DSP48 on Artix-7, a neural network training on-chip, a SKY130 tape-out — and a plain statement of what these results are not." />
 <meta property="og:image" content="https://t27.ai/og-proof.svg" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Every number here was measured" />
-<meta name="twitter:description" content="The evidence behind every hardware claim: what was built, what it measured, how it was verified — and a plain statement of what these results are not." />
+<meta name="twitter:description" content="Every hardware claim behind this site with the measurement that produced it — 323 MHz and zero DSP48 on Artix-7, a neural network training on-chip, a SKY130 tape-out — and a plain statement of what these results are not." />
 <link rel="icon" href="/favicon.svg" />
-<script>location.replace('/#/proof')</script>
-<meta http-equiv="refresh" content="0; url=/#/proof" />
+<style>*,*::before,*::after{box-sizing:border-box}
+:root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:820px;margin:0 auto;padding:28px 20px 72px}
+header.top{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid var(--rule)}
+.brand{font-weight:700;letter-spacing:.18em;font-size:12px;color:var(--accent);text-decoration:none}
+nav.top a{font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;color:var(--muted);margin-left:14px}
+nav.top a:hover,nav.top a[aria-current]{color:var(--accent)}
+.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:12px;margin:38px 0 10px}
+h1{font-size:clamp(1.9rem,5.5vw,2.7rem);line-height:1.15;margin:0 0 14px;text-wrap:balance}
+.lede{font-size:1.08rem;color:var(--muted);margin:0 0 26px;max-width:62ch}
+h2{font-size:1.25rem;margin:40px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.items{display:grid;gap:14px}
+.item{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:16px 18px}
+.item h3{font-size:1rem;margin:0 0 6px;color:var(--accent)}
+.item p{margin:0;font-size:.95rem;color:#c6d5d0}
+.cta{margin-top:42px;background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:24px}
+.cta p{margin:0 0 16px;color:#c6d5d0}
+.btn{display:inline-block;background:var(--accent);color:#04140d;font-weight:700;text-decoration:none;padding:12px 24px;border-radius:999px;font-size:.92rem}
+.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--rule);font-weight:500}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--rule);color:var(--muted);font-size:.85rem}
+footer a{color:var(--muted)}
+@media(prefers-color-scheme:light){:root{--bg:#fbfdfc;--card:#fff;--ink:#101a17;--muted:#5b6f68;--accent:#0a7a4c;--rule:#dde7e3}.item p{color:#394944}.cta p{color:#394944}.btn{color:#fff}}
+</style>
 </head>
 <body>
-<p>Redirecting to <a href="/#/proof">Every number here was measured</a>…</p>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/verification/">Verification</a><a href="/proof/" aria-current="page">Evidence</a><a href="/ip/">Licensing</a><a href="/course/">Course</a><a href="/cases/">Case studies</a><a href="/about/">About</a></nav>
+</header>
+
+<p class="eyebrow">Measured evidence</p>
+<h1>Every number here was measured.</h1>
+<p class="lede">Hardware claims are cheap to make and hard to check, so this page collects the results behind everything else: what was built, what it measured, and how it was verified. Where something is a submission rather than a win, or a prototype rather than a product, it says so.</p>
+
+<h2>Results</h2>
+<div class="items">
+<div class="item"><h3>323 MHz · 41.2 GOPS — GF16 4×4 matmul on Artix-7</h3><p>A matrix multiplier carrying its arithmetic entirely in logic: 0 DSP48 blocks, 0 inferred latches, timing closed on an XC7A200T. Measured on hardware, not estimated.</p></div>
+<div class="item"><h3>100% held-out — a network that trains on the FPGA</h3><p>Forward pass, gradient and weight update all in RTL with no host in the loop. A 2-layer ReLU network learns XOR on the chip itself, 4 of 4 correct, every node bit-exact from specification to silicon.</p></div>
+<div class="item"><h3>SKY130 — tape-out through Tiny Tapeout</h3><p>The same source that runs on the FPGA went to an open ASIC process: GDS produced, gate-level test passed, precheck passed.</p></div>
+<div class="item"><h3>≈3–5.5× — GF-T against comparable formats</h3><p>A ternary floating-point format of my own design, best-in-class against comparable ternary formats at mid and far range. No regime decode, native ternary exponent.</p></div>
+<div class="item"><h3>Over the air — tri-net, a full ternary network stack</h3><p>133 formal specifications: GF16 physical layer, BPSK modem on AD9361, ETX mesh routing, ChaCha20-Poly1305 / X25519 crypto. Text and images carried between physically separate boards.</p></div>
+<div class="item"><h3>83 formats — a conformance catalogue</h3><p>Bit-exact test vectors for FP8, BF16, MXFP4 and microscaling formats: a vendor-neutral reference for verifying low-precision arithmetic.</p></div>
+</div>
+<h2>How any of this is checked</h2>
+<div class="items">
+<div class="item"><h3>Independent model, not a mirror</h3><p>The reference model is written from the specification, never from the RTL.</p></div>
+<div class="item"><h3>Per-stage vectors</h3><p>Known-answer vectors at every pipeline stage, so a regression points at the stage that broke.</p></div>
+<div class="item"><h3>Hardware replay</h3><p>The same vectors run again on the physical board. Simulation agreement does not prove silicon agreement.</p></div>
+<div class="item"><h3>Open toolchain</h3><p>Yosys, nextpnr-xilinx, prjxray, openFPGALoader, iverilog. No proprietary licence stands between a claim here and someone reproducing it.</p></div>
+</div>
+<h2>What these results are not</h2>
+<div class="items">
+<div class="item"><h3>Entries are entries</h3><p>A DARPA CLARA submission and an OpenAI Parameter Golf entry are submitted work, not awarded contracts or won prizes.</p></div>
+<div class="item"><h3>One device family</h3><p>Measurements come from a Xilinx Artix-7 and are not multi-corner characterisation.</p></div>
+<div class="item"><h3>Training is a primitive</h3><p>The on-chip training result is proven at small scale: a real network learning on real silicon, not a production training accelerator.</p></div>
+<div class="item"><h3>Estimates are labelled</h3><p>Anything estimated rather than measured is labelled as estimated.</p></div>
+</div>
+
+<div class="cta">
+  <p>The papers, the source and a full example report are all public. A claim you cannot verify is just a sentence.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:admin@t27.dev?subject=Every number here was measured">admin@t27.dev</a>
+    <a class="btn sec" href="https://github.com/gHashTag/trinity/blob/main/docs/verification/SAMPLE-REPORT.md">Read a sample report</a>
+    <a class="btn sec" href="/#/proof">Open the interactive site</a>
+  </div>
+</div>
+
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
 </body>
 </html>

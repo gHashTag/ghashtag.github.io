@@ -4,22 +4,99 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Train a neural network on an FPGA · TRINITY</title>
-<meta name="description" content="Eight modules from an empty toolchain to a network that trains itself on real silicon. Fully open-source — no Vivado, no vendor licence." />
+<meta name="description" content="Eight modules from an empty toolchain to a neural network performing its own backward pass on live silicon. Entirely open-source: no Vivado, no licences, no step you cannot reproduce." />
 <link rel="canonical" href="https://t27.ai/course/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="TRINITY" />
 <meta property="og:url" content="https://t27.ai/course/" />
 <meta property="og:title" content="Train a neural network on an FPGA" />
-<meta property="og:description" content="Eight modules from an empty toolchain to a network that trains itself on real silicon. Fully open-source — no Vivado, no vendor licence." />
+<meta property="og:description" content="Eight modules from an empty toolchain to a neural network performing its own backward pass on live silicon. Entirely open-source: no Vivado, no licences, no step you cannot reproduce." />
 <meta property="og:image" content="https://t27.ai/og-course.svg" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Train a neural network on an FPGA" />
-<meta name="twitter:description" content="Eight modules from an empty toolchain to a network that trains itself on real silicon. Fully open-source — no Vivado, no vendor licence." />
+<meta name="twitter:description" content="Eight modules from an empty toolchain to a neural network performing its own backward pass on live silicon. Entirely open-source: no Vivado, no licences, no step you cannot reproduce." />
 <link rel="icon" href="/favicon.svg" />
-<script>location.replace('/#/course')</script>
-<meta http-equiv="refresh" content="0; url=/#/course" />
+<style>*,*::before,*::after{box-sizing:border-box}
+:root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:820px;margin:0 auto;padding:28px 20px 72px}
+header.top{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid var(--rule)}
+.brand{font-weight:700;letter-spacing:.18em;font-size:12px;color:var(--accent);text-decoration:none}
+nav.top a{font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;color:var(--muted);margin-left:14px}
+nav.top a:hover,nav.top a[aria-current]{color:var(--accent)}
+.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:12px;margin:38px 0 10px}
+h1{font-size:clamp(1.9rem,5.5vw,2.7rem);line-height:1.15;margin:0 0 14px;text-wrap:balance}
+.lede{font-size:1.08rem;color:var(--muted);margin:0 0 26px;max-width:62ch}
+h2{font-size:1.25rem;margin:40px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.items{display:grid;gap:14px}
+.item{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:16px 18px}
+.item h3{font-size:1rem;margin:0 0 6px;color:var(--accent)}
+.item p{margin:0;font-size:.95rem;color:#c6d5d0}
+.cta{margin-top:42px;background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:24px}
+.cta p{margin:0 0 16px;color:#c6d5d0}
+.btn{display:inline-block;background:var(--accent);color:#04140d;font-weight:700;text-decoration:none;padding:12px 24px;border-radius:999px;font-size:.92rem}
+.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--rule);font-weight:500}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--rule);color:var(--muted);font-size:.85rem}
+footer a{color:var(--muted)}
+@media(prefers-color-scheme:light){:root{--bg:#fbfdfc;--card:#fff;--ink:#101a17;--muted:#5b6f68;--accent:#0a7a4c;--rule:#dde7e3}.item p{color:#394944}.cta p{color:#394944}.btn{color:#fff}}
+</style>
 </head>
 <body>
-<p>Redirecting to <a href="/#/course">Train a neural network on an FPGA</a>…</p>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/verification/">Verification</a><a href="/proof/">Evidence</a><a href="/ip/">Licensing</a><a href="/course/" aria-current="page">Course</a><a href="/cases/">Case studies</a><a href="/about/">About</a></nav>
+</header>
+
+<p class="eyebrow">Course</p>
+<h1>Train a neural network on an FPGA.</h1>
+<p class="lede">Not inference — training, on the chip itself. Eight modules from an empty toolchain to a network that learns on live silicon, entirely on open tools: no Vivado, no licences, and no step you cannot reproduce yourself.</p>
+
+<h2>Eight modules</h2>
+<div class="items">
+<div class="item"><h3>01 · The open flow from nothing</h3><p>Yosys, nextpnr-xilinx, prjxray, openFPGALoader and iverilog installed and verified on macOS arm64 or Linux. First bitstream blinking an LED on a real board, no vendor licence anywhere in the chain.</p></div>
+<div class="item"><h3>02 · Exactly as much Verilog as you need</h3><p>Synchronous design, registers versus latches, and why an accidental latch is the classic bug that only shows up on silicon.</p></div>
+<div class="item"><h3>03 · Arithmetic as the foundation of ML in hardware</h3><p>Why float is expensive, what quantisation really costs, and where ternary and low-precision formats come from.</p></div>
+<div class="item"><h3>04 · Bit-exact verification — the heart of the course</h3><p>An independent Python reference model, per-stage known-answer vectors, checked through iverilog. Why a testbench written from the design&#x27;s own assumptions cheerfully agrees with its bugs.</p></div>
+<div class="item"><h3>05 · A matrix multiplier that closes timing</h3><p>MAC to array to pipeline. Reading reports and fighting for frequency on a real example: 323 MHz, 41.2 GOPS, zero DSP blocks.</p></div>
+<div class="item"><h3>06 · Neural network inference on the FPGA</h3><p>Layers, activations, dataflow and on-chip memory, running on the board rather than in a simulator.</p></div>
+<div class="item"><h3>07 · On-chip training — the capstone</h3><p>Backward pass and SGD in RTL. The network learns XOR on the FPGA itself, 4 of 4, bit-exact against the reference. Almost nobody has done this by hand.</p></div>
+<div class="item"><h3>08 · Onward to silicon</h3><p>The Tiny Tapeout path: preparing a design, what changes between FPGA and ASIC, and where the open silicon ecosystem stands after the move to IHP.</p></div>
+</div>
+<h2>How this differs from the free alternatives</h2>
+<div class="items">
+<div class="item"><h3>hls4ml (CERN) — free</h3><p>Inference only, generated through HLS, and the flow underneath is a vendor toolchain. Excellent at what it does — it does not train on the chip, and it does not leave you able to read the RTL it produced.</p></div>
+<div class="item"><h3>Vendor courses (Intel, AMD) — free</h3><p>Built to teach you their tools on their silicon. Nothing transfers to a flow you can run without a licence.</p></div>
+<div class="item"><h3>University FPGA courses</h3><p>Usually stop at simulation, and where they reach a board it is through Vivado or Quartus.</p></div>
+<div class="item"><h3>What is left</h3><p>Two things exist nowhere on that list: a backward pass running on the chip itself, and a flow with no vendor licence in it. If inference through HLS is what you need, use hls4ml — it is good, it is free, and I would tell you the same in an email.</p></div>
+</div>
+<h2>Formats</h2>
+<div class="items">
+<div class="item"><h3>Self-paced — $149</h3><p>Video, code, KAT vector sets, community access.</p></div>
+<div class="item"><h3>Self-paced + hardware — $249</h3><p>The same, plus remote runs on my Artix-7 boards. No board of your own required.</p></div>
+<div class="item"><h3>Cohort, 4 weeks — $599</h3><p>Live sessions, code review, and your own design gone through with you.</p></div>
+<div class="item"><h3>Team workshop — from $2 000</h3><p>Two days with your engineers around a problem you actually have.</p></div>
+</div>
+
+<div class="cta">
+  <p>Basic Python and some idea of digital logic is enough. Verilog is taught from scratch, and two of the formats include runs on my hardware.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:admin@t27.dev?subject=Train a neural network on an FPGA">admin@t27.dev</a>
+    <a class="btn sec" href="https://github.com/gHashTag/trinity/blob/main/docs/verification/SAMPLE-REPORT.md">Read a sample report</a>
+    <a class="btn sec" href="/#/course">Open the interactive site</a>
+  </div>
+</div>
+
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
 </body>
 </html>
