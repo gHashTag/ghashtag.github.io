@@ -30,6 +30,45 @@ EMAIL = "admin@t27.ai"
 SAMPLE = "https://github.com/gHashTag/trinity/blob/main/docs/verification/SAMPLE-REPORT.md"
 
 PAGES = {
+    "gft": {
+        "title": "GF-T — a ternary-native float that beats tekum16",
+        "eyebrow": "The format",
+        "h1": "GF-T — a float whose exponent is ternary.",
+        "desc": (
+            "GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: "
+            "2.84x and 5.53x more accurate than tekum16 at range, 219 LUTs and zero DSP blocks, "
+            "147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included."
+        ),
+        "lede": (
+            "The exponent is a balanced-ternary number and the fields are fixed. That removes the "
+            "incumbent's largest cost \u2014 regime decode \u2014 and makes the exponent add native on a "
+            "ternary fabric. Against tekum16: a tie near unity, 2.84x more accurate at mid range and "
+            "5.53x at far range."
+        ),
+        "sections": [
+            ("The layout", [
+                ("GF-T16", "[ sign | E = 4 balanced-ternary trits | M = 9 mantissa bits ]. value = (-1)^sign x (1 + M/2^9) x 2^e, where e = the sum of t_i x 3^i, in the range -40 to +40."),
+                ("Four trits, 81 exponent values", "Radix-3 economy: 3^4 = 81 exponent values from four trits, and on a ternary fabric the exponent add is native \u2014 no binary carry, no base conversion."),
+            ]),
+            ("Accuracy against tekum16", [
+                ("|e| < 8 \u2014 a tie", "GF-T16 3.56e-4 against tekum16 3.27e-4. Mean relative error over an encode-decode round trip, 6000 values, random sign."),
+                ("|e| 8 to 20 \u2014 2.84x better", "GF-T16 3.52e-4 against tekum16 1.00e-3."),
+                ("|e| 20 to 38 \u2014 5.53x better", "GF-T16 3.53e-4 against tekum16 1.95e-3. Nine mantissa bits at every magnitude, where tekum16 tapers to about four."),
+                ("Re-measured independently", "8 August 2026, against the published format's own oracle. The ratios reproduce exactly. Bins are in powers of two, not decades."),
+            ]),
+            ("What it costs in hardware", [
+                ("219 LUTs, zero DSP48", "The GF-T16 multiplier with the bus widths the arithmetic needs, synthesised for xc7 with hard multipliers disabled."),
+                ("147.32 MHz pipelined", "Two stages, latency one cycle, one result per cycle. Post-route on an XC7A200T with nextpnr-xilinx. 81.35 MHz combinational."),
+                ("The interface cost five times the arithmetic", "The original declares every port 32 bits wide, though nothing in GF-T16 is: synthesis built a 32x32 multiplier and charged 1,179 LUTs or three DSP blocks for it. Correcting the widths is bit-identical over 321,156 input combinations."),
+            ]),
+            ("Where it loses", [
+                ("The range is bounded, and that is the trade", "GF-T16 reaches plus or minus 40 in powers of two, roughly plus or minus 12 decades. tekum16's regime is unbounded, so beyond that GF-T16 overflows and tekum16 keeps working. Fixed fields buy the cheap datapath and the uniform precision; range is the price."),
+                ("Measured on one device family", "Artix-7, on the open flow. Not multi-corner characterisation, and ASIC numbers will differ."),
+                ("No tekum16 RTL here", "The accuracy comparison uses the published format's own oracle. The cost figures are GF-T's own \u2014 writing a competitor's implementation and then reporting it as more expensive would prove nothing."),
+            ]),
+        ],
+        "cta": "A licence includes the RTL, the independent reference model and the vectors that prove it \u2014 so you can check the claims rather than take them on trust.",
+    },
     "verification": {
         "title": "Hardware-verified RTL — measured on live silicon",
         "eyebrow": "Verification service",
@@ -244,6 +283,7 @@ PAGES = {
 }
 
 NAV = [
+    ("gft", "GF-T"),
     ("verification", "Verification"),
     ("proof", "Evidence"),
     ("ip", "Licensing"),

@@ -17,7 +17,7 @@ set -uo pipefail
 cd "$(dirname "$0")"
 
 SITE="https://t27.ai"
-PAGES="verification proof ip course cases about"
+PAGES="gft verification proof ip course cases about"
 fails=0
 
 red()  { printf '  \033[31m✗\033[0m %s\n' "$1"; fails=$((fails + 1)); }
