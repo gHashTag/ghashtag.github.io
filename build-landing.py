@@ -26,7 +26,7 @@ import html
 import os
 
 SITE = "https://t27.ai"
-EMAIL = "admin@t27.dev"
+EMAIL = "admin@t27.ai"
 SAMPLE = "https://github.com/gHashTag/trinity/blob/main/docs/verification/SAMPLE-REPORT.md"
 
 PAGES = {
