@@ -62,7 +62,7 @@ footer a{color:var(--muted)}
 
 <h2>Available cores</h2>
 <div class="items">
-<div class="item"><h3>GF-T multiplier — ternary arithmetic</h3><p>The multiplier for GF-T, a ternary floating-point format benchmarking best-in-class (≈3–5.5× against comparable formats). Published as arXiv:2606.05017 with an independent reference model and bit-exact vectors.</p></div>
+<div class="item"><h3>GF-T multiplier — ternary arithmetic</h3><p>The multiplier for GF-T: 2.84× and 5.53× lower error than tekum16 at mid and far range, a tie near unity, no regime decode. Published as arXiv:2606.05017 with an independent reference model and bit-exact vectors; ratios re-measured independently on 8 August 2026.</p></div>
 <div class="item"><h3>GF16 4×4 matmul — matrix engine</h3><p>Maps entirely into fabric, leaving the DSP columns free for the rest of your system: 32,252 LUTs with zero DSP48, or 21,223 LUTs if the 64 hard multipliers are allowed. Combinational, 0 latches.</p></div>
 <div class="item"><h3>BPSK modem — radio PHY</h3><p>Built for software-defined radio (AD9361), part of a full ternary network stack with mesh routing and authenticated encryption. Proven device-to-device over the air.</p></div>
 <div class="item"><h3>On-chip training primitives — edge ML</h3><p>Neural primitives that perform their own backward pass on the FPGA: forward, gradient and weight update in RTL, no host in the loop. 100% held-out on real silicon.</p></div>

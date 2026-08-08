@@ -90,7 +90,7 @@ PAGES = {
                 ("GF16 4×4 matmul — 32,252 LUT with zero hard multipliers", "A 4×4 matrix multiplier over my own GF16 format, synthesised for Artix-7. It maps into fabric with no DSP48 blocks at all, or 21,223 LUTs if the 64 hard multipliers are allowed. The block is combinational — no registers, so no clock and no frequency figure belongs to it."),
                 ("100% held-out — a network that trains on the FPGA", "Forward pass, gradient and weight update all in RTL with no host in the loop. A 2-layer ReLU network learns XOR on the chip itself, 4 of 4 correct, every node bit-exact from specification to silicon."),
                 ("SKY130 — tape-out through Tiny Tapeout", "The same source that runs on the FPGA went to an open ASIC process: GDS produced, gate-level test passed, precheck passed."),
-                ("≈3–5.5× — GF-T against comparable formats", "A ternary floating-point format of my own design, best-in-class against comparable ternary formats at mid and far range. No regime decode, native ternary exponent."),
+                ("2.84× / 5.53× — GF-T beats tekum16", "A float whose exponent is a balanced-ternary number and whose fields are fixed: no regime decode to pay for, and on a ternary fabric the exponent add is native. Against tekum16, whose stated advantage is exactly that fabric — a tie near unity, 2.84× lower error at |e| 8–20, 5.53× lower at |e| 20–38, with a uniform 9-bit mantissa where tekum16 tapers to four. Range is bounded at ±40 in powers of two where tekum16's regime is not; that is the trade."),
                 ("Over the air — tri-net, a full ternary network stack", "133 formal specifications: GF16 physical layer, BPSK modem on AD9361, ETX mesh routing, ChaCha20-Poly1305 / X25519 crypto. Text and images carried between physically separate boards."),
                 ("83 formats — a conformance catalogue", "Bit-exact test vectors for FP8, BF16, MXFP4 and microscaling formats: a vendor-neutral reference for verifying low-precision arithmetic."),
             ]),
@@ -126,7 +126,7 @@ PAGES = {
         ),
         "sections": [
             ("Available cores", [
-                ("GF-T multiplier — ternary arithmetic", "The multiplier for GF-T, a ternary floating-point format benchmarking best-in-class (≈3–5.5× against comparable formats). Published as arXiv:2606.05017 with an independent reference model and bit-exact vectors."),
+                ("GF-T multiplier — ternary arithmetic", "The multiplier for GF-T: 2.84× and 5.53× lower error than tekum16 at mid and far range, a tie near unity, no regime decode. Published as arXiv:2606.05017 with an independent reference model and bit-exact vectors; ratios re-measured independently on 8 August 2026."),
                 ("GF16 4×4 matmul — matrix engine", "Maps entirely into fabric, leaving the DSP columns free for the rest of your system: 32,252 LUTs with zero DSP48, or 21,223 LUTs if the 64 hard multipliers are allowed. Combinational, 0 latches."),
                 ("BPSK modem — radio PHY", "Built for software-defined radio (AD9361), part of a full ternary network stack with mesh routing and authenticated encryption. Proven device-to-device over the air."),
                 ("On-chip training primitives — edge ML", "Neural primitives that perform their own backward pass on the FPGA: forward, gradient and weight update in RTL, no host in the loop. 100% held-out on real silicon."),
