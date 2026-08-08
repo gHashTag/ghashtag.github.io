@@ -13,7 +13,7 @@
   <text x="80" y="248" font-family="Inter,Helvetica,Arial,sans-serif" font-size="62" font-weight="700" fill="#f2f6f4">Every number here was measured</text>
   <text x="80" y="306" font-family="Inter,Helvetica,Arial,sans-serif" font-size="28" fill="#9fb3ab">The evidence, and what it is not</text>
   <line x1="80" y1="372" x2="1120" y2="372" stroke="#1d2b2a" stroke-width="2"/>
-    <text x="80" y="452" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#00ff88">323 MHz</text>
+    <text x="80" y="452" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#00ff88">0 DSP48</text>
   <text x="80" y="490" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" fill="#8fa79f">on Artix-7</text>
   <text x="470" y="452" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#00ff88">100%</text>
   <text x="470" y="490" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" fill="#8fa79f">held-out</text>

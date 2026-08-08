@@ -4,17 +4,17 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Arithmetic cores that have already been to silicon · TRINITY</title>
-<meta name="description" content="License arithmetic cores measured on real hardware: the GF-T ternary multiplier, a GF16 4×4 matmul at 323 MHz with zero DSP blocks, a BPSK modem proven over the air, and on-chip training primitives. RTL, reference model and the vectors that prove it." />
+<meta name="description" content="License arithmetic cores measured on real hardware: the GF-T ternary multiplier, a GF16 4×4 matmul that maps into fabric with no hard multipliers, a BPSK modem proven over the air, and on-chip training primitives. RTL, reference model and the vectors that prove it." />
 <link rel="canonical" href="https://t27.ai/ip/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="TRINITY" />
 <meta property="og:url" content="https://t27.ai/ip/" />
 <meta property="og:title" content="Arithmetic cores that have already been to silicon" />
-<meta property="og:description" content="License arithmetic cores measured on real hardware: the GF-T ternary multiplier, a GF16 4×4 matmul at 323 MHz with zero DSP blocks, a BPSK modem proven over the air, and on-chip training primitives. RTL, reference model and the vectors that prove it." />
+<meta property="og:description" content="License arithmetic cores measured on real hardware: the GF-T ternary multiplier, a GF16 4×4 matmul that maps into fabric with no hard multipliers, a BPSK modem proven over the air, and on-chip training primitives. RTL, reference model and the vectors that prove it." />
 <meta property="og:image" content="https://t27.ai/og-ip.svg" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Arithmetic cores that have already been to silicon" />
-<meta name="twitter:description" content="License arithmetic cores measured on real hardware: the GF-T ternary multiplier, a GF16 4×4 matmul at 323 MHz with zero DSP blocks, a BPSK modem proven over the air, and on-chip training primitives. RTL, reference model and the vectors that prove it." />
+<meta name="twitter:description" content="License arithmetic cores measured on real hardware: the GF-T ternary multiplier, a GF16 4×4 matmul that maps into fabric with no hard multipliers, a BPSK modem proven over the air, and on-chip training primitives. RTL, reference model and the vectors that prove it." />
 <link rel="icon" href="/favicon.svg" />
 <style>*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
@@ -60,7 +60,7 @@ footer a{color:var(--muted)}
 <h2>Available cores</h2>
 <div class="items">
 <div class="item"><h3>GF-T multiplier — ternary arithmetic</h3><p>The multiplier for GF-T, a ternary floating-point format benchmarking best-in-class (≈3–5.5× against comparable formats). Published as arXiv:2606.05017 with an independent reference model and bit-exact vectors.</p></div>
-<div class="item"><h3>GF16 4×4 matmul — matrix engine</h3><p>Carries its arithmetic entirely in logic, leaving the DSP columns free for the rest of your system. 323 MHz · 41.2 GOPS · 0 DSP48 · 0 latches, measured on Artix-7.</p></div>
+<div class="item"><h3>GF16 4×4 matmul — matrix engine</h3><p>Maps entirely into fabric, leaving the DSP columns free for the rest of your system: 32,252 LUTs with zero DSP48, or 21,223 LUTs if the 64 hard multipliers are allowed. Combinational, 0 latches.</p></div>
 <div class="item"><h3>BPSK modem — radio PHY</h3><p>Built for software-defined radio (AD9361), part of a full ternary network stack with mesh routing and authenticated encryption. Proven device-to-device over the air.</p></div>
 <div class="item"><h3>On-chip training primitives — edge ML</h3><p>Neural primitives that perform their own backward pass on the FPGA: forward, gradient and weight update in RTL, no host in the loop. 100% held-out on real silicon.</p></div>
 </div>

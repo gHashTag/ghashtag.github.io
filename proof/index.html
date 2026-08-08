@@ -4,17 +4,17 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Every number here was measured · TRINITY</title>
-<meta name="description" content="Every hardware claim behind this site with the measurement that produced it — 323 MHz and zero DSP48 on Artix-7, a neural network training on-chip, a SKY130 tape-out — and a plain statement of what these results are not." />
+<meta name="description" content="Every hardware claim behind this site with the measurement that produced it — a GF16 matmul that needs no hard multipliers, a neural network training on-chip, a SKY130 tape-out — and a plain statement of what these results are not, including one figure withdrawn." />
 <link rel="canonical" href="https://t27.ai/proof/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="TRINITY" />
 <meta property="og:url" content="https://t27.ai/proof/" />
 <meta property="og:title" content="Every number here was measured" />
-<meta property="og:description" content="Every hardware claim behind this site with the measurement that produced it — 323 MHz and zero DSP48 on Artix-7, a neural network training on-chip, a SKY130 tape-out — and a plain statement of what these results are not." />
+<meta property="og:description" content="Every hardware claim behind this site with the measurement that produced it — a GF16 matmul that needs no hard multipliers, a neural network training on-chip, a SKY130 tape-out — and a plain statement of what these results are not, including one figure withdrawn." />
 <meta property="og:image" content="https://t27.ai/og-proof.svg" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Every number here was measured" />
-<meta name="twitter:description" content="Every hardware claim behind this site with the measurement that produced it — 323 MHz and zero DSP48 on Artix-7, a neural network training on-chip, a SKY130 tape-out — and a plain statement of what these results are not." />
+<meta name="twitter:description" content="Every hardware claim behind this site with the measurement that produced it — a GF16 matmul that needs no hard multipliers, a neural network training on-chip, a SKY130 tape-out — and a plain statement of what these results are not, including one figure withdrawn." />
 <link rel="icon" href="/favicon.svg" />
 <style>*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
@@ -59,7 +59,7 @@ footer a{color:var(--muted)}
 
 <h2>Results</h2>
 <div class="items">
-<div class="item"><h3>323 MHz · 41.2 GOPS — GF16 4×4 matmul on Artix-7</h3><p>A matrix multiplier carrying its arithmetic entirely in logic: 0 DSP48 blocks, 0 inferred latches, timing closed on an XC7A200T. Measured on hardware, not estimated.</p></div>
+<div class="item"><h3>GF16 4×4 matmul — 32,252 LUT with zero hard multipliers</h3><p>A 4×4 matrix multiplier over my own GF16 format, synthesised for Artix-7. It maps into fabric with no DSP48 blocks at all, or 21,223 LUTs if the 64 hard multipliers are allowed. The block is combinational — no registers, so no clock and no frequency figure belongs to it.</p></div>
 <div class="item"><h3>100% held-out — a network that trains on the FPGA</h3><p>Forward pass, gradient and weight update all in RTL with no host in the loop. A 2-layer ReLU network learns XOR on the chip itself, 4 of 4 correct, every node bit-exact from specification to silicon.</p></div>
 <div class="item"><h3>SKY130 — tape-out through Tiny Tapeout</h3><p>The same source that runs on the FPGA went to an open ASIC process: GDS produced, gate-level test passed, precheck passed.</p></div>
 <div class="item"><h3>≈3–5.5× — GF-T against comparable formats</h3><p>A ternary floating-point format of my own design, best-in-class against comparable ternary formats at mid and far range. No regime decode, native ternary exponent.</p></div>
@@ -79,6 +79,7 @@ footer a{color:var(--muted)}
 <div class="item"><h3>One device family</h3><p>Measurements come from a Xilinx Artix-7 and are not multi-corner characterisation.</p></div>
 <div class="item"><h3>Training is a primitive</h3><p>The on-chip training result is proven at small scale: a real network learning on real silicon, not a production training accelerator.</p></div>
 <div class="item"><h3>Estimates are labelled</h3><p>Anything estimated rather than measured is labelled as estimated.</p></div>
+<div class="item"><h3>A figure withdrawn</h3><p>This page previously reported 323 MHz and 41.2 GOPS for the GF16 matmul. Re-checking the RTL on 8 August 2026 showed the block holds no registers, so it has no clock and no frequency can belong to it. Withdrawn rather than explained away.</p></div>
 </div>
 
 <div class="cta">

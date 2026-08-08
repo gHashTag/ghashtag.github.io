@@ -76,9 +76,9 @@ PAGES = {
         "eyebrow": "Measured evidence",
         "h1": "Every number here was measured.",
         "desc": (
-            "Every hardware claim behind this site with the measurement that produced it — 323 MHz and "
-            "zero DSP48 on Artix-7, a neural network training on-chip, a SKY130 tape-out — and a plain "
-            "statement of what these results are not."
+            "Every hardware claim behind this site with the measurement that produced it — a GF16 matmul "
+            "that needs no hard multipliers, a neural network training on-chip, a SKY130 tape-out — and a "
+            "plain statement of what these results are not, including one figure withdrawn."
         ),
         "lede": (
             "Hardware claims are cheap to make and hard to check, so this page collects the results behind "
@@ -87,7 +87,7 @@ PAGES = {
         ),
         "sections": [
             ("Results", [
-                ("323 MHz · 41.2 GOPS — GF16 4×4 matmul on Artix-7", "A matrix multiplier carrying its arithmetic entirely in logic: 0 DSP48 blocks, 0 inferred latches, timing closed on an XC7A200T. Measured on hardware, not estimated."),
+                ("GF16 4×4 matmul — 32,252 LUT with zero hard multipliers", "A 4×4 matrix multiplier over my own GF16 format, synthesised for Artix-7. It maps into fabric with no DSP48 blocks at all, or 21,223 LUTs if the 64 hard multipliers are allowed. The block is combinational — no registers, so no clock and no frequency figure belongs to it."),
                 ("100% held-out — a network that trains on the FPGA", "Forward pass, gradient and weight update all in RTL with no host in the loop. A 2-layer ReLU network learns XOR on the chip itself, 4 of 4 correct, every node bit-exact from specification to silicon."),
                 ("SKY130 — tape-out through Tiny Tapeout", "The same source that runs on the FPGA went to an open ASIC process: GDS produced, gate-level test passed, precheck passed."),
                 ("≈3–5.5× — GF-T against comparable formats", "A ternary floating-point format of my own design, best-in-class against comparable ternary formats at mid and far range. No regime decode, native ternary exponent."),
@@ -105,6 +105,7 @@ PAGES = {
                 ("One device family", "Measurements come from a Xilinx Artix-7 and are not multi-corner characterisation."),
                 ("Training is a primitive", "The on-chip training result is proven at small scale: a real network learning on real silicon, not a production training accelerator."),
                 ("Estimates are labelled", "Anything estimated rather than measured is labelled as estimated."),
+                ("A figure withdrawn", "This page previously reported 323 MHz and 41.2 GOPS for the GF16 matmul. Re-checking the RTL on 8 August 2026 showed the block holds no registers, so it has no clock and no frequency can belong to it. Withdrawn rather than explained away."),
             ]),
         ],
         "cta": "The papers, the source and a full example report are all public. A claim you cannot verify is just a sentence.",
@@ -115,7 +116,7 @@ PAGES = {
         "h1": "Arithmetic cores that have already been to silicon.",
         "desc": (
             "License arithmetic cores measured on real hardware: the GF-T ternary multiplier, a GF16 4×4 "
-            "matmul at 323 MHz with zero DSP blocks, a BPSK modem proven over the air, and on-chip "
+            "matmul that maps into fabric with no hard multipliers, a BPSK modem proven over the air, and on-chip "
             "training primitives. RTL, reference model and the vectors that prove it."
         ),
         "lede": (
@@ -126,7 +127,7 @@ PAGES = {
         "sections": [
             ("Available cores", [
                 ("GF-T multiplier — ternary arithmetic", "The multiplier for GF-T, a ternary floating-point format benchmarking best-in-class (≈3–5.5× against comparable formats). Published as arXiv:2606.05017 with an independent reference model and bit-exact vectors."),
-                ("GF16 4×4 matmul — matrix engine", "Carries its arithmetic entirely in logic, leaving the DSP columns free for the rest of your system. 323 MHz · 41.2 GOPS · 0 DSP48 · 0 latches, measured on Artix-7."),
+                ("GF16 4×4 matmul — matrix engine", "Maps entirely into fabric, leaving the DSP columns free for the rest of your system: 32,252 LUTs with zero DSP48, or 21,223 LUTs if the 64 hard multipliers are allowed. Combinational, 0 latches."),
                 ("BPSK modem — radio PHY", "Built for software-defined radio (AD9361), part of a full ternary network stack with mesh routing and authenticated encryption. Proven device-to-device over the air."),
                 ("On-chip training primitives — edge ML", "Neural primitives that perform their own backward pass on the FPGA: forward, gradient and weight update in RTL, no host in the loop. 100% held-out on real silicon."),
             ]),
@@ -165,7 +166,7 @@ PAGES = {
                 ("02 · Exactly as much Verilog as you need", "Synchronous design, registers versus latches, and why an accidental latch is the classic bug that only shows up on silicon."),
                 ("03 · Arithmetic as the foundation of ML in hardware", "Why float is expensive, what quantisation really costs, and where ternary and low-precision formats come from."),
                 ("04 · Bit-exact verification — the heart of the course", "An independent Python reference model, per-stage known-answer vectors, checked through iverilog. Why a testbench written from the design's own assumptions cheerfully agrees with its bugs."),
-                ("05 · A matrix multiplier that closes timing", "MAC to array to pipeline. Reading reports and fighting for frequency on a real example: 323 MHz, 41.2 GOPS, zero DSP blocks."),
+                ("05 · A matrix multiplier that closes timing", "MAC to array to pipeline. Reading the router's timing report and fighting for frequency on a real example — including why a hard multiplier in the path can leave you with no frequency report at all."),
                 ("06 · Neural network inference on the FPGA", "Layers, activations, dataflow and on-chip memory, running on the board rather than in a simulator."),
                 ("07 · On-chip training — the capstone", "Backward pass and SGD in RTL. The network learns XOR on the FPGA itself, 4 of 4, bit-exact against the reference. Almost nobody has done this by hand."),
                 ("08 · Onward to silicon", "The Tiny Tapeout path: preparing a design, what changes between FPGA and ASIC, and where the open silicon ecosystem stands after the move to IHP."),
@@ -191,12 +192,12 @@ PAGES = {
         "h1": "From an arXiv paper to a fabricated chip.",
         "desc": (
             "Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer. Designer of the GF-T ternary "
-            "floating-point format, taken from an arXiv paper through RTL at 323 MHz with zero DSP "
-            "blocks to a SKY130 tape-out, entirely on open-source tools."
+            "floating-point format, taken from an arXiv paper through RTL that needs no hard multipliers "
+            "to a SKY130 tape-out, entirely on open-source tools."
         ),
         "lede": (
             "I design number formats and the silicon that runs them. GF-T started as a paper, became RTL "
-            "measured at 323 MHz with zero DSP blocks on an Artix-7, and went through a SKY130 tape-out — "
+            "that maps into Artix-7 fabric with no hard multipliers at all, and went through a SKY130 tape-out — "
             "on a toolchain anyone can install for free. Before hardware I spent a decade building products "
             "and teaching: over a thousand developers, and the first React Native course in the "
             "Russian-speaking internet."
