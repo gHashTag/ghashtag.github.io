@@ -225,6 +225,40 @@ PAGES = {
         ],
         "cta": "Basic Python and some idea of digital logic is enough. Verilog is taught from scratch, and two of the formats include runs on my hardware.",
     },
+    "resources": {
+        "title": "Papers, datasets and upstream patches",
+        "eyebrow": "The record",
+        "h1": "Everything citable, with its identifier.",
+        "desc": (
+            "Three arXiv papers, ten Zenodo records with DOIs, and the patches sent upstream to the "
+            "open FPGA toolchain. The corpus is link-checked, dated, and lists its own known "
+            "discrepancies rather than hiding them."
+        ),
+        "lede": (
+            "One page holding everything that can be cited or checked: the preprints, the archived "
+            "datasets and their DOIs, the patches sent to other people's projects, and the accounts "
+            "that are actually mine. It exists so a reviewer does not have to take a claim on trust "
+            "or reconstruct the trail from a CV."
+        ),
+        "sections": [
+            ("What is on it", [
+                ("Three arXiv preprints", "arXiv:2605.28405, arXiv:2606.05017 and arXiv:2606.09686. Listed with their identifiers, so the version you read is the version being referred to."),
+                ("Ten Zenodo records, each with a DOI", "The GoldenFloat format description and the Trinity B001 to B007 collection, among others. A DOI resolves to a fixed deposit, which a repository link does not."),
+                ("Six patches sent upstream", "Changes offered to openXC7 and nextpnr-xilinx, numbered #109 to #115, covering timing constraint parsing, clock buffer placement and IDDR initialisation. Their state is shown on the page as it stands, not as it was hoped."),
+                ("Accounts and identities", "ORCID and the channels that are genuinely mine, so a name collision elsewhere does not get attributed here."),
+            ]),
+            ("Why it is arranged this way", [
+                ("The corpus carries a date", "The links were checked on a stated date, which is shown on the page. A list of references with no check date says nothing about whether it still resolves."),
+                ("Known discrepancies are counted, not hidden", "The page computes its own broken and contradictory entries and shows how many there are. A reference list that never admits a bad entry has simply never been checked."),
+                ("Identifiers over links", "A DOI or an arXiv id survives a repository being renamed, moved or made private. Where one exists, it is what is given."),
+            ]),
+        ],
+        "cta": (
+            "Cite the DOI or the arXiv identifier rather than a repository URL \u2014 those survive a "
+            "rename. If something here does not resolve for you, that is worth an email: the "
+            "discrepancy list is only as good as the last time someone looked."
+        ),
+    },
     "about": {
         "title": "Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer",
         "eyebrow": "About",
@@ -289,6 +323,7 @@ NAV = [
     ("ip", "Licensing"),
     ("course", "Course"),
     ("cases", "Case studies"),
+    ("resources", "Resources"),
     ("about", "About"),
 ]
 

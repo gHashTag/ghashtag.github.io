@@ -23,22 +23,26 @@ REPO = Path(__file__).resolve().parent
 TMP = Path("/tmp/ogbuild2")
 
 
-def card_box(im: Image.Image):
-    """Bounding box of everything that is not the white padding."""
-    rgb = im.convert("RGB")
-    px = rgb.load()
-    w, h = rgb.size
-    def row_is_pad(y):
-        return all(px[x, y] > (245, 245, 245) for x in range(0, w, 7))
-    def col_is_pad(x):
-        return all(px[x, y] > (245, 245, 245) for y in range(0, h, 7))
-    top = next((y for y in range(h) if not row_is_pad(y)), None)
-    if top is None:
-        return None
-    bottom = next(y for y in range(h - 1, -1, -1) if not row_is_pad(y))
-    left = next(x for x in range(w) if not col_is_pad(x))
-    right = next(x for x in range(w - 1, -1, -1) if not col_is_pad(x))
-    return left, top, right + 1, bottom + 1
+def square_wrapper(svg_text: str) -> str:
+    """Nest the 1200x630 card inside a 1200x1200 artboard.
+
+    qlmanage fits a render to the taller axis and then crops the wider one, so
+    handing it the card directly produced a 1.563x magnification with everything
+    past x~768 simply gone. That is not a subtle failure: it silently removed the
+    third statistic from every card -- "147 MHz pipelined on Artix-7",
+    "SKY130 taped out", "2 arXiv papers" -- and the result still looked like a
+    finished card, which is why it shipped.
+
+    A square source has nothing to crop, so the whole width survives and the card
+    lands at a known offset instead of a detected one.
+    """
+    inner = svg_text.replace("<svg ", '<svg x="0" y="285" ', 1)
+    return (
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" '
+        'viewBox="0 0 1200 1200">'
+        '<rect width="1200" height="1200" fill="#05070a"/>'
+        f"{inner}</svg>"
+    )
 
 
 def main():
@@ -50,25 +54,28 @@ def main():
     for svg in svgs:
         for stale in TMP.glob("*.png"):
             stale.unlink()
-        subprocess.run(["qlmanage", "-t", "-s", "1200", "-o", str(TMP), str(svg)],
+        square = TMP / f"{svg.stem}.square.svg"
+        square.write_text(square_wrapper(svg.read_text(encoding="utf-8")), encoding="utf-8")
+        subprocess.run(["qlmanage", "-t", "-s", "1200", "-o", str(TMP), str(square)],
                        capture_output=True)
-        raw = TMP / f"{svg.name}.png"
+        raw = TMP / f"{square.name}.png"
         if not raw.exists():
             print(f"  {svg.name}: RASTERISE FAILED")
             bad += 1
             continue
-        im = Image.open(raw)
-        box = card_box(im)
-        if box is None:
-            print(f"  {svg.name}: no card found in render")
+        im = Image.open(raw).convert("RGB")
+        if im.size != (1200, 1200):
+            print(f"  {svg.name}: expected a 1200x1200 render, got {im.size}")
             bad += 1
             continue
-        card = im.convert("RGB").crop(box).resize((W, H), Image.LANCZOS)
+        # The card sits at a known offset in a square artboard, so this is a
+        # fixed crop rather than a guess about where the artwork begins.
+        card = im.crop((0, 285, 1200, 915))
+        if card.size != (W, H):
+            card = card.resize((W, H), Image.LANCZOS)
         out = REPO / f"{svg.stem}.png"
         card.save(out, "PNG", optimize=True)
-        bw, bh = box[2] - box[0], box[3] - box[1]
-        print(f"  {svg.name:<22} box {bw}x{bh} -> {out.name} "
-              f"({out.stat().st_size // 1024} kB)")
+        print(f"  {svg.name:<22} -> {out.name} ({out.stat().st_size // 1024} kB)")
     sys.exit(1 if bad else 0)
 
 
