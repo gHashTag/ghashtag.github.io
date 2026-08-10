@@ -45,3 +45,27 @@ Deleting only what is unreachable from *both* the current and the previous
 After deleting, `verify-site.sh` passing on disk is not the proof — push, wait
 for Pages, and probe the lazy chunks the entry bundle names. The gate checks
 routes and preview images, not the code-split chunks.
+
+## The positioning audit
+
+The gate checks that the site *works*. Nothing checks that it says the right
+thing. Both failures found on 2026-08-11 were of that second kind, and one grep
+found both:
+
+    grep -rl "<headline number>" assets/*.js *.html
+
+Take the headline figure of each strong result in `trinity-fpga/research/` and
+ask whether the built site contains it. That is a proper instrument because it
+reads the shipped bundles rather than the source, so it also catches a result
+that exists in a component nothing routes to.
+
+It found that `21.3545` — the perplexity behind a strict domination over MXFP4,
+the strongest measured claim the project holds — appeared in **zero** built
+files, while the hero led on a range comparison against tekum16, a format most
+readers deciding between formats have never heard of. The strongest claim was
+absent and a weaker one was over-stated.
+
+**A claim ships with its limit or it does not ship.** The scale result went up
+with the element-axis loss beside it, in the section for limits, because a block
+format has two fields and we win one. A page that lists only the won field is
+not describing the format.
