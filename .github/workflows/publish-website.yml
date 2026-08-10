@@ -1,0 +1,111 @@
+name: Publish website from trinity
+
+# This repository serves the apex, t27.ai. The website's source lives in
+# gHashTag/trinity, whose own Pages is https://t27.ai/trinity/ — a different URL
+# that nobody visits. So for months "merged, deploy green" and "on the site"
+# were two different things, and only one of them had an instrument.
+#
+# The publisher belongs here rather than in trinity, because this is where the
+# write permission is. trinity is public, so checking it out needs no token at
+# all: the built-in GITHUB_TOKEN with contents:write is enough to build somebody
+# else's public sources and commit the result to this repository.
+#
+# It publishes only when the content-hashed entry bundle actually changes, so a
+# rebuild that produces identical bytes leaves no commit behind.
+
+on:
+  schedule:
+    # Fifteen minutes is the worst-case lag between a merge in trinity and the
+    # apex serving it. The gate in trinity waits that long before going red.
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/publish-website.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-website
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout the apex
+        uses: actions/checkout@v4
+
+      - name: Checkout the website sources
+        uses: actions/checkout@v4
+        with:
+          repository: gHashTag/trinity
+          ref: main
+          path: .src
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build
+        working-directory: .src/apps/website
+        run: |
+          set -euo pipefail
+          npm ci --silent 2>/dev/null || npm install --silent
+          npm run build
+
+      - name: Publish, but only if the bytes changed
+        run: |
+          set -uo pipefail
+          say() { echo "$1"; echo "$1" >> "$GITHUB_STEP_SUMMARY"; }
+          echo "## Publish website" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          SRC_SHA=$(git -C .src rev-parse --short HEAD)
+          NEW=$(grep -o 'assets/index-[A-Za-z0-9_-]*\.js' .src/apps/website/dist/index.html | head -1)
+          OLD=$(grep -o 'assets/index-[A-Za-z0-9_-]*\.js' index.html | head -1)
+
+          # An empty hash is a failure, never a match. A pattern that missed the
+          # underscore in Vite hashes once compared an empty string against an
+          # empty string here and reported a confident green.
+          if [ -z "$NEW" ]; then
+            say "- **FAIL** the build produced no entry bundle"
+            exit 1
+          fi
+          if [ -z "$OLD" ]; then
+            say "- **FAIL** the committed index.html references no entry bundle"
+            exit 1
+          fi
+
+          say "- trinity \`$SRC_SHA\` builds \`$NEW\`"
+          say "- this repository currently serves \`$OLD\`"
+
+          if [ "$NEW" = "$OLD" ]; then
+            say "- **PASS** already current, nothing to publish"
+            exit 0
+          fi
+
+          # Additive on purpose. The generated pages (cases/, gft/, about/ …),
+          # the OG images and CNAME are not in dist/ and must survive.
+          rsync -a .src/apps/website/dist/ ./
+
+          # The same gate a human publish runs. It fails loudly on empty values
+          # rather than treating them as passes, which is the only reason it is
+          # worth running unattended.
+          if ! ./verify-site.sh --local; then
+            say "- **FAIL** verify-site.sh rejected the built tree — nothing pushed"
+            exit 1
+          fi
+
+          git config user.name  'trinity publisher'
+          git config user.email 'admin@t27.ai'
+          git add -A
+          if git diff --cached --quiet; then
+            say "- **PASS** verify passed and no files changed"
+            exit 0
+          fi
+          git commit -q -m "Publish $NEW from trinity $SRC_SHA"
+          git push -q
+          say "- **PASS** published \`$NEW\` from trinity \`$SRC_SHA\`"
