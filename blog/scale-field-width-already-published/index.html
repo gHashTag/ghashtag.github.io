@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The scale field does not need eight bits, and we were not the first to say so · TRINITY</title>
+<meta name="description" content="Four bits cover the shared scale on every checkpoint measured -- bit-identical to E8M0, zero blocks truncated out of 20,462,464. The observation was published first by someone else; what is ours is the proof around it, and the constant does not survive contact with activations." />
+<link rel="canonical" href="https://t27.ai/blog/scale-field-width-already-published/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:url" content="https://t27.ai/blog/scale-field-width-already-published/" />
+<meta property="og:title" content="The scale field does not need eight bits, and we were not the first to say so" />
+<meta property="og:description" content="Four bits cover the shared scale on every checkpoint measured -- bit-identical to E8M0, zero blocks truncated out of 20,462,464. The observation was published first by someone else; what is ours is the proof around it, and the constant does not survive contact with activations." />
+<meta property="og:image" content="https://t27.ai/og-blog-scale-field-width-already-published.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The scale field does not need eight bits, and we were not the first to say so" />
+<meta name="twitter:description" content="Four bits cover the shared scale on every checkpoint measured -- bit-identical to E8M0, zero blocks truncated out of 20,462,464. The observation was published first by someone else; what is ours is the proof around it, and the constant does not survive contact with activations." />
+<link rel="icon" href="/favicon.svg" />
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>The scale field does not need eight bits, and we were not the first to say so</h1>
+<p class="meta">2026-08-11 · 9 min read</p>
+<p class="lede">Four bits cover the shared scale on every checkpoint measured -- bit-identical to E8M0, zero blocks truncated out of 20,462,464. The observation was published first by someone else; what is ours is the proof around it, and the constant does not survive contact with activations.</p>
+<div class="tags"><span class="tag">Number formats</span><span class="tag">MXFP4</span><span class="tag">Quantisation</span><span class="tag">Prior art</span></div>
+<h2>The claim, and who published it first</h2>
+<p>The result this line of work was built around is that the shared scale in a block format does not need an eight-bit exponent. Measured on five checkpoints at block size 32, the minimum sufficient width is b_min = 3, 4, 3, 4, 4. A four-bit field truncates zero blocks out of 20,462,464 and is bit-identical to E8M0 in every tensor of every model. Not approximately sufficient -- identical.</p>
+<p>The observation is already published. Chhugani et al., &quot;Unveiling the Potential of Quantization with MXFP4&quot; (arXiv:2603.08713, submitted 30 January 2026), section 3.3: &quot;for nearly all weight tensors and over 98% of activation tensors, a 4-bit exponent suffices to capture the scaling factor&#x27;s dynamic range&quot;. They evaluate Llama-3.1-8B-Instruct and Qwen3-8B, among others. That is the same finding, on larger models, published first.</p>
+<p>So the measurement here is a replication on five smaller checkpoints, and it is written up as one. Reporting it as a discovery would have been the easy mistake, and the expensive one: the reviewer who knows the field finds the prior work in one search and stops reading.</p>
+<h2>One thing the prior work does not do</h2>
+<p>The paper observes the redundancy and then goes the other way. It keeps E8M0 for fine-grained 1x16 block scaling and adds a separate macro-block scale with an eight-bit mantissa at 1x128 granularity, explicitly to avoid the hardware cost of implementing E4M3 natively. It does not propose narrowing the scale field. The observation is theirs; the prescription that follows from it is not in that paper.</p>
+<h2>The idea is older than either of us, and it is already in silicon</h2>
+<ul><li>QLoRA double quantisation (NeurIPS 2023) makes the same observation one level down, quantising the quantisation constants and taking 0.5 bits per parameter to 0.127.</li><li>NVFP4 on Blackwell already implements the architecture the theorem prescribes: a per-tensor FP32 anchor plus a narrow per-block E4M3. The anchor is the bias that makes a narrow field possible. That is a shipped design, not a proposal.</li><li>Shared Microexponents / MSFP (ISCA 2023) is an entire paper about splitting exponents across levels.</li></ul>
+<h2>What survives as ours: the theory, not the observation</h2>
+<p>b_min = ceil(log2 S(W,K)), with a sufficiency proof and bit-identity to E8M0 rather than an empirical threshold. The bound R &lt; S &lt; R+2 relating the real span to the integer code count, checked on all 3,780 tensor-K pairs without a single exception. And, stated separately because it is the part that is easy to overclaim: necessity holds only in the worst case, not per tensor. A counterexample is constructed -- a truncated scale can give back the same dequantised weights.</p>
+<p>There is also a phase ambiguity in the binade grid worth one code either way. Pythia is the live example: R = 7.33 gives S = 8, and at a different phase the same span gives S = 9. A rule that reads the span and rounds will disagree with itself depending on where the grid happens to sit.</p>
+<h2>The limits are part of the claim</h2>
+<p>Block size moves the answer. b_min against K = 1..256:</p>
+<div class="tw"><table><thead><tr><th>model</th><th>K = 1, 2, 4, 8, 16, 32, 64, 128, 256</th></tr></thead><tbody><tr><td>SmolLM2</td><td>5, 5, 4, 4, 3, 3, 3, 3, 3</td></tr><tr><td>Qwen</td><td>5, 5, 4, 4, 4, 4, 3, 3, 3</td></tr><tr><td>Pythia</td><td>5, 5, 4, 4, 4, 3, 3, 3, 3</td></tr><tr><td>OPT</td><td>5, 5, 4, 4, 4, 4, 4, 4, 4</td></tr><tr><td>GPT-2</td><td>5, 5, 5, 4, 4, 4, 4, 4, 4</td></tr></tbody></table></div>
+<p>Four bits suffice for all five at K &gt;= 8, and do not at K &lt;= 2 -- and for GPT-2 not at K = 4 either. A constant quoted without its block size is not a constant.</p>
+<h2>Activations break the constant</h2>
+<p>MX shares one encoding between weights and activations, so the weight figure is not the whole answer. At layer inputs OPT needs five bits: twelve of seventy-two layers exceed four, the worst being decoder.layers.7.fc2 with a span of 30. The mechanism is not outliers. The input is post-ReLU, and blocks of near-zeros drag the lower bound down by about 28 binades -- it is the bottom tail that widens the span, not the top.</p>
+<p>Spans also depend on the sample and keep growing between windows, so any activation figure is a lower bound on what a longer run would report.</p>
+<h2>What is left standing</h2>
+<p>&quot;E8M0 is over-provisioned&quot; survives: five is less than eight on every model measured. The constant does not survive as a single number. It is four bits for weights, and five once activations share the encoding.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>The observation that four bits suffice for the scale exponent is not ours: Chhugani et al. (arXiv:2603.08713, section 3.3) published it on larger models. What is presented here as new is the theory around it -- the sufficiency proof, the R &lt; S &lt; R+2 bound, and the separation of sufficiency from necessity.</li><li>Necessity was NOT established per tensor, only in the worst case. A counterexample exists in which a truncated scale field returns the same dequantised weights, so &#x27;b_min bits are required&#x27; is false as a per-tensor statement.</li><li>Activation spans are sample-dependent and were still growing between measurement windows. The five-bit figure for activations is a lower bound on what a longer run would report, not a converged number.</li><li>The binade-grid phase ambiguity is worth one code either way and has not been eliminated: Pythia&#x27;s R = 7.33 gives S = 8 at one phase and S = 9 at another.</li><li>The five checkpoints are small (SmolLM2, Qwen, Pythia, OPT, GPT-2). The prior work reports the same conclusion on Llama-3.1-8B and Qwen3-8B, so the direction agrees at scale, but nothing here was measured at that size.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://arxiv.org/abs/2603.08713">Chhugani et al., Unveiling the Potential of Quantization with MXFP4 (arXiv:2603.08713), section 3.3 -- the prior publication of the 4-bit-suffices observation</a></li><li><a href="https://arxiv.org/abs/2305.14314">Dettmers et al., QLoRA: Efficient Finetuning of Quantized LLMs (NeurIPS 2023) -- double quantisation, 0.5 to 0.127 bits per parameter</a></li><li><a href="https://arxiv.org/abs/2302.08007">Rouhani et al., With Shared Microexponents, A Little Shifting Goes a Long Way (ISCA 2023) -- multi-level exponent splitting</a></li><li><a href="https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf">OCP Microscaling Formats (MX) Specification v1.0 -- the E8M0 shared scale this measures against</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/scale-field-width-already-published">Open the interactive version</a><a class="btn sec" href="/?lang=ru#/blog/scale-field-width-already-published" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=The scale field does not need eight bits, and we were not the first to say so">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

@@ -86,6 +86,36 @@ for p in $PAGES; do
   fi
 done
 
+# The blog ships as static pages because /blog answered 404 with the SPA shim and
+# no article was in the sitemap. Derived from disk, not from a list here, so a
+# new post is covered the moment it is generated. Its preview cards are named
+# og-blog-<slug>.png, which is why this cannot reuse the $PAGES loops above.
+BLOG=$(ls -d blog/*/ 2>/dev/null | sed 's|/$||')
+if [ -z "$BLOG" ]; then
+  red "blog/ holds no post directories — run build-blog.py"
+else
+  for d in $BLOG; do
+    slug=$(basename "$d")
+    f="$d/index.html"
+    if [ ! -f "$f" ]; then red "$d/ has no index.html"; continue; fi
+    words=$(sed -e 's/<[^>]*>/ /g' "$f" | wc -w | tr -d ' ')
+    # A stub that links into the app ranks for nothing; the article itself has
+    # to be in the HTML. 400 words is well below the shortest real post.
+    if [ "$words" -lt 400 ]; then
+      red "blog/$slug is $words words — the article body is not in the HTML"
+    else
+      green "blog/$slug carries the article ($words words)"
+    fi
+    grep -q 'rel="canonical"' "$f" || red "blog/$slug has no canonical link"
+    img="og-blog-$slug.png"
+    [ -f "$img" ] && green "blog/$slug og:image $img is on disk" || red "blog/$slug og:image $img is missing"
+    grep -q "<loc>$SITE/blog/$slug/</loc>" sitemap.xml 2>/dev/null \
+      || red "sitemap.xml does not list /blog/$slug/"
+  done
+  grep -q "<loc>$SITE/blog/</loc>" sitemap.xml 2>/dev/null \
+    || red "sitemap.xml does not list the blog index"
+fi
+
 grep -q "Sitemap: $SITE/sitemap.xml" robots.txt 2>/dev/null \
   && green "robots.txt points at the sitemap" \
   || red "robots.txt missing or does not reference the sitemap"
@@ -123,6 +153,13 @@ done
 for f in robots.txt sitemap.xml cv.pdf; do
   code=$(curl -s -o /dev/null -w '%{http_code}' "$SITE/$f")
   [ "$code" = "200" ] && green "/$f → 200" || red "/$f → $code"
+done
+
+# /blog used to answer 404 and serve the SPA shim, which is the failure this
+# whole section exists to catch coming back.
+for d in blog/ $BLOG; do
+  code=$(curl -s -o /dev/null -w '%{http_code}' -L "$SITE/${d%/}/")
+  [ "$code" = "200" ] && green "/${d%/}/ → 200" || red "/${d%/}/ → $code"
 done
 
 # Preview images are the difference between a link that sells and a link that
