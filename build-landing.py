@@ -433,10 +433,33 @@ def render(slug, p):
 """
 
 
-def sitemap(slugs):
-    urls = "".join(
-        f"\n  <url><loc>{SITE}/{s}</loc></url>" for s in [""] + [f"{x}/" for x in slugs]
+def doc_pages():
+    """The GOLDEN SUNFLOWERS chapters served under /docs/.
+
+    Forty-eight substantive pages that were in no sitemap at all — the book is
+    linked from the landings, so a crawler could reach it, but nothing told one
+    that it exists or how large it is. Listed with the .html extension because
+    that is the form the book's own internal links use; both forms resolve, and
+    publishing the other one would only invent a second URL for every chapter.
+    """
+    if not os.path.isdir("docs"):
+        return []
+    # print.html is the whole book on one page (9,065 words against ~430 in a
+    # chapter). Listing it beside the chapters is duplicate content that competes
+    # with them for the same queries, so it stays out.
+    skip = {"404.html", "print.html"}
+    names = sorted(
+        f for f in os.listdir("docs")
+        if f.endswith(".html") and f not in skip
     )
+    if not names:
+        raise SystemExit("sitemap: docs/ exists but holds no pages — check the path")
+    return [f"docs/{f}" for f in names]
+
+
+def sitemap(slugs):
+    paths = [""] + [f"{x}/" for x in slugs] + doc_pages()
+    urls = "".join(f"\n  <url><loc>{SITE}/{s}</loc></url>" for s in paths)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}\n</urlset>\n'
 
 
