@@ -66,6 +66,24 @@ for p in $PAGES; do
   for tag in 'og:title' 'og:description' 'og:image' 'rel="canonical"'; do
     grep -q "$tag" "$f" || red "$p/ is missing $tag"
   done
+
+  # The tag being present is not the same as the image existing. That was only
+  # checked against the live site, so a page could point at a file that was
+  # never created and the on-disk gate stayed green -- which is how /about/ once
+  # shipped referencing an og-about.svg that did not exist.
+  # SVG is refused outright: no social platform renders it, so an SVG card is
+  # indistinguishable from having no card at all.
+  ogsrc=$(grep -o 'property="og:image" content="[^"]*"' "$f" | head -1 | sed 's/.*content="//;s/"$//')
+  ogfile="${ogsrc#$SITE/}"
+  if [ -z "$ogsrc" ]; then
+    red "$p/ has no og:image content"
+  elif [ ! -f "$ogfile" ]; then
+    red "$p/ points at $ogfile, which is not on disk"
+  elif [ "${ogfile##*.}" = "svg" ]; then
+    red "$p/ uses an SVG og:image — no social platform renders it"
+  else
+    green "$p/ og:image $ogfile is on disk"
+  fi
 done
 
 grep -q "Sitemap: $SITE/sitemap.xml" robots.txt 2>/dev/null \

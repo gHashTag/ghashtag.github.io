@@ -355,7 +355,7 @@ def render(slug, p):
 <meta property="og:url" content="{url}" />
 <meta property="og:title" content="{html.escape(p['title'])}" />
 <meta property="og:description" content="{html.escape(p['desc'])}" />
-<meta property="og:image" content="{SITE}/og-{slug}.svg" />
+<meta property="og:image" content="{SITE}/og-{slug}.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="{html.escape(p['title'])}" />
 <meta name="twitter:description" content="{html.escape(p['desc'])}" />
