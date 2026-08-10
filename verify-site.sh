@@ -114,6 +114,23 @@ else
   done
   grep -q "<loc>$SITE/blog/</loc>" sitemap.xml 2>/dev/null \
     || red "sitemap.xml does not list the blog index"
+
+  # blog/ is generated from a snapshot of trinity's posts.ts, so adding a post
+  # upstream and republishing leaves the static pages stale and silent. The
+  # shipped Blog chunk is the authority on what the app actually serves, so the
+  # two are compared rather than trusted.
+  blogjs=$(grep -oE 'Blog-[A-Za-z0-9_-]{8}\.js' "$LOCAL_JS" 2>/dev/null | head -1)
+  if [ -z "$blogjs" ] || [ ! -f "assets/$blogjs" ]; then
+    red "cannot find the shipped Blog chunk — the drift check did not run"
+  else
+    shipped=$(grep -oE 'slug:"[a-z0-9-]+"' "assets/$blogjs" | sed 's/slug://;s/"//g' | sort -u)
+    static=$(ls -d blog/*/ 2>/dev/null | sed 's|blog/||;s|/$||' | sort)
+    if [ "$shipped" = "$static" ]; then
+      green "static blog matches the shipped app ($(echo "$shipped" | wc -w | tr -d ' ') posts)"
+    else
+      red "blog drift: the app ships [$(echo $shipped)] but blog/ holds [$(echo $static)] — rerun build-blog.py"
+    fi
+  fi
 fi
 
 grep -q "Sitemap: $SITE/sitemap.xml" robots.txt 2>/dev/null \
