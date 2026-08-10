@@ -18,10 +18,10 @@ GOLDEN SUNFLOWERS PhD ([#380](https://github.com/gHashTag/trios/issues/380)) cit
 |---|---|---|---|---|
 | 1 | [10.5281/zenodo.18939352](https://doi.org/10.5281/zenodo.18939352) | FPGA Autoregressive Ternary LLM | 2025-Q4 | `trios-fpga` Ch.28/34 |
 | 2 | [10.5281/zenodo.18950696](https://doi.org/10.5281/zenodo.18950696) | FPGA AR-Ternary LLM (Latest version) | 2026-Q1 | `trios-fpga` ROLLING |
-| 3 | [10.5281/zenodo.19020211](https://doi.org/10.5281/zenodo.19020211) | Self-Evolving Ouroboros | 2026-Q1 | `trios-trainer-igla` Ch.21 |
-| 4 | [10.5281/zenodo.19020213](https://doi.org/10.5281/zenodo.19020213) | VSA Balanced Ternary SIMD | 2026-Q1 | `vsa-ternary` App.F |
-| 5 | [10.5281/zenodo.19020215](https://doi.org/10.5281/zenodo.19020215) | φ-RoPE Attention | 2026-Q1 | `trios` Ch.6 GoldenFloat |
-| 6 | [10.5281/zenodo.19020217](https://doi.org/10.5281/zenodo.19020217) | Sparse Ternary MatMul | 2026-Q1 | `trios` Ch.8 TF3/TF9 |
+| 3 | [10.5281/zenodo.19020270](https://doi.org/10.5281/zenodo.19020270) | Self-Evolving Ouroboros | 2026-Q1 | `trios-trainer-igla` Ch.21 |
+| 4 | [10.5281/zenodo.19020275](https://doi.org/10.5281/zenodo.19020275) | VSA Balanced Ternary SIMD | 2026-Q1 | `vsa-ternary` App.F |
+| 5 | [10.5281/zenodo.19020280](https://doi.org/10.5281/zenodo.19020280) | φ-RoPE Attention | 2026-Q1 | `trios` Ch.6 GoldenFloat |
+| 6 | [10.5281/zenodo.19020282](https://doi.org/10.5281/zenodo.19020282) | Sparse Ternary MatMul | 2026-Q1 | `trios` Ch.8 TF3/TF9 |
 
 ### H.3 B-series hardware bundles (7)
 
@@ -49,10 +49,10 @@ GOLDEN SUNFLOWERS PhD ([#380](https://github.com/gHashTag/trios/issues/380)) cit
 @dataset{trios_b007, doi={10.5281/zenodo.19227877}, title={B007 VSA Operations for Ternary},  year={2026}, publisher={Zenodo}}
 @dataset{trios_z01,  doi={10.5281/zenodo.18939352}, title={FPGA Autoregressive Ternary LLM},  year={2025}, publisher={Zenodo}}
 @dataset{trios_z02,  doi={10.5281/zenodo.18950696}, title={FPGA AR-Ternary LLM Latest},       year={2026}, publisher={Zenodo}}
-@dataset{trios_z03,  doi={10.5281/zenodo.19020211}, title={Self-Evolving Ouroboros},          year={2026}, publisher={Zenodo}}
-@dataset{trios_z04,  doi={10.5281/zenodo.19020213}, title={VSA Balanced Ternary SIMD},        year={2026}, publisher={Zenodo}}
-@dataset{trios_z05,  doi={10.5281/zenodo.19020215}, title={phi-RoPE Attention},               year={2026}, publisher={Zenodo}}
-@dataset{trios_z06,  doi={10.5281/zenodo.19020217}, title={Sparse Ternary MatMul},            year={2026}, publisher={Zenodo}}
+@dataset{trios_z03,  doi={10.5281/zenodo.19020270}, title={Self-Evolving Ouroboros},          year={2026}, publisher={Zenodo}}
+@dataset{trios_z04,  doi={10.5281/zenodo.19020275}, title={VSA Balanced Ternary SIMD},        year={2026}, publisher={Zenodo}}
+@dataset{trios_z05,  doi={10.5281/zenodo.19020280}, title={phi-RoPE Attention},               year={2026}, publisher={Zenodo}}
+@dataset{trios_z06,  doi={10.5281/zenodo.19020282}, title={Sparse Ternary MatMul},            year={2026}, publisher={Zenodo}}
 ```
 
 ### H.5 Citation discipline (R5-honest)

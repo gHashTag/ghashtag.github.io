@@ -38,10 +38,10 @@ as the algebraic anchor of GoldenFloat (GF4..GF64) quantization and the
 - **B007** [VSA Operations for Ternary (anchor)](https://doi.org/10.5281/zenodo.19227877)
 - **Z01** [FPGA Autoregressive Ternary LLM](https://doi.org/10.5281/zenodo.18939352)
 - **Z02** [Latest version FPGA AR](https://doi.org/10.5281/zenodo.18950696)
-- **Z03** [Self-Evolving Ouroboros](https://doi.org/10.5281/zenodo.19020211)
-- **Z04** [VSA Balanced Ternary SIMD](https://doi.org/10.5281/zenodo.19020213)
-- **Z05** [φ-RoPE Attention](https://doi.org/10.5281/zenodo.19020215)
-- **Z06** [Sparse Ternary MatMul](https://doi.org/10.5281/zenodo.19020217)
+- **Z03** [Self-Evolving Ouroboros](https://doi.org/10.5281/zenodo.19020270)
+- **Z04** [VSA Balanced Ternary SIMD](https://doi.org/10.5281/zenodo.19020275)
+- **Z05** [φ-RoPE Attention](https://doi.org/10.5281/zenodo.19020280)
+- **Z06** [Sparse Ternary MatMul](https://doi.org/10.5281/zenodo.19020282)
 
 ## Acknowledgments
 
