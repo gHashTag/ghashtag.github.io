@@ -430,6 +430,7 @@ def render(slug, p):
     {run_btn}<a class="btn sec" href="mailto:{EMAIL}?subject={html.escape(p['title'])}">{EMAIL}</a>
     <a class="btn sec" href="{SAMPLE}">Read a sample report</a>
     <a class="btn sec" href="/#/{slug}">Open the interactive site</a>
+    <a class="btn sec" href="/?lang=ru#/{slug}" hreflang="ru" lang="ru">Читать по-русски</a>
   </div>
 </div>
 
