@@ -69,3 +69,35 @@ absent and a weaker one was over-stated.
 with the element-axis loss beside it, in the section for limits, because a block
 format has two fields and we win one. A page that lists only the won field is
 not describing the format.
+
+## The routes audit
+
+The positioning audit asks whether the site says the right thing. This one asks
+whether a crawler can see it said at all. List the SPA's routes and subtract the
+static landings:
+
+    grep -oE 'path:"[^"]+"' assets/index-*.js | sed 's/path://;s/"//g' | sort -u
+
+On 2026-08-11 that left `/blog` with no landing, and `/blog` answered **HTTP
+404** — GitHub Pages served the SPA shim, the hash router picked the article up
+in the browser, and every check anyone had run was a browser check. The sitemap
+held zero blog URLs. Two real articles, one carrying the scale-field result,
+were invisible to anything that does not execute JavaScript.
+
+A landing that only summarises and links into the app does not fix this: it
+ranks for nothing. `build-blog.py` puts the whole article in the HTML — 1,259
+and 3,085 words — and the gate now fails any post under 400 words for exactly
+that reason.
+
+**Extract data by running the module, not by reading it.** The posts live in
+TypeScript in another repo. Transpiling with the project's own esbuild and
+importing the result is the only version that cannot drift from what ships. It
+also surfaced a trap a regex would have sailed past: `publishedPosts` is a
+*function*, not an array, and `JSON.stringify` of the binding returns
+`undefined` — `writeFileSync` then throws, but a slightly different script would
+have written `"undefined"` into the data file and generated an empty blog with
+no error anywhere.
+
+**A new gate check must be shown to fail.** After extending `verify-site.sh`,
+remove the card and delete the sitemap line, confirm exit 1 each time, and put
+them back. A check that has never failed is not evidence.
