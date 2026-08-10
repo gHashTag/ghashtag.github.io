@@ -148,6 +148,57 @@ def badge(run):
     }
 
 
+
+def status_page(runs, prov):
+    """One table: every design checked, when, and how it came out.
+
+    Coveralls stamps a repo with the date it was added and the date of the last
+    build; GitHub code scanning stamps each scan. The reason is the same in both
+    and it is not decoration — it answers the question a visitor never asks
+    aloud, which is whether anything here still runs.
+    """
+    rows = []
+    for r in sorted(runs, key=lambda x: (bool(x.get("thirdParty")), x["design"])):
+        passed = sum(1 for c in r["checks"] if c["status"] == "PASS")
+        total = len(r["checks"])
+        who = "third party" if r.get("thirdParty") else "mine"
+        rows.append(
+            f'<tr><td><a href="/r/{slug(r)}/">{html.escape(r["design"])}</a></td>'
+            f'<td>{html.escape(who)}</td>'
+            f'<td><code style="display:inline">{html.escape(r["top"])}</code></td>'
+            f'<td>{passed}/{total}</td><td>{html.escape(r.get("date",""))}</td></tr>'
+        )
+    return f"""<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>What has been checked, and when · TRINITY</title>
+<meta name="description" content="Every design checked with the open flow, when it ran, and how many checks passed." />
+<link rel="canonical" href="{SITE}/status/" />
+<meta property="og:type" content="website" /><meta property="og:url" content="{SITE}/status/" />
+<meta property="og:title" content="What has been checked, and when" />
+<meta property="og:description" content="Every design checked with the open flow, with the date and the result." />
+<meta property="og:image" content="{SITE}/og-verification.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<style>{CSS}
+table{{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}}
+th,td{{text-align:left;padding:9px 10px;border-bottom:1px solid var(--rule);vertical-align:top}}
+th{{color:var(--muted);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase}}
+</style></head><body><div class="wrap">
+<nav class="top"><a href="/">T27.AI</a><a href="/verification/">Verification</a><a href="/cases/">Case studies</a></nav>
+<h1>What has been checked, and when</h1>
+<p class="sub">Every design put through the open flow, newest set first. Mine are listed
+alongside other people's on purpose: two of mine failed a check that all three of
+theirs passed, and hiding that would make the rest worth less.</p>
+<table><thead><tr><th>Design</th><th>Whose</th><th>Top module</th><th>Checks</th><th>Run</th></tr></thead>
+<tbody>{''.join(rows)}</tbody></table>
+<p class="stamp">Toolchain for every row above: {html.escape(prov['yosys'])} · {html.escape(prov['iverilog'])}</p>
+<div class="card"><strong>What a passing row does not establish</strong>
+<ul class="limits">{''.join(f'<li>{html.escape(l)}</li>' for l in LIMITS)}</ul></div>
+<footer><a href="{SITE}/verification/">How this works</a> ·
+<a href="https://github.com/gHashTag/trinity/issues/new?template=verification-request.yml">Run your own repo</a></footer>
+</div></body></html>
+"""
+
 def main():
     if not RUNS_JSON.is_file():
         sys.exit(f"runs.json not found at {RUNS_JSON}; set RUNS_JSON to point at it")
@@ -173,6 +224,11 @@ def main():
         (d / "badge.json").write_text(json.dumps(badge(run)), encoding="utf-8")
         written.append(f"r/{s}/")
         print(f"  wrote r/{s}/  ({run['design']})")
+    st = HERE / "status"
+    st.mkdir(exist_ok=True)
+    (st / "index.html").write_text(status_page(runs, prov), encoding="utf-8")
+    print(f"  wrote status/  ({len(runs)} rows)")
+
     if not written:
         sys.exit("  nothing written — treat that as a failure, not a pass")
     print(f"  {len(written)} result page(s) + badge endpoint(s)")

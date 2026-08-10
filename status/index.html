@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>What has been checked, and when · TRINITY</title>
+<meta name="description" content="Every design checked with the open flow, when it ran, and how many checks passed." />
+<link rel="canonical" href="https://t27.ai/status/" />
+<meta property="og:type" content="website" /><meta property="og:url" content="https://t27.ai/status/" />
+<meta property="og:title" content="What has been checked, and when" />
+<meta property="og:description" content="Every design checked with the open flow, with the date and the result." />
+<meta property="og:image" content="https://t27.ai/og-verification.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<style>*,*::before,*::after{box-sizing:border-box}
+:root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:40px 20px 72px}
+a{color:var(--accent)}
+nav.top{font-size:14px;margin-bottom:28px}
+nav.top a{margin-right:14px;color:var(--muted);text-decoration:none}
+h1{font-size:clamp(1.6rem,4.5vw,2.2rem);line-height:1.2;margin:0 0 8px}
+.sub{color:var(--muted);margin:0 0 4px}
+.stamp{color:var(--muted);font-size:12px;margin:16px 0 28px;padding-top:12px;border-top:1px solid var(--rule)}
+.check{border-top:1px solid var(--rule);padding:14px 0}
+.pass{color:var(--accent);font-weight:700;font-size:12px;letter-spacing:.08em}
+.fail{color:#ff6b6b;font-weight:700;font-size:12px;letter-spacing:.08em}
+.check p{margin:6px 0 6px;font-size:14px}
+code{font-size:12px;color:var(--muted);display:block;overflow-x:auto;white-space:pre}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:20px;margin:20px 0}
+.badge{font-size:13px}
+.badge pre{background:#0d1418;border:1px solid var(--rule);border-radius:8px;padding:10px;overflow-x:auto}
+.limits li{font-size:14px;color:var(--muted);margin-bottom:6px}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);color:var(--muted);font-size:13px}
+@media(prefers-color-scheme:light){:root{--bg:#fbfdfc;--card:#fff;--ink:#101a17;--muted:#5b6f68;--accent:#0a7a4c;--rule:#dde7e3}}
+
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+</style></head><body><div class="wrap">
+<nav class="top"><a href="/">T27.AI</a><a href="/verification/">Verification</a><a href="/cases/">Case studies</a></nav>
+<h1>What has been checked, and when</h1>
+<p class="sub">Every design put through the open flow, newest set first. Mine are listed
+alongside other people's on purpose: two of mine failed a check that all three of
+theirs passed, and hiding that would make the rest worth less.</p>
+<table><thead><tr><th>Design</th><th>Whose</th><th>Top module</th><th>Checks</th><th>Run</th></tr></thead>
+<tbody><tr><td><a href="/r/gHashTag/trinity-fpga/ttsky26c/holo/">Quantum Brain HOLOGRAPHIC</a></td><td>mine</td><td><code style="display:inline">tt_um_qbrain_holo</code></td><td>5/5</td><td>2026-08-11</td></tr><tr><td><a href="/r/gHashTag/trinity-fpga/ttsky26c/mini/">Quantum Brain MINI</a></td><td>mine</td><td><code style="display:inline">tt_um_qbrain_mini</code></td><td>5/5</td><td>2026-08-11</td></tr><tr><td><a href="/r/gHashTag/t27/chips/euler/">TRI-1 Euler</a></td><td>mine</td><td><code style="display:inline">tt_um_ghtag_trinity_gf16</code></td><td>5/5</td><td>2026-08-11</td></tr><tr><td><a href="/r/gHashTag/t27/chips/gamma/">TRI-1 Gamma</a></td><td>mine</td><td><code style="display:inline">tt_um_trinity_max_true</code></td><td>5/5</td><td>2026-08-11</td></tr><tr><td><a href="/r/gHashTag/t27/chips/phi/">TRI-1 Phi</a></td><td>mine</td><td><code style="display:inline">tt_um_trinity_nano</code></td><td>5/5</td><td>2026-08-11</td></tr><tr><td><a href="/r/NikLeberg/tt_um_float_synth/">Float synth</a></td><td>third party</td><td><code style="display:inline">tt_um_float_synth_nikleberg</code></td><td>5/5</td><td>2026-08-11</td></tr><tr><td><a href="/r/divadnauj-GB/tt_um_divadnauj-GB_serv_soc_wb/">SERV RISC-V SoC on Wishbone</a></td><td>third party</td><td><code style="display:inline">tt_um_divadnauj_GB_serv_soc_wb</code></td><td>5/5</td><td>2026-08-11</td></tr><tr><td><a href="/r/pongsagon/tt_um_pongsagon_tinygpu_v2/">TinyGPU v2</a></td><td>third party</td><td><code style="display:inline">tt_um_pongsagon_tinygpu_v2</code></td><td>5/5</td><td>2026-08-11</td></tr></tbody></table>
+<p class="stamp">Toolchain for every row above: Yosys 0.65 (git sha1 aec814bdf3071f7e0fd0fbe43f7f711e99d01e24) · Icarus Verilog 13.0 (stable, v13_0)</p>
+<div class="card"><strong>What a passing row does not establish</strong>
+<ul class="limits"><li>A pass is not a proof of correctness. These checks say the design elaborates, infers no latches, synthesises and contains clocked logic. None of them compares it against a specification.</li><li>Generic yosys cells are not silicon area. Only the real ASIC flow settles whether a design fits its tiles.</li><li>No frequency is claimed. Counting flip-flops says a frequency is a meaningful question, not what the answer is.</li><li>Nothing here ran on hardware. These are simulation and synthesis results.</li></ul></div>
+<footer><a href="https://t27.ai/verification/">How this works</a> ·
+<a href="https://github.com/gHashTag/trinity/issues/new?template=verification-request.yml">Run your own repo</a></footer>
+</div></body></html>
