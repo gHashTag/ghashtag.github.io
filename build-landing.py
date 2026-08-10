@@ -228,7 +228,7 @@ PAGES = {
     "about": {
         "title": "Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer",
         "eyebrow": "About",
-        "h1": "From an arXiv paper to a fabricated chip.",
+        "h1": "From an arXiv paper to a tape-out.",
         "desc": (
             "Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer. Designer of the GF-T ternary "
             "floating-point format, taken from an arXiv paper through RTL that needs no hard multipliers "
