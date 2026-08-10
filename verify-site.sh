@@ -137,6 +137,30 @@ for p in $PAGES; do
   [ "$code" = "200" ] && green "/$p/ preview image → 200" || red "/$p/ preview image $img → $code"
 done
 
+# The links behind "read the proof" are the ones that must not rot, and they rot
+# silently: an audit on 2026-08-10 found eight returning 404, each shipped in all
+# five locales, sitting under the theorem and benchmark figures. Read them out of
+# the bundle the site actually serves rather than out of the source, because the
+# catalogues live outside src/ and a grep over the source reads clean either way.
+bundle=$(curl -fsS "$SITE/index.html?cb=$RANDOM" 2>/dev/null | grep -o 'assets/index-[A-Za-z0-9_-]*\.js' | head -1)
+if [ -z "$bundle" ]; then
+  red "cannot read the bundle to check proof links"
+else
+  dead=0
+  checked=0
+  for u in $(curl -fsS "$SITE/$bundle" 2>/dev/null \
+               | grep -Eo 'https://github\.com/gHashTag/[A-Za-z0-9._/-]+\.md' | sort -u); do
+    checked=$((checked + 1))
+    c=$(curl -s -o /dev/null -w '%{http_code}' -L "$u")
+    [ "$c" = "200" ] || { red "dead proof link ($c): $u"; dead=$((dead + 1)); }
+  done
+  if [ "$checked" = 0 ]; then
+    red "found no proof links in the bundle — the pattern or the bundle is wrong"
+  elif [ "$dead" = 0 ]; then
+    green "all $checked proof links resolve"
+  fi
+fi
+
 echo
 if [ "$fails" = 0 ]; then
   echo "all checks passed"
