@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SERDES — verification result · TRINITY</title>
+<meta name="description" content="5 of 5 structural checks passed for Santeep/TT_UM_SERDES, with the command that produced each one." />
+<link rel="canonical" href="https://t27.ai/r/Santeep/TT_UM_SERDES/" />
+<meta property="og:type" content="website" /><meta property="og:url" content="https://t27.ai/r/Santeep/TT_UM_SERDES/" />
+<meta property="og:title" content="SERDES — 5/5 checks" />
+<meta property="og:description" content="Structural verification of Santeep/TT_UM_SERDES, reproducible from the commands on this page." />
+<meta property="og:image" content="https://t27.ai/og-verification.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<style>*,*::before,*::after{box-sizing:border-box}
+:root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:40px 20px 72px}
+a{color:var(--accent)}
+nav.top{font-size:14px;margin-bottom:28px}
+nav.top a{margin-right:14px;color:var(--muted);text-decoration:none}
+h1{font-size:clamp(1.6rem,4.5vw,2.2rem);line-height:1.2;margin:0 0 8px}
+.sub{color:var(--muted);margin:0 0 4px}
+.stamp{color:var(--muted);font-size:12px;margin:16px 0 28px;padding-top:12px;border-top:1px solid var(--rule)}
+.check{border-top:1px solid var(--rule);padding:14px 0}
+.pass{color:var(--accent);font-weight:700;font-size:12px;letter-spacing:.08em}
+.fail{color:#ff6b6b;font-weight:700;font-size:12px;letter-spacing:.08em}
+.check p{margin:6px 0 6px;font-size:14px}
+code{font-size:12px;color:var(--muted);display:block;overflow-x:auto;white-space:pre}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:20px;margin:20px 0}
+.badge{font-size:13px}
+.badge pre{background:#0d1418;border:1px solid var(--rule);border-radius:8px;padding:10px;overflow-x:auto}
+.limits li{font-size:14px;color:var(--muted);margin-bottom:6px}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);color:var(--muted);font-size:13px}
+@media(prefers-color-scheme:light){:root{--bg:#fbfdfc;--card:#fff;--ink:#101a17;--muted:#5b6f68;--accent:#0a7a4c;--rule:#dde7e3}}
+</style></head><body><div class="wrap">
+<nav class="top"><a href="/">T27.AI</a><a href="/verification/">Verification</a><a href="/cases/">Case studies</a></nav>
+<h1>SERDES</h1>
+<p class="sub">A serialiser/deserialiser, the smallest of the five.</p>
+<p class="sub"><a href="https://github.com/Santeep/TT_UM_SERDES">Santeep/TT_UM_SERDES</a> · top <code style="display:inline">tt_um_serdes</code> · 5 of 5 checks passed</p>
+<p class="stamp">Santeep/TT_UM_SERDES · 2026-08-11 · Yosys 0.65 (git sha1 aec814bdf3071f7e0fd0fbe43f7f711e99d01e24) · Icarus Verilog 13.0 (stable, v13_0)</p>
+<div class="check"><span class="pass">PASS</span> <strong>sources resolve</strong><p>2 of 2 declared files found</p><code>info.yaml source_files -&gt; src/</code></div>
+<div class="check"><span class="pass">PASS</span> <strong>elaborates</strong><p>clean from the declared list alone</p><code>iverilog -g2012 -t null -I src -s &lt;top&gt; &lt;declared sources&gt;</code></div>
+<div class="check"><span class="pass">PASS</span> <strong>no inferred latches</strong><p>no $_DLATCH_ cells after techmap</p><code>yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</code></div>
+<div class="check"><span class="pass">PASS</span> <strong>synthesises</strong><p>244 cells including submodules, 115 wires. 123x $_MUX_, 36x $_DFFE_PN0P_, 29x $_DFFE_PP_, 18x $_DFFE_PN0N_</p><code>yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</code></div>
+<div class="check"><span class="pass">PASS</span> <strong>has clocked logic</strong><p>103 flip-flops</p><code>yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</code></div>
+
+<div class="card badge"><strong>Badge</strong>
+<p>Shields renders it from a static JSON file served here, so it stays current without anything running.</p>
+<pre>[![t27.ai](https://img.shields.io/endpoint?url=https://t27.ai/r/Santeep/TT_UM_SERDES/badge.json)](https://t27.ai/r/Santeep/TT_UM_SERDES/)</pre></div>
+<div class="card"><strong>What this does not establish</strong>
+<ul class="limits"><li>A pass is not a proof of correctness. These checks say the design elaborates, infers no latches, synthesises and contains clocked logic. None of them compares it against a specification.</li><li>Generic yosys cells are not silicon area. Only the real ASIC flow settles whether a design fits its tiles.</li><li>No frequency is claimed. Counting flip-flops says a frequency is a meaningful question, not what the answer is.</li><li>Nothing here ran on hardware. These are simulation and synthesis results.</li></ul></div>
+<footer>Checked with the open flow — Yosys and Icarus Verilog, no vendor licence.
+Re-run any line above yourself. <a href="https://t27.ai/verification/">How this works</a> ·
+<a href="https://github.com/gHashTag/trinity/issues/new?template=verification-request.yml">Run your own repo</a></footer>
+</div></body></html>
