@@ -25,7 +25,7 @@ training invariants**. Current work centres the identity
 
 as the algebraic anchor of GoldenFloat (GF4..GF64) quantization and the
 **IGLA RACE** runtime invariants (INV-1..INV-9), each backed by Coq theorems in the
-[t27 canonical home](https://github.com/gHashTag/t27/tree/feat/canonical-coq-home/proofs/canonical).
+[t27 canonical home](https://github.com/gHashTag/t27/tree/main/proofs).
 
 ## Selected work — 13 Zenodo records
 

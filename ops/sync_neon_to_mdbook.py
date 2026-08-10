@@ -43,7 +43,7 @@ ONE SHOT directive update the row, and a GitHub Action rebuilds this book.
 ## Three evidence axes
 
 1. **Empirical** — BPB benchmark vs FineWeb · multi-agent IGLA RACE · pre-registered seeds
-2. **Formal Verification** — **297 Qed** in [t27/proofs/canonical/](https://github.com/gHashTag/t27/tree/feat/canonical-coq-home/proofs/canonical) · 38 bundles · 11 IGLA invariants · 28 falsification examples · CI-gated
+2. **Formal Verification** — **297 Qed** in [t27/proofs/canonical/](https://github.com/gHashTag/t27/tree/main/proofs) · 38 bundles · 11 IGLA invariants · 28 falsification examples · CI-gated
 3. **Hardware** — **QMTech XC7A100T** Artix-7 · **0 DSP** · **63 toks/sec @ 92 MHz** · **0.94–1.07 W bench** · 5.8 / 19.6 % LUT · 9.8 / 52 % BRAM · 1003 toks HSLM sim-verified
 
 ## Sources of truth
