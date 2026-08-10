@@ -26,6 +26,13 @@ import html
 import os
 
 SITE = "https://t27.ai"
+# The pre-filled issue the verify-request workflow answers on its own. These
+# static landings are the pages a stranger reaches from search, and until now
+# the only way to start anything from them was to compose an email — the run
+# has an entry point that needs no inbox, so it belongs on the page that gets
+# found. Only the pages where a run is the next step get the button.
+REQUEST_URL = "https://github.com/gHashTag/trinity/issues/new?template=verification-request.yml"
+RUNNABLE = {"verification", "cases"}
 EMAIL = "admin@t27.ai"
 SAMPLE = "https://github.com/gHashTag/trinity/blob/main/docs/verification/SAMPLE-REPORT.md"
 
@@ -74,14 +81,17 @@ PAGES = {
         "eyebrow": "Verification service",
         "h1": "Not simulated. Measured on live silicon.",
         "desc": (
-            "Send your RTL and get it measured on a live Xilinx Artix-7: bit-exact conformance against "
-            "an independent reference model, achieved timing, resources and the bitstream — on a fully "
-            "open-source flow. From $300 per core, first module free."
+            "Point it at a public repository and the checks run for free, with the report published. "
+            "Nothing leaves your repo for the open-source tier. Private work is set up by hand: "
+            "bit-exact conformance against an independent model, timing, resources and the bitstream, "
+            "on a fully open-source flow. From $300 per core, first module free."
         ),
         "lede": (
-            "Send your RTL. It runs on a real Xilinx Artix-7 and comes back with a signed report: "
-            "bit-exact conformance against an independent model, achieved timing, resource usage, and "
-            "the bitstream — on a fully open-source toolchain, so every number can be reproduced."
+            "For a public repository you give a URL and nothing else — the checks run in the open and the "
+            "report is published here whichever way it goes. For private work the run is arranged "
+            "directly. Either way it comes back as a signed report: bit-exact conformance against an "
+            "independent model, achieved timing, resources and the bitstream, on a fully open-source "
+            "toolchain, so every number can be reproduced."
         ),
         "sections": [
             ("What the report contains", [
@@ -363,6 +373,10 @@ footer a{color:var(--muted)}
 
 def render(slug, p):
     url = f"{SITE}/{slug}/"
+    run_btn = (
+        f'<a class="btn" href="{REQUEST_URL}">Start a run on your repo</a>\n    '
+        if slug in RUNNABLE else ""
+    )
     nav = "".join(
         f'<a href="/{s}/"{" aria-current=\"page\"" if s == slug else ""}>{html.escape(label)}</a>'
         for s, label in NAV
@@ -413,7 +427,7 @@ def render(slug, p):
 <div class="cta">
   <p>{html.escape(p['cta'])}</p>
   <div class="btns">
-    <a class="btn" href="mailto:{EMAIL}?subject={html.escape(p['title'])}">{EMAIL}</a>
+    {run_btn}<a class="btn sec" href="mailto:{EMAIL}?subject={html.escape(p['title'])}">{EMAIL}</a>
     <a class="btn sec" href="{SAMPLE}">Read a sample report</a>
     <a class="btn sec" href="/#/{slug}">Open the interactive site</a>
   </div>
