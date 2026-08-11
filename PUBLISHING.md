@@ -146,3 +146,26 @@ lookup. Anything absent from the lookup is reported rather than passed through,
 so a forgotten string is impossible to ship silently — the opposite of drawing
 eight new cards and hoping none was missed. Russian runs roughly 20 % longer, so
 the headline font is eased; check one long card by eye afterwards regardless.
+
+### A language directory needs a root
+
+`/ru/gft/` and its seven siblings worked while `/ru/` itself answered **404**.
+Trimming a URL back to its parent is something readers and crawlers both do, and
+it landed on an error page. Any time a directory of pages is added, give the
+directory itself a page.
+
+**Watch the empty slug.** `/ru/` is rendered by the same function as the
+landings, with an empty slug — and the naive path build then produces
+`href="//"`, which a browser reads as *protocol-relative* and follows to a
+different host entirely, plus a canonical of `/ru//` and a card named
+`og--ru.png`. The repair asserts its own success and raises if any of the four
+shapes survives, because this is exactly the class of bug that looks fine in a
+diff and is only visible in the artefact.
+
+### Half of a reciprocal pair can live in another repository
+
+`/ru/` is generated here; the homepage's matching `hreflang` is in the SPA's
+`index.html`, which is generated in **trinity**. That half disappears on any
+rebuild from a source that lacks it, and nothing local would notice — the
+Russian pages would still be perfect and still be filed as duplicates. The gate
+checks both directions and names where the missing half comes from.
