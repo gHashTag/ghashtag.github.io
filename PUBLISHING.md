@@ -126,3 +126,23 @@ whether that is worth anything:
 **Skip rather than half-translate.** A post with no Russian overlay is not
 written to `/ru/`, because an English body under a `ru` URL is worse than no page
 — it tells a reader the language is available and then breaks the promise.
+
+### Translated copy needs a structural check, not review
+
+The eight landings are translated in `landing-ru.json`, deliberately not in a
+second dict beside the English one: two dicts in one file get edited past each
+other, and nothing complains. `build-landing.py` refuses to render a page whose
+Russian section and item counts differ from the English, and names the counts:
+
+    landing-ru.json: gft section 0 has 1 items, English has 2
+
+That catches the failure that matters — a translation quietly losing a section
+ships a page half the length of its twin while `hreflang` asserts the two are
+the same document. It cannot catch a bad translation, and does not pretend to.
+
+**Generate translated cards from the originals, not from scratch.** The Russian
+preview cards are the English SVGs with their text nodes substituted through a
+lookup. Anything absent from the lookup is reported rather than passed through,
+so a forgotten string is impossible to ship silently — the opposite of drawing
+eight new cards and hoping none was missed. Russian runs roughly 20 % longer, so
+the headline font is eased; check one long card by eye afterwards regardless.
