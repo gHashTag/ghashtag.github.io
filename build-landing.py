@@ -371,14 +371,66 @@ footer a{color:var(--muted)}
 """
 
 
-def render(slug, p):
-    url = f"{SITE}/{slug}/"
+# Russian copy lives in landing-ru.json rather than a second dict here, so the
+# two cannot be edited past each other without the mismatch showing up as a
+# structural difference the loader refuses.
+RU_NAV = {
+    "gft": "GF-T", "verification": "Верификация", "proof": "Доказательства",
+    "ip": "Лицензии", "course": "Курс", "cases": "Кейсы",
+    "resources": "Реестр", "about": "Обо мне",
+}
+RU_UI = {
+    "run": "Запустить проверку своего репозитория",
+    "sample": "Прочитать пример отчёта",
+    "app": "Открыть интерактивную версию",
+    "other": "Read in English",
+}
+
+
+def load_ru():
+    """Russian copy, refused unless it matches the English structure exactly.
+
+    A translation that silently loses a section ships a page that is half the
+    length of its English twin and claims, via hreflang, to be the same document.
+    Failing the build is the cheaper outcome.
+    """
+    import json
+    if not os.path.exists("landing-ru.json"):
+        return {}
+    data = json.load(open("landing-ru.json", encoding="utf-8"))
+    data.pop("_comment", None)
+    for slug, ru in data.items():
+        en = PAGES.get(slug)
+        if en is None:
+            raise SystemExit(f"landing-ru.json: '{slug}' has no English page")
+        for k in ("title", "eyebrow", "h1", "desc", "lede", "cta"):
+            if not ru.get(k):
+                raise SystemExit(f"landing-ru.json: {slug} is missing '{k}'")
+        if len(ru["sections"]) != len(en["sections"]):
+            raise SystemExit(
+                f"landing-ru.json: {slug} has {len(ru['sections'])} sections, "
+                f"English has {len(en['sections'])}"
+            )
+        for i, (rs, es) in enumerate(zip(ru["sections"], en["sections"])):
+            if len(rs[1]) != len(es[1]):
+                raise SystemExit(
+                    f"landing-ru.json: {slug} section {i} has {len(rs[1])} items, "
+                    f"English has {len(es[1])}"
+                )
+    return data
+
+
+def render(slug, p, lang="en"):
+    ru = lang == "ru"
+    prefix = "/ru" if ru else ""
+    url = f"{SITE}{prefix}/{slug}/"
     run_btn = (
-        f'<a class="btn" href="{REQUEST_URL}">Start a run on your repo</a>\n    '
+        f'<a class="btn" href="{REQUEST_URL}">{RU_UI["run"] if ru else "Start a run on your repo"}</a>\n    '
         if slug in RUNNABLE else ""
     )
     nav = "".join(
-        f'<a href="/{s}/"{" aria-current=\"page\"" if s == slug else ""}>{html.escape(label)}</a>'
+        f'<a href="{prefix}/{s}/"{" aria-current=\"page\"" if s == slug else ""}>'
+        f'{html.escape(RU_NAV.get(s, label) if ru else label)}</a>'
         for s, label in NAV
     )
     body = []
@@ -391,20 +443,30 @@ def render(slug, p):
         body.append("</div>")
     sections = "\n".join(body)
 
+    # Each language is canonical for itself and both name each other, or a search
+    # engine files one as a duplicate of the other and the translation earns
+    # nothing.
+    alt = (
+        f'\n<link rel="alternate" hreflang="en" href="{SITE}/{slug}/" />'
+        f'\n<link rel="alternate" hreflang="ru" href="{SITE}/ru/{slug}/" />'
+        f'\n<link rel="alternate" hreflang="x-default" href="{SITE}/{slug}/" />'
+    )
+    og = f"og-{slug}-ru.png" if ru else f"og-{slug}.png"
     return f"""<!doctype html>
-<html lang="en">
+<html lang="{'ru' if ru else 'en'}">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>{html.escape(p['title'])} · TRINITY</title>
 <meta name="description" content="{html.escape(p['desc'])}" />
-<link rel="canonical" href="{url}" />
+<link rel="canonical" href="{url}" />{alt}
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="{'ru_RU' if ru else 'en_US'}" />
 <meta property="og:url" content="{url}" />
 <meta property="og:title" content="{html.escape(p['title'])}" />
 <meta property="og:description" content="{html.escape(p['desc'])}" />
-<meta property="og:image" content="{SITE}/og-{slug}.png" />
+<meta property="og:image" content="{SITE}/{og}" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="{html.escape(p['title'])}" />
 <meta name="twitter:description" content="{html.escape(p['desc'])}" />
@@ -428,9 +490,9 @@ def render(slug, p):
   <p>{html.escape(p['cta'])}</p>
   <div class="btns">
     {run_btn}<a class="btn sec" href="mailto:{EMAIL}?subject={html.escape(p['title'])}">{EMAIL}</a>
-    <a class="btn sec" href="{SAMPLE}">Read a sample report</a>
-    <a class="btn sec" href="/#/{slug}">Open the interactive site</a>
-    <a class="btn sec" href="/?lang=ru#/{slug}" hreflang="ru" lang="ru">Читать по-русски</a>
+    <a class="btn sec" href="{SAMPLE}">{RU_UI["sample"] if ru else "Read a sample report"}</a>
+    <a class="btn sec" href="{'/?lang=ru#/' if ru else '/#/'}{slug}">{RU_UI["app"] if ru else "Open the interactive site"}</a>
+    <a class="btn sec" href="{('/' + slug + '/') if ru else ('/ru/' + slug + '/')}" hreflang="{'en' if ru else 'ru'}" lang="{'en' if ru else 'ru'}">{RU_UI["other"] if ru else "Читать по-русски"}</a>
   </div>
 </div>
 
@@ -515,6 +577,9 @@ def sitemap(slugs):
     # /status/ and the per-design result pages are generated by build-results.py,
     # so they are listed here rather than derived from PAGES.
     extra = ["status/"] + [f"r/{s}/" for s in result_slugs()]
+    # Russian landings are separate URLs with reciprocal hreflang, so they are
+    # listed rather than folded into their English twins.
+    extra += [f"ru/{s}/" for s in sorted(load_ru())]
     paths = [""] + [f"{x}/" for x in slugs] + extra + blog_pages() + doc_pages()
     urls = "".join(f"\n  <url><loc>{SITE}/{s}</loc></url>" for s in paths)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}\n</urlset>\n'
@@ -528,6 +593,11 @@ if __name__ == "__main__":
         with open(f"{slug}/index.html", "w", encoding="utf-8") as fh:
             fh.write(render(slug, p))
         print(f"wrote {slug}/index.html")
+    for slug, p in load_ru().items():
+        os.makedirs(f"ru/{slug}", exist_ok=True)
+        with open(f"ru/{slug}/index.html", "w", encoding="utf-8") as fh:
+            fh.write(render(slug, p, "ru"))
+        print(f"wrote ru/{slug}/index.html")
     with open("sitemap.xml", "w", encoding="utf-8") as fh:
         fh.write(sitemap(list(PAGES)))
     with open("robots.txt", "w", encoding="utf-8") as fh:

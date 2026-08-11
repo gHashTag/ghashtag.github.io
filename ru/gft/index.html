@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GF-T — тернарно-нативный float, обходящий tekum16 · TRINITY</title>
+<meta name="description" content="GF-T кладёт экспоненту float в сбалансированную троичную запись и оставляет поля фиксированными: в 2.84 и 5.53 раза точнее tekum16 на краях диапазона, 219 LUT и ноль DSP-блоков, 147 МГц на конвейере на Artix-7. Эталонная модель и побитовые векторы прилагаются." />
+<link rel="canonical" href="https://t27.ai/ru/gft/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/gft/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/gft/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/gft/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/gft/" />
+<meta property="og:title" content="GF-T — тернарно-нативный float, обходящий tekum16" />
+<meta property="og:description" content="GF-T кладёт экспоненту float в сбалансированную троичную запись и оставляет поля фиксированными: в 2.84 и 5.53 раза точнее tekum16 на краях диапазона, 219 LUT и ноль DSP-блоков, 147 МГц на конвейере на Artix-7. Эталонная модель и побитовые векторы прилагаются." />
+<meta property="og:image" content="https://t27.ai/og-gft-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="GF-T — тернарно-нативный float, обходящий tekum16" />
+<meta name="twitter:description" content="GF-T кладёт экспоненту float в сбалансированную троичную запись и оставляет поля фиксированными: в 2.84 и 5.53 раза точнее tekum16 на краях диапазона, 219 LUT и ноль DSP-блоков, 147 МГц на конвейере на Artix-7. Эталонная модель и побитовые векторы прилагаются." />
+<link rel="icon" href="/favicon.svg" />
+<style>*,*::before,*::after{box-sizing:border-box}
+:root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+/* Centred to match the app. These pages were left-aligned while every page in
+   the SPA centres its content, so landing here from a link felt like a different
+   site with everything shoved against the left edge. */
+.wrap{max-width:820px;margin:0 auto;padding:28px 20px 72px;text-align:center}
+header.top{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:center;padding-bottom:18px;border-bottom:1px solid var(--rule)}
+.brand{font-weight:700;letter-spacing:.18em;font-size:12px;color:var(--accent);text-decoration:none}
+/* Inline anchors wrap by word, which split "CASE STUDIES" across two lines and
+   pushed "CASE" off the right edge at 375px. Flex with a gap wraps whole items. */
+nav.top{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center}
+nav.top a{font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;color:var(--muted);white-space:nowrap}
+nav.top a:hover,nav.top a[aria-current]{color:var(--accent)}
+.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:12px;margin:38px 0 10px}
+h1{font-size:clamp(1.9rem,5.5vw,2.7rem);line-height:1.15;margin:0 0 14px;text-wrap:balance}
+.lede{font-size:1.08rem;color:var(--muted);margin:0 auto 26px;max-width:62ch}
+h2{font-size:1.25rem;margin:40px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--rule);text-align:center}
+.items{display:grid;gap:14px}
+.item{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:16px 18px}
+.item h3{font-size:1rem;margin:0 0 6px;color:var(--accent)}
+.item p{margin:0;font-size:.95rem;color:#c6d5d0}
+.cta{margin-top:42px;background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:24px}
+.cta p{margin:0 0 16px;color:#c6d5d0}
+.btn{display:inline-block;background:var(--accent);color:#04140d;font-weight:700;text-decoration:none;padding:12px 24px;border-radius:999px;font-size:.92rem}
+.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--rule);font-weight:500}
+.btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--rule);color:var(--muted);font-size:.85rem}
+footer a{color:var(--muted)}
+@media(prefers-color-scheme:light){:root{--bg:#fbfdfc;--card:#fff;--ink:#101a17;--muted:#5b6f68;--accent:#0a7a4c;--rule:#dde7e3}.item p{color:#394944}.cta p{color:#394944}.btn{color:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/ru/gft/" aria-current="page">GF-T</a><a href="/ru/verification/">Верификация</a><a href="/ru/proof/">Доказательства</a><a href="/ru/ip/">Лицензии</a><a href="/ru/course/">Курс</a><a href="/ru/cases/">Кейсы</a><a href="/ru/resources/">Реестр</a><a href="/ru/about/">Обо мне</a></nav>
+</header>
+
+<p class="eyebrow">Формат</p>
+<h1>GF-T — float, у которого экспонента тернарная.</h1>
+<p class="lede">Экспонента — сбалансированное троичное число, поля фиксированы. Это убирает главную статью расхода конкурента — декодирование режима — и делает сложение экспонент нативным на тернарной фабрике. Против tekum16: ничья у единицы, в 2.84 раза точнее в середине диапазона и в 5.53 раза на краю.</p>
+
+<h2>Раскладка полей</h2>
+<div class="items">
+<div class="item"><h3>GF-T16</h3><p>[ знак | E = 4 сбалансированных троичных трита | M = 9 бит мантиссы ]. значение = (-1)^знак × (1 + M/2^9) × 2^e, где e = сумма t_i × 3^i, в диапазоне от -40 до +40.</p></div>
+<div class="item"><h3>Четыре трита, 81 значение экспоненты</h3><p>Экономия по основанию 3: 3^4 = 81 значение экспоненты из четырёх тритов, а на тернарной фабрике сложение экспонент нативно — без двоичного переноса и без смены основания.</p></div>
+</div>
+<h2>Точность против tekum16</h2>
+<div class="items">
+<div class="item"><h3>|e| &lt; 8 — ничья</h3><p>GF-T16 3.56e-4 против tekum16 3.27e-4. Средняя относительная ошибка на цикле кодирование-декодирование, 6000 значений, случайный знак.</p></div>
+<div class="item"><h3>|e| от 8 до 20 — в 2.84 раза лучше</h3><p>GF-T16 3.52e-4 против tekum16 1.00e-3.</p></div>
+<div class="item"><h3>|e| от 20 до 38 — в 5.53 раза лучше</h3><p>GF-T16 3.53e-4 против tekum16 1.95e-3. Девять бит мантиссы на любой величине там, где tekum16 сужается примерно до четырёх.</p></div>
+<div class="item"><h3>Перемерено независимо</h3><p>8 августа 2026 года, по собственному оракулу опубликованного формата. Отношения воспроизводятся точно. Бины — в степенях двойки, а не в декадах.</p></div>
+</div>
+<h2>Во что обходится в железе</h2>
+<div class="items">
+<div class="item"><h3>219 LUT, ноль DSP48</h3><p>Умножитель GF-T16 с той разрядностью шин, которая нужна арифметике, синтезирован под xc7 с отключёнными аппаратными умножителями.</p></div>
+<div class="item"><h3>147.32 МГц на конвейере</h3><p>Две ступени, латентность один такт, результат каждый такт. Post-route на XC7A200T через nextpnr-xilinx. 81.35 МГц в комбинационном варианте.</p></div>
+<div class="item"><h3>Интерфейс стоил впятеро дороже арифметики</h3><p>Исходник объявляет каждый порт 32-битным, хотя в GF-T16 ничего такой ширины нет: синтез построил умножитель 32×32 и взял за него 1179 LUT или три DSP-блока. Исправление разрядностей побитово идентично на 321 156 комбинациях входов.</p></div>
+</div>
+<h2>Где он проигрывает</h2>
+<div class="items">
+<div class="item"><h3>Диапазон ограничен, и это плата</h3><p>GF-T16 достаёт до плюс-минус 40 в степенях двойки, примерно плюс-минус 12 декад. У режима tekum16 предела нет, поэтому дальше GF-T16 переполняется, а tekum16 продолжает работать. Фиксированные поля покупают дешёвый тракт данных и равномерную точность; диапазон — цена.</p></div>
+<div class="item"><h3>Измерено на одном семействе устройств</h3><p>Artix-7, на открытом флоу. Это не многоугловая характеризация, и цифры для ASIC будут другими.</p></div>
+<div class="item"><h3>RTL самого tekum16 здесь нет</h3><p>Сравнение по точности идёт по собственному оракулу опубликованного формата. Цифры стоимости — только для GF-T: написать чужую реализацию и объявить её более дорогой не доказывало бы ничего.</p></div>
+</div>
+
+<div class="cta">
+  <p>Лицензия включает RTL, независимую эталонную модель и векторы, которые её доказывают, — чтобы заявленное можно было проверить, а не принять на веру.</p>
+  <div class="btns">
+    <a class="btn sec" href="mailto:admin@t27.ai?subject=GF-T — тернарно-нативный float, обходящий tekum16">admin@t27.ai</a>
+    <a class="btn sec" href="https://github.com/gHashTag/trinity/blob/main/docs/verification/SAMPLE-REPORT.md">Прочитать пример отчёта</a>
+    <a class="btn sec" href="/?lang=ru#/gft">Открыть интерактивную версию</a>
+    <a class="btn sec" href="/gft/" hreflang="en" lang="en">Read in English</a>
+  </div>
+</div>
+
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

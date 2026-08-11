@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Обучите нейросеть прямо на FPGA · TRINITY</title>
+<meta name="description" content="Восемь модулей от пустого тулчейна до нейросети, выполняющей собственный обратный проход на живом кремнии. Полностью на открытом ПО: без Vivado, без лицензий, без единого шага, который нельзя воспроизвести." />
+<link rel="canonical" href="https://t27.ai/ru/course/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/course/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/course/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/course/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/course/" />
+<meta property="og:title" content="Обучите нейросеть прямо на FPGA" />
+<meta property="og:description" content="Восемь модулей от пустого тулчейна до нейросети, выполняющей собственный обратный проход на живом кремнии. Полностью на открытом ПО: без Vivado, без лицензий, без единого шага, который нельзя воспроизвести." />
+<meta property="og:image" content="https://t27.ai/og-course-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Обучите нейросеть прямо на FPGA" />
+<meta name="twitter:description" content="Восемь модулей от пустого тулчейна до нейросети, выполняющей собственный обратный проход на живом кремнии. Полностью на открытом ПО: без Vivado, без лицензий, без единого шага, который нельзя воспроизвести." />
+<link rel="icon" href="/favicon.svg" />
+<style>*,*::before,*::after{box-sizing:border-box}
+:root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+/* Centred to match the app. These pages were left-aligned while every page in
+   the SPA centres its content, so landing here from a link felt like a different
+   site with everything shoved against the left edge. */
+.wrap{max-width:820px;margin:0 auto;padding:28px 20px 72px;text-align:center}
+header.top{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:center;padding-bottom:18px;border-bottom:1px solid var(--rule)}
+.brand{font-weight:700;letter-spacing:.18em;font-size:12px;color:var(--accent);text-decoration:none}
+/* Inline anchors wrap by word, which split "CASE STUDIES" across two lines and
+   pushed "CASE" off the right edge at 375px. Flex with a gap wraps whole items. */
+nav.top{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center}
+nav.top a{font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;color:var(--muted);white-space:nowrap}
+nav.top a:hover,nav.top a[aria-current]{color:var(--accent)}
+.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:12px;margin:38px 0 10px}
+h1{font-size:clamp(1.9rem,5.5vw,2.7rem);line-height:1.15;margin:0 0 14px;text-wrap:balance}
+.lede{font-size:1.08rem;color:var(--muted);margin:0 auto 26px;max-width:62ch}
+h2{font-size:1.25rem;margin:40px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--rule);text-align:center}
+.items{display:grid;gap:14px}
+.item{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:16px 18px}
+.item h3{font-size:1rem;margin:0 0 6px;color:var(--accent)}
+.item p{margin:0;font-size:.95rem;color:#c6d5d0}
+.cta{margin-top:42px;background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:24px}
+.cta p{margin:0 0 16px;color:#c6d5d0}
+.btn{display:inline-block;background:var(--accent);color:#04140d;font-weight:700;text-decoration:none;padding:12px 24px;border-radius:999px;font-size:.92rem}
+.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--rule);font-weight:500}
+.btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--rule);color:var(--muted);font-size:.85rem}
+footer a{color:var(--muted)}
+@media(prefers-color-scheme:light){:root{--bg:#fbfdfc;--card:#fff;--ink:#101a17;--muted:#5b6f68;--accent:#0a7a4c;--rule:#dde7e3}.item p{color:#394944}.cta p{color:#394944}.btn{color:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/ru/gft/">GF-T</a><a href="/ru/verification/">Верификация</a><a href="/ru/proof/">Доказательства</a><a href="/ru/ip/">Лицензии</a><a href="/ru/course/" aria-current="page">Курс</a><a href="/ru/cases/">Кейсы</a><a href="/ru/resources/">Реестр</a><a href="/ru/about/">Обо мне</a></nav>
+</header>
+
+<p class="eyebrow">Курс</p>
+<h1>Обучите нейросеть прямо на FPGA.</h1>
+<p class="lede">Не инференс — обучение, на самом кристалле. Восемь модулей от пустого тулчейна до сети, которая учится на живом кремнии, целиком на открытых инструментах: без Vivado, без лицензий и без шагов, которые нельзя повторить самому.</p>
+
+<h2>Восемь модулей</h2>
+<div class="items">
+<div class="item"><h3>01 · Открытый флоу с нуля</h3><p>Yosys, nextpnr-xilinx, prjxray, openFPGALoader и iverilog поставлены и проверены на macOS arm64 или Linux. Первый битстрим мигает светодиодом на настоящей плате, и нигде в цепочке нет вендорской лицензии.</p></div>
+<div class="item"><h3>02 · Ровно столько Verilog, сколько нужно</h3><p>Синхронный дизайн, регистры против защёлок и почему случайная защёлка — классический баг, вылезающий только на кремнии.</p></div>
+<div class="item"><h3>03 · Арифметика как основа ML в железе</h3><p>Почему float дорог, во что реально обходится квантование и откуда берутся тернарные форматы и форматы низкой разрядности.</p></div>
+<div class="item"><h3>04 · Побитовая верификация — сердце курса</h3><p>Независимая эталонная модель на Python, повекторные проверки с известным ответом по ступеням, прогон через iverilog. Почему тестбенч, написанный из предпосылок самого дизайна, радостно соглашается с его багами.</p></div>
+<div class="item"><h3>05 · Матричный умножитель, который закрывает тайминг</h3><p>От MAC к массиву и конвейеру. Чтение таймингового отчёта роутера и борьба за частоту на живом примере — включая то, почему аппаратный умножитель в тракте может оставить вас вообще без отчёта о частоте.</p></div>
+<div class="item"><h3>06 · Инференс нейросети на FPGA</h3><p>Слои, активации, поток данных и память на кристалле — работающие на плате, а не в симуляторе.</p></div>
+<div class="item"><h3>07 · Обучение на кристалле — капстоун</h3><p>Обратный проход и SGD в RTL. Сеть учит XOR на самой FPGA, 4 из 4, побитово сходясь с эталоном. Руками это делали единицы.</p></div>
+<div class="item"><h3>08 · Дальше в кремний</h3><p>Путь через Tiny Tapeout: подготовка дизайна, что меняется между FPGA и ASIC и где находится экосистема открытого кремния после перехода на IHP.</p></div>
+</div>
+<h2>Чем это отличается от бесплатных альтернатив</h2>
+<div class="items">
+<div class="item"><h3>hls4ml (CERN) — бесплатно</h3><p>Только инференс, генерация через HLS, а под капотом всё равно вендорский тулчейн. Отличная вещь для своей задачи — но она не обучает на кристалле и не оставляет вас способным читать порождённый RTL.</p></div>
+<div class="item"><h3>Вендорские курсы (Intel, AMD) — бесплатно</h3><p>Сделаны, чтобы научить вас их инструментам на их кремнии. Ничего не переносится во флоу, который можно запустить без лицензии.</p></div>
+<div class="item"><h3>Университетские курсы по FPGA</h3><p>Обычно останавливаются на симуляции, а где доходят до платы — там Vivado или Quartus.</p></div>
+<div class="item"><h3>Что остаётся</h3><p>Двух вещей нет нигде в этом списке: обратного прохода, идущего на самом кристалле, и флоу без вендорской лицензии внутри. Если вам нужен инференс через HLS — берите hls4ml: он хорош, он бесплатен, и я написал бы вам то же самое в письме.</p></div>
+</div>
+<h2>Форматы</h2>
+<div class="items">
+<div class="item"><h3>Самостоятельно — $149</h3><p>Видео, код, наборы KAT-векторов, доступ к сообществу.</p></div>
+<div class="item"><h3>Самостоятельно + железо — $249</h3><p>То же самое плюс удалённые прогоны на моих платах Artix-7. Своя плата не нужна.</p></div>
+<div class="item"><h3>Поток, 4 недели — $599</h3><p>Живые сессии, ревью кода и разбор вашего собственного дизайна вместе с вами.</p></div>
+<div class="item"><h3>Воркшоп для команды — от $2 000</h3><p>Два дня с вашими инженерами вокруг задачи, которая у вас действительно есть.</p></div>
+</div>
+
+<div class="cta">
+  <p>Хватит базового Python и общего представления о цифровой логике. Verilog даётся с нуля, а два формата включают прогоны на моём железе.</p>
+  <div class="btns">
+    <a class="btn sec" href="mailto:admin@t27.ai?subject=Обучите нейросеть прямо на FPGA">admin@t27.ai</a>
+    <a class="btn sec" href="https://github.com/gHashTag/trinity/blob/main/docs/verification/SAMPLE-REPORT.md">Прочитать пример отчёта</a>
+    <a class="btn sec" href="/?lang=ru#/course">Открыть интерактивную версию</a>
+    <a class="btn sec" href="/course/" hreflang="en" lang="en">Read in English</a>
+  </div>
+</div>
+
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

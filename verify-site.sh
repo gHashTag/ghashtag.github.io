@@ -86,6 +86,31 @@ for p in $PAGES; do
   fi
 done
 
+# Russian landings are separate URLs, so each needs its own body, its own card
+# and a reciprocal hreflang — a one-way alternate is filed as duplicate content.
+for p in $PAGES; do
+  rf="ru/$p/index.html"
+  if [ ! -f "$rf" ]; then
+    red "ru/$p/ is missing — landing-ru.json holds the copy"
+    continue
+  fi
+  rw=$(sed -e 's/<[^>]*>/ /g' "$rf" | wc -w | tr -d ' ')
+  if [ "$rw" -lt 200 ]; then
+    red "ru/$p/ is $rw words — the Russian copy is not in the HTML"
+  else
+    green "ru/$p/ is a real page ($rw words)"
+  fi
+  grep -q '<html lang="ru"' "$rf" || red "ru/$p/ does not declare lang=\"ru\""
+  grep -q "hreflang=\"ru\" href=\"$SITE/ru/$p/\"" "$p/index.html" \
+    || red "$p/ does not point at its Russian version"
+  grep -q "hreflang=\"en\" href=\"$SITE/$p/\"" "$rf" \
+    || red "ru/$p/ does not point back at the English version"
+  [ -f "og-$p-ru.png" ] && green "ru/$p/ og:image og-$p-ru.png is on disk" \
+    || red "ru/$p/ og:image og-$p-ru.png is missing"
+  grep -q "<loc>$SITE/ru/$p/</loc>" sitemap.xml 2>/dev/null \
+    || red "sitemap.xml does not list /ru/$p/"
+done
+
 # The blog ships as static pages because /blog answered 404 with the SPA shim and
 # no article was in the sitemap. Derived from disk, not from a list here, so a
 # new post is covered the moment it is generated. Its preview cards are named
@@ -190,6 +215,11 @@ fi
 for p in "" $PAGES; do
   code=$(curl -s -o /dev/null -w '%{http_code}' -L "$SITE/$p")
   [ "$code" = "200" ] && green "/$p → 200" || red "/$p → $code"
+done
+
+for p in $PAGES; do
+  code=$(curl -s -o /dev/null -w '%{http_code}' -L "$SITE/ru/$p/")
+  [ "$code" = "200" ] && green "/ru/$p/ → 200" || red "/ru/$p/ → $code"
 done
 
 for f in robots.txt sitemap.xml cv.pdf; do
