@@ -159,6 +159,19 @@ else
       green "blog/$slug carries the article ($words words)"
     fi
     grep -q 'rel="canonical"' "$f" || red "blog/$slug has no canonical link"
+    # Structured data: only the homepage had any, and a post is where it pays.
+    if grep -q 'application/ld+json' "$f"; then
+      python3 - "$f" <<'PYCHK' || red "blog/$slug has JSON-LD that does not parse"
+import json, re, sys
+h = open(sys.argv[1], encoding="utf-8").read()
+m = re.search(r'<script type="application/ld\+json">(.*?)</script>', h, re.S)
+d = json.loads(m.group(1))
+assert d.get("@type") == "BlogPosting" and d.get("datePublished") and d.get("headline")
+PYCHK
+      green "blog/$slug JSON-LD parses as a dated BlogPosting"
+    else
+      red "blog/$slug carries no JSON-LD"
+    fi
     img="og-blog-$slug.png"
     [ -f "$img" ] && green "blog/$slug og:image $img is on disk" || red "blog/$slug og:image $img is missing"
     grep -q "<loc>$SITE/blog/$slug/</loc>" sitemap.xml 2>/dev/null \

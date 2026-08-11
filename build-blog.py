@@ -157,7 +157,42 @@ def nav_html():
     return "".join(f'<a href="/{s}/">{esc(l)}</a>' for s, l in NAV)
 
 
-def shell(*, url, title, desc, og, body, lang="en", alt=None):
+def article_ld(*, url, title, desc, og, date, lang, tags):
+    """Article structured data.
+
+    Only the homepage carried JSON-LD; every landing and every post had none.
+    A post is the case where it pays most — it has a real publication date, an
+    author and a subject, and none of that is inferable from the prose. Only
+    fields the data actually contains are emitted: inventing a dateModified or a
+    publisher logo to fill the schema would be describing a site that does not
+    exist.
+    """
+    import json as _json
+    doc = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": title,
+        "description": desc,
+        "url": url,
+        "mainEntityOfPage": {"@type": "WebPage", "@id": url},
+        "image": f"{SITE}/{og}",
+        "datePublished": date,
+        "inLanguage": lang,
+        "author": {
+            "@type": "Person",
+            "name": "Dmitrii Vasilev",
+            "url": "https://github.com/gHashTag",
+        },
+        "publisher": {"@type": "Person", "name": "Dmitrii Vasilev"},
+    }
+    if tags:
+        doc["keywords"] = ", ".join(tags)
+    return ('<script type="application/ld+json">'
+            + _json.dumps(doc, ensure_ascii=False, separators=(",", ":"))
+            + "</script>")
+
+
+def shell(*, url, title, desc, og, body, lang="en", alt=None, ld=""):
     # Both language versions point at each other and at an x-default, so neither
     # is filed as a duplicate of the other. Each is canonical for itself.
     hreflang = ""
@@ -187,6 +222,7 @@ def shell(*, url, title, desc, og, body, lang="en", alt=None):
 <meta name="twitter:title" content="{esc(title)}" />
 <meta name="twitter:description" content="{esc(desc)}" />
 <link rel="icon" href="/favicon.svg" />
+{ld}
 <style>{CSS}</style>
 </head>
 <body>
@@ -253,8 +289,10 @@ def post_page(p, lang="en"):
         f'<a class="btn sec" href="{base(lang)}/">{esc(u["all"])}</a></div></div>'
     )
     og = f"og-blog-{slug}.png" if lang == "en" else f"og-blog-{slug}-ru.png"
+    ld = article_ld(url=url, title=d["title"], desc=d["summary"], og=og,
+                    date=p["date"], lang=lang, tags=p.get("tags"))
     return shell(url=url, title=d["title"], desc=d["summary"],
-                 og=og, body="\n".join(parts), lang=lang, alt=alt)
+                 og=og, body="\n".join(parts), lang=lang, alt=alt, ld=ld)
 
 
 def index_page(posts, lang="en"):
