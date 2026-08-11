@@ -37,6 +37,14 @@
 
   <!-- Canonical URL -->
   <link rel="canonical" href="https://t27.ai/" />
+
+  <!-- Language alternates. The first screen here is prerendered in English, so
+       without these a Russian reader arriving from search has no signal that a
+       Russian entry point exists — /ru/ is a static page carrying the same
+       claims. The pair must be reciprocal: /ru/ names this URL back. -->
+  <link rel="alternate" hreflang="en" href="https://t27.ai/" />
+  <link rel="alternate" hreflang="ru" href="https://t27.ai/ru/" />
+  <link rel="alternate" hreflang="x-default" href="https://t27.ai/" />
   
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -76,9 +84,13 @@
   }
   </script>
   
-  <!-- Preconnect to critical origins -->
-  <link rel="dns-prefetch" href="https://media.licdn.com" />
-  <link rel="dns-prefetch" href="https://blockchain.info" />
+  <!-- No preconnect hints. media.licdn.com and blockchain.info were prefetched
+       here and neither is contacted by anything the site ships — a grep for
+       either host across every bundle returns nothing. Each hint cost a DNS
+       lookup on every page load for a host never used, and the LinkedIn one
+       announced to the network that this page was about to talk to LinkedIn,
+       which it never does. Fonts are self-hosted and the assets are same-origin,
+       so there is no third-party origin left worth warming. -->
 
   <!-- Fonts, self-hosted. These used to come from fonts.googleapis.com: a
        render-blocking stylesheet on a third-party origin, which then pulled the
@@ -136,17 +148,17 @@
     #boot .btns a { font-family: 'Outfit', system-ui, sans-serif; font-size: 0.9rem; font-weight: 600; padding: 0.7rem 1.4rem; border-radius: 999px; text-decoration: none; border: 1px solid rgba(255,255,255,0.16); color: #fff; }
     #boot .btns a.primary { background: #00FF88; border-color: #00FF88; color: #000; }
   </style>
-  <script type="module" crossorigin src="./assets/index-CukLfEqP.js"></script>
-  <link rel="modulepreload" crossorigin href="./assets/react-DKhb7IFh.js">
-  <link rel="modulepreload" crossorigin href="./assets/motion-BWK5Ndv2.js">
-  <link rel="modulepreload" crossorigin href="./assets/router-BzRLA87W.js">
+  <script type="module" crossorigin src="./assets/index-z-WwMSx9.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/react-BikoVsHo.js">
+  <link rel="modulepreload" crossorigin href="./assets/motion-CGGuF7Tw.js">
+  <link rel="modulepreload" crossorigin href="./assets/router-SvXAPVRu.js">
   <link rel="stylesheet" crossorigin href="./assets/index-C5uLGbMb.css">
 </head>
 <body>
   <div id="root">
     <div id="boot">
       <img src="trinity-logo-with-label.svg" alt="TRINITY" width="1080" height="1080" />
-      <h1>GF-T · a ternary-native float that beats the published state of the art</h1>
+      <h1>GF-T · a ternary-native float that beats the published state of the art at range</h1>
       <p class="eq">φ² + 1/φ² = 3</p>
       <p class="sub">2.84× and 5.53× more accurate than tekum16 at range · no regime decode · exponent adds natively on ternary</p>
       <div class="btns">
