@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Полю масштаба не нужны восемь бит, и сказали это не мы первыми · TRINITY</title>
+<meta name="description" content="Четырёх бит хватает на общий масштаб во всех измеренных чекпоинтах — побитово идентично E8M0, ноль обрезанных блоков из 20 462 464. Наблюдение опубликовано раньше и не нами; нашим остаётся доказательство вокруг него, а константа не переживает встречи с активациями." />
+<link rel="canonical" href="https://t27.ai/ru/blog/scale-field-width-already-published/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/scale-field-width-already-published/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/scale-field-width-already-published/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/scale-field-width-already-published/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/scale-field-width-already-published/" />
+<meta property="og:title" content="Полю масштаба не нужны восемь бит, и сказали это не мы первыми" />
+<meta property="og:description" content="Четырёх бит хватает на общий масштаб во всех измеренных чекпоинтах — побитово идентично E8M0, ноль обрезанных блоков из 20 462 464. Наблюдение опубликовано раньше и не нами; нашим остаётся доказательство вокруг него, а константа не переживает встречи с активациями." />
+<meta property="og:image" content="https://t27.ai/og-blog-scale-field-width-already-published-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Полю масштаба не нужны восемь бит, и сказали это не мы первыми" />
+<meta name="twitter:description" content="Четырёх бит хватает на общий масштаб во всех измеренных чекпоинтах — побитово идентично E8M0, ноль обрезанных блоков из 20 462 464. Наблюдение опубликовано раньше и не нами; нашим остаётся доказательство вокруг него, а константа не переживает встречи с активациями." />
+<link rel="icon" href="/favicon.svg" />
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Полю масштаба не нужны восемь бит, и сказали это не мы первыми</h1>
+<p class="meta">2026-08-11 · 9 мин чтения</p>
+<p class="lede">Четырёх бит хватает на общий масштаб во всех измеренных чекпоинтах — побитово идентично E8M0, ноль обрезанных блоков из 20 462 464. Наблюдение опубликовано раньше и не нами; нашим остаётся доказательство вокруг него, а константа не переживает встречи с активациями.</p>
+<div class="tags"><span class="tag">Number formats</span><span class="tag">MXFP4</span><span class="tag">Quantisation</span><span class="tag">Prior art</span></div>
+<h2>Заявление и кто опубликовал его первым</h2>
+<p>Результат, вокруг которого строилась эта линия работы: общий масштаб в блочном формате не нуждается в восьмибитной экспоненте. Замерено на пяти чекпоинтах при размере блока 32, минимальная достаточная ширина b_min = 3, 4, 3, 4, 4. Четырёхбитное поле обрезает ноль блоков из 20 462 464 и побитово идентично E8M0 в каждом тензоре каждой модели. Не приблизительно достаточно — идентично.</p>
+<p>Наблюдение уже опубликовано. Chhugani et al., «Unveiling the Potential of Quantization with MXFP4» (arXiv:2603.08713, подана 30 января 2026), раздел 3.3: «for nearly all weight tensors and over 98% of activation tensors, a 4-bit exponent suffices to capture the scaling factor&#x27;s dynamic range». Они оценивают в том числе Llama-3.1-8B-Instruct и Qwen3-8B. Это то же самое наблюдение, на моделях крупнее, опубликованное раньше.</p>
+<p>Поэтому здешний замер — репликация на пяти меньших чекпоинтах, и он так и подан. Выдать его за открытие было бы лёгкой ошибкой и дорогой: рецензент, знающий область, находит предшествующую работу одним поиском и перестаёт читать.</p>
+<h2>Чего предшествующая работа не делает</h2>
+<p>Статья замечает избыточность и идёт в другую сторону. Она оставляет E8M0 на мелком блоке 1×16 и добавляет отдельный макроблочный масштаб с восьмибитной мантиссой на 1×128 — прямо ради того, чтобы не платить за аппаратный E4M3. Сузить поле масштаба она не предлагает. Наблюдение — их; предписание, которое из него следует, в той статье не сформулировано.</p>
+<h2>Идея старше нас обоих и уже в кремнии</h2>
+<ul><li>QLoRA double quantisation (NeurIPS 2023) делает то же наблюдение уровнем ниже, квантуя сами константы квантования: 0.5 бита на параметр превращаются в 0.127.</li><li>NVFP4 на Blackwell уже реализует архитектуру, которую предписывает теорема: пер-тензорный якорь FP32 плюс узкий пер-блочный E4M3. Якорь и есть тот сдвиг, который делает узкое поле возможным. Это внедрённая конструкция, а не предложение.</li><li>Shared Microexponents / MSFP (ISCA 2023) — целая статья о разделении экспонент по уровням.</li></ul>
+<h2>Что остаётся нашим: теория, а не наблюдение</h2>
+<p>b_min = ⌈log₂ S(W,K)⌉ — с доказательством достаточности и побитовой идентичностью E8M0, а не эмпирическим порогом. Граница R &lt; S &lt; R+2, связывающая вещественный спан с целым числом кодов, проверена на всех 3780 парах тензор-K без единого исключения. И отдельно, потому что именно здесь легко переусердствовать: необходимость выполняется только в худшем случае, не по тензорам. Построен контрпример — обрезанное поле масштаба может вернуть те же деквантованные веса.</p>
+<p>Есть также фазовая неоднозначность бинадной сетки ценой в один код в любую сторону. Pythia — живой пример: R = 7.33 даёт S = 8, а при другой фазе тот же спан даёт S = 9. Правило, которое читает спан и округляет, будет расходиться само с собой в зависимости от того, где стоит сетка.</p>
+<h2>Границы — часть заявления</h2>
+<p>Размер блока меняет ответ. b_min при K = 1…256:</p>
+<div class="tw"><table><thead><tr><th>модель</th><th>K = 1, 2, 4, 8, 16, 32, 64, 128, 256</th></tr></thead><tbody><tr><td>SmolLM2</td><td>5, 5, 4, 4, 3, 3, 3, 3, 3</td></tr><tr><td>Qwen</td><td>5, 5, 4, 4, 4, 4, 3, 3, 3</td></tr><tr><td>Pythia</td><td>5, 5, 4, 4, 4, 3, 3, 3, 3</td></tr><tr><td>OPT</td><td>5, 5, 4, 4, 4, 4, 4, 4, 4</td></tr><tr><td>GPT-2</td><td>5, 5, 5, 4, 4, 4, 4, 4, 4</td></tr></tbody></table></div>
+<p>Четырёх бит хватает всем пяти при K ≥ 8 и не хватает при K ≤ 2, а у GPT-2 — и при K = 4. Константа, названная без размера блока, не константа.</p>
+<h2>Активации ломают константу</h2>
+<p>MX делит одну кодировку между весами и активациями, поэтому цифра по весам — не весь ответ. На входах слоёв OPT требует пяти бит: двенадцать слоёв из семидесяти двух выше четырёх, худший — decoder.layers.7.fc2 со спаном 30. Механизм — не выбросы. Вход постReLU, и блоки почти-нулей утягивают нижнюю границу вниз примерно на 28 бинад: спан расширяет нижний хвост, а не верхний.</p>
+<p>Спаны к тому же зависят от выборки и продолжали расти между окнами измерения, поэтому любая цифра по активациям — нижняя оценка того, что показал бы более длинный прогон.</p>
+<h2>Что остаётся в силе</h2>
+<p>«E8M0 переобеспечено» выживает: пять меньше восьми на каждой измеренной модели. Константа как одно число не выживает. Это четыре бита для весов и пять, как только кодировку делят активации.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Наблюдение, что четырёх бит достаточно для экспоненты масштаба, — не наше: Chhugani et al. (arXiv:2603.08713, раздел 3.3) опубликовали его на моделях крупнее. Новым здесь подаётся теория вокруг него — доказательство достаточности, граница R &lt; S &lt; R+2 и разделение достаточности и необходимости.</li><li>Необходимость НЕ установлена по тензорам, только в худшем случае. Существует контрпример, где обрезанное поле масштаба возвращает те же деквантованные веса, поэтому «требуется b_min бит» ложно как утверждение о каждом тензоре.</li><li>Спаны активаций зависят от выборки и продолжали расти между окнами измерения. Пятибитная цифра по активациям — нижняя оценка, а не сошедшееся значение.</li><li>Фазовая неоднозначность бинадной сетки стоит одного кода в любую сторону и не устранена: у Pythia R = 7.33 даёт S = 8 при одной фазе и S = 9 при другой.</li><li>Пять чекпоинтов невелики (SmolLM2, Qwen, Pythia, OPT, GPT-2). Предшествующая работа сообщает тот же вывод на Llama-3.1-8B и Qwen3-8B, то есть направление совпадает и на масштабе, но здесь на таком размере ничего не измерялось.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://arxiv.org/abs/2603.08713">Chhugani et al., Unveiling the Potential of Quantization with MXFP4 (arXiv:2603.08713), section 3.3 -- the prior publication of the 4-bit-suffices observation</a></li><li><a href="https://arxiv.org/abs/2305.14314">Dettmers et al., QLoRA: Efficient Finetuning of Quantized LLMs (NeurIPS 2023) -- double quantisation, 0.5 to 0.127 bits per parameter</a></li><li><a href="https://arxiv.org/abs/2302.08007">Rouhani et al., With Shared Microexponents, A Little Shifting Goes a Long Way (ISCA 2023) -- multi-level exponent splitting</a></li><li><a href="https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf">OCP Microscaling Formats (MX) Specification v1.0 -- the E8M0 shared scale this measures against</a></li></ul></div>
+<div class="cta"><p>Каждая цифра выше измерена, и рядом с ней названы её пределы.</p><div class="btns"><a class="btn" href="/?lang=ru#/blog/scale-field-width-already-published">Открыть интерактивную версию</a><a class="btn sec" href="/blog/scale-field-width-already-published/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Полю масштаба не нужны восемь бит, и сказали это не мы первыми">admin@t27.ai</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

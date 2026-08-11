@@ -492,14 +492,22 @@ def blog_pages():
     invisible to any crawler that does not run JavaScript. Read off disk for the
     same reason the result pages are: a hand-kept list drifts from what exists.
     """
-    if not os.path.isdir("blog"):
+    out = []
+    # English at blog/, Russian at ru/blog/. Both are listed: they are separate
+    # URLs with reciprocal hreflang, not duplicates of one another.
+    for root in ("blog", "ru/blog"):
+        if not os.path.isdir(root):
+            continue
+        found = [
+            f"{root}/{name}/"
+            for name in sorted(os.listdir(root))
+            if os.path.isfile(os.path.join(root, name, "index.html"))
+        ]
+        if not found:
+            raise SystemExit(f"sitemap: {root}/ exists but holds no posts — run build-blog.py")
+        out += [f"{root}/"] + found
+    if not out:
         return []
-    out = ["blog/"]
-    for name in sorted(os.listdir("blog")):
-        if os.path.isfile(os.path.join("blog", name, "index.html")):
-            out.append(f"blog/{name}/")
-    if len(out) == 1:
-        raise SystemExit("sitemap: blog/ exists but holds no posts — run build-blog.py")
     return out
 
 

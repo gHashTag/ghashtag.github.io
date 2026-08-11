@@ -111,6 +111,31 @@ else
     [ -f "$img" ] && green "blog/$slug og:image $img is on disk" || red "blog/$slug og:image $img is missing"
     grep -q "<loc>$SITE/blog/$slug/</loc>" sitemap.xml 2>/dev/null \
       || red "sitemap.xml does not list /blog/$slug/"
+
+    # The Russian version is a separate URL, so it needs its own body, its own
+    # card and a reciprocal hreflang — a one-way alternate is filed as duplicate
+    # content and the translation earns nothing.
+    rf="ru/blog/$slug/index.html"
+    if [ ! -f "$rf" ]; then
+      red "ru/blog/$slug is missing — the Russian text exists in the data"
+    else
+      rw=$(sed -e 's/<[^>]*>/ /g' "$rf" | wc -w | tr -d ' ')
+      if [ "$rw" -lt 400 ]; then
+        red "ru/blog/$slug is $rw words — the Russian body is not in the HTML"
+      else
+        green "ru/blog/$slug carries the article ($rw words)"
+      fi
+      grep -q '<html lang="ru"' "$rf" || red "ru/blog/$slug does not declare lang=\"ru\""
+      grep -q "hreflang=\"ru\" href=\"$SITE/ru/blog/$slug/\"" "$f" \
+        || red "blog/$slug does not point at its Russian version"
+      grep -q "hreflang=\"en\" href=\"$SITE/blog/$slug/\"" "$rf" \
+        || red "ru/blog/$slug does not point back at the English version"
+      rimg="og-blog-$slug-ru.png"
+      [ -f "$rimg" ] && green "ru/blog/$slug og:image $rimg is on disk" \
+        || red "ru/blog/$slug og:image $rimg is missing"
+      grep -q "<loc>$SITE/ru/blog/$slug/</loc>" sitemap.xml 2>/dev/null \
+        || red "sitemap.xml does not list /ru/blog/$slug/"
+    fi
   done
   grep -q "<loc>$SITE/blog/</loc>" sitemap.xml 2>/dev/null \
     || red "sitemap.xml does not list the blog index"
@@ -174,7 +199,7 @@ done
 
 # /blog used to answer 404 and serve the SPA shim, which is the failure this
 # whole section exists to catch coming back.
-for d in blog/ $BLOG; do
+for d in blog/ $BLOG ru/blog/ $(echo "$BLOG" | sed 's|^blog/|ru/blog/|'); do
   code=$(curl -s -o /dev/null -w '%{http_code}' -L "$SITE/${d%/}/")
   [ "$code" = "200" ] && green "/${d%/}/ → 200" || red "/${d%/}/ → $code"
 done

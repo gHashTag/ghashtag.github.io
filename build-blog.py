@@ -72,6 +72,58 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 """
 
 
+# Page chrome per locale. The Russian overlay in posts.ts covers title, summary,
+# body and openQuestions but not receipts — those are links to pull requests and
+# commits, so they stay in the language their targets are written in.
+UI = {
+    "en": {
+        "eyebrow": "Blog", "read": "min read",
+        "notSettled": "What this does not settle", "receipts": "Receipts",
+        "indexH1": "Written here first.",
+        "indexLede": "Every article is published on this domain before anywhere else, "
+                     "with its receipts and with what it does not settle stated in the text.",
+        "indexDesc": "Measured results from ternary hardware and low-precision numeric formats, "
+                     "published here first with receipts and open questions.",
+        "cta": "Every figure above is measured, and the limits are named with it.",
+        "openApp": "Open the interactive version", "all": "All posts",
+        "other": "Читать по-русски", "otherLang": "ru",
+    },
+    "ru": {
+        "eyebrow": "Блог", "read": "мин чтения",
+        "notSettled": "Чего это не решает", "receipts": "Пруфы",
+        "indexH1": "Публикуется сначала здесь.",
+        "indexLede": "Каждая статья выходит на этом домене раньше, чем где-либо ещё — "
+                     "вместе с пруфами и с прямо названным в тексте тем, чего она не решает.",
+        "indexDesc": "Измеренные результаты по тернарному железу и форматам низкой разрядности — "
+                     "публикуются здесь первыми, с пруфами и открытыми вопросами.",
+        "cta": "Каждая цифра выше измерена, и рядом с ней названы её пределы.",
+        "openApp": "Открыть интерактивную версию", "all": "Все статьи",
+        "other": "Read in English", "otherLang": "en",
+    },
+}
+
+# English at /blog/<slug>/, Russian at /ru/blog/<slug>/. English keeps the bare
+# path because it is the default and already carries the links people have.
+def base(lang):
+    return "/blog" if lang == "en" else "/ru/blog"
+
+
+def localise(p, lang):
+    """The post as one locale sees it, falling back per field rather than wholesale.
+
+    An all-or-nothing overlay would drop the receipts, which the Russian text
+    does not translate, and a reader would lose the links entirely.
+    """
+    if lang == "en":
+        return p
+    ru = p.get("ru") or {}
+    out = dict(p)
+    for k in ("title", "summary", "body", "openQuestions"):
+        if ru.get(k):
+            out[k] = ru[k]
+    return out
+
+
 def esc(s):
     return html.escape(str(s))
 
@@ -105,7 +157,17 @@ def nav_html():
     return "".join(f'<a href="/{s}/">{esc(l)}</a>' for s, l in NAV)
 
 
-def shell(*, url, title, desc, og, body, lang="en"):
+def shell(*, url, title, desc, og, body, lang="en", alt=None):
+    # Both language versions point at each other and at an x-default, so neither
+    # is filed as a duplicate of the other. Each is canonical for itself.
+    hreflang = ""
+    if alt:
+        en_url, ru_url = alt
+        hreflang = (
+            f'\n<link rel="alternate" hreflang="en" href="{en_url}" />'
+            f'\n<link rel="alternate" hreflang="ru" href="{ru_url}" />'
+            f'\n<link rel="alternate" hreflang="x-default" href="{en_url}" />'
+        )
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
@@ -113,9 +175,10 @@ def shell(*, url, title, desc, og, body, lang="en"):
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>{esc(title)} · TRINITY</title>
 <meta name="description" content="{esc(desc)}" />
-<link rel="canonical" href="{url}" />
+<link rel="canonical" href="{url}" />{hreflang}
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="{'ru_RU' if lang == 'ru' else 'en_US'}" />
 <meta property="og:url" content="{url}" />
 <meta property="og:title" content="{esc(title)}" />
 <meta property="og:description" content="{esc(desc)}" />
@@ -147,63 +210,75 @@ def shell(*, url, title, desc, og, body, lang="en"):
 """
 
 
-def post_page(p):
+def post_page(p, lang="en"):
+    u = UI[lang]
     slug = p["slug"]
-    url = f"{SITE}/blog/{slug}/"
+    d = localise(p, lang)
+    url = f"{SITE}{base(lang)}/{slug}/"
+    alt = (f"{SITE}/blog/{slug}/", f"{SITE}/ru/blog/{slug}/") if p.get("ru") else None
     parts = [
-        '<p class="eyebrow">Blog</p>',
-        f"<h1>{esc(p['title'])}</h1>",
-        f'<p class="meta">{esc(p["date"])} · {esc(p["readingMinutes"])} min read</p>',
-        f'<p class="lede">{esc(p["summary"])}</p>',
+        f'<p class="eyebrow">{esc(u["eyebrow"])}</p>',
+        f"<h1>{esc(d['title'])}</h1>",
+        f'<p class="meta">{esc(p["date"])} · {esc(p["readingMinutes"])} {esc(u["read"])}</p>',
+        f'<p class="lede">{esc(d["summary"])}</p>',
     ]
     if p.get("tags"):
         parts.append('<div class="tags">' + "".join(f'<span class="tag">{esc(t)}</span>' for t in p["tags"]) + "</div>")
-    parts += [block_html(b) for b in p["body"]]
+    parts += [block_html(b) for b in d["body"]]
 
-    if p.get("openQuestions"):
+    if d.get("openQuestions"):
         parts.append(
-            '<div class="box"><h2>What this does not settle</h2><ul>'
-            + "".join(f"<li>{esc(q)}</li>" for q in p["openQuestions"])
+            f'<div class="box"><h2>{esc(u["notSettled"])}</h2><ul>'
+            + "".join(f"<li>{esc(q)}</li>" for q in d["openQuestions"])
             + "</ul></div>"
         )
-    if p.get("receipts"):
+    if d.get("receipts"):
         parts.append(
-            '<div class="box"><h2>Receipts</h2><ul>'
-            + "".join(f'<li><a href="{esc(r["href"])}">{esc(r["label"])}</a></li>' for r in p["receipts"])
+            f'<div class="box"><h2>{esc(u["receipts"])}</h2><ul>'
+            + "".join(f'<li><a href="{esc(r["href"])}">{esc(r["label"])}</a></li>' for r in d["receipts"])
             + "</ul></div>"
         )
 
-    ru_link = (
-        f'<a class="btn sec" href="/?lang=ru#/blog/{slug}" hreflang="ru" lang="ru">Читать по-русски</a>'
-        if p.get("ru") else ""
-    )
+    other = ""
+    if p.get("ru"):
+        o = u["otherLang"]
+        other = (f'<a class="btn sec" href="{base(o)}/{slug}/" hreflang="{o}" lang="{o}">'
+                 f'{esc(u["other"])}</a>')
+    app = f"/#/blog/{slug}" if lang == "en" else f"/?lang=ru#/blog/{slug}"
     parts.append(
-        '<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p>'
-        f'<div class="btns"><a class="btn" href="/#/blog/{slug}">Open the interactive version</a>'
-        f'{ru_link}'
-        f'<a class="btn sec" href="mailto:{EMAIL}?subject={esc(p["title"])}">{EMAIL}</a>'
-        '<a class="btn sec" href="/blog/">All posts</a></div></div>'
+        f'<div class="cta"><p>{esc(u["cta"])}</p>'
+        f'<div class="btns"><a class="btn" href="{app}">{esc(u["openApp"])}</a>'
+        f'{other}'
+        f'<a class="btn sec" href="mailto:{EMAIL}?subject={esc(d["title"])}">{EMAIL}</a>'
+        f'<a class="btn sec" href="{base(lang)}/">{esc(u["all"])}</a></div></div>'
     )
-    return shell(url=url, title=p["title"], desc=p["summary"],
-                 og=f"og-blog-{slug}.png", body="\n".join(parts))
+    og = f"og-blog-{slug}.png" if lang == "en" else f"og-blog-{slug}-ru.png"
+    return shell(url=url, title=d["title"], desc=d["summary"],
+                 og=og, body="\n".join(parts), lang=lang, alt=alt)
 
 
-def index_page(posts):
-    items = "".join(
-        f'<li><h2><a href="/blog/{esc(p["slug"])}/">{esc(p["title"])}</a></h2>'
-        f'<p class="meta">{esc(p["date"])} · {esc(p["readingMinutes"])} min read</p>'
-        f'<p>{esc(p["summary"])}</p></li>'
-        for p in posts
-    )
+def index_page(posts, lang="en"):
+    u = UI[lang]
+    items = []
+    for p in posts:
+        d = localise(p, lang)
+        items.append(
+            f'<li><h2><a href="{base(lang)}/{esc(p["slug"])}/">{esc(d["title"])}</a></h2>'
+            f'<p class="meta">{esc(p["date"])} · {esc(p["readingMinutes"])} {esc(u["read"])}</p>'
+            f'<p>{esc(d["summary"])}</p></li>'
+        )
+    o = u["otherLang"]
     body = (
-        '<p class="eyebrow">Blog</p><h1>Written here first.</h1>'
-        '<p class="lede">Every article is published on this domain before anywhere else, '
-        'with its receipts and with what it does not settle stated in the text.</p>'
-        f'<ul class="posts">{items}</ul>'
+        f'<p class="eyebrow">{esc(u["eyebrow"])}</p><h1>{esc(u["indexH1"])}</h1>'
+        f'<p class="lede">{esc(u["indexLede"])}</p>'
+        f'<ul class="posts">{"".join(items)}</ul>'
+        f'<div class="cta"><div class="btns">'
+        f'<a class="btn sec" href="{base(o)}/" hreflang="{o}" lang="{o}">{esc(u["other"])}</a>'
+        f'</div></div>'
     )
-    return shell(url=f"{SITE}/blog/", title="Blog",
-                 desc="Measured results from ternary hardware and low-precision numeric formats, published here first with receipts and open questions.",
-                 og="og-image.png", body=body)
+    return shell(url=f"{SITE}{base(lang)}/", title=u["eyebrow"], desc=u["indexDesc"],
+                 og="og-image.png", body=body, lang=lang,
+                 alt=(f"{SITE}/blog/", f"{SITE}/ru/blog/"))
 
 
 def main():
@@ -214,16 +289,24 @@ def main():
         raise SystemExit("build-blog: no posts in " + DATA)
     posts.sort(key=lambda p: p["date"], reverse=True)
 
-    os.makedirs("blog", exist_ok=True)
-    for p in posts:
-        d = os.path.join("blog", p["slug"])
-        os.makedirs(d, exist_ok=True)
-        with open(os.path.join(d, "index.html"), "w", encoding="utf-8") as fh:
-            fh.write(post_page(p))
-        print(f"wrote blog/{p['slug']}/index.html")
-    with open("blog/index.html", "w", encoding="utf-8") as fh:
-        fh.write(index_page(posts))
-    print("wrote blog/index.html")
+    for lang in ("en", "ru"):
+        root = base(lang).lstrip("/")
+        os.makedirs(root, exist_ok=True)
+        for p in posts:
+            # A post with no Russian overlay would otherwise ship an English body
+            # under a ru URL, which is worse than not having the page.
+            if lang == "ru" and not p.get("ru"):
+                print(f"skipped ru/blog/{p['slug']}/ — no Russian overlay")
+                continue
+            d = os.path.join(root, p["slug"])
+            os.makedirs(d, exist_ok=True)
+            with open(os.path.join(d, "index.html"), "w", encoding="utf-8") as fh:
+                fh.write(post_page(p, lang))
+            print(f"wrote {root}/{p['slug']}/index.html")
+        listed = [p for p in posts if lang == "en" or p.get("ru")]
+        with open(os.path.join(root, "index.html"), "w", encoding="utf-8") as fh:
+            fh.write(index_page(listed, lang))
+        print(f"wrote {root}/index.html")
 
 
 if __name__ == "__main__":
