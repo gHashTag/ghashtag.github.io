@@ -132,6 +132,10 @@ for p in $PAGES; do
     || red "$p/ does not point at its Russian version"
   grep -q "hreflang=\"en\" href=\"$SITE/$p/\"" "$rf" \
     || red "ru/$p/ does not point back at the English version"
+  # Structured data on the landings, both languages. Only the homepage had any.
+  for g in "$p/index.html" "$rf"; do
+    grep -q 'application/ld+json' "$g" || red "$g carries no JSON-LD"
+  done
   [ -f "og-$p-ru.png" ] && green "ru/$p/ og:image og-$p-ru.png is on disk" \
     || red "ru/$p/ og:image og-$p-ru.png is missing"
   grep -q "<loc>$SITE/ru/$p/</loc>" sitemap.xml 2>/dev/null \

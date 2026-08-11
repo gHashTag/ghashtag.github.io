@@ -471,6 +471,7 @@ def render(slug, p, lang="en"):
 <meta name="twitter:title" content="{html.escape(p['title'])}" />
 <meta name="twitter:description" content="{html.escape(p['desc'])}" />
 <link rel="icon" href="/favicon.svg" />
+{landing_ld(slug, p, "ru" if ru else "en") if slug else ""}
 <style>{CSS}</style>
 </head>
 <body>
@@ -647,7 +648,61 @@ def render_ru_home():
     for bad in ('href="//"', "/ru//", "og--ru", f"{SITE}//"):
         if bad in out:
             raise SystemExit(f"render_ru_home: {bad!r} survived the empty-slug repair")
+    # The Russian home has an empty slug, so the landing_ld() call inside render()
+    # skipped it and it was the one page left without structured data.
+    import json as _json
+    ld = ('<script type="application/ld+json">' + _json.dumps({
+        "@context": "https://schema.org", "@type": "WebPage",
+        "name": RU_HOME["title"], "description": RU_HOME["desc"],
+        "url": f"{SITE}/ru/", "inLanguage": "ru",
+        "isPartOf": {"@type": "WebSite", "name": "TRINITY", "url": f"{SITE}/"},
+    }, ensure_ascii=False, separators=(",", ":")) + "</script>")
+    out = out.replace('<link rel="icon" href="/favicon.svg" />',
+                      '<link rel="icon" href="/favicon.svg" />\n' + ld, 1)
+    if "application/ld+json" not in out:
+        raise SystemExit("render_ru_home: the JSON-LD anchor was not found")
     return out
+
+
+def landing_ld(slug, p, lang):
+    """Structured data for a landing.
+
+    Only the homepage carried any. Deliberately modest: `WebPage` for everything
+    and `Person` for the about page, carrying only facts already written on the
+    page itself. Prices are NOT emitted as `offers` — the pages say "from $500"
+    and "quoted per case", and turning that into a machine-readable commitment
+    would state something firmer than the page does.
+    """
+    import json as _json
+    prefix = "/ru" if lang == "ru" else ""
+    url = f"{SITE}{prefix}/{slug}/"
+    doc = {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage" if slug == "about" else "WebPage",
+        "name": p["title"],
+        "description": p["desc"],
+        "url": url,
+        "inLanguage": "ru" if lang == "ru" else "en",
+        "isPartOf": {"@type": "WebSite", "name": "TRINITY", "url": f"{SITE}/"},
+    }
+    if slug == "about":
+        doc["mainEntity"] = {
+            "@type": "Person",
+            "name": "Dmitrii Vasilev",
+            "jobTitle": "Hardware-AI and FPGA/RTL engineer",
+            "url": f"{SITE}/about/",
+            # sameAs asserts identity, so every entry has to resolve. An arXiv
+            # author page was drafted here and removed: arxiv.org/a/vasilev_d_1
+            # returns 404, and claiming an identity URL that does not exist is
+            # worse than listing one profile fewer.
+            "sameAs": [
+                "https://github.com/gHashTag",
+                "https://linkedin.com/in/neurocoder",
+            ],
+        }
+    return ('<script type="application/ld+json">'
+            + _json.dumps(doc, ensure_ascii=False, separators=(",", ":"))
+            + "</script>")
 
 
 def _lastmod(path):
