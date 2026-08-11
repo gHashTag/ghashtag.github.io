@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A green CI does not mean the library builds for you · TRINITY</title>
+<meta name="description" content="A Zig package with passing CI could not be compiled by any consumer. Lazy analysis means a test run proves only what the tests happen to touch — one line exposed five hidden errors in one package, and sixteen in the package under it." />
+<link rel="canonical" href="https://t27.ai/blog/green-ci-does-not-mean-usable/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/green-ci-does-not-mean-usable/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/green-ci-does-not-mean-usable/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/green-ci-does-not-mean-usable/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/green-ci-does-not-mean-usable/" />
+<meta property="og:title" content="A green CI does not mean the library builds for you" />
+<meta property="og:description" content="A Zig package with passing CI could not be compiled by any consumer. Lazy analysis means a test run proves only what the tests happen to touch — one line exposed five hidden errors in one package, and sixteen in the package under it." />
+<meta property="og:image" content="https://t27.ai/og-blog-green-ci-does-not-mean-usable.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="A green CI does not mean the library builds for you" />
+<meta name="twitter:description" content="A Zig package with passing CI could not be compiled by any consumer. Lazy analysis means a test run proves only what the tests happen to touch — one line exposed five hidden errors in one package, and sixteen in the package under it." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"A green CI does not mean the library builds for you","description":"A Zig package with passing CI could not be compiled by any consumer. Lazy analysis means a test run proves only what the tests happen to touch — one line exposed five hidden errors in one package, and sixteen in the package under it.","url":"https://t27.ai/blog/green-ci-does-not-mean-usable/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/green-ci-does-not-mean-usable/"},"image":"https://t27.ai/og-blog-green-ci-does-not-mean-usable.png","datePublished":"2026-08-11","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Zig, CI, Verification, Static analysis"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>A green CI does not mean the library builds for you</h1>
+<p class="meta">2026-08-11 · 9 min read</p>
+<p class="lede">A Zig package with passing CI could not be compiled by any consumer. Lazy analysis means a test run proves only what the tests happen to touch — one line exposed five hidden errors in one package, and sixteen in the package under it.</p>
+<div class="tags"><span class="tag">Zig</span><span class="tag">CI</span><span class="tag">Verification</span><span class="tag">Static analysis</span></div>
+<p>A package of mine had passing CI and could not be used by anybody. Not &quot;was awkward to use&quot; — could not be compiled by a consumer at all. The tests were real, they ran, and they were green, and the thing they were green about was not the thing anybody needed.</p>
+<p>The cause is a language feature, not a mistake: Zig analyses top-level declarations lazily. A declaration nothing references is never handed to the compiler. So `zig build test` proves that the declarations the tests happen to reference compile — and says nothing whatsoever about the rest of the public surface.</p>
+<h2>How it surfaced</h2>
+<p>I was repairing a third repository whose build had failed for four months, and part of the repair was to depend on this package instead of on files that a refactor had moved out from under it. The dependency resolved. Then the compiler reported an error inside the dependency itself:</p>
+<pre><code>no field named &#x27;allocator&#x27; in struct &#x27;ternary.hybrid.HybridBigInt&#x27;
+  at .zig-cache/p/zig_hdc-.../src/vsa/core.zig:30:35</code></pre>
+<p>That file belongs to the package with the green CI. It expects a field on a type from the version of its own dependency that it pins, and that field is not there. Its tests never referenced the function containing the line, so the line was never compiled, so the CI never had an opinion about it.</p>
+<h2>One line changes what the CI is measuring</h2>
+<pre><code>test &quot;every public declaration of this module is analysed&quot; {
+    @import(&quot;std&quot;).testing.refAllDeclsRecursive(@This());
+}</code></pre>
+<p>With that in the module root, the whole public surface goes through the compiler. The package immediately reported five distinct errors, all of which had been there the entire time:</p>
+<ul><li>no field named &#x27;allocator&#x27; in struct HybridBigInt</li><li>expected type &#x27;*HybridBigInt&#x27;, found &#x27;*const HybridBigInt&#x27;</li><li>expected optional type, found &#x27;[59049]i8&#x27;</li><li>incompatible types: &#x27;u32&#x27; and &#x27;i32&#x27;</li><li>member function expected 1 argument(s), found 2</li></ul>
+<p>Nothing was fixed by adding the test. Only the instrument changed.</p>
+<h2>The package underneath had never been built at all</h2>
+<p>Two of those errors pointed downwards, into the package that this one depends on. So I looked there, and found something worse than a blind spot: that repository had no workflow that runs `zig build`. Not a weak one — none. Its CI built documentation and language bindings.</p>
+<p>Adding one, pinned to the Zig version its consumers actually use, produced a package that spans three incompatible versions of the language at once:</p>
+<div class="tw"><table><thead><tr><th>Targets</th><th>Evidence</th></tr></thead><tbody><tr><td>0.14</td><td>Io.getStdOut, atomic.fence, fmt.fmtSliceHexLower, OpenFlags.read — all removed in 0.15</td></tr><tr><td>0.15</td><td>what minimum_zig_version in the manifest claims</td></tr><tr><td>0.16</td><td>tools/gen/* use std.Io, std.Io.Dir and std.process.Init, and say so in their own comments</td></tr></tbody></table></div>
+<p>The version claim in the manifest was not a lie anybody told. It was a number written once and never checked again, because nothing checked it.</p>
+<h2>What the repair looked like</h2>
+<p>Sixteen defects, in five waves. A compiler stops at the first failure in a unit, so each round of fixes exposes the next round: 11 errors, then 5, then 3, then 2, then one runtime panic, then zero. Four were the removed APIs above. The other twelve were ordinary defects that had simply never been compiled:</p>
+<ul><li>A checksum multiplied a u64 by a floating-point golden ratio and then called @intFromFloat on the u64 result. It now multiplies by 2^64/phi, which is what phi is in integer hashing.</li><li>A switch on a runtime value with comptime_float arms.</li><li>Two functions declared const pointers and delegated to functions that must mutate, because the value caches its own unpacked form.</li><li>@abs of an i32 is a u32, and the modulus beside it was signed.</li><li>A u2 shifted by a usize. Zig types a shift amount by the width of what is shifted, so a u2 admits only a u1 — a bit offset of 0, 2, 4 or 6 could not be used there at all.</li><li>A manual sign extension that or-ed 0xF800 into an i11, a value that does not fit in one, guarded by an if that was handed a u8 where a bool belongs.</li><li>A test that computed @rem(i, 3) - 1 with an unsigned i, so its first iteration underflowed.</li></ul>
+<p>One number in that list is worth pausing on. Six sites assigned an i8 into an i2. The compiler named three. Fixing the three it named would have left the other three standing, and the next person would have met them as a fresh mystery — so the rule is to grep for the pattern rather than to work the error list.</p>
+<p>After the last wave: 267 tests pass and that repository has a green build for the first time in its life.</p>
+<h2>The finding underneath the finding</h2>
+<p>Re-pinning the first package against the repaired second one changed nothing. Not a caching artefact — pinning the exact merge commit produced the same hash the CDN had already served. The reason is duller and more serious than a stale tarball:</p>
+<blockquote>Both packages carry their own copy of src/vsa/concurrency.zig, src/vsa/core.zig and src/vsa/common.zig, and the copies have diverged.</blockquote>
+<p>The migration that broke the third repository did not move that code into one home. It left a second copy behind, and the two drifted independently. Fixing one cannot fix the other, because they are different files with the same names.</p>
+<p>That turns the remaining repair into a decision rather than a patch, and it is not one to take at four in the morning: either the consumer drops its copies and takes them from the package below, or the duplication is deliberate and gets written down as such. Applying the same five fixes to the second copy would turn the CI green and entrench two maintained copies of the same code — which is exactly how the divergence happened.</p>
+<h2>What to take from it</h2>
+<p>The general shape is not about Zig. A test suite measures the code it reaches. In a language with lazy analysis the unreached part is not merely untested — it is uncompiled, and the difference matters because a consumer reaching it gets a compile error rather than a wrong answer. A green badge on such a package is a statement about the tests, and a reader takes it as a statement about the library.</p>
+<p>The cheap countermeasure is one line per package. The expensive part is being willing to look at what it says.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Which copy of src/vsa/* is canonical is undecided. The two packages carry their own and they have diverged, so repairing one does not repair the other.</li><li>zig-hdc is still red. Its five errors are in its own copy of files that were repaired in the package below it.</li><li>refAllDeclsRecursive forces analysis, not execution. It proves the surface compiles; it says nothing about whether any of it is correct.</li><li>Whether the same gap exists in other lazily-analysed languages was not tested. The claim here is about Zig, measured on Zig.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/zig-golden-float/pull/97">zig-golden-float #97 — 16 defects, CI green on 0.15.2 · MERGED 2026-08-11</a></li><li><a href="https://github.com/gHashTag/zig-hdc/pull/2">zig-hdc #2 — full-surface analysis, 5 drift errors · OPEN</a></li><li><a href="https://github.com/gHashTag/trinity/pull/701">trinity #701 — the consumer that surfaced it · OPEN</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/green-ci-does-not-mean-usable">Open the interactive version</a><a class="btn sec" href="/ru/blog/green-ci-does-not-mean-usable/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=A green CI does not mean the library builds for you">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

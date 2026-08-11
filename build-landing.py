@@ -723,9 +723,15 @@ def _lastmod(path):
     f = f if os.path.isfile(f) else os.path.join(path, "index.html")
     if not os.path.isfile(f):
         return None
+    # An untracked file is not "dirty" to git diff -- it is invisible to it --
+    # so a brand new page fell through to git log, found no commit, and got no
+    # lastmod at all. A page that has never been committed is new content by
+    # definition, which is exactly the case the field exists to announce.
+    tracked = subprocess.run(["git", "ls-files", "--error-unmatch", f],
+                             capture_output=True).returncode == 0
     dirty = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", f],
                            capture_output=True).returncode
-    if dirty:
+    if not tracked or dirty:
         import datetime
         return datetime.date.today().isoformat()
     r = subprocess.run(["git", "log", "-1", "--format=%cs", "--", f],

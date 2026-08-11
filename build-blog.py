@@ -211,6 +211,7 @@ def shell(*, url, title, desc, og, body, lang="en", alt=None, ld=""):
 <title>{esc(title)} · TRINITY</title>
 <meta name="description" content="{esc(desc)}" />
 <link rel="canonical" href="{url}" />{hreflang}
+<link rel="alternate" type="application/atom+xml" title="{esc(UI[lang]['eyebrow'])} · TRINITY" href="https://t27.ai{base(lang)}/feed.xml" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="TRINITY" />
 <meta property="og:locale" content="{'ru_RU' if lang == 'ru' else 'en_US'}" />
@@ -319,6 +320,57 @@ def index_page(posts, lang="en"):
                  alt=(f"{SITE}/blog/", f"{SITE}/ru/blog/"))
 
 
+def feed_xml(posts, lang):
+    """An Atom feed per language.
+
+    The blog's own lede says everything is published here first and every other
+    platform links back. Without a feed the only way to honour that is to visit
+    the page and remember what was already read, which is a thing nobody does --
+    so the claim was true and unusable at the same time.
+
+    One feed per language, not one feed with both. A reader who wants the
+    Russian text does not want half the entries in English, and Atom has no way
+    to say "skip this one" that a reader would see before opening it.
+    """
+    site = "https://t27.ai"
+    root = base(lang)
+    self_url = f"{site}{root}/feed.xml"
+    updated = max(p["date"] for p in posts) if posts else "1970-01-01"
+    t = UI[lang]
+
+    def entry(p):
+        url = f"{site}{root}/{p['slug']}/"
+        q = localise(p, lang)
+        # The summary only. A full-text feed would have to serialise every block
+        # kind, and a feed that silently drops the kinds it cannot render is
+        # worse than one that says "the post is over there".
+        return (
+            "<entry>"
+            f"<title>{esc(q['title'])}</title>"
+            f"<link rel=\"alternate\" type=\"text/html\" href=\"{esc(url)}\"/>"
+            f"<id>{esc(url)}</id>"
+            f"<updated>{esc(p['date'])}T00:00:00Z</updated>"
+            f"<published>{esc(p['date'])}T00:00:00Z</published>"
+            f"<summary type=\"text\">{esc(q.get('summary', ''))}</summary>"
+            + "".join(f"<category term=\"{esc(tag)}\"/>" for tag in p.get("tags", []))
+            + "</entry>"
+        )
+
+    return (
+        '<?xml version="1.0" encoding="utf-8"?>\n'
+        f'<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{lang}">'
+        f"<title>{esc(t['eyebrow'])} · TRINITY</title>"
+        f"<subtitle>{esc(t['indexLede'])}</subtitle>"
+        f'<link rel="self" type="application/atom+xml" href="{esc(self_url)}"/>'
+        f'<link rel="alternate" type="text/html" href="{esc(site + root)}/"/>'
+        f"<id>{esc(site + root)}/</id>"
+        f"<updated>{esc(updated)}T00:00:00Z</updated>"
+        "<author><name>Dmitrii Vasilev</name><email>admin@t27.ai</email></author>"
+        + "".join(entry(p) for p in posts)
+        + "</feed>\n"
+    )
+
+
 def main():
     here = os.path.dirname(os.path.abspath(__file__))
     os.chdir(here)
@@ -345,6 +397,19 @@ def main():
         with open(os.path.join(root, "index.html"), "w", encoding="utf-8") as fh:
             fh.write(index_page(listed, lang))
         print(f"wrote {root}/index.html")
+
+        xml = feed_xml(listed, lang)
+        # A feed missing a post is silent: the reader simply never learns the
+        # post exists, and nothing on either side reports it. So the count is
+        # asserted rather than assumed.
+        if xml.count("<entry>") != len(listed):
+            raise SystemExit(
+                f"build-blog: {root}/feed.xml has {xml.count('<entry>')} entries "
+                f"for {len(listed)} listed posts"
+            )
+        with open(os.path.join(root, "feed.xml"), "w", encoding="utf-8") as fh:
+            fh.write(xml)
+        print(f"wrote {root}/feed.xml ({len(listed)} entries)")
 
 
 if __name__ == "__main__":

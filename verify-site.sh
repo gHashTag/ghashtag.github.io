@@ -28,6 +28,24 @@ echo "── on disk ──"
 
 # The domain lives or dies by this file; a deploy that drops it takes the site
 # off its own name.
+# A feed that quietly loses an entry is invisible: the reader simply never
+# learns the post exists, and nothing on either side reports it. So the entry
+# count is compared against the posts the generator actually wrote.
+for lang_root in blog ru/blog; do
+  feed="$lang_root/feed.xml"
+  if [ ! -f "$feed" ]; then
+    red "$feed is missing — run build-blog.py"
+  else
+    entries=$(grep -o '<entry>' "$feed" | wc -l | tr -d ' ')
+    posts=$(find "$lang_root" -mindepth 2 -name index.html | wc -l | tr -d ' ')
+    if [ "$entries" = "$posts" ] && [ "$entries" != "0" ]; then
+      green "$feed lists all $posts post(s)"
+    else
+      red "$feed has $entries entries for $posts post pages"
+    fi
+  fi
+done
+
 if [ "$(cat CNAME 2>/dev/null)" = "t27.ai" ]; then
   green "CNAME is t27.ai"
 else
@@ -229,11 +247,11 @@ fi
 
 # lastmod is worth having only if it is true. A sitemap that stamps every URL
 # with today teaches a crawler to ignore the field, so this checks the dates are
-# well-formed, not in the future, and not all identical.
+# well-formed, not in the future, and that they actually follow the repository.
 python3 - <<'PYLM' || red "sitemap lastmod check failed"
-import datetime, re, sys
+import datetime, os, re, sys
 t = open("sitemap.xml", encoding="utf-8").read()
-locs = re.findall(r"<loc>", t)
+locs = re.findall(r"<loc>([^<]*)</loc>", t)
 lms = re.findall(r"<lastmod>([^<]*)</lastmod>", t)
 if len(lms) != len(locs):
     print(f"  {len(lms)} lastmod for {len(locs)} URLs"); sys.exit(1)
@@ -245,8 +263,39 @@ for d in lms:
         print(f"  malformed lastmod {d!r}"); sys.exit(1)
     if v > today:
         print(f"  lastmod in the future: {d}"); sys.exit(1)
-if len(set(lms)) == 1 and len(lms) > 5:
-    print("  every URL carries the same lastmod — the field is not being derived")
+# The old test here was "all the dates are the same, therefore the field is not
+# derived". That is a proxy, and today it fired on a true state: this site was
+# published fifteen times in one day, so every file's last commit really is
+# today and every date really is the same. A proxy that cannot tell a constant
+# from a coincidence sends you to argue with a correct number.
+#
+# So the property is tested directly instead. Take a sample of URLs, ask git
+# when their files last changed, and require the sitemap to agree. A fabricated
+# or hard-coded field disagrees immediately; a genuine same-day spread passes,
+# because it is genuine.
+import subprocess
+sample = [(u, d) for u, d in zip(locs, lms)][:8]
+mismatched = []
+for url, d in sample:
+    rel = url.replace("https://t27.ai/", "") or "index.html"
+    f = rel if os.path.isfile(rel) else os.path.join(rel, "index.html")
+    if not os.path.isfile(f):
+        continue
+    tracked = subprocess.run(["git", "ls-files", "--error-unmatch", f],
+                             capture_output=True).returncode == 0
+    if not tracked:
+        continue  # new page: today is right by definition, nothing to compare
+    g = subprocess.run(["git", "log", "-1", "--format=%cs", "--", f],
+                       capture_output=True, text=True).stdout.strip()
+    dirty = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", f],
+                           capture_output=True).returncode
+    expected = datetime.date.today().isoformat() if dirty else g
+    if expected and d != expected:
+        mismatched.append((f, d, expected))
+if mismatched:
+    for f, got, want in mismatched:
+        print(f"  {f}: sitemap says {got}, git says {want}")
+    print("  lastmod does not follow the repository — the field is not derived")
     sys.exit(1)
 PYLM
 [ "$fails" = 0 ] && green "sitemap lastmod: $(grep -c '<lastmod>' sitemap.xml) dates, $(grep -oE '<lastmod>[^<]*' sitemap.xml | sort -u | wc -l | tr -d ' ') distinct, none in the future"
