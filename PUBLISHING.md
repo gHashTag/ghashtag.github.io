@@ -101,3 +101,28 @@ no error anywhere.
 **A new gate check must be shown to fail.** After extending `verify-site.sh`,
 remove the card and delete the sitemap line, confirm exit 1 each time, and put
 them back. A check that has never failed is not evidence.
+
+## Translations are URLs, not links
+
+Both blog posts carried a complete Russian translation in the data — the same 20
+and 60 blocks as the English — and it reached readers only as a "Читать
+по-русски" button into the app. A translation behind a fragment URL is invisible
+to search in the same way the whole blog was: there is no Russian page to rank,
+so the work earned nothing.
+
+Russian now lives at `/ru/blog/<slug>/` as real HTML. Three things that decide
+whether that is worth anything:
+
+- **Reciprocal `hreflang`, or it counts as duplicate content.** Each page is
+  canonical for *itself*, and both name each other plus an `x-default`. A
+  one-way alternate is the common way to get this wrong, so the gate checks both
+  directions.
+- **`<html lang="ru">`.** Cheap, and the thing that tells a crawler which
+  audience the page is for.
+- **Its own preview card.** A Russian reader shares a Russian link; an English
+  card on it looks like a mistake. Cyrillic rasterises fine through the existing
+  `build-og.py` path.
+
+**Skip rather than half-translate.** A post with no Russian overlay is not
+written to `/ru/`, because an English body under a `ru` URL is worse than no page
+— it tells a reader the language is available and then breaks the promise.
