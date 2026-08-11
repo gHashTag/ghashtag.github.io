@@ -223,6 +223,30 @@ PYCHK
   fi
 fi
 
+# lastmod is worth having only if it is true. A sitemap that stamps every URL
+# with today teaches a crawler to ignore the field, so this checks the dates are
+# well-formed, not in the future, and not all identical.
+python3 - <<'PYLM' || red "sitemap lastmod check failed"
+import datetime, re, sys
+t = open("sitemap.xml", encoding="utf-8").read()
+locs = re.findall(r"<loc>", t)
+lms = re.findall(r"<lastmod>([^<]*)</lastmod>", t)
+if len(lms) != len(locs):
+    print(f"  {len(lms)} lastmod for {len(locs)} URLs"); sys.exit(1)
+today = datetime.date.today()
+for d in lms:
+    try:
+        v = datetime.date.fromisoformat(d)
+    except ValueError:
+        print(f"  malformed lastmod {d!r}"); sys.exit(1)
+    if v > today:
+        print(f"  lastmod in the future: {d}"); sys.exit(1)
+if len(set(lms)) == 1 and len(lms) > 5:
+    print("  every URL carries the same lastmod — the field is not being derived")
+    sys.exit(1)
+PYLM
+[ "$fails" = 0 ] && green "sitemap lastmod: $(grep -c '<lastmod>' sitemap.xml) dates, $(grep -oE '<lastmod>[^<]*' sitemap.xml | sort -u | wc -l | tr -d ' ') distinct, none in the future"
+
 grep -q "Sitemap: $SITE/sitemap.xml" robots.txt 2>/dev/null \
   && green "robots.txt points at the sitemap" \
   || red "robots.txt missing or does not reference the sitemap"
