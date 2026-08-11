@@ -573,13 +573,90 @@ def blog_pages():
     return out
 
 
+# The Russian entry point. Without it /ru/ answered 404, so a reader who trimmed
+# /ru/gft/ back to its parent hit an error page, and the English homepage — which
+# is the SPA and renders its first screen in English — was the only front door.
+RU_HOME = {
+    "title": "T27.AI — тернарное железо для ИИ, измеренное на кремнии",
+    "eyebrow": "Тернарное железо для ИИ",
+    "h1": "Числовые форматы и кремний, который их исполняет.",
+    "desc": "GF-T — тернарно-нативный float, в 2.84 и 5.53 раза точнее tekum16 на краях диапазона. "
+            "Четырёхбитная геометрическая сетка масштаба строго доминирует восьмибитную E8M0 у MXFP4. "
+            "RTL, независимая эталонная модель и побитовые векторы — на открытом тулчейне.",
+    "lede": "Я проектирую числовые форматы и железо, которое их считает: от статьи на arXiv через RTL, "
+            "укладывающийся в логику Artix-7 без единого аппаратного умножителя, до тейпаута на SKY130 — "
+            "целиком на инструментах, которые любой поставит бесплатно. Каждая цифра ниже измерена, и рядом "
+            "с ней названо, чего она не доказывает.",
+    "cta": "Первый модуль верификации бесплатный, и отчёт ваш — публикуйте или оставьте себе.",
+    "sections": [
+        ["Что здесь измерено", [
+            ["GF-T обходит tekum16 — 2.84× и 5.53×",
+             "Float, у которого экспонента — сбалансированное троичное число, а поля фиксированы: платить за "
+             "декодирование режима не нужно. Ничья у единицы, в 2.84 раза точнее при |e| 8–20 и в 5.53 раза "
+             "при |e| 20–38. Перемерено независимо 8 августа 2026."],
+            ["Масштаб: строгое доминирование над MXFP4",
+             "Геометрическая сетка из степеней φ шириной четыре бита против восьмибитной E8M0: 4.125 бита на вес "
+             "против 4.250 и перплексия лучше на обеих моделях — 21.3545 против 22.4998 и 14.8512 против 14.9447. "
+             "Дешевле и точнее одновременно."],
+            ["Обучение на самом кристалле",
+             "Прямой проход, градиент и обновление весов в RTL, без хоста в контуре: сеть учит XOR на FPGA, 4 из 4, "
+             "побитово от спецификации до кремния."],
+            ["Тейпаут на SKY130",
+             "Тот же исходник, что работает на плате, прошёл открытый ASIC-процесс: GDS получен, тест на уровне "
+             "вентилей и precheck пройдены."],
+        ]],
+        ["Где мы проигрываем — и это тоже здесь", [
+            ["Элементная ось блочного формата",
+             "У блочного формата два поля. Масштаб мы выигрываем, элемент — нет: при 4 битах MXFP4 даёт 21.9397 "
+             "против 36.7214 у нашего TNF4. Три захода провалились, граница Ллойда–Макса говорит, что четвёртый "
+             "не оправдан."],
+            ["Диапазон GF-T ограничен",
+             "±40 в степенях двойки, примерно ±12 декад. У режима tekum16 предела нет — дальше он работает, а GF-T "
+             "переполняется. Фиксированные поля покупают дешёвый тракт; диапазон — цена."],
+            ["Одно семейство устройств",
+             "Замеры сняты на Xilinx Artix-7 на открытом флоу. Это не многоугловая характеризация, и для ASIC "
+             "числа будут другими."],
+        ]],
+        ["С чего начать", [
+            ["Доказательства", "Каждая цифра сайта с замером, который её породил, — и отдельно то, чем результаты не являются."],
+            ["Верификация", "Побитовая сверка вашего RTL с независимой моделью, тайминг и ресурсы на живой плате. Первый модуль бесплатно."],
+            ["Формат GF-T", "Раскладка полей, точность против tekum16, стоимость в железе и честный список того, где он проигрывает."],
+            ["Блог", "Статьи выходят здесь раньше, чем где-либо ещё, с пруфами и открытыми вопросами."],
+        ]],
+    ],
+}
+
+
+def render_ru_home():
+    """The Russian front door, built from the same renderer as the landings."""
+    p = dict(RU_HOME)
+    html_out = render("", p, "ru")
+    # render() builds every path as <prefix>/<slug>/, and an empty slug leaves
+    # doubled slashes: a canonical of /ru//, an og image of og--ru.png, and a
+    # link of href="//" — which a browser reads as protocol-relative and sends to
+    # a different host entirely. Repaired here rather than by threading a special
+    # case through render(), and asserted below so a silent one cannot survive.
+    out = (html_out
+           .replace(f"{SITE}/ru//", f"{SITE}/ru/")
+           .replace(f"{SITE}//", f"{SITE}/")
+           .replace(f"{SITE}/og--ru.png", f"{SITE}/og-home-ru.png")
+           .replace('href="/#/"', 'href="/"')
+           .replace('href="/?lang=ru#/"', 'href="/?lang=ru"')
+           .replace('href="//"', 'href="/"')
+           .replace('href="/ru//"', 'href="/ru/"'))
+    for bad in ('href="//"', "/ru//", "og--ru", f"{SITE}//"):
+        if bad in out:
+            raise SystemExit(f"render_ru_home: {bad!r} survived the empty-slug repair")
+    return out
+
+
 def sitemap(slugs):
     # /status/ and the per-design result pages are generated by build-results.py,
     # so they are listed here rather than derived from PAGES.
     extra = ["status/"] + [f"r/{s}/" for s in result_slugs()]
     # Russian landings are separate URLs with reciprocal hreflang, so they are
     # listed rather than folded into their English twins.
-    extra += [f"ru/{s}/" for s in sorted(load_ru())]
+    extra += ["ru/"] + [f"ru/{s}/" for s in sorted(load_ru())]
     paths = [""] + [f"{x}/" for x in slugs] + extra + blog_pages() + doc_pages()
     urls = "".join(f"\n  <url><loc>{SITE}/{s}</loc></url>" for s in paths)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}\n</urlset>\n'
@@ -598,6 +675,10 @@ if __name__ == "__main__":
         with open(f"ru/{slug}/index.html", "w", encoding="utf-8") as fh:
             fh.write(render(slug, p, "ru"))
         print(f"wrote ru/{slug}/index.html")
+    os.makedirs("ru", exist_ok=True)
+    with open("ru/index.html", "w", encoding="utf-8") as fh:
+        fh.write(render_ru_home())
+    print("wrote ru/index.html")
     with open("sitemap.xml", "w", encoding="utf-8") as fh:
         fh.write(sitemap(list(PAGES)))
     with open("robots.txt", "w", encoding="utf-8") as fh:

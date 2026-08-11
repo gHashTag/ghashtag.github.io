@@ -86,6 +86,33 @@ for p in $PAGES; do
   fi
 done
 
+# /ru/ answered 404 while /ru/gft/ and friends worked, so trimming a URL to its
+# parent landed on an error page and Russian search had no front door at all.
+if [ ! -f ru/index.html ]; then
+  red "ru/index.html is missing — /ru/ is the Russian entry point"
+else
+  rw=$(sed -e 's/<[^>]*>/ /g' ru/index.html | wc -w | tr -d ' ')
+  [ "$rw" -ge 200 ] && green "ru/ is a real page ($rw words)" \
+    || red "ru/ is $rw words — too thin to be an entry point"
+  grep -q '<html lang="ru"' ru/index.html || red "ru/ does not declare lang=\"ru\""
+  grep -q "rel=\"canonical\" href=\"$SITE/ru/\"" ru/index.html \
+    || red "ru/ canonical is not $SITE/ru/"
+  # An empty slug used to leave href="//", which a browser reads as
+  # protocol-relative and follows to a different host.
+  grep -q 'href="//"' ru/index.html && red "ru/ contains a protocol-relative href=\"//\""
+  grep -qE '/ru//|og--ru' ru/index.html && red "ru/ contains a doubled-slash path"
+  [ -f og-home-ru.png ] && green "ru/ og:image og-home-ru.png is on disk" \
+    || red "ru/ og:image og-home-ru.png is missing"
+  grep -q "<loc>$SITE/ru/</loc>" sitemap.xml 2>/dev/null || red "sitemap.xml does not list /ru/"
+  # The other half of the pair lives in the SPA's index.html, which is generated
+  # in trinity — so it is the half that silently goes missing on a rebuild.
+  grep -q "hreflang=\"ru\" href=\"$SITE/ru/\"" index.html \
+    && green "the homepage declares its Russian alternate" \
+    || red "index.html does not point at /ru/ — rebuild from trinity, the source carries it"
+  grep -q "hreflang=\"en\" href=\"$SITE/\"" ru/index.html \
+    || red "ru/ does not point back at the English homepage"
+fi
+
 # Russian landings are separate URLs, so each needs its own body, its own card
 # and a reciprocal hreflang — a one-way alternate is filed as duplicate content.
 for p in $PAGES; do
@@ -217,7 +244,7 @@ for p in "" $PAGES; do
   [ "$code" = "200" ] && green "/$p → 200" || red "/$p → $code"
 done
 
-for p in $PAGES; do
+for p in "" $PAGES; do
   code=$(curl -s -o /dev/null -w '%{http_code}' -L "$SITE/ru/$p/")
   [ "$code" = "200" ] && green "/ru/$p/ → 200" || red "/ru/$p/ → $code"
 done

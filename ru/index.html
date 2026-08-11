@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>T27.AI — тернарное железо для ИИ, измеренное на кремнии · TRINITY</title>
+<meta name="description" content="GF-T — тернарно-нативный float, в 2.84 и 5.53 раза точнее tekum16 на краях диапазона. Четырёхбитная геометрическая сетка масштаба строго доминирует восьмибитную E8M0 у MXFP4. RTL, независимая эталонная модель и побитовые векторы — на открытом тулчейне." />
+<link rel="canonical" href="https://t27.ai/ru/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/" />
+<meta property="og:title" content="T27.AI — тернарное железо для ИИ, измеренное на кремнии" />
+<meta property="og:description" content="GF-T — тернарно-нативный float, в 2.84 и 5.53 раза точнее tekum16 на краях диапазона. Четырёхбитная геометрическая сетка масштаба строго доминирует восьмибитную E8M0 у MXFP4. RTL, независимая эталонная модель и побитовые векторы — на открытом тулчейне." />
+<meta property="og:image" content="https://t27.ai/og-home-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="T27.AI — тернарное железо для ИИ, измеренное на кремнии" />
+<meta name="twitter:description" content="GF-T — тернарно-нативный float, в 2.84 и 5.53 раза точнее tekum16 на краях диапазона. Четырёхбитная геометрическая сетка масштаба строго доминирует восьмибитную E8M0 у MXFP4. RTL, независимая эталонная модель и побитовые векторы — на открытом тулчейне." />
+<link rel="icon" href="/favicon.svg" />
+<style>*,*::before,*::after{box-sizing:border-box}
+:root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+/* Centred to match the app. These pages were left-aligned while every page in
+   the SPA centres its content, so landing here from a link felt like a different
+   site with everything shoved against the left edge. */
+.wrap{max-width:820px;margin:0 auto;padding:28px 20px 72px;text-align:center}
+header.top{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:center;padding-bottom:18px;border-bottom:1px solid var(--rule)}
+.brand{font-weight:700;letter-spacing:.18em;font-size:12px;color:var(--accent);text-decoration:none}
+/* Inline anchors wrap by word, which split "CASE STUDIES" across two lines and
+   pushed "CASE" off the right edge at 375px. Flex with a gap wraps whole items. */
+nav.top{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center}
+nav.top a{font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;color:var(--muted);white-space:nowrap}
+nav.top a:hover,nav.top a[aria-current]{color:var(--accent)}
+.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:12px;margin:38px 0 10px}
+h1{font-size:clamp(1.9rem,5.5vw,2.7rem);line-height:1.15;margin:0 0 14px;text-wrap:balance}
+.lede{font-size:1.08rem;color:var(--muted);margin:0 auto 26px;max-width:62ch}
+h2{font-size:1.25rem;margin:40px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--rule);text-align:center}
+.items{display:grid;gap:14px}
+.item{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:16px 18px}
+.item h3{font-size:1rem;margin:0 0 6px;color:var(--accent)}
+.item p{margin:0;font-size:.95rem;color:#c6d5d0}
+.cta{margin-top:42px;background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:24px}
+.cta p{margin:0 0 16px;color:#c6d5d0}
+.btn{display:inline-block;background:var(--accent);color:#04140d;font-weight:700;text-decoration:none;padding:12px 24px;border-radius:999px;font-size:.92rem}
+.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--rule);font-weight:500}
+.btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--rule);color:var(--muted);font-size:.85rem}
+footer a{color:var(--muted)}
+@media(prefers-color-scheme:light){:root{--bg:#fbfdfc;--card:#fff;--ink:#101a17;--muted:#5b6f68;--accent:#0a7a4c;--rule:#dde7e3}.item p{color:#394944}.cta p{color:#394944}.btn{color:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/ru/gft/">GF-T</a><a href="/ru/verification/">Верификация</a><a href="/ru/proof/">Доказательства</a><a href="/ru/ip/">Лицензии</a><a href="/ru/course/">Курс</a><a href="/ru/cases/">Кейсы</a><a href="/ru/resources/">Реестр</a><a href="/ru/about/">Обо мне</a></nav>
+</header>
+
+<p class="eyebrow">Тернарное железо для ИИ</p>
+<h1>Числовые форматы и кремний, который их исполняет.</h1>
+<p class="lede">Я проектирую числовые форматы и железо, которое их считает: от статьи на arXiv через RTL, укладывающийся в логику Artix-7 без единого аппаратного умножителя, до тейпаута на SKY130 — целиком на инструментах, которые любой поставит бесплатно. Каждая цифра ниже измерена, и рядом с ней названо, чего она не доказывает.</p>
+
+<h2>Что здесь измерено</h2>
+<div class="items">
+<div class="item"><h3>GF-T обходит tekum16 — 2.84× и 5.53×</h3><p>Float, у которого экспонента — сбалансированное троичное число, а поля фиксированы: платить за декодирование режима не нужно. Ничья у единицы, в 2.84 раза точнее при |e| 8–20 и в 5.53 раза при |e| 20–38. Перемерено независимо 8 августа 2026.</p></div>
+<div class="item"><h3>Масштаб: строгое доминирование над MXFP4</h3><p>Геометрическая сетка из степеней φ шириной четыре бита против восьмибитной E8M0: 4.125 бита на вес против 4.250 и перплексия лучше на обеих моделях — 21.3545 против 22.4998 и 14.8512 против 14.9447. Дешевле и точнее одновременно.</p></div>
+<div class="item"><h3>Обучение на самом кристалле</h3><p>Прямой проход, градиент и обновление весов в RTL, без хоста в контуре: сеть учит XOR на FPGA, 4 из 4, побитово от спецификации до кремния.</p></div>
+<div class="item"><h3>Тейпаут на SKY130</h3><p>Тот же исходник, что работает на плате, прошёл открытый ASIC-процесс: GDS получен, тест на уровне вентилей и precheck пройдены.</p></div>
+</div>
+<h2>Где мы проигрываем — и это тоже здесь</h2>
+<div class="items">
+<div class="item"><h3>Элементная ось блочного формата</h3><p>У блочного формата два поля. Масштаб мы выигрываем, элемент — нет: при 4 битах MXFP4 даёт 21.9397 против 36.7214 у нашего TNF4. Три захода провалились, граница Ллойда–Макса говорит, что четвёртый не оправдан.</p></div>
+<div class="item"><h3>Диапазон GF-T ограничен</h3><p>±40 в степенях двойки, примерно ±12 декад. У режима tekum16 предела нет — дальше он работает, а GF-T переполняется. Фиксированные поля покупают дешёвый тракт; диапазон — цена.</p></div>
+<div class="item"><h3>Одно семейство устройств</h3><p>Замеры сняты на Xilinx Artix-7 на открытом флоу. Это не многоугловая характеризация, и для ASIC числа будут другими.</p></div>
+</div>
+<h2>С чего начать</h2>
+<div class="items">
+<div class="item"><h3>Доказательства</h3><p>Каждая цифра сайта с замером, который её породил, — и отдельно то, чем результаты не являются.</p></div>
+<div class="item"><h3>Верификация</h3><p>Побитовая сверка вашего RTL с независимой моделью, тайминг и ресурсы на живой плате. Первый модуль бесплатно.</p></div>
+<div class="item"><h3>Формат GF-T</h3><p>Раскладка полей, точность против tekum16, стоимость в железе и честный список того, где он проигрывает.</p></div>
+<div class="item"><h3>Блог</h3><p>Статьи выходят здесь раньше, чем где-либо ещё, с пруфами и открытыми вопросами.</p></div>
+</div>
+
+<div class="cta">
+  <p>Первый модуль верификации бесплатный, и отчёт ваш — публикуйте или оставьте себе.</p>
+  <div class="btns">
+    <a class="btn sec" href="mailto:admin@t27.ai?subject=T27.AI — тернарное железо для ИИ, измеренное на кремнии">admin@t27.ai</a>
+    <a class="btn sec" href="https://github.com/gHashTag/trinity/blob/main/docs/verification/SAMPLE-REPORT.md">Прочитать пример отчёта</a>
+    <a class="btn sec" href="/?lang=ru">Открыть интерактивную версию</a>
+    <a class="btn sec" href="/" hreflang="en" lang="en">Read in English</a>
+  </div>
+</div>
+
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
