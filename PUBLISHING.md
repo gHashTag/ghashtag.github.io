@@ -162,6 +162,43 @@ different host entirely, plus a canonical of `/ru//` and a card named
 shapes survives, because this is exactly the class of bug that looks fine in a
 diff and is only visible in the artefact.
 
+### Structured data is a claim, so check it like one
+
+Only the homepage carried JSON-LD; every landing and every post had none. Adding
+it is cheap, and that is exactly why it invites two mistakes.
+
+**Emit only fields the data contains.** A `dateModified` nobody tracks or a
+publisher logo that does not exist would satisfy the schema and describe a site
+that is not there. Prices are the sharper case: the pages say "from $500" and
+"quoted per case", so no `offers` block is emitted — a machine-readable price is
+firmer than what the page actually commits to.
+
+**`sameAs` asserts identity, so every entry has to resolve.** An arXiv author
+page was drafted into the Person block and removed on checking:
+`arxiv.org/a/vasilev_d_1` returns 404. One profile fewer beats one identity URL
+that does not exist. Check them with curl before shipping; it takes seconds.
+
+**Check the block parses, not that the tag is present.** The gate runs
+`json.loads` on each post's block and asserts it is a dated `BlogPosting`.
+Grepping for `application/ld+json` would have passed a truncated or malformed
+block cheerfully.
+
+### A sitemap date has to be true or it is worse than absent
+
+82 URLs carried no `lastmod`, so nothing told a crawler what was worth
+re-reading. The obvious fix — stamp everything with today — is the one that
+destroys the field's value: a crawler that learns the dates are noise ignores
+them.
+
+The date comes from `git log -1 --format=%cs` on the page, and falls back to
+today only when the working tree actually differs from that commit. A generator
+that rewrites a page byte-identically produces no diff, so the page keeps its
+real date. That is the behaviour that makes the field worth having, and the
+result here is two honest dates rather than one uniform one.
+
+The gate checks the dates are well-formed, not in the future, and **not all
+identical** — the last of those is the one that catches the failure mode above.
+
 ### Half of a reciprocal pair can live in another repository
 
 `/ru/` is generated here; the homepage's matching `hreflang` is in the SPA's
