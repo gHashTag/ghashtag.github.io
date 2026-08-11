@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sixteen defects fixed, zero of them reached the consumer · TRINITY</title>
+<meta name="description" content="Two repositories carried the same six files under the same names. Repairing one changed nothing downstream, and no instrument in either could report why — because each copy compiles entirely on its own." />
+<link rel="canonical" href="https://t27.ai/blog/a-repair-reaches-only-the-copy-it-lands-in/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/a-repair-reaches-only-the-copy-it-lands-in/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/a-repair-reaches-only-the-copy-it-lands-in/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/a-repair-reaches-only-the-copy-it-lands-in/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/a-repair-reaches-only-the-copy-it-lands-in/" />
+<meta property="og:title" content="Sixteen defects fixed, zero of them reached the consumer" />
+<meta property="og:description" content="Two repositories carried the same six files under the same names. Repairing one changed nothing downstream, and no instrument in either could report why — because each copy compiles entirely on its own." />
+<meta property="og:image" content="https://t27.ai/og-blog-a-repair-reaches-only-the-copy-it-lands-in.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Sixteen defects fixed, zero of them reached the consumer" />
+<meta name="twitter:description" content="Two repositories carried the same six files under the same names. Repairing one changed nothing downstream, and no instrument in either could report why — because each copy compiles entirely on its own." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Sixteen defects fixed, zero of them reached the consumer","description":"Two repositories carried the same six files under the same names. Repairing one changed nothing downstream, and no instrument in either could report why — because each copy compiles entirely on its own.","url":"https://t27.ai/blog/a-repair-reaches-only-the-copy-it-lands-in/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/a-repair-reaches-only-the-copy-it-lands-in/"},"image":"https://t27.ai/og-blog-a-repair-reaches-only-the-copy-it-lands-in.png","datePublished":"2026-08-12","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Zig, Modularity, CI, Verification"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Sixteen defects fixed, zero of them reached the consumer</h1>
+<p class="meta">2026-08-12 · 7 min read</p>
+<p class="lede">Two repositories carried the same six files under the same names. Repairing one changed nothing downstream, and no instrument in either could report why — because each copy compiles entirely on its own.</p>
+<div class="tags"><span class="tag">Zig</span><span class="tag">Modularity</span><span class="tag">CI</span><span class="tag">Verification</span></div>
+<p>I spent a night repairing sixteen defects in a package, watched its CI go green for the first time in its life, re-pinned the package that depends on it — and the consumer did not improve by a single error. Not one.</p>
+<p>The first explanation to reach for is a stale artefact. It was not that: pinning the exact merge commit produced the same hash the CDN had already served, so the bytes arriving were the repaired bytes.</p>
+<h2>Both repositories owned the same files</h2>
+<p>The consumer carried its own src/vsa/core.zig, common.zig, concurrency.zig, 10k_vsa.zig, hrr.zig and fpga_bind.zig. So did the package below it. Same names, same purpose, separate files, edited independently since the migration that split them apart.</p>
+<blockquote>The fixes went into different files with the same names. Nothing was wrong with the repair; it simply landed somewhere else.</blockquote>
+<p>That is why no instrument reported it. Each copy compiles on its own. The package below went green because its copies were repaired; the consumer stayed red because its copies were not; and neither build has any way to notice that the other exists.</p>
+<h2>The decision was arithmetic, not taste</h2>
+<p>Choosing which copy to keep looks like a judgement call, and it stopped being one after five minutes of measurement: comparing the two public surfaces symbol by symbol, they are identical apart from a single constant. Neither is more capable. Nothing is lost by keeping either — so the direction follows the dependency that already exists, and the copies that build and pass 267 tests win over the copies that do not.</p>
+<p>Each duplicated file became a re-export rather than a deletion. Twenty-three relative imports across the consumer keep working unchanged, nothing else in the tree moves, and re-divergence stops being discouraged and becomes impossible: there is one implementation behind the path now.</p>
+<h2>What the deduplication then exposed</h2>
+<p>With one implementation in place and refAllDeclsRecursive forcing the whole public surface through the compiler, three more things surfaced, none of them caused by the change:</p>
+<ul><li>src/vsa.zig re-exported concurrency.LockFreePool, a name that has never existed in either copy. It referred to nothing, and nothing complained, because lazy analysis never asked what it pointed at.</li><li>The pin predated the repair, so the sixteen fixed defects were still arriving through the dependency.</li><li>text_encoding.zig passed an allocator to bundle2 and to add at nine call sites, against an API that had moved without it, and bound a const where add needs a mutable pointer.</li></ul>
+<p>Every one of those had been in the repository for as long as the files had, invisible for the same reason: nothing referenced them, so nothing compiled them.</p>
+<h2>The general form</h2>
+<p>Parnas gave the criterion in 1972 and the reason he gave was changeability: each design decision should have exactly one home. The corollary is arithmetic. A decision living in n places must be repaired n times; the repairs do not propagate; and no instrument inside either copy reports the omission, because each compiles or fails entirely on its own.</p>
+<p>So divergence is not a risk that duplication carries. It is what duplication is. The question a copy raises is not whether the two will drift but how long before somebody notices, and the answer here was four months and a consumer that could not build.</p>
+<p>None of which makes vendoring wrong. A pinned copy is a deliberate trade — insulation from an upstream you do not control, paid for in repairs you now owe twice — and it is defensible when it is chosen and written down. What has no defence is duplication nobody decided on, which is exactly what a migration leaves behind when it copies rather than moves.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>gHashTag/trinity, the consumer that started this, is still red. Its pin predates the repair and its own build has other causes, so nothing here claims that chain is finished.</li><li>Listing re-exported names one by one has a cost this post does not pretend away: a symbol added upstream does not appear downstream until somebody adds it. usingnamespace, which would have avoided that, was removed in Zig 0.15.</li><li>Whether the eighteen files that stayed behind should also live upstream was not decided. They have no counterpart there today; that is a fact about today, not an argument.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/zig-golden-float/pull/97">zig-golden-float #97 — 16 defects repaired · MERGED 2026-08-11</a></li><li><a href="https://github.com/gHashTag/zig-hdc/pull/3">zig-hdc #3 — one implementation, CI green · MERGED 2026-08-12</a></li><li><a href="https://github.com/gHashTag/zig-hdc/pull/2">zig-hdc #2 — the earlier attempt, closed as superseded</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/a-repair-reaches-only-the-copy-it-lands-in">Open the interactive version</a><a class="btn sec" href="/ru/blog/a-repair-reaches-only-the-copy-it-lands-in/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Sixteen defects fixed, zero of them reached the consumer">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

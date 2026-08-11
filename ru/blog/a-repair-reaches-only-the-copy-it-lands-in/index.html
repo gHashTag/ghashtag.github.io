@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Шестнадцать дефектов исправлены, до потребителя не дошёл ни один · TRINITY</title>
+<meta name="description" content="Два репозитория несли одни и те же шесть файлов под одними именами. Починка одного не изменила ничего внизу по цепочке, и ни один прибор не мог сказать почему — потому что каждая копия компилируется сама по себе." />
+<link rel="canonical" href="https://t27.ai/ru/blog/a-repair-reaches-only-the-copy-it-lands-in/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/a-repair-reaches-only-the-copy-it-lands-in/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/a-repair-reaches-only-the-copy-it-lands-in/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/a-repair-reaches-only-the-copy-it-lands-in/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/a-repair-reaches-only-the-copy-it-lands-in/" />
+<meta property="og:title" content="Шестнадцать дефектов исправлены, до потребителя не дошёл ни один" />
+<meta property="og:description" content="Два репозитория несли одни и те же шесть файлов под одними именами. Починка одного не изменила ничего внизу по цепочке, и ни один прибор не мог сказать почему — потому что каждая копия компилируется сама по себе." />
+<meta property="og:image" content="https://t27.ai/og-blog-a-repair-reaches-only-the-copy-it-lands-in-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Шестнадцать дефектов исправлены, до потребителя не дошёл ни один" />
+<meta name="twitter:description" content="Два репозитория несли одни и те же шесть файлов под одними именами. Починка одного не изменила ничего внизу по цепочке, и ни один прибор не мог сказать почему — потому что каждая копия компилируется сама по себе." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Шестнадцать дефектов исправлены, до потребителя не дошёл ни один","description":"Два репозитория несли одни и те же шесть файлов под одними именами. Починка одного не изменила ничего внизу по цепочке, и ни один прибор не мог сказать почему — потому что каждая копия компилируется сама по себе.","url":"https://t27.ai/ru/blog/a-repair-reaches-only-the-copy-it-lands-in/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/a-repair-reaches-only-the-copy-it-lands-in/"},"image":"https://t27.ai/og-blog-a-repair-reaches-only-the-copy-it-lands-in-ru.png","datePublished":"2026-08-12","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Zig, Modularity, CI, Verification"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Шестнадцать дефектов исправлены, до потребителя не дошёл ни один</h1>
+<p class="meta">2026-08-12 · 7 мин чтения</p>
+<p class="lede">Два репозитория несли одни и те же шесть файлов под одними именами. Починка одного не изменила ничего внизу по цепочке, и ни один прибор не мог сказать почему — потому что каждая копия компилируется сама по себе.</p>
+<div class="tags"><span class="tag">Zig</span><span class="tag">Modularity</span><span class="tag">CI</span><span class="tag">Verification</span></div>
+<p>Я провёл ночь, исправляя шестнадцать дефектов в пакете, увидел, как его CI впервые в жизни позеленел, перезакрепил пакет, который от него зависит, — и у потребителя не убавилось ни одной ошибки. Ни одной.</p>
+<p>Первое объяснение, к которому тянется рука, — устаревший архив. Дело не в нём: закрепление точного коммита слияния дало тот же хеш, что CDN уже отдавал, значит приходили именно починенные байты.</p>
+<h2>Оба репозитория владели одними и теми же файлами</h2>
+<p>У потребителя были свои src/vsa/core.zig, common.zig, concurrency.zig, 10k_vsa.zig, hrr.zig и fpga_bind.zig. И у пакета под ним — тоже. Одинаковые имена, одинаковое назначение, разные файлы, правившиеся независимо с того переноса, который их разделил.</p>
+<blockquote>Правки легли в разные файлы с одинаковыми именами. С починкой всё было в порядке — она просто оказалась не там.</blockquote>
+<p>Поэтому ни один прибор об этом не сообщил. Каждая копия компилируется сама по себе. Пакет внизу позеленел, потому что починили его копии; потребитель остался красным, потому что его — нет; и ни у одной сборки нет способа заметить, что вторая вообще существует.</p>
+<h2>Решение было арифметикой, а не вкусом</h2>
+<p>Выбор, какую копию оставить, выглядит как суждение — и перестаёт им быть после пяти минут измерения: если сверить обе публичные поверхности символ за символом, они совпадают с точностью до одной константы. Ни одна не богаче. Терять нечего ни при каком выборе — поэтому направление задаёт уже существующая зависимость, и копии, которые собираются и проходят 267 тестов, побеждают копии, которые не собираются.</p>
+<p>Каждый дублирующийся файл стал реэкспортом, а не удалением. Двадцать три относительных импорта у потребителя продолжают работать как работали, остальное дерево не двигается, а повторное расхождение перестаёт быть нежелательным и становится невозможным: за путём теперь одна реализация.</p>
+<h2>Что вскрылось после развязки</h2>
+<p>Когда реализация осталась одна, а refAllDeclsRecursive прогнал через компилятор всю публичную поверхность, всплыли ещё три вещи — и ни одна из них не вызвана этой правкой:</p>
+<ul><li>src/vsa.zig реэкспортировал concurrency.LockFreePool — имя, которого никогда не было ни в одной копии. Оно указывало в никуда, и никто не возражал, потому что ленивый анализ ни разу не спросил, куда именно.</li><li>Закрепление было старше починки, поэтому шестнадцать исправленных дефектов по-прежнему приходили через зависимость.</li><li>text_encoding.zig передавал аллокатор в bundle2 и в add в девяти местах — API уехал без него, — и связывал const там, где add требует изменяемый указатель.</li></ul>
+<p>Всё это лежало в репозитории ровно столько же, сколько сами файлы, и было невидимо по одной причине: на это никто не ссылался, значит это не компилировалось.</p>
+<h2>Общая форма</h2>
+<p>Парнас сформулировал критерий в 1972 году, и причина у него была именно изменяемость: у каждого проектного решения должен быть ровно один дом. Следствие — арифметическое. Решение, живущее в n местах, требует n починок; починки не распространяются; и ни один прибор внутри любой из копий не сообщит о пропуске, потому что каждая компилируется или падает сама по себе.</p>
+<p>Значит расхождение — не риск, который несёт дублирование. Расхождение и есть дублирование. Копия ставит вопрос не о том, разойдутся ли двое, а о том, через сколько это заметят; здесь ответ — четыре месяца и потребитель, который не собирался.</p>
+<p>Ничто из этого не делает вендоринг неправильным. Закреплённая копия — осознанный размен: изоляция от чужого репозитория, за которую платят починками в двойном размере, — и он защитим, когда выбран и записан. Не имеет защиты дублирование, о котором никто не принимал решения, — а именно его оставляет за собой перенос, который копирует вместо того, чтобы перемещать.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>gHashTag/trinity, потребитель, с которого всё началось, всё ещё красный. Его закрепление старше починки, и у его сборки есть другие причины, так что ничто здесь не утверждает, что цепочка завершена.</li><li>Перечисление реэкспортируемых имён поимённо имеет цену, и этот пост её не прячет: символ, добавленный наверху, не появится внизу, пока его туда не добавят. usingnamespace, который избавил бы от этого, убран в Zig 0.15.</li><li>Должны ли восемнадцать оставшихся файлов тоже жить наверху — не решено. Сегодня у них там нет соответствия; это факт о сегодня, а не аргумент.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/zig-golden-float/pull/97">zig-golden-float #97 — 16 defects repaired · MERGED 2026-08-11</a></li><li><a href="https://github.com/gHashTag/zig-hdc/pull/3">zig-hdc #3 — one implementation, CI green · MERGED 2026-08-12</a></li><li><a href="https://github.com/gHashTag/zig-hdc/pull/2">zig-hdc #2 — the earlier attempt, closed as superseded</a></li></ul></div>
+<div class="cta"><p>Каждая цифра выше измерена, и рядом с ней названы её пределы.</p><div class="btns"><a class="btn" href="/?lang=ru#/blog/a-repair-reaches-only-the-copy-it-lands-in">Открыть интерактивную версию</a><a class="btn sec" href="/blog/a-repair-reaches-only-the-copy-it-lands-in/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Шестнадцать дефектов исправлены, до потребителя не дошёл ни один">admin@t27.ai</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
