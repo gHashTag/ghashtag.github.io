@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Zero of six hundred and forty · TRINITY</title>
+<meta name="description" content="A package declared 640 tests and ran none of them, and the exit code was 0. The mechanism is ordinary, the fix is one line per import, and what it uncovered was a physical constant that no input could ever produce." />
+<link rel="canonical" href="https://t27.ai/blog/a-suite-that-runs-nothing-exits-zero/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/a-suite-that-runs-nothing-exits-zero/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/a-suite-that-runs-nothing-exits-zero/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/a-suite-that-runs-nothing-exits-zero/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/a-suite-that-runs-nothing-exits-zero/" />
+<meta property="og:title" content="Zero of six hundred and forty" />
+<meta property="og:description" content="A package declared 640 tests and ran none of them, and the exit code was 0. The mechanism is ordinary, the fix is one line per import, and what it uncovered was a physical constant that no input could ever produce." />
+<meta property="og:image" content="https://t27.ai/og-blog-a-suite-that-runs-nothing-exits-zero.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Zero of six hundred and forty" />
+<meta name="twitter:description" content="A package declared 640 tests and ran none of them, and the exit code was 0. The mechanism is ordinary, the fix is one line per import, and what it uncovered was a physical constant that no input could ever produce." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Zero of six hundred and forty","description":"A package declared 640 tests and ran none of them, and the exit code was 0. The mechanism is ordinary, the fix is one line per import, and what it uncovered was a physical constant that no input could ever produce.","url":"https://t27.ai/blog/a-suite-that-runs-nothing-exits-zero/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/a-suite-that-runs-nothing-exits-zero/"},"image":"https://t27.ai/og-blog-a-suite-that-runs-nothing-exits-zero.png","datePublished":"2026-08-12","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"verification, zig, vacuity"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Zero of six hundred and forty</h1>
+<p class="meta">2026-08-12 · 9 min read</p>
+<p class="lede">A package declared 640 tests and ran none of them, and the exit code was 0. The mechanism is ordinary, the fix is one line per import, and what it uncovered was a physical constant that no input could ever produce.</p>
+<div class="tags"><span class="tag">verification</span><span class="tag">zig</span><span class="tag">vacuity</span></div>
+<p>The line that matters in this whole piece is four words long, and a compiler printed it:</p>
+<pre><code>$ zig test src/root.zig
+All 0 tests passed.</code></pre>
+<p>There are 640 test blocks in that repository, spread over 87 files. None of them ran. The exit code was 0, the build step was green, and every gate reading that exit code was correct to pass it.</p>
+<h2>How a test suite runs nothing</h2>
+<p>Zig analyses a top-level declaration only when something references it. Each physics domain in that package has a root file, and each root file says exactly this:</p>
+<pre><code>pub const formulas = @import(&quot;formulas.zig&quot;);</code></pre>
+<p>Nothing referenced `formulas`. So the declaration was never analysed, so `formulas.zig` was never part of the compilation, so its test blocks did not exist — not skipped, not failed, absent. The same holds for anything those files import in turn, all the way down.</p>
+<p>The repair is one reference per import:</p>
+<pre><code>test {
+    _ = formulas;
+}</code></pre>
+<p>Nine files needed it. The measurement moved from &quot;All 0 tests passed&quot; to 253 passed, 1 skipped, 254 total. The one that could not pass is the subject of the last section.</p>
+<h2>Why nothing had asked</h2>
+<p>I swept five packages this week. Not one of them had a workflow that runs `zig build`. That is the whole explanation, and it is duller than the alternatives — no clever bug, no race, no version skew. The compiler was never asked the question, so it never gave the answer.</p>
+<div class="tw"><table><thead><tr><th>Package</th><th>What stopped it</th><th>Where it stopped</th></tr></thead><tbody><tr><td>zig-half</td><td>Six faults; the module root was written in Rust syntax</td><td>Never compiled</td></tr><tr><td>zig-physics</td><td>The manifest was JSON, not ZON</td><td>Line 1, column 7</td></tr><tr><td>trinity-training</td><td>Dependency pinned to 0.2.0; upstream is 2.1.0</td><td>Before compilation, at fetch</td></tr><tr><td>zig-knowledge-graph</td><td>No build script; dependency declared without a hash</td><td>Nothing to run</td></tr><tr><td>zig-hdc</td><td>An import path that escapes the module root</td><td>Only when finally exported</td></tr></tbody></table></div>
+<p>Five packages, five unusable by anybody, and the reason is identical every time. The manifest error in zig-physics is the clearest: `{.name: &quot;zig-physics&quot;, version: &quot;0.1.0&quot;}` is JSON. ZON is not JSON. `zig build` stopped at the first line and never reached a single one of the 87 source files behind it.</p>
+<h2>One token, underneath all of it</h2>
+<p>The last package took the longest because its failure was one level up. A file called `vsa_jit.zig` could not be exported, and five separate roots in another repository depended on it. The blocker turned out to be a single import:</p>
+<pre><code>const arm64 = @import(&quot;../../jit_arm64.zig&quot;);</code></pre>
+<p>From `src/vm/`, that path leaves the module root. It cannot resolve — not on my machine, not in CI, not anywhere, and not at any point in the file&#x27;s history. `jit_arm64.zig` was sitting in the same directory the whole time. The fix is deleting five characters.</p>
+<p>It survived because nothing exported the file that contained it. This is the part worth keeping: **adding an export is a verification act.** It moves code from present to reachable, and reachable is the only category a compiler checks. The export in that pull request is the durable half of the change; the path fix alone would rot the same way.</p>
+<h2>Five copies, and the wrong one compiled</h2>
+<p>That file exists five times across three repositories — twice in the upstream package, once in each of two consumers. I expected the copy that compiled to be the authoritative one. It was the stale one.</p>
+<p>The stale copy called a two-argument `dotProduct` and read a plain field. The copy that failed to compile called the three-argument form and unwrapped an optional — because it had been updated for a newer dependency, and then the two files it needed were left behind in the migration. It compiled nowhere, and it was the newer of the two.</p>
+<p>So &quot;it builds&quot; tells you a copy agrees with the dependency sitting next to it. It does not tell you which copy should win. Deciding by build result would have propagated the older interface into the newer code, and the build would have gone green on the way.</p>
+<h2>What the tests found once they could run</h2>
+<p>One test failed the moment it became reachable: a prediction of the Barbero–Immirzi parameter, the coupling that fixes the area spectrum in loop quantum gravity. The assertion is that γ lands between 0.1 and 0.5, which is the right physics — entropy matching for black holes puts it near 0.2375.</p>
+<p>The projection computes γ from two coordinates of an E8 root, as |c₄| + |c₅| scaled by φ⁻¹. But every E8 root is a permutation of (±1, ±1, 0⁶) or (±½)⁸ with an even number of minus signs, so that sum is 0, 1 or 2 and nothing else. The image of the function is three numbers:</p>
+<div class="tw"><table><thead><tr><th>|c₄| + |c₅|</th><th>γ produced</th><th>inside (0.1, 0.5)?</th></tr></thead><tbody><tr><td>0</td><td>0.436992 — the fallback branch</td><td>yes</td></tr><tr><td>1</td><td>0.618034</td><td>no</td></tr><tr><td>2</td><td>1.236068</td><td>no</td></tr></tbody></table></div>
+<p>The target, 0.2375, is not among them and cannot be. The only admissible value is the fallback taken when both coordinates are zero — the answer is physical exactly when the projection has no input.</p>
+<p>No test run was needed to establish that. The domain is a finite structured set, so the image can be computed directly and compared with the specified range; the ranges are disjoint, and that is a proof, not a sample. It is worth naming as a technique, because it is cheaper than testing and strictly stronger: when the reachable range misses the admissible one, no input passes.</p>
+<p>I filed it and marked the test skipped with a pointer, rather than deleting it or widening the bound. The assertion is correct and the projection is what has to change. Writing a replacement formula would mean fitting it to the assertion it must satisfy — a model that agrees with its own test by construction, which is the thing this whole service exists to refuse.</p>
+<h2>The instrument lied in both directions</h2>
+<p>Three times in one session my local toolchain reported something false about these repositories, and it is worth being precise about the direction, because only one of the three is the failure people expect.</p>
+<p>Twice it raised a false alarm: `testing.refAllDeclsRecursive` and `std.time.timestamp` both exist in the 0.15.2 these packages target and were removed afterwards, so a local 0.16 reported failures that do not exist for the target. Once it gave false assurance in the other direction: code reaching for the C allocator passes on macOS, where libc is always linked, and fails on the Linux target with &quot;C allocator is only available when linking against libc&quot;. A CI run caught that one; nothing local would have.</p>
+<p>Two false alarms and one false assurance, from one ruler, in one afternoon. The rule that follows is not &quot;trust CI&quot; — it is that a measurement is uninterpretable without naming the instrument, and that a differing instrument errs in both directions rather than conservatively in one.</p>
+<h2>What this changes about the free check</h2>
+<p>The structural run on this site already refuses to treat an empty result as a pass — an empty flop count fails rather than reading as zero. This week added the sharper version of the same rule to the packages it now watches: a step that fails when fewer than 200 tests run, because a suite that runs nothing also exits 0, and no verdict distinguishes the two.</p>
+<p>That is the general shape. A verdict is one bit and cannot carry its own vacuity. Whenever a check can pass by not happening, the count of what happened has to be measured separately and gated on — and if you have never seen your own gate fail, you do not yet know that it can.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Coverage after the fix is partial and I have not measured how partial. In zig-physics 254 tests became reachable out of 640 declared; the remaining 386 live in files that no root reaches, and I have not established whether they would pass.</li><li>The Barbero–Immirzi projection is refuted, not repaired. Choosing a different mapping from E8 coordinates to γ is a physics decision, and any mapping I picked would be fitted to the assertion it had to satisfy.</li><li>trinity-training builds and its five module roots run tests on the target toolchain, but those roots do not reach all 104 files. I report the count CI produces, not the 672 declared.</li><li>One package, zig-knowledge-graph, is still unusable: three files importing four that do not exist. The four exist upstream; the shim is not written yet.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/zig-golden-float/pull/98">zig-golden-float #98 — the unresolvable import, merged</a></li><li><a href="https://github.com/gHashTag/zig-golden-float/pull/99">zig-golden-float #99 — export packed_vsa, submitted</a></li><li><a href="https://github.com/gHashTag/zig-physics/pull/4">zig-physics #4 — 0 tests were running out of 640, submitted</a></li><li><a href="https://github.com/gHashTag/zig-physics/issues/3">zig-physics #3 — the Barbero–Immirzi range, open</a></li><li><a href="https://github.com/gHashTag/trinity-training/pull/1">trinity-training #1 — no test step existed, submitted</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/a-suite-that-runs-nothing-exits-zero">Open the interactive version</a><a class="btn sec" href="/ru/blog/a-suite-that-runs-nothing-exits-zero/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Zero of six hundred and forty">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
