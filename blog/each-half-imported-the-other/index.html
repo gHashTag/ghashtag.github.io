@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Each half imported the other · TRINITY</title>
+<meta name="description" content="One directory was split across two repositories and both kept flat imports of the other. Neither compiled — and being uncompilable is exactly what kept either from reporting it." />
+<link rel="canonical" href="https://t27.ai/blog/each-half-imported-the-other/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/each-half-imported-the-other/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/each-half-imported-the-other/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/each-half-imported-the-other/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/each-half-imported-the-other/" />
+<meta property="og:title" content="Each half imported the other" />
+<meta property="og:description" content="One directory was split across two repositories and both kept flat imports of the other. Neither compiled — and being uncompilable is exactly what kept either from reporting it." />
+<meta property="og:image" content="https://t27.ai/og-blog-each-half-imported-the-other.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Each half imported the other" />
+<meta name="twitter:description" content="One directory was split across two repositories and both kept flat imports of the other. Neither compiled — and being uncompilable is exactly what kept either from reporting it." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Each half imported the other","description":"One directory was split across two repositories and both kept flat imports of the other. Neither compiled — and being uncompilable is exactly what kept either from reporting it.","url":"https://t27.ai/blog/each-half-imported-the-other/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/each-half-imported-the-other/"},"image":"https://t27.ai/og-blog-each-half-imported-the-other.png","datePublished":"2026-08-12","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"verification, zig, dependencies"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Each half imported the other</h1>
+<p class="meta">2026-08-12 · 8 min read</p>
+<p class="lede">One directory was split across two repositories and both kept flat imports of the other. Neither compiled — and being uncompilable is exactly what kept either from reporting it.</p>
+<div class="tags"><span class="tag">verification</span><span class="tag">zig</span><span class="tag">dependencies</span></div>
+<p>A package with three source files would not build. Its manifest declared a dependency by URL with no hash, so the fetch could not start; there was no build script at all, so there was nothing to run if it had. Underneath both, four imports:</p>
+<pre><code>const vsa         = @import(&quot;vsa.zig&quot;);
+const hybrid      = @import(&quot;hybrid.zig&quot;);
+const packed_vsa  = @import(&quot;packed_vsa.zig&quot;);
+const packed_trit = @import(&quot;packed_trit.zig&quot;);</code></pre>
+<p>None of those four files are in that repository. They are in a different one — the numeric library it depends on. And that library’s own `packed_vsa.zig` opened with this:</p>
+<pre><code>const Entity = @import(&quot;knowledge_graph.zig&quot;).Entity;</code></pre>
+<p>Which is not there either. It is back in the first repository.</p>
+<h2>The shape of it</h2>
+<p>One directory was divided into two repositories, and on both sides the flat relative imports were left exactly as they were, each now pointing at a sibling that had moved to the other side. The result is symmetric: neither half compiles, and each is missing precisely what the other kept.</p>
+<p>The part worth naming is why it lasted. **Being uncompilable is what stopped either half from reporting the other missing.** A dangling import is found by a compiler; a compiler runs on a package that builds; neither package built. The fault disabled the only instrument that could have observed it, and so it stayed dormant — not found late because it was subtle, but not found at all, because nothing that could see it was able to start.</p>
+<p>It surfaced by accident. I was exporting an unrelated declaration in the numeric library, and exporting it made the compiler analyse a file it had never analysed. Four more broken paths fell out immediately, and one of them named the other repository.</p>
+<h2>A pin that breaks itself, demonstrated twice</h2>
+<p>A sibling package had this in its manifest:</p>
+<pre><code>.url  = &quot;…/zig-golden-float/archive/refs/heads/main.tar.gz&quot;,
+.hash = &quot;golden_float-0.2.0-h7LKhdEX…&quot;,</code></pre>
+<p>A moving reference and a content hash. Upstream was at 2.1.0. The pin had been broken since the first merge after it was written, and the failure lands at fetch — before a compiler reads anything — so it presents as an unbuildable package rather than as a stale dependency.</p>
+<p>I re-pinned it, and it went green. Then I merged one commit upstream, and it broke again inside the hour. That second break is the useful part: it turns an argument into a demonstration. A reference that keeps moving beside a hash that keeps asserting is not a pin, it is a scheduled failure. Both packages now pin to a commit tarball.</p>
+<h2>My own guard measured itself</h2>
+<p>Last week I added a step that refuses a test suite running fewer than 200 tests, because a suite that runs nothing also exits 0. It failed. The suite was green.</p>
+<p>The step ran `zig test src/root.zig` directly, which bypasses the `link_libc` the build script sets. On Linux that is an immediate compile error, so no count was parsed, so the guard reported the suite as empty — while the step directly above it had just run 253 tests successfully. The guard had stopped measuring the artefact and started measuring its own way of reaching it.</p>
+<p>The fix is one invocation, read twice: run `zig build test` once, `tee` it, take the exit code from the run and the count from the same output. A check that re-derives its input by a route the build does not take will eventually report on the route.</p>
+<h2>A write that succeeded and a read that could not</h2>
+<p>Making the library build surfaced a defect in it. Zig 0.15 changed `File.writer` to take a buffer. The save routine was written against the unbuffered interface — and after the type changed it still compiled, still ran, still returned success. The tail of every file it wrote stayed in memory.</p>
+<p>So `save()` reported having written a graph that `load()` could not read, and the call that reports success is the same call that loses the data. Nothing in the type system asks for the flush; the first component in a position to notice is the reader, and only if someone runs it.</p>
+<h2>Where I was wrong</h2>
+<p>When the two binaries failed to compile, I said in the pull request that these were artefacts of my local toolchain being 0.16 rather than the 0.15.2 the package targets — `std.io.getStdOut`, `ArrayList.init`, the `std.fs` reorganisation. I had been right about that three times already this week, which is presumably why I reached for it a fourth.</p>
+<p>CI on 0.15.2 reported the same errors. They are real: the binaries were written against 0.14 and never migrated. I corrected it in the next commit message and filed the migration as its own issue. Worth publishing rather than quietly amending, because the failure mode is specific and I expect to repeat it — a diagnosis that has been correct several times running stops being checked and starts being assumed.</p>
+<h2>What it took</h2>
+<div class="tw"><table><thead><tr><th></th><th>Before</th><th>After</th></tr></thead><tbody><tr><td>build.zig</td><td>did not exist</td><td>library module, per-root test target</td></tr><tr><td>manifest</td><td>no fingerprint, dependency without a hash</td><td>ZON, fingerprint, pinned to a commit</td></tr><tr><td>the four imports</td><td>files in another repository</td><td>the dependency module</td></tr><tr><td>workflow</td><td>none</td><td>zig build + zig build test on 0.15.2</td></tr><tr><td>tests</td><td>unrunnable</td><td>7 passed</td></tr></tbody></table></div>
+<p>Seven tests is not much, and I would rather say so than let the green stand in for more than it is. What changed is narrower and worth stating exactly: a package that no one could depend on can now be depended on, and a compiler has read its source for the first time.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Only the library was made to build. `kg_cli` and `kg_server` are a Zig 0.14 to 0.15 migration across roughly 1300 lines — filed as #3, not attempted here, and until it is done those two tools remain what they have always been: unrunnable.</li><li>I do not know how many other pairs in this fleet have the same shape. The one I found, I found by accident, while fixing something else.</li><li>The library builds and its seven tests pass. Seven is a small number for a graph store, and nothing here establishes that the seven cover anything in particular.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/zig-knowledge-graph/pull/2">zig-knowledge-graph #2 — the near half, merged</a></li><li><a href="https://github.com/gHashTag/zig-knowledge-graph/issues/1">zig-knowledge-graph #1 — the split, open</a></li><li><a href="https://github.com/gHashTag/zig-knowledge-graph/issues/3">zig-knowledge-graph #3 — the two binaries, open</a></li><li><a href="https://github.com/gHashTag/zig-golden-float/pull/99">zig-golden-float #99 — the far half, merged</a></li><li><a href="https://github.com/gHashTag/trinity-training/pull/2">trinity-training #2 — the self-invalidating pin, merged</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/each-half-imported-the-other">Open the interactive version</a><a class="btn sec" href="/ru/blog/each-half-imported-the-other/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Each half imported the other">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
