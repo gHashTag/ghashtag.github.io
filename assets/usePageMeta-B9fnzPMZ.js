@@ -1,0 +1,1 @@
+import{r as u}from"./react-BikoVsHo.js";const r="TRINITY";function s(n,e){u.useEffect(()=>{const c=document.title;document.title=`${n} · ${r}`;let o,t=null;return e&&(t=document.querySelector('meta[name="description"]'),t&&(o=t.content,t.content=e)),()=>{document.title=c,t&&o!==void 0&&(t.content=o)}},[n,e])}export{s as u};

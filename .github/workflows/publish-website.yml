@@ -37,6 +37,17 @@ jobs:
     steps:
       - name: Checkout the apex
         uses: actions/checkout@v4
+        with:
+          # The whole history, not the default single commit. verify-site.sh
+          # checks that every sitemap lastmod agrees with the date git records
+          # for that file, and a depth-1 checkout has exactly one commit — so
+          # `git log -1 -- gft/index.html` answers with the date of the last
+          # publish for every file on the site. From the first publish onward,
+          # every honest lastmod older than today read as fabricated, the gate
+          # failed, and the publisher stopped pushing while reporting a content
+          # problem it had invented. The gate was right about its rule and wrong
+          # about the facts, because it was never given them.
+          fetch-depth: 0
 
       - name: Checkout the website sources
         uses: actions/checkout@v4
