@@ -132,6 +132,43 @@ jobs:
           # the OG images and CNAME are not in dist/ and must survive.
           rsync -a .src/apps/website/dist/ ./
 
+          # Restamp sitemap lastmod from git, because sitemap.xml is a committed
+          # static file with no generator: every publish moves the files it
+          # describes and the dates stay where they were written. verify-site.sh
+          # asks git directly and rejected the tree with
+          #   index.html: sitemap says 2026-08-12, git says 2026-08-13
+          # which is correct -- a hand-written date cannot follow a build. Before
+          # this, that gate was never reached, because the publisher exited early
+          # on "already current" and nothing ever got as far as being verified.
+          python3 - <<'PYSM'
+          import re, subprocess, datetime, pathlib
+          sm = pathlib.Path("sitemap.xml"); t = sm.read_text(encoding="utf-8")
+
+          def when(loc):
+              # URL -> the file that serves it -> its last commit date.
+              path = re.sub(r'^https?://[^/]+/?', '', loc).strip('/')
+              cand = [path, f"{path}/index.html", "index.html" if not path else None]
+              for c in [c for c in cand if c] :
+                  if pathlib.Path(c).exists():
+                      d = subprocess.run(["git","log","-1","--format=%cs","--",c],
+                                         capture_output=True, text=True).stdout.strip()
+                      if d: return d
+              return None
+
+          today = datetime.date.today().isoformat()
+          n = 0
+          def sub(m):
+              global n
+              loc, lm = m.group(1), m.group(2)
+              d = when(loc) or today
+              if d != lm: n += 1
+              return m.group(0).replace(f"<lastmod>{lm}</lastmod>", f"<lastmod>{d}</lastmod>")
+
+          t2 = re.sub(r"<loc>([^<]*)</loc>\s*<lastmod>([^<]*)</lastmod>", sub, t)
+          sm.write_text(t2, encoding="utf-8")
+          print(f"  sitemap: {n} lastmod value(s) restamped from git")
+          PYSM
+
           # The same gate a human publish runs. It fails loudly on empty values
           # rather than treating them as passes, which is the only reason it is
           # worth running unattended.
