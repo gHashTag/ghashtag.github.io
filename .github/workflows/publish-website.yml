@@ -78,6 +78,31 @@ jobs:
           NEW=$(grep -o 'assets/index-[A-Za-z0-9_-]*\.js' .src/apps/website/dist/index.html | head -1)
           OLD=$(grep -o 'assets/index-[A-Za-z0-9_-]*\.js' index.html | head -1)
 
+          # The entry bundle alone is not the site. A change that does not alter
+          # its content hash never reached the apex at all: 404.html, robots.txt,
+          # the icons and manifest, every code-split chunk, and every prerendered
+          # page. On 2026-08-13 a 404.html fix was merged into trinity, this
+          # workflow ran four times, reported "already current" each time, and
+          # the apex kept serving the file from the day before -- correctly, by
+          # the rule as written.
+          #
+          # So compare a manifest of every built file, not one filename. Names
+          # are content-hashed by Vite, and the unhashed statics are covered by
+          # hashing their bytes.
+          # Only the published surface: the apex checkout also carries .git,
+          # .github and repository docs, none of which exist in dist/. Comparing
+          # them raw would report a difference on every run and publish forever.
+          manifest() {
+            ( cd "$1" && find . -type f \
+                -not -path './.git/*' -not -path './.github/*' \
+                -not -name 'README.md' -not -name 'CNAME' \
+              | sort | while read -r f; do
+                printf '%s %s\n' "$(sha256sum "$f" | cut -c1-16)" "$f"
+              done ) | sha256sum | cut -c1-16
+          }
+          NEW_TREE=$(manifest .src/apps/website/dist)
+          OLD_TREE=$(manifest .)
+
           # An empty hash is a failure, never a match. A pattern that missed the
           # underscore in Vite hashes once compared an empty string against an
           # empty string here and reported a confident green.
@@ -93,9 +118,14 @@ jobs:
           say "- trinity \`$SRC_SHA\` builds \`$NEW\`"
           say "- this repository currently serves \`$OLD\`"
 
-          if [ "$NEW" = "$OLD" ]; then
+          say "- built tree \`$NEW_TREE\`, served tree \`$OLD_TREE\`"
+
+          if [ "$NEW" = "$OLD" ] && [ "$NEW_TREE" = "$OLD_TREE" ]; then
             say "- **PASS** already current, nothing to publish"
             exit 0
+          fi
+          if [ "$NEW" = "$OLD" ]; then
+            say "- entry bundle unchanged, but other files differ -- publishing"
           fi
 
           # Additive on purpose. The generated pages (cases/, gft/, about/ …),
