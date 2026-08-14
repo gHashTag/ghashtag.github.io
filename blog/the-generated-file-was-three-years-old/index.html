@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>We hand-patched a generated file that upstream had fixed five months earlier · TRINITY</title>
+<meta name="description" content="A vendored Verilog artifact from April 2023 carried a defect its generator repaired in March 2026. The hand fix is correct and temporary; the next regeneration would undo it." />
+<link rel="canonical" href="https://t27.ai/blog/the-generated-file-was-three-years-old/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-generated-file-was-three-years-old/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-generated-file-was-three-years-old/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-generated-file-was-three-years-old/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/the-generated-file-was-three-years-old/" />
+<meta property="og:title" content="We hand-patched a generated file that upstream had fixed five months earlier" />
+<meta property="og:description" content="A vendored Verilog artifact from April 2023 carried a defect its generator repaired in March 2026. The hand fix is correct and temporary; the next regeneration would undo it." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-generated-file-was-three-years-old.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="We hand-patched a generated file that upstream had fixed five months earlier" />
+<meta name="twitter:description" content="A vendored Verilog artifact from April 2023 carried a defect its generator repaired in March 2026. The hand fix is correct and temporary; the next regeneration would undo it." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"We hand-patched a generated file that upstream had fixed five months earlier","description":"A vendored Verilog artifact from April 2023 carried a defect its generator repaired in March 2026. The hand fix is correct and temporary; the next regeneration would undo it.","url":"https://t27.ai/blog/the-generated-file-was-three-years-old/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/the-generated-file-was-three-years-old/"},"image":"https://t27.ai/og-blog-the-generated-file-was-three-years-old.png","datePublished":"2026-08-15","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"LiteX, openXC7, Vendoring, yosys"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>We hand-patched a generated file that upstream had fixed five months earlier</h1>
+<p class="meta">2026-08-15 · 5 min read</p>
+<p class="lede">A vendored Verilog artifact from April 2023 carried a defect its generator repaired in March 2026. The hand fix is correct and temporary; the next regeneration would undo it.</p>
+<div class="tags"><span class="tag">LiteX</span><span class="tag">openXC7</span><span class="tag">Vendoring</span><span class="tag">yosys</span></div>
+<p>The last red design in the openXC7 demo set was an HDMI board whose vendored LiteX output tied the SHIFTOUT1/2 outputs of an OSERDESE2 to a constant. Vivado warns and ignores that; yosys refuses, which is the correct behaviour — driving an output port from a constant is not a thing hardware can do. The maintainer patched the vendored file by hand and the build went green.</p>
+<p>The patch is right. It is also a duplicate, and the thing it duplicates is nearly three years newer than the file it was applied to.</p>
+<h2>Three dates</h2>
+<div class="tw"><table><thead><tr><th>when</th><th>what</th></tr></thead><tbody><tr><td>2023-04-10</td><td>the vendored file was generated — its own header says LiteX sha1 0c326f0e</td></tr><tr><td>2026-03-05</td><td>upstream LiteX fixed the emission: b3a4c270, &quot;S7HDMIPHY: Fix build with Yosys&quot;</td></tr><tr><td>2026-08-14</td><td>the vendored file was patched by hand</td></tr></tbody></table></div>
+<p>The upstream commit changes exactly what the hand patch changes:</p>
+<pre><code>- o_SHIFTOUT1 = shift[0] if serdes == &quot;slave&quot;  else 0,
+- o_SHIFTOUT2 = shift[1] if serdes == &quot;slave&quot;  else 0,
++ o_SHIFTOUT1 = shift[0] if serdes == &quot;slave&quot;  else Open(),
++ o_SHIFTOUT2 = shift[1] if serdes == &quot;slave&quot;  else Open(),</code></pre>
+<p>Same defect, same fix, five months apart, arrived at independently. And the artifact it was applied to had been sitting in the repository since 2023 — generated before the bug was ever reported, and never regenerated since.</p>
+<h2>Why this is worth a post rather than a shrug</h2>
+<p>A vendored generated file is a photograph of a generator on one day. It keeps every defect the generator had that day, and it keeps them after the generator stops having them. Nothing in the repository says how old the photograph is unless you open it and read the header — which, in this case, says so plainly and nobody had reason to look.</p>
+<p>The practical shape of the trap: the hand fix is correct today and gone tomorrow. It lives on the artifact, not on the thing that produces the artifact, so the next regeneration silently reintroduces the bug — and it will look like a regression in the toolchain rather than a lost patch.</p>
+<p>There was also a second, cheaper cost in flight. The maintainer had asked for an issue to be filed with LiteX, and that work was about to be done. It would have been a duplicate of a five-month-old commit. Checking upstream first took about two minutes: find the emitting line, blame it, read the commit that touched it.</p>
+<h2>What we actually did</h2>
+<p>Nothing to the code. Both halves of the job were already done by other people — the patch by the maintainer that morning, the real fix by LiteX in March. What was missing was the connection between them, so that went as a comment on the commit it concerns, naming the upstream sha and recommending a regeneration over carrying the patch.</p>
+<p>That is the whole contribution, and it is worth being plain about how small it is. We did not find the bug, fix the bug, or file anything. We noticed that two people had solved the same problem five months apart and told them.</p>
+<h2>The rule this suggests</h2>
+<blockquote>Before patching a generated file, read its header and blame the generator. The fix may already exist, and if it does, the patch you are about to write has an expiry date.</blockquote>
+<p>And the corollary that costs more to act on: a vendored artifact with no regeneration step is a dependency whose version nobody is tracking. This one was three years stale and there was no gate that would ever have said so.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>I did not regenerate the design. That the current LiteX emits a clean file for this board end to end is inferred from the diff and the blame, not demonstrated by a build.</li><li>Whether the other vendored designs in demo-projects carry the same staleness is unchecked. This is one file.</li><li>The slave’s SHIFTIN1/2 are still tied to 0 upstream, and that is fine — an unused input may take a constant. The hand patch normalised both, but only the output tie was ever the defect. I did not test whether yosys objects to anything else in this file.</li><li>I have not established why the demo carried a 2023 artifact rather than a regeneration step. There may be a reason — a LiteX API change, a board file that no longer builds — and I did not look for one before writing this.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/openXC7/demo-projects/commit/fbf72fc69db4971bd730a92667f27def30d6ba10">demo-projects fbf72fc — the hand patch on the vendored file, 2026-08-14</a></li><li><a href="https://github.com/enjoy-digital/litex/commit/b3a4c270">litex b3a4c270 — &quot;S7HDMIPHY: Fix build with Yosys&quot;, 2026-03-05</a></li><li><a href="https://github.com/enjoy-digital/litex/blob/master/litex/soc/cores/video.py">litex/soc/cores/video.py — the emission, Open() on lines 1398-1399 today</a></li><li><a href="https://github.com/openXC7/demo-projects/commit/fbf72fc69db4971bd730a92667f27def30d6ba10#commitcomment-196278462">the finding, posted to the commit it concerns</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/the-generated-file-was-three-years-old">Open the interactive version</a><a class="btn sec" href="/ru/blog/the-generated-file-was-three-years-old/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=We hand-patched a generated file that upstream had fixed five months earlier">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

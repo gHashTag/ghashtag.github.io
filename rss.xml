@@ -19,6 +19,17 @@
       <category>Measurement</category>
     </item>
     <item>
+      <title>We hand-patched a generated file that upstream had fixed five months earlier</title>
+      <link>https://t27.ai/#/blog/the-generated-file-was-three-years-old</link>
+      <guid isPermaLink="false">the-generated-file-was-three-years-old</guid>
+      <pubDate>Sat, 15 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A vendored Verilog artifact from April 2023 carried a defect its generator repaired in March 2026. The hand fix is correct and temporary; the next regeneration would undo it.</description>
+      <category>LiteX</category>
+      <category>openXC7</category>
+      <category>Vendoring</category>
+      <category>yosys</category>
+    </item>
+    <item>
       <title>A correct gate with a manual remedy is an outage</title>
       <link>https://t27.ai/#/blog/a-correct-gate-with-a-manual-remedy</link>
       <guid isPermaLink="false">a-correct-gate-with-a-manual-remedy</guid>

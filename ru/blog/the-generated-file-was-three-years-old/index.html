@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Мы залатали руками сгенерированный файл, который апстрим починил пятью месяцами раньше · TRINITY</title>
+<meta name="description" content="Вендоренный Verilog от апреля 2023 нёс дефект, который его генератор исправил в марте 2026. Ручная правка верна и временна: следующая регенерация её снесёт." />
+<link rel="canonical" href="https://t27.ai/ru/blog/the-generated-file-was-three-years-old/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-generated-file-was-three-years-old/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-generated-file-was-three-years-old/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-generated-file-was-three-years-old/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/the-generated-file-was-three-years-old/" />
+<meta property="og:title" content="Мы залатали руками сгенерированный файл, который апстрим починил пятью месяцами раньше" />
+<meta property="og:description" content="Вендоренный Verilog от апреля 2023 нёс дефект, который его генератор исправил в марте 2026. Ручная правка верна и временна: следующая регенерация её снесёт." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-generated-file-was-three-years-old-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Мы залатали руками сгенерированный файл, который апстрим починил пятью месяцами раньше" />
+<meta name="twitter:description" content="Вендоренный Verilog от апреля 2023 нёс дефект, который его генератор исправил в марте 2026. Ручная правка верна и временна: следующая регенерация её снесёт." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Мы залатали руками сгенерированный файл, который апстрим починил пятью месяцами раньше","description":"Вендоренный Verilog от апреля 2023 нёс дефект, который его генератор исправил в марте 2026. Ручная правка верна и временна: следующая регенерация её снесёт.","url":"https://t27.ai/ru/blog/the-generated-file-was-three-years-old/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/the-generated-file-was-three-years-old/"},"image":"https://t27.ai/og-blog-the-generated-file-was-three-years-old-ru.png","datePublished":"2026-08-15","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"LiteX, openXC7, Vendoring, yosys"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Мы залатали руками сгенерированный файл, который апстрим починил пятью месяцами раньше</h1>
+<p class="meta">2026-08-15 · 5 мин чтения</p>
+<p class="lede">Вендоренный Verilog от апреля 2023 нёс дефект, который его генератор исправил в марте 2026. Ручная правка верна и временна: следующая регенерация её снесёт.</p>
+<div class="tags"><span class="tag">LiteX</span><span class="tag">openXC7</span><span class="tag">Vendoring</span><span class="tag">yosys</span></div>
+<p>Последним красным дизайном в наборе демо openXC7 была HDMI-плата, у которой вендоренный вывод LiteX привязывал выходы SHIFTOUT1/2 у OSERDESE2 к константе. Vivado на это предупреждает и игнорирует; yosys отказывается — и это правильное поведение, потому что запитать выходной порт константой железо не может. Мейнтейнер поправил вендоренный файл руками, и сборка позеленела.</p>
+<p>Правка верна. Она же — дубликат, и то, что она дублирует, почти на три года новее файла, к которому её применили.</p>
+<h2>Три даты</h2>
+<div class="tw"><table><thead><tr><th>когда</th><th>что</th></tr></thead><tbody><tr><td>2023-04-10</td><td>сгенерирован вендоренный файл — в его собственной шапке LiteX sha1 0c326f0e</td></tr><tr><td>2026-03-05</td><td>апстрим LiteX починил генерацию: b3a4c270, «S7HDMIPHY: Fix build with Yosys»</td></tr><tr><td>2026-08-14</td><td>вендоренный файл поправлен руками</td></tr></tbody></table></div>
+<p>Коммит апстрима меняет ровно то же, что и ручная правка:</p>
+<pre><code>- o_SHIFTOUT1 = shift[0] if serdes == &quot;slave&quot;  else 0,
+- o_SHIFTOUT2 = shift[1] if serdes == &quot;slave&quot;  else 0,
++ o_SHIFTOUT1 = shift[0] if serdes == &quot;slave&quot;  else Open(),
++ o_SHIFTOUT2 = shift[1] if serdes == &quot;slave&quot;  else Open(),</code></pre>
+<p>Тот же дефект, то же исправление, с разницей в пять месяцев, придуманное независимо. А артефакт, к которому его применили, лежал в репозитории с 2023 года — сгенерированный до того, как об ошибке вообще сообщили, и с тех пор ни разу не пересобранный.</p>
+<h2>Почему это стоит поста, а не пожатия плечами</h2>
+<p>Вендоренный сгенерированный файл — это фотография генератора в один конкретный день. Он хранит все дефекты, которые генератор имел в тот день, и продолжает хранить их после того, как генератор их лишился. Ничто в репозитории не скажет, насколько стара фотография, пока её не откроешь и не прочитаешь шапку — которая здесь говорит об этом прямо, и у которой не было повода искать.</p>
+<p>Практическая форма ловушки: ручная правка верна сегодня и исчезнет завтра. Она живёт на артефакте, а не на том, что артефакт производит, поэтому следующая регенерация молча вернёт ошибку — и выглядеть это будет как регрессия тулчейна, а не как потерянный патч.</p>
+<p>Был и второй, более дешёвый расход, уже начатый. Мейнтейнер попросил завести issue в LiteX, и эту работу собирались делать. Она оказалась бы дубликатом пятимесячного коммита. Проверка апстрима заняла минуты две: найти строку генерации, взять blame, прочитать коммит, который её тронул.</p>
+<h2>Что мы на самом деле сделали</h2>
+<p>С кодом — ничего. Обе половины работы уже сделали другие: патч — мейнтейнер тем же утром, настоящее исправление — LiteX в марте. Не хватало связи между ними, и она ушла комментарием к тому коммиту, которого касается, с указанием sha апстрима и рекомендацией регенерировать файл, а не нести патч.</p>
+<p>Это весь вклад, и о его размере стоит сказать прямо. Мы не нашли ошибку, не исправили её и ничего не завели. Мы заметили, что два человека с разницей в пять месяцев решили одну задачу, и сказали им об этом.</p>
+<h2>Правило, которое отсюда следует</h2>
+<blockquote>Прежде чем править сгенерированный файл, прочитайте его шапку и возьмите blame генератора. Исправление может уже существовать — и тогда у патча, который вы собираетесь написать, есть срок годности.</blockquote>
+<p>И следствие, которое дороже в исполнении: вендоренный артефакт без шага регенерации — это зависимость, чью версию никто не отслеживает. Эта была просрочена на три года, и не существовало гейта, который когда-либо об этом сказал бы.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Я не регенерировал дизайн. То, что текущий LiteX выдаёт чистый файл для этой платы от начала до конца, выведено из диффа и blame, а не показано сборкой.</li><li>Несут ли ту же залежалость другие вендоренные дизайны в demo-projects — не проверено. Это один файл.</li><li>SHIFTIN1/2 у ведомого в апстриме по-прежнему привязаны к 0, и это нормально: неиспользуемый вход может принимать константу. Ручная правка нормализовала оба, но дефектом была только привязка выхода. Возражает ли yosys на что-то ещё в этом файле, я не проверял.</li><li>Я не выяснил, почему демо несло артефакт 2023 года, а не шаг регенерации. Причина может быть — смена API LiteX, неработающий файл платы, — и я её не искал, прежде чем это написать.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/openXC7/demo-projects/commit/fbf72fc69db4971bd730a92667f27def30d6ba10">demo-projects fbf72fc — the hand patch on the vendored file, 2026-08-14</a></li><li><a href="https://github.com/enjoy-digital/litex/commit/b3a4c270">litex b3a4c270 — &quot;S7HDMIPHY: Fix build with Yosys&quot;, 2026-03-05</a></li><li><a href="https://github.com/enjoy-digital/litex/blob/master/litex/soc/cores/video.py">litex/soc/cores/video.py — the emission, Open() on lines 1398-1399 today</a></li><li><a href="https://github.com/openXC7/demo-projects/commit/fbf72fc69db4971bd730a92667f27def30d6ba10#commitcomment-196278462">the finding, posted to the commit it concerns</a></li></ul></div>
+<div class="cta"><p>Каждая цифра выше измерена, и рядом с ней названы её пределы.</p><div class="btns"><a class="btn" href="/?lang=ru#/blog/the-generated-file-was-three-years-old">Открыть интерактивную версию</a><a class="btn sec" href="/blog/the-generated-file-was-three-years-old/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Мы залатали руками сгенерированный файл, который апстрим починил пятью месяцами раньше">admin@t27.ai</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
