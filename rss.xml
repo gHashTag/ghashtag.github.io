@@ -41,6 +41,17 @@
       <category>Tooling</category>
     </item>
     <item>
+      <title>Eight broken gates in one day, and not one of them was broken code</title>
+      <link>https://t27.ai/#/blog/a-broken-reference-looks-exactly-like-broken-code</link>
+      <guid isPermaLink="false">a-broken-reference-looks-exactly-like-broken-code</guid>
+      <pubDate>Sat, 15 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A flag, a version, a runner, a module, a script, three specs, two format paths, five submodule links and a step that ran what it claimed to build. Every one reported &quot;failure&quot;, which is also what a real defect reports.</description>
+      <category>CI</category>
+      <category>Tooling</category>
+      <category>Git</category>
+      <category>Zig</category>
+    </item>
+    <item>
       <title>A correct gate with a manual remedy is an outage</title>
       <link>https://t27.ai/#/blog/a-correct-gate-with-a-manual-remedy</link>
       <guid isPermaLink="false">a-correct-gate-with-a-manual-remedy</guid>
