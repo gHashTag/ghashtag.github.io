@@ -1,24 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Одиннадцать вердиктов оказались окнами, а не чекпоинтами">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#05070a"/><stop offset="100%" stop-color="#0b1418"/>
+      <stop offset="0%" stop-color="#04070a"/><stop offset="100%" stop-color="#0a1417"/>
     </linearGradient>
+    <radialGradient id="halo" cx="0.88" cy="0.08" r="0.75">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </radialGradient>
     <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.9"/><stop offset="100%" stop-color="#00ff88" stop-opacity="0.1"/>
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.95"/><stop offset="100%" stop-color="#00ff88" stop-opacity="0.06"/>
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <rect x="0" y="0" width="1200" height="5" fill="url(#glow)"/>
-  <text x="80" y="132" font-family="Inter,Helvetica,Arial,sans-serif" font-size="22" fill="#00ff88" letter-spacing="6">T27.AI · BLOG</text>
-  <text x="80" y="212" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#f2f6f4">Одиннадцать вердиктов оказались</text>
-  <text x="80" y="268" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#f2f6f4">окнами, а не чекпоинтами</text>
-  <text x="80" y="372" font-family="Inter,Helvetica,Arial,sans-serif" font-size="24" fill="#9fb3ab">Смерженная исследовательская правка заменяет 140 объединённых…</text>
-  <text x="80" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">8</text>
-  <text x="80" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="19" fill="#8fa79f">мин чтения</text>
-  <text x="470" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">2</text>
-  <text x="470" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="19" fill="#8fa79f">пруфов со ссылкой</text>
-  <text x="830" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">3</text>
-  <text x="830" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="19" fill="#8fa79f">открытых вопросов</text>
-  <text x="80" y="580" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" fill="#7d928b">Dmitrii Vasilev · admin@t27.ai</text>
-  <line x1="80" y1="412" x2="1120" y2="412" stroke="#1d2b2a" stroke-width="2"/>
+  <rect width="1200" height="630" fill="url(#halo)"/>
+  <text x="1112" y="250" font-family="Inter,Helvetica,Arial,sans-serif" font-size="86" font-weight="700" fill="#00ff88" opacity="0.13">−</text>
+  <text x="1112" y="350" font-family="Inter,Helvetica,Arial,sans-serif" font-size="86" font-weight="700" fill="#00ff88" opacity="0.13">0</text>
+  <text x="1112" y="450" font-family="Inter,Helvetica,Arial,sans-serif" font-size="86" font-weight="700" fill="#00ff88" opacity="0.13">+</text>
+  <rect x="0" y="0" width="1200" height="6" fill="url(#glow)"/>
+  <rect x="80" y="106" width="12" height="12" fill="#00ff88"/>
+  <text x="108" y="120" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" letter-spacing="6" fill="#00ff88">T27.AI · БЛОГ</text>
+  <text x="80" y="304" font-family="Inter,Helvetica,Arial,sans-serif" font-size="74" font-weight="700" fill="#f4f8f6">Одиннадцать вердиктов</text>
+  <text x="80" y="385" font-family="Inter,Helvetica,Arial,sans-serif" font-size="74" font-weight="700" fill="#f4f8f6">оказались окнами, а не</text>
+  <text x="80" y="466" font-family="Inter,Helvetica,Arial,sans-serif" font-size="74" font-weight="700" fill="#f4f8f6">чекпоинтами</text>
+  <line x1="80" y1="524" x2="1120" y2="524" stroke="#18292b" stroke-width="2"/>
+  <text x="80" y="574" font-family="Inter,Helvetica,Arial,sans-serif" font-size="23" fill="#93aaa2">8 мин чтения  ·  2 пруфов со ссылкой  ·  3 открытых вопросов</text>
+  <text x="1120" y="574" text-anchor="end" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21"  fill="#6f8580">Dmitrii Vasilev · t27.ai</text>
 </svg>
