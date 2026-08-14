@@ -110,89 +110,141 @@ def wrap(text: str, width: int, lines: int) -> list:
     return out
 
 
-def card_layout(post: dict, lang: str) -> list:
-    """One layout table, consumed by both writers.
+def fit_title(title: str, lang: str) -> tuple:
+    """Подобрать самый крупный кегль, при котором заголовок влезает в три строки.
 
-    Each row is (x, y, size, bold, colour, text). The three statistics are the
-    the card uses numbers only and each is a count of something in the post
-    itself, so a card cannot claim more than the article does.
+    Карточку читают в ленте, где 1200px сжаты примерно до 500: кегль 46
+    превращался в 19 и заголовок пропадал. Ширина считается метриками Inter, а
+    не числом символов, иначе строка из широких букв вылезает за поля.
     """
+    from PIL import ImageDraw, Image
+    draw = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+    limit = 1010
+    for size in (96, 84, 74, 64, 56):
+        f = font(size, True)
+        words, lines, cur = title.split(), [], ""
+        for w in words:
+            cand = f"{cur} {w}".strip()
+            if draw.textlength(cand, font=f) <= limit or not cur:
+                cur = cand
+            else:
+                lines.append(cur)
+                cur = w
+        if cur:
+            lines.append(cur)
+        if len(lines) <= 3 and all(draw.textlength(l, font=f) <= limit for l in lines):
+            return size, lines
+    # Ничего не подошло: обрезать по последней строке, но не молча — многоточие
+    # показывает читателю, что заголовок продолжается в статье.
+    size = 56
+    f = font(size, True)
+    words, lines, cur = title.split(), [], ""
+    for w in words:
+        cand = f"{cur} {w}".strip()
+        if draw.textlength(cand, font=f) <= limit or not cur:
+            cur = cand
+        else:
+            lines.append(cur)
+            cur = w
+            if len(lines) == 3:
+                break
+    if cur and len(lines) < 3:
+        lines.append(cur)
+    lines[-1] = lines[-1].rstrip(" .,;:") + "\u2026"
+    return size, lines
+
+
+def card_svg(post: dict, lang: str) -> str:
+    """Одна карточка: крупный заголовок, тонкая подпись, ничего лишнего.
+
+    Резюме поста с карточки убрано намеренно. В ленте под картинкой уже стоит
+    og:description тем же текстом, поэтому вторая копия отнимала место у
+    единственного элемента, который читается на бегу, — заголовка.
+    """
+    esc = lambda s: (str(s).replace("&", "&amp;").replace("<", "&lt;")
+                     .replace(">", "&gt;").replace('"', "&quot;"))
     t = post.get("ru", {}) if lang == "ru" else post
     title = t.get("title") or post["title"]
-    summary = t.get("summary") or post["summary"]
-    stats = (
-        [(str(post.get("readingMinutes") or "—"), "мин чтения"),
-         (str(len(post.get("receipts") or [])), "пруфов со ссылкой"),
-         (str(len(post.get("openQuestions") or [])), "открытых вопросов")]
-        if lang == "ru" else
-        [(str(post.get("readingMinutes") or "—"), "minute read"),
-         (str(len(post.get("receipts") or [])), "linked receipts"),
-         (str(len(post.get("openQuestions") or [])), "open questions")]
-    )
-    rows = [(80, 132, 22, False, "#00ff88", "T27.AI · BLOG")]
-    # Three lines at 46px, not two at 52: a two-line box truncated the longest
-    # Russian titles mid-clause, and a card that ends in an ellipsis on the word
-    # before the point advertises nothing.
-    for i, line in enumerate(wrap(title, 34, 3)):
-        rows.append((80, 212 + i * 56, 46, True, "#f2f6f4", line))
-    rows.append((80, 372, 24, False, "#9fb3ab", wrap(summary, 62, 1)[0]))
-    for i, (n, label) in enumerate(stats):
-        x = (80, 470, 830)[i]
-        rows.append((x, 486, 44, True, "#00ff88", n))
-        rows.append((x, 522, 19, False, "#8fa79f", label))
-    rows.append((80, 580, 21, False, "#7d928b", "Dmitrii Vasilev · admin@t27.ai"))
-    return rows
-
-
-def write_svg(path: Path, rows: list, label: str):
-    esc = lambda s: (s.replace("&", "&amp;").replace("<", "&lt;")
-                      .replace(">", "&gt;").replace('"', "&quot;"))
+    minutes = post.get("readingMinutes") or "\u2014"
+    receipts, questions = len(post.get("receipts") or []), len(post.get("openQuestions") or [])
+    facts = (f"{minutes} \u043c\u0438\u043d \u0447\u0442\u0435\u043d\u0438\u044f  \u00b7  {receipts} \u043f\u0440\u0443\u0444\u043e\u0432 \u0441\u043e \u0441\u0441\u044b\u043b\u043a\u043e\u0439  \u00b7  {questions} \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0445 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432"
+             if lang == "ru" else
+             f"{minutes} minute read  \u00b7  {receipts} linked receipts  \u00b7  {questions} open questions")
+    kicker = "T27.AI \u00b7 \u0411\u041b\u041e\u0413" if lang == "ru" else "T27.AI \u00b7 BLOG"
+    size, lines = fit_title(title, lang)
+    lead = round(size * 1.1)
+    last = 466                      # нижняя базовая линия блока заголовка
+    first = last - (len(lines) - 1) * lead
+    ff = "Inter,DejaVu Sans,Helvetica,Arial,sans-serif"
+    # Столбик троичных знаков стоит в правой полосе x>1090, куда заголовок не
+    # заходит по построению (его предел ширины 1010 от x=80). Знак во всю
+    # карточку, стоявший тут раньше, пересекался с третьей строкой заголовка.
+    motif = "".join(
+        f'  <text x="1112" y="{y}" font-family="{ff}" font-size="86" font-weight="700"'
+        f' fill="#00ff88" opacity="0.13">{g}</text>\n'
+        for g, y in (("\u2212", 250), ("0", 350), ("+", 450)))
     body = "".join(
-        f'\n  <text x="{x}" y="{y}" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif"'
-        f' font-size="{s}"{" font-weight=\"700\"" if b else ""} fill="{c}"'
-        f'{" letter-spacing=\"6\"" if t == "T27.AI · BLOG" else ""}>{esc(t)}</text>'
-        for x, y, s, b, c, t in rows)
-    path.write_text(
+        f'\n  <text x="80" y="{first + i * lead}" font-family="{ff}" font-size="{size}"'
+        f' font-weight="700" fill="#f4f8f6">{esc(line)}</text>'
+        for i, line in enumerate(lines))
+    return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}"'
-        f' viewBox="0 0 {W} {H}" role="img" aria-label="{esc(label)}">\n'
+        f' viewBox="0 0 {W} {H}" role="img" aria-label="{esc(title)}">\n'
         '  <defs>\n'
         '    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">\n'
-        '      <stop offset="0%" stop-color="#05070a"/><stop offset="100%" stop-color="#0b1418"/>\n'
+        '      <stop offset="0%" stop-color="#04070a"/><stop offset="100%" stop-color="#0a1417"/>\n'
         '    </linearGradient>\n'
+        '    <radialGradient id="halo" cx="0.88" cy="0.08" r="0.75">\n'
+        '      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.16"/>\n'
+        '      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>\n'
+        '    </radialGradient>\n'
         '    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">\n'
-        '      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.9"/>'
-        '<stop offset="100%" stop-color="#00ff88" stop-opacity="0.1"/>\n'
+        '      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.95"/>'
+        '<stop offset="100%" stop-color="#00ff88" stop-opacity="0.06"/>\n'
         '    </linearGradient>\n'
         '  </defs>\n'
         f'  <rect width="{W}" height="{H}" fill="url(#bg)"/>\n'
-        f'  <rect x="0" y="0" width="{W}" height="5" fill="url(#glow)"/>'
+        f'  <rect width="{W}" height="{H}" fill="url(#halo)"/>\n'
+        f'{motif}'
+        f'  <rect x="0" y="0" width="{W}" height="6" fill="url(#glow)"/>\n'
+        '  <rect x="80" y="106" width="12" height="12" fill="#00ff88"/>\n'
+        f'  <text x="108" y="120" font-family="{ff}" font-size="21" letter-spacing="6"'
+        f' fill="#00ff88">{esc(kicker)}</text>'
         f'{body}\n'
-        f'  <line x1="80" y1="412" x2="1120" y2="412" stroke="#1d2b2a" stroke-width="2"/>\n'
-        '</svg>\n', encoding="utf-8")
+        '  <line x1="80" y1="524" x2="1120" y2="524" stroke="#18292b" stroke-width="2"/>\n'
+        f'  <text x="80" y="574" font-family="{ff}" font-size="23" fill="#93aaa2">{esc(facts)}</text>\n'
+        f'  <text x="1120" y="574" text-anchor="end" font-family="{ff}" font-size="21"'
+        '  fill="#6f8580">Dmitrii Vasilev \u00b7 t27.ai</text>\n'
+        '</svg>\n')
 
 
-def write_png(path: Path, rows: list):
-    from PIL import Image, ImageDraw, ImageFont
-    img = Image.new("RGB", (W, H), "#05070a")
-    d = ImageDraw.Draw(img)
-    for y in range(H):  # the SVG's diagonal gradient, flattened to vertical
-        k = y / H
-        d.line([(0, y), (W, y)], fill=(int(5 + 6 * k), int(7 + 13 * k), int(10 + 14 * k)))
-    for x in range(W):
-        a = 0.9 - 0.8 * x / W
-        d.line([(x, 0), (x, 4)], fill=(int(5 + a * (0 - 5)), int(7 + a * (255 - 7)),
-                                       int(10 + a * (136 - 10))))
-    d.line([(80, 412), (1120, 412)], fill="#1d2b2a", width=2)
-    for x, y, size, bold, colour, text in rows:
-        f = font(size, bold)
-        if text == "T27.AI · BLOG":  # letter-spacing 6, drawn glyph by glyph
-            cx = x
-            for ch in text:
-                d.text((cx, y), ch, font=f, fill=colour, anchor="ls")
-                cx += d.textlength(ch, font=f) + 6
-        else:
-            d.text((x, y), text, font=f, fill=colour, anchor="ls")
-    img.save(path, "PNG", optimize=True)
+def render_png(svg: Path, png: Path) -> None:
+    """Растр карточки — это ровно её SVG, а не вторая рисовалка.
+
+    Пока PNG рисовался отдельным кодом на Pillow, любая правка макета
+    расходилась с исходником, и в ленту уходила версия, которой в репозитории
+    не было. rsvg-convert со шрифтом из репозитория снимает этот класс ошибок.
+    """
+    import tempfile
+    if not shutil.which("rsvg-convert"):
+        raise SystemExit("regen-blog: нет rsvg-convert (librsvg2-bin) — карточку нечем растрировать")
+    with tempfile.TemporaryDirectory(prefix="t27-card-") as tmp_name:
+        tmp = Path(tmp_name)
+        conf = tmp / "fonts.conf"
+        conf.write_text(
+            '<?xml version="1.0"?>\n'
+            '<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">\n'
+            f'<fontconfig><dir>{REPO / "fonts"}</dir>'
+            f'<cachedir>{tmp / "cache"}</cachedir>'
+            '<alias><family>Inter</family><default><family>Inter</family></default></alias>'
+            '</fontconfig>\n', encoding="utf-8")
+        env = os.environ.copy()
+        env["FONTCONFIG_FILE"], env["FONTCONFIG_PATH"] = str(conf), str(tmp)
+        r = subprocess.run(["rsvg-convert", "--width", str(W), "--height", str(H),
+                            "--output", str(png), str(svg)],
+                           text=True, capture_output=True, env=env)
+        if r.returncode:
+            raise SystemExit(f"regen-blog: rsvg-convert {svg.name}: {r.stderr.strip()}")
 
 
 def cards(posts: list) -> int:
@@ -202,11 +254,9 @@ def cards(posts: list) -> int:
             if lang == "ru" and not p.get("ru"):
                 continue
             stem = f"og-blog-{p['slug']}" + ("-ru" if lang == "ru" else "")
-            png = REPO / f"{stem}.png"
-            rows = card_layout(p, lang)
-            write_svg(REPO / f"{stem}.svg", rows,
-                      (p.get("ru", {}).get("title") if lang == "ru" else None) or p["title"])
-            write_png(png, rows)
+            svg = REPO / f"{stem}.svg"
+            svg.write_text(card_svg(p, lang), encoding="utf-8")
+            render_png(svg, REPO / f"{stem}.png")
             print(f"drew {stem}.svg + .png")
             made += 1
     return made
