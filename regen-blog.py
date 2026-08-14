@@ -142,7 +142,11 @@ def fit_title(title: str, lang: str) -> tuple:
                 cur = w
         if cur:
             lines.append(cur)
-        if len(lines) <= 3 and all(draw.textlength(l, font=f) <= limit for l in lines):
+        # На мелких кеглях есть место под четвёртую строку: заголовок целиком
+        # лучше многоточия, а верхняя базовая линия при size<=64 не задевает
+        # кикер (466 - 3*lead >= 256 против кикера на 120).
+        max_lines = 3 if size >= 74 else 4
+        if len(lines) <= max_lines and all(draw.textlength(l, font=f) <= limit for l in lines):
             return size, lines
     # Ничего не подошло: обрезать по последней строке, но не молча — многоточие
     # показывает читателю, что заголовок продолжается в статье.
