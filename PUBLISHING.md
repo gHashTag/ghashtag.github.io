@@ -59,11 +59,10 @@ ask whether the built site contains it. That is a proper instrument because it
 reads the shipped bundles rather than the source, so it also catches a result
 that exists in a component nothing routes to.
 
-It found that `21.3545` — the perplexity behind a strict domination over MXFP4,
-the strongest measured claim the project holds — appeared in **zero** built
-files, while the hero led on a range comparison against tekum16, a format most
-readers deciding between formats have never heard of. The strongest claim was
-absent and a weaker one was over-stated.
+It found that `21.3545` — the perplexity behind a strict domination over MXFP4 —
+appeared in **zero** built files, while the hero led on a legacy range
+comparison unfamiliar to many readers deciding between formats. The measured
+result was absent and a different comparison was over-stated.
 
 **A claim ships with its limit or it does not ship.** The scale result went up
 with the element-axis loss beside it, in the section for limits, because a block

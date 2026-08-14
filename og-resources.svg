@@ -9,15 +9,15 @@
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect x="0" y="0" width="1200" height="5" fill="url(#glow)"/>
-  <text x="80" y="132" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="22" letter-spacing="6" fill="#00ff88" opacity="0.85">T27.AI</text>
-  <text x="80" y="248" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="62" font-weight="700" fill="#f2f6f4">Everything citable</text>
-  <text x="80" y="306" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="28" fill="#9fb3ab">Papers, datasets and upstream patches</text>
+  <text x="80" y="132" font-family="Inter,Helvetica,Arial,sans-serif" font-size="22" letter-spacing="6" fill="#00ff88" opacity="0.85">T27.AI</text>
+  <text x="80" y="248" font-family="Inter,Helvetica,Arial,sans-serif" font-size="62" font-weight="700" fill="#f2f6f4">Everything citable</text>
+  <text x="80" y="306" font-family="Inter,Helvetica,Arial,sans-serif" font-size="28" fill="#9fb3ab">Papers, datasets and upstream patches</text>
   <line x1="80" y1="372" x2="1120" y2="372" stroke="#1d2b2a" stroke-width="2"/>
-  <text x="80" y="452" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#00ff88">10 DOIs</text>
-  <text x="80" y="490" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="21" fill="#8fa79f">Zenodo records</text>
-  <text x="500" y="452" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#00ff88">3</text>
-  <text x="500" y="490" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="21" fill="#8fa79f">arXiv preprints</text>
-  <text x="800" y="452" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#00ff88">6</text>
-  <text x="800" y="490" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="21" fill="#8fa79f">upstream patches</text>
-  <text x="80" y="562" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="19" fill="#5d726b">Link-checked, dated, and it counts its own discrepancies.</text>
+  <text x="80" y="452" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#00ff88">10 DOIs</text>
+  <text x="80" y="490" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" fill="#8fa79f">Zenodo records</text>
+  <text x="500" y="452" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#00ff88">3</text>
+  <text x="500" y="490" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" fill="#8fa79f">arXiv preprints</text>
+  <text x="800" y="452" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#00ff88">6</text>
+  <text x="800" y="490" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" fill="#8fa79f">upstream patches</text>
+  <text x="80" y="562" font-family="Inter,Helvetica,Arial,sans-serif" font-size="19" fill="#5d726b">Link-checked, dated, and it counts its own discrepancies.</text>
 </svg>

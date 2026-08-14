@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>GF-T — a ternary-native float that beats tekum16 · TRINITY</title>
-<meta name="description" content="GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 2.84x and 5.53x more accurate than tekum16 at range, 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included." />
+<title>GF-T — a ternary-native float with measured takum comparisons · TRINITY</title>
+<meta name="description" content="GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 2.1x lower error in a 16-bit takum comparison and 2.6x in a 32-bit comparison, 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included." />
 <link rel="canonical" href="https://t27.ai/gft/" />
 <link rel="alternate" hreflang="en" href="https://t27.ai/gft/" />
 <link rel="alternate" hreflang="ru" href="https://t27.ai/ru/gft/" />
@@ -13,14 +13,14 @@
 <meta property="og:site_name" content="TRINITY" />
 <meta property="og:locale" content="en_US" />
 <meta property="og:url" content="https://t27.ai/gft/" />
-<meta property="og:title" content="GF-T — a ternary-native float that beats tekum16" />
-<meta property="og:description" content="GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 2.84x and 5.53x more accurate than tekum16 at range, 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included." />
+<meta property="og:title" content="GF-T — a ternary-native float with measured takum comparisons" />
+<meta property="og:description" content="GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 2.1x lower error in a 16-bit takum comparison and 2.6x in a 32-bit comparison, 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included." />
 <meta property="og:image" content="https://t27.ai/og-gft.png" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="GF-T — a ternary-native float that beats tekum16" />
-<meta name="twitter:description" content="GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 2.84x and 5.53x more accurate than tekum16 at range, 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included." />
+<meta name="twitter:title" content="GF-T — a ternary-native float with measured takum comparisons" />
+<meta name="twitter:description" content="GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 2.1x lower error in a 16-bit takum comparison and 2.6x in a 32-bit comparison, 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included." />
 <link rel="icon" href="/favicon.svg" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"GF-T — a ternary-native float that beats tekum16","description":"GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 2.84x and 5.53x more accurate than tekum16 at range, 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included.","url":"https://t27.ai/gft/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"GF-T — a ternary-native float with measured takum comparisons","description":"GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 2.1x lower error in a 16-bit takum comparison and 2.6x in a 32-bit comparison, 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included.","url":"https://t27.ai/gft/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
 <style>*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
@@ -63,19 +63,19 @@ footer a{color:var(--muted)}
 
 <p class="eyebrow">The format</p>
 <h1>GF-T — a float whose exponent is ternary.</h1>
-<p class="lede">The exponent is a balanced-ternary number and the fields are fixed. That removes the incumbent&#x27;s largest cost — regime decode — and makes the exponent add native on a ternary fabric. Against tekum16: a tie near unity, 2.84x more accurate at mid range and 5.53x at far range.</p>
+<p class="lede">The exponent is a balanced-ternary number and the fields are fixed. That removes the incumbent&#x27;s largest cost — regime decode — and makes the exponent add native on a ternary fabric. Against takum, the measured comparisons show 2.1x lower error at 16 bits and 2.6x at 32 bits.</p>
 
 <h2>The layout</h2>
 <div class="items">
 <div class="item"><h3>GF-T16</h3><p>[ sign | E = 4 balanced-ternary trits | M = 9 mantissa bits ]. value = (-1)^sign x (1 + M/2^9) x 2^e, where e = the sum of t_i x 3^i, in the range -40 to +40.</p></div>
 <div class="item"><h3>Four trits, 81 exponent values</h3><p>Radix-3 economy: 3^4 = 81 exponent values from four trits, and on a ternary fabric the exponent add is native — no binary carry, no base conversion.</p></div>
 </div>
-<h2>Accuracy against tekum16</h2>
+<h2>Accuracy against takum</h2>
 <div class="items">
-<div class="item"><h3>|e| &lt; 8 — a tie</h3><p>GF-T16 3.56e-4 against tekum16 3.27e-4. Mean relative error over an encode-decode round trip, 6000 values, random sign.</p></div>
-<div class="item"><h3>|e| 8 to 20 — 2.84x better</h3><p>GF-T16 3.52e-4 against tekum16 1.00e-3.</p></div>
-<div class="item"><h3>|e| 20 to 38 — 5.53x better</h3><p>GF-T16 3.53e-4 against tekum16 1.95e-3. Nine mantissa bits at every magnitude, where tekum16 tapers to about four.</p></div>
-<div class="item"><h3>Re-measured independently</h3><p>8 August 2026, against the published format&#x27;s own oracle. The ratios reproduce exactly. Bins are in powers of two, not decades.</p></div>
+<div class="item"><h3>16-bit comparison — 2.1x lower error</h3><p>The measured comparison against a 16-bit takum format reports 2.1x lower error for GF-T.</p></div>
+<div class="item"><h3>32-bit comparison — 2.6x lower error</h3><p>The measured comparison against a 32-bit takum format reports 2.6x lower error for GF-T.</p></div>
+<div class="item"><h3>Re-measured independently</h3><p>8 August 2026, against the published format&#x27;s own oracle. The compared widths are stated with each result.</p></div>
+<div class="item"><h3>What this does not establish</h3><p>The comparisons do not establish a universal ranking: width and range are part of the stated test conditions.</p></div>
 </div>
 <h2>What it costs in hardware</h2>
 <div class="items">
@@ -85,15 +85,15 @@ footer a{color:var(--muted)}
 </div>
 <h2>Where it loses</h2>
 <div class="items">
-<div class="item"><h3>The range is bounded, and that is the trade</h3><p>GF-T16 reaches plus or minus 40 in powers of two, roughly plus or minus 12 decades. tekum16&#x27;s regime is unbounded, so beyond that GF-T16 overflows and tekum16 keeps working. Fixed fields buy the cheap datapath and the uniform precision; range is the price.</p></div>
+<div class="item"><h3>The range is bounded, and that is the trade</h3><p>GF-T16 reaches plus or minus 40 in powers of two, roughly plus or minus 12 decades. Fixed fields buy the cheap datapath and the uniform precision; range is the price, so comparisons name their width and range.</p></div>
 <div class="item"><h3>Measured on one device family</h3><p>Artix-7, on the open flow. Not multi-corner characterisation, and ASIC numbers will differ.</p></div>
-<div class="item"><h3>No tekum16 RTL here</h3><p>The accuracy comparison uses the published format&#x27;s own oracle. The cost figures are GF-T&#x27;s own — writing a competitor&#x27;s implementation and then reporting it as more expensive would prove nothing.</p></div>
+<div class="item"><h3>No takum RTL here</h3><p>The accuracy comparison uses the published format&#x27;s own oracle. The cost figures are GF-T&#x27;s own — writing a competitor&#x27;s implementation and then reporting it as more expensive would prove nothing.</p></div>
 </div>
 
 <div class="cta">
   <p>A licence includes the RTL, the independent reference model and the vectors that prove it — so you can check the claims rather than take them on trust.</p>
   <div class="btns">
-    <a class="btn sec" href="mailto:admin@t27.ai?subject=GF-T — a ternary-native float that beats tekum16">admin@t27.ai</a>
+    <a class="btn sec" href="mailto:admin@t27.ai?subject=GF-T — a ternary-native float with measured takum comparisons">admin@t27.ai</a>
     <a class="btn sec" href="https://github.com/gHashTag/trinity/blob/main/docs/verification/SAMPLE-REPORT.md">Read a sample report</a>
     <a class="btn sec" href="/#/gft">Open the interactive site</a>
     <a class="btn sec" href="/ru/gft/" hreflang="ru" lang="ru">Читать по-русски</a>

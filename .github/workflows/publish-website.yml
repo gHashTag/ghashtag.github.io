@@ -22,6 +22,11 @@ on:
   push:
     paths:
       - '.github/workflows/publish-website.yml'
+      - 'regen-blog.py'
+      - 'build-og.py'
+      - 'build-results.py'
+      - 'record-delivery.py'
+      - 'fonts/**'
 
 permissions:
   contents: write
@@ -65,7 +70,11 @@ jobs:
       # a Mac, so an unattended publish could never produce one — and
       # verify-site.sh requires og-blog-<slug>.png on disk for every post.
       - name: Card rasteriser
-        run: python3 -m pip install --quiet --disable-pip-version-check pillow
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet --disable-pip-version-check pillow
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends librsvg2-bin
 
       - name: Build
         working-directory: .src/apps/website
@@ -153,6 +162,29 @@ jobs:
           # and be reported as a content problem instead of a broken generator.
           if ! python3 regen-blog.py .src/apps/website; then
             say "- **FAIL** regen-blog.py could not rebuild the static blog"
+            exit 1
+          fi
+
+          # Перестраиваем все OG-карточки после SVG блога. Это отдельный вызов
+          # с проверкой кода: regen-blog владеет данными постов, а build-og —
+          # общей растризацией Inter для новых и ранее созданных карточек.
+          if ! python3 build-og.py; then
+            say "- **FAIL** build-og.py could not rebuild the Inter OG cards"
+            exit 1
+          fi
+
+          # /r/ и /status/ строятся из того же runs.json, который импортирует
+          # SPA. Страница результата исправляется тем же публикатором, который
+          # проверяет и коммитит дерево, а не ждёт ручного запуска.
+          if ! RUNS_JSON=.src/apps/website/src/data/runs.json python3 build-results.py; then
+            say "- **FAIL** build-results.py could not rebuild result pages"
+            exit 1
+          fi
+
+          # Записываем измеренную задержку «коммит исходника → публикация» рядом
+          # с публичной страницей статуса; скрипт хранит последние 50 событий.
+          if ! python3 record-delivery.py .src; then
+            say "- **FAIL** record-delivery.py could not write delivery status"
             exit 1
           fi
 

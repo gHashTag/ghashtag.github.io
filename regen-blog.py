@@ -28,14 +28,12 @@ Two deliberate choices:
   the call, and hence the assertions on the parsed result before anything is
   overwritten.
 
-* The OG card is emitted from one layout table, not two renderers. Cards used to
-  be hand-written SVG, rasterised on a Mac by qlmanage, which no runner has. A
-  second, independent PNG path would drift from the SVG the first time either
-  changed, so the layout lives in `card_layout()` and both writers consume it.
-  Pillow draws with DejaVu, the only font family present on the runner that
-  covers Cyrillic; the shipped cards were set in Inter, so an auto-generated
-  card is recognisably not a hand-made one. That is a visible difference, not a
-  hidden one.
+* OG-карточка строится из одной таблицы разметки, а не двумя рендерами. Раньше
+  SVG писались вручную, а PNG растрировались на Mac через qlmanage, которого на
+  раннере нет. Вторая независимая ветка PNG разошлась бы с SVG при первом же
+  изменении, поэтому разметка живёт в `card_layout()`, и оба вывода получают её
+  оттуда. Pillow использует добавленный в репозиторий вариативный Inter, а
+  `build-og.py` растрирует все SVG тем же семейством на Linux.
 
 Usage: python3 regen-blog.py [path-to-trinity/apps/website]
 """
@@ -50,24 +48,17 @@ REPO = Path(__file__).resolve().parent
 DATA = REPO / "blog-posts.json"
 W, H = 1200, 630
 
-FONT_DIRS = [
-    "/usr/share/fonts/truetype/dejavu",
-    "/usr/share/fonts/TTF",
-    "/usr/share/fonts",
-]
+INTER = REPO / "fonts" / "Inter-Variable.ttf"
 
 
-def font_path(bold: bool) -> str:
-    name = "DejaVuSans-Bold.ttf" if bold else "DejaVuSans.ttf"
-    for d in FONT_DIRS:
-        p = Path(d) / name
-        if p.is_file():
-            return str(p)
-    for d in FONT_DIRS:
-        hits = sorted(Path(d).rglob(name)) if Path(d).is_dir() else []
-        if hits:
-            return str(hits[0])
-    raise SystemExit(f"regen-blog: no {name} on this machine — cannot draw a card")
+def font(size: int, bold: bool):
+    """Открыть закреплённый в репозитории Inter с нужной вариацией."""
+    from PIL import ImageFont
+    if not INTER.is_file():
+        raise SystemExit("regen-blog: fonts/Inter-Variable.ttf отсутствует — нельзя менять шрифт молча")
+    value = ImageFont.truetype(str(INTER), size)
+    value.set_variation_by_name("Bold" if bold else "Regular")
+    return value
 
 
 def run(cmd, cwd=None):
@@ -123,7 +114,7 @@ def card_layout(post: dict, lang: str) -> list:
     """One layout table, consumed by both writers.
 
     Each row is (x, y, size, bold, colour, text). The three statistics are the
-    only numbers on the card and each is a count of something in the post
+    the card uses numbers only and each is a count of something in the post
     itself, so a card cannot claim more than the article does.
     """
     t = post.get("ru", {}) if lang == "ru" else post
@@ -193,7 +184,7 @@ def write_png(path: Path, rows: list):
                                        int(10 + a * (136 - 10))))
     d.line([(80, 412), (1120, 412)], fill="#1d2b2a", width=2)
     for x, y, size, bold, colour, text in rows:
-        f = ImageFont.truetype(font_path(bold), size)
+        f = font(size, bold)
         if text == "T27.AI · BLOG":  # letter-spacing 6, drawn glyph by glyph
             cx = x
             for ch in text:
@@ -212,8 +203,6 @@ def cards(posts: list) -> int:
                 continue
             stem = f"og-blog-{p['slug']}" + ("-ru" if lang == "ru" else "")
             png = REPO / f"{stem}.png"
-            if png.is_file():
-                continue
             rows = card_layout(p, lang)
             write_svg(REPO / f"{stem}.svg", rows,
                       (p.get("ru", {}).get("title") if lang == "ru" else None) or p["title"])

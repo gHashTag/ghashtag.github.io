@@ -28,6 +28,7 @@ from pathlib import Path
 
 SITE = "https://t27.ai"
 HERE = Path(__file__).resolve().parent
+MANIFEST = HERE / "status" / "results-manifest.json"
 RUNS_JSON = Path(
     os.environ.get(
         "RUNS_JSON",
@@ -60,7 +61,7 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);color:v
 
 LIMITS = [
     "A pass is not a proof of correctness. These checks say the design elaborates, infers no latches, synthesises and contains clocked logic. None of them compares it against a specification.",
-    "Generic yosys cells are not silicon area. Only the real ASIC flow settles whether a design fits its tiles.",
+    "Generic yosys cells are not silicon area. The real ASIC flow settles whether a design fits its tiles.",
     "No frequency is claimed. Counting flip-flops says a frequency is a meaningful question, not what the answer is.",
     "Nothing here ran on hardware. These are simulation and synthesis results.",
 ]
@@ -204,6 +205,15 @@ def main():
         sys.exit(f"runs.json not found at {RUNS_JSON}; set RUNS_JSON to point at it")
     data = json.loads(RUNS_JSON.read_text(encoding="utf-8"))
     prov, runs = data["provenance"], data["runs"]
+    previous = []
+    if MANIFEST.is_file():
+        try:
+            previous = json.loads(MANIFEST.read_text(encoding="utf-8")).get("paths", [])
+        except (json.JSONDecodeError, AttributeError) as exc:
+            sys.exit(f"манифест результатов повреждён: {exc}")
+    if not isinstance(previous, list) or any(not isinstance(p, str) for p in previous):
+        sys.exit("манифест результатов должен содержать список сгенерированных путей")
+
     written, seen = [], set()
     required = ("design", "repo", "repoUrl", "top", "what", "date", "checks")
     for run in runs:
@@ -231,6 +241,17 @@ def main():
 
     if not written:
         sys.exit("  nothing written — treat that as a failure, not a pass")
+    current = sorted(written)
+    for old in sorted(set(previous) - set(current)):
+        target = HERE / old
+        if target.is_relative_to(HERE / "r"):
+            import shutil
+            shutil.rmtree(target, ignore_errors=True)
+            print(f"  removed stale {old}")
+        else:
+            sys.exit(f"манифест результатов содержит небезопасный путь: {old}")
+    MANIFEST.parent.mkdir(exist_ok=True)
+    MANIFEST.write_text(json.dumps({"paths": current}, indent=2) + "\n", encoding="utf-8")
     print(f"  {len(written)} result page(s) + badge endpoint(s)")
     return written
 

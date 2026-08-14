@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer · TRINITY</title>
-<meta name="description" content="Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer. Designer of the GF-T ternary floating-point format, taken from an arXiv paper through RTL that needs no hard multipliers to a SKY130 tape-out, entirely on open-source tools." />
+<meta name="description" content="Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer. Designer of the GF-T ternary floating-point format, taken from an arXiv paper through RTL that needs no hard multipliers to a SKY130 submission for fabrication, entirely on open-source tools." />
 <link rel="canonical" href="https://t27.ai/about/" />
 <link rel="alternate" hreflang="en" href="https://t27.ai/about/" />
 <link rel="alternate" hreflang="ru" href="https://t27.ai/ru/about/" />
@@ -14,13 +14,13 @@
 <meta property="og:locale" content="en_US" />
 <meta property="og:url" content="https://t27.ai/about/" />
 <meta property="og:title" content="Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer" />
-<meta property="og:description" content="Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer. Designer of the GF-T ternary floating-point format, taken from an arXiv paper through RTL that needs no hard multipliers to a SKY130 tape-out, entirely on open-source tools." />
+<meta property="og:description" content="Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer. Designer of the GF-T ternary floating-point format, taken from an arXiv paper through RTL that needs no hard multipliers to a SKY130 submission for fabrication, entirely on open-source tools." />
 <meta property="og:image" content="https://t27.ai/og-about.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer" />
-<meta name="twitter:description" content="Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer. Designer of the GF-T ternary floating-point format, taken from an arXiv paper through RTL that needs no hard multipliers to a SKY130 tape-out, entirely on open-source tools." />
+<meta name="twitter:description" content="Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer. Designer of the GF-T ternary floating-point format, taken from an arXiv paper through RTL that needs no hard multipliers to a SKY130 submission for fabrication, entirely on open-source tools." />
 <link rel="icon" href="/favicon.svg" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfilePage","name":"Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer","description":"Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer. Designer of the GF-T ternary floating-point format, taken from an arXiv paper through RTL that needs no hard multipliers to a SKY130 tape-out, entirely on open-source tools.","url":"https://t27.ai/about/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"},"mainEntity":{"@type":"Person","name":"Dmitrii Vasilev","jobTitle":"Hardware-AI and FPGA/RTL engineer","url":"https://t27.ai/about/","sameAs":["https://github.com/gHashTag","https://linkedin.com/in/neurocoder"]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfilePage","name":"Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer","description":"Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer. Designer of the GF-T ternary floating-point format, taken from an arXiv paper through RTL that needs no hard multipliers to a SKY130 submission for fabrication, entirely on open-source tools.","url":"https://t27.ai/about/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"},"mainEntity":{"@type":"Person","name":"Dmitrii Vasilev","jobTitle":"Hardware-AI and FPGA/RTL engineer","url":"https://t27.ai/about/","sameAs":["https://github.com/gHashTag","https://linkedin.com/in/neurocoder"]}}</script>
 <style>*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
@@ -62,14 +62,14 @@ footer a{color:var(--muted)}
 </header>
 
 <p class="eyebrow">About</p>
-<h1>From an arXiv paper to a tape-out.</h1>
-<p class="lede">I design number formats and the silicon that runs them. GF-T started as a paper, became RTL that maps into Artix-7 fabric with no hard multipliers at all, and went through a SKY130 tape-out — on a toolchain anyone can install for free. Before hardware I spent a decade building products and teaching: over a thousand developers, and the first React Native course in the Russian-speaking internet.</p>
+<h1>From an arXiv paper to an ASIC submission.</h1>
+<p class="lede">I design number formats and RTL measured on a binary FPGA. GF-T started as a paper, became RTL that maps into Artix-7 fabric with no hard multipliers at all, and went through a SKY130 design submitted for fabrication — on a toolchain anyone can install for free. Before hardware I spent a decade building products and teaching: over a thousand developers, and a React Native course for the Russian-speaking internet.</p>
 
 <h2>What I do</h2>
 <div class="items">
 <div class="item"><h3>Custom arithmetic</h3><p>Number formats designed against your constraints — ternary, low-precision, φ-based — each with an independent reference model and bit-exact vectors, not just a claim.</p></div>
-<div class="item"><h3>RTL to silicon</h3><p>Synthesisable Verilog through an open flow: Yosys, nextpnr-xilinx, prjxray, iverilog. Measured on three Artix-7 boards I own, and taken to SKY130 when it needs to be.</p></div>
-<div class="item"><h3>Verification</h3><p>Bit-exact conformance against models written from the specification rather than from the design — the only kind of check that can disagree with the RTL.</p></div>
+<div class="item"><h3>RTL to binary FPGA</h3><p>Synthesisable Verilog through an open flow: Yosys, nextpnr-xilinx, prjxray, iverilog. Measured on the binary FPGA ALINX AX7203 (Xilinx Artix-7 XC7A200T); a SKY130 design was submitted for fabrication.</p></div>
+<div class="item"><h3>Verification</h3><p>Bit-exact conformance against models written from the specification rather than from the design — a check that can disagree with the RTL.</p></div>
 <div class="item"><h3>Teaching</h3><p>Over a thousand developers taught. Hardware is the current subject; the method has not changed.</p></div>
 </div>
 <h2>Published</h2>

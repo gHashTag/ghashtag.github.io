@@ -11,7 +11,7 @@
   <rect x="0" y="0" width="1200" height="5" fill="url(#glow)"/>
   <text x="80" y="132" font-family="Inter,Helvetica,Arial,sans-serif" font-size="22" letter-spacing="6" fill="#00ff88" opacity="0.85">T27.AI</text>
   <text x="80" y="248" font-family="Inter,Helvetica,Arial,sans-serif" font-size="50" font-weight="700" fill="#f2f6f4">RTL, проверенный на железе</text>
-  <text x="80" y="306" font-family="Inter,Helvetica,Arial,sans-serif" font-size="28" fill="#9fb3ab">Замер на живом кремнии, не симуляция</text>
+  <text x="80" y="306" font-family="Inter,Helvetica,Arial,sans-serif" font-size="28" fill="#9fb3ab">Замер на бинарной FPGA, не симуляция</text>
   <line x1="80" y1="372" x2="1120" y2="372" stroke="#1d2b2a" stroke-width="2"/>
     <text x="80" y="452" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#00ff88">0 DSP48</text>
   <text x="80" y="490" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" fill="#8fa79f">GF16 в логике</text>

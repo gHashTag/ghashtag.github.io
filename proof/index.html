@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Every number here was measured · TRINITY</title>
-<meta name="description" content="Every hardware claim behind this site with the measurement that produced it — a GF16 matmul that needs no hard multipliers, a neural network training on-chip, a SKY130 tape-out — and a plain statement of what these results are not, including one figure withdrawn." />
+<meta name="description" content="Every hardware claim behind this site with the measurement that produced it — a GF16 matmul that needs no hard multipliers, a neural network training on-chip, a SKY130 design submitted for fabrication — and a plain statement of what these results are not, including one figure withdrawn." />
 <link rel="canonical" href="https://t27.ai/proof/" />
 <link rel="alternate" hreflang="en" href="https://t27.ai/proof/" />
 <link rel="alternate" hreflang="ru" href="https://t27.ai/ru/proof/" />
@@ -14,13 +14,13 @@
 <meta property="og:locale" content="en_US" />
 <meta property="og:url" content="https://t27.ai/proof/" />
 <meta property="og:title" content="Every number here was measured" />
-<meta property="og:description" content="Every hardware claim behind this site with the measurement that produced it — a GF16 matmul that needs no hard multipliers, a neural network training on-chip, a SKY130 tape-out — and a plain statement of what these results are not, including one figure withdrawn." />
+<meta property="og:description" content="Every hardware claim behind this site with the measurement that produced it — a GF16 matmul that needs no hard multipliers, a neural network training on-chip, a SKY130 design submitted for fabrication — and a plain statement of what these results are not, including one figure withdrawn." />
 <meta property="og:image" content="https://t27.ai/og-proof.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Every number here was measured" />
-<meta name="twitter:description" content="Every hardware claim behind this site with the measurement that produced it — a GF16 matmul that needs no hard multipliers, a neural network training on-chip, a SKY130 tape-out — and a plain statement of what these results are not, including one figure withdrawn." />
+<meta name="twitter:description" content="Every hardware claim behind this site with the measurement that produced it — a GF16 matmul that needs no hard multipliers, a neural network training on-chip, a SKY130 design submitted for fabrication — and a plain statement of what these results are not, including one figure withdrawn." />
 <link rel="icon" href="/favicon.svg" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Every number here was measured","description":"Every hardware claim behind this site with the measurement that produced it — a GF16 matmul that needs no hard multipliers, a neural network training on-chip, a SKY130 tape-out — and a plain statement of what these results are not, including one figure withdrawn.","url":"https://t27.ai/proof/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Every number here was measured","description":"Every hardware claim behind this site with the measurement that produced it — a GF16 matmul that needs no hard multipliers, a neural network training on-chip, a SKY130 design submitted for fabrication — and a plain statement of what these results are not, including one figure withdrawn.","url":"https://t27.ai/proof/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
 <style>*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
@@ -68,9 +68,9 @@ footer a{color:var(--muted)}
 <h2>Results</h2>
 <div class="items">
 <div class="item"><h3>GF16 4×4 matmul — 32,252 LUT with zero hard multipliers</h3><p>A 4×4 matrix multiplier over my own GF16 format, synthesised for Artix-7. It maps into fabric with no DSP48 blocks at all, or 21,223 LUTs if the 64 hard multipliers are allowed. The block is combinational — no registers, so no clock and no frequency figure belongs to it.</p></div>
-<div class="item"><h3>100% held-out — a network that trains on the FPGA</h3><p>Forward pass, gradient and weight update all in RTL with no host in the loop. A 2-layer ReLU network learns XOR on the chip itself, 4 of 4 correct, every node bit-exact from specification to silicon.</p></div>
-<div class="item"><h3>SKY130 — tape-out through Tiny Tapeout</h3><p>The same source that runs on the FPGA went to an open ASIC process: GDS produced, gate-level test passed, precheck passed.</p></div>
-<div class="item"><h3>2.84× / 5.53× — GF-T beats tekum16</h3><p>A float whose exponent is a balanced-ternary number and whose fields are fixed: no regime decode to pay for, and on a ternary fabric the exponent add is native. Against tekum16, whose stated advantage is exactly that fabric — a tie near unity, 2.84× lower error at |e| 8–20, 5.53× lower at |e| 20–38, with a uniform 9-bit mantissa where tekum16 tapers to four. Range is bounded at ±40 in powers of two where tekum16&#x27;s regime is not; that is the trade.</p></div>
+<div class="item"><h3>100% held-out — a network that trains on the FPGA</h3><p>Forward pass, gradient and weight update all in RTL with no host in the loop. A 2-layer ReLU network learns XOR on the chip itself, 4 of 4 correct, every node bit-exact from specification to the binary FPGA.</p></div>
+<div class="item"><h3>SKY130 — submitted for fabrication through Tiny Tapeout</h3><p>The design was submitted for fabrication through an open ASIC process: GDS was produced, the gate-level test passed, and precheck passed. No die measurements are claimed.</p></div>
+<div class="item"><h3>2.1× / 2.6× — measured GF-T and takum comparisons</h3><p>A float whose exponent is a balanced-ternary number and whose fields are fixed: no regime decode to pay for, and on a ternary fabric the exponent add is native. The measured comparisons report 2.1× lower error at 16 bits and 2.6× at 32 bits against takum. Range is bounded at ±40 in powers of two; that limit is stated with the comparison.</p></div>
 <div class="item"><h3>Over the air — tri-net, a full ternary network stack</h3><p>133 formal specifications: GF16 physical layer, BPSK modem on AD9361, ETX mesh routing, ChaCha20-Poly1305 / X25519 crypto. Text and images carried between physically separate boards.</p></div>
 <div class="item"><h3>83 formats — a conformance catalogue</h3><p>Bit-exact test vectors for FP8, BF16, MXFP4 and microscaling formats: a vendor-neutral reference for verifying low-precision arithmetic.</p></div>
 </div>
@@ -78,14 +78,14 @@ footer a{color:var(--muted)}
 <div class="items">
 <div class="item"><h3>Independent model, not a mirror</h3><p>The reference model is written from the specification, never from the RTL.</p></div>
 <div class="item"><h3>Per-stage vectors</h3><p>Known-answer vectors at every pipeline stage, so a regression points at the stage that broke.</p></div>
-<div class="item"><h3>Hardware replay</h3><p>The same vectors run again on the physical board. Simulation agreement does not prove silicon agreement.</p></div>
+<div class="item"><h3>Hardware replay</h3><p>The same vectors run again on the physical board. Simulation agreement does not prove agreement on the binary FPGA.</p></div>
 <div class="item"><h3>Open toolchain</h3><p>Yosys, nextpnr-xilinx, prjxray, openFPGALoader, iverilog. No proprietary licence stands between a claim here and someone reproducing it.</p></div>
 </div>
 <h2>What these results are not</h2>
 <div class="items">
 <div class="item"><h3>Entries are entries</h3><p>A DARPA CLARA submission and an OpenAI Parameter Golf entry are submitted work, not awarded contracts or won prizes.</p></div>
 <div class="item"><h3>One device family</h3><p>Measurements come from a Xilinx Artix-7 and are not multi-corner characterisation.</p></div>
-<div class="item"><h3>Training is a primitive</h3><p>The on-chip training result is proven at small scale: a real network learning on real silicon, not a production training accelerator.</p></div>
+<div class="item"><h3>Training is a primitive</h3><p>The on-chip training result is proven at small scale: a real network learning on a binary FPGA, not a production training accelerator.</p></div>
 <div class="item"><h3>Estimates are labelled</h3><p>Anything estimated rather than measured is labelled as estimated.</p></div>
 <div class="item"><h3>A figure withdrawn</h3><p>This page previously reported 323 MHz and 41.2 GOPS for the GF16 matmul. Re-checking the RTL on 8 August 2026 showed the block holds no registers, so it has no clock and no frequency can belong to it. Withdrawn rather than explained away.</p></div>
 </div>

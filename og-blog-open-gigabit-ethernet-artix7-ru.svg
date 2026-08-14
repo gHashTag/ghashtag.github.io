@@ -9,16 +9,16 @@
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect x="0" y="0" width="1200" height="5" fill="url(#glow)"/>
-  <text x="80" y="132" font-family="Inter,Helvetica,Arial,sans-serif" font-size="22" letter-spacing="6" fill="#00ff88" opacity="0.85">T27.AI · БЛОГ</text>
-  <text x="80" y="238" font-family="Inter,Helvetica,Arial,sans-serif" font-size="50" font-weight="700" fill="#f2f6f4">Gigabit Ethernet на Artix-7</text>
-  <text x="80" y="300" font-family="Inter,Helvetica,Arial,sans-serif" font-size="50" font-weight="700" fill="#f2f6f4">без вендорского тулчейна</text>
-  <text x="80" y="366" font-family="Inter,Helvetica,Arial,sans-serif" font-size="26" fill="#9fb3ab">Только Yosys, nextpnr-xilinx и Project X-Ray</text>
+  <text x="80" y="132" font-family="Inter,Helvetica,Arial,sans-serif" font-size="22" fill="#00ff88" letter-spacing="6">T27.AI · BLOG</text>
+  <text x="80" y="212" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#f2f6f4">Gigabit Ethernet на Artix-7 без</text>
+  <text x="80" y="268" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#f2f6f4">вендорского тулчейна</text>
+  <text x="80" y="372" font-family="Inter,Helvetica,Arial,sans-serif" font-size="24" fill="#9fb3ab">RGMII на гигабите через Yosys, nextpnr-xilinx и Project X-Ray…</text>
+  <text x="80" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">12</text>
+  <text x="80" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="19" fill="#8fa79f">мин чтения</text>
+  <text x="470" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">9</text>
+  <text x="470" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="19" fill="#8fa79f">пруфов со ссылкой</text>
+  <text x="830" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">5</text>
+  <text x="830" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="19" fill="#8fa79f">открытых вопросов</text>
+  <text x="80" y="580" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" fill="#7d928b">Dmitrii Vasilev · admin@t27.ai</text>
   <line x1="80" y1="412" x2="1120" y2="412" stroke="#1d2b2a" stroke-width="2"/>
-  <text x="80" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">6</text>
-  <text x="80" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="20" fill="#8fa79f">блокеров закрыто</text>
-  <text x="470" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">1</text>
-  <text x="470" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="20" fill="#8fa79f">ещё открыт</text>
-  <text x="830" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">0</text>
-  <text x="830" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="20" fill="#8fa79f">вендорских тулов</text>
-  <text x="80" y="580" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" fill="#7d928b">Дмитрий Васильев · admin@t27.ai</text>
 </svg>

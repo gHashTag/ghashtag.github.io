@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Arithmetic cores that have already been to silicon · TRINITY</title>
+<title>Arithmetic cores measured on a binary FPGA · TRINITY</title>
 <meta name="description" content="License arithmetic cores measured on real hardware: the GF-T ternary multiplier, a GF16 4×4 matmul that maps into fabric with no hard multipliers, a BPSK modem proven over the air, and on-chip training primitives. RTL, reference model and the vectors that prove it." />
 <link rel="canonical" href="https://t27.ai/ip/" />
 <link rel="alternate" hreflang="en" href="https://t27.ai/ip/" />
@@ -13,14 +13,14 @@
 <meta property="og:site_name" content="TRINITY" />
 <meta property="og:locale" content="en_US" />
 <meta property="og:url" content="https://t27.ai/ip/" />
-<meta property="og:title" content="Arithmetic cores that have already been to silicon" />
+<meta property="og:title" content="Arithmetic cores measured on a binary FPGA" />
 <meta property="og:description" content="License arithmetic cores measured on real hardware: the GF-T ternary multiplier, a GF16 4×4 matmul that maps into fabric with no hard multipliers, a BPSK modem proven over the air, and on-chip training primitives. RTL, reference model and the vectors that prove it." />
 <meta property="og:image" content="https://t27.ai/og-ip.png" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Arithmetic cores that have already been to silicon" />
+<meta name="twitter:title" content="Arithmetic cores measured on a binary FPGA" />
 <meta name="twitter:description" content="License arithmetic cores measured on real hardware: the GF-T ternary multiplier, a GF16 4×4 matmul that maps into fabric with no hard multipliers, a BPSK modem proven over the air, and on-chip training primitives. RTL, reference model and the vectors that prove it." />
 <link rel="icon" href="/favicon.svg" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Arithmetic cores that have already been to silicon","description":"License arithmetic cores measured on real hardware: the GF-T ternary multiplier, a GF16 4×4 matmul that maps into fabric with no hard multipliers, a BPSK modem proven over the air, and on-chip training primitives. RTL, reference model and the vectors that prove it.","url":"https://t27.ai/ip/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Arithmetic cores measured on a binary FPGA","description":"License arithmetic cores measured on real hardware: the GF-T ternary multiplier, a GF16 4×4 matmul that maps into fabric with no hard multipliers, a BPSK modem proven over the air, and on-chip training primitives. RTL, reference model and the vectors that prove it.","url":"https://t27.ai/ip/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
 <style>*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
@@ -62,15 +62,15 @@ footer a{color:var(--muted)}
 </header>
 
 <p class="eyebrow">IP licensing</p>
-<h1>Arithmetic cores that have already been to silicon.</h1>
-<p class="lede">Every core here was designed, verified bit-exact against an independent model, and measured on real hardware — one of them through a SKY130 tape-out. You license the RTL, the reference model and the vectors that prove it, so you can check the claims instead of trusting them.</p>
+<h1>Arithmetic cores measured on a binary FPGA.</h1>
+<p class="lede">Every core here was designed, verified bit-exact against an independent model, and measured on the binary FPGA ALINX AX7203 (Xilinx Artix-7 XC7A200T); a SKY130 design was submitted for fabrication. You license the RTL, the reference model and the vectors that prove it, so you can check the claims instead of trusting them.</p>
 
 <h2>Available cores</h2>
 <div class="items">
-<div class="item"><h3>GF-T multiplier — ternary arithmetic</h3><p>The multiplier for GF-T: 2.84× and 5.53× lower error than tekum16 at mid and far range, a tie near unity, no regime decode. Published as arXiv:2606.05017 with an independent reference model and bit-exact vectors; ratios re-measured independently on 8 August 2026.</p></div>
+<div class="item"><h3>GF-T multiplier — ternary arithmetic</h3><p>The multiplier for GF-T: measured 2.1× lower error against 16-bit takum and 2.6× against 32-bit takum, with no regime decode. Published as arXiv:2606.05017 with an independent reference model and bit-exact vectors; ratios re-measured independently on 8 August 2026.</p></div>
 <div class="item"><h3>GF16 4×4 matmul — matrix engine</h3><p>Maps entirely into fabric, leaving the DSP columns free for the rest of your system: 32,252 LUTs with zero DSP48, or 21,223 LUTs if the 64 hard multipliers are allowed. Combinational, 0 latches.</p></div>
 <div class="item"><h3>BPSK modem — radio PHY</h3><p>Built for software-defined radio (AD9361), part of a full ternary network stack with mesh routing and authenticated encryption. Proven device-to-device over the air.</p></div>
-<div class="item"><h3>On-chip training primitives — edge ML</h3><p>Neural primitives that perform their own backward pass on the FPGA: forward, gradient and weight update in RTL, no host in the loop. 100% held-out on real silicon.</p></div>
+<div class="item"><h3>On-chip training primitives — edge ML</h3><p>Neural primitives that perform their own backward pass on the FPGA: forward, gradient and weight update in RTL, no host in the loop. 100% held-out on the binary FPGA.</p></div>
 </div>
 <h2>What a licence includes</h2>
 <div class="items">
@@ -82,7 +82,7 @@ footer a{color:var(--muted)}
 </div>
 <h2>Terms</h2>
 <div class="items">
-<div class="item"><h3>Evaluation — from $500</h3><p>Source and vectors for a single project, so you can measure it in your own flow first.</p></div>
+<div class="item"><h3>Evaluation — from $500</h3><p>Source and vectors for a single project, so you can measure it in your own flow before deployment.</p></div>
 <div class="item"><h3>Single project — from $2 500</h3><p>Use in one product, with integration support and the verification harness.</p></div>
 <div class="item"><h3>Production / multi-project — quoted</h3><p>Broader rights negotiated per case, including royalty-based terms.</p></div>
 <div class="item"><h3>Custom arithmetic — from $150/h</h3><p>A format or datapath designed for your constraints, with the same bit-exact verification.</p></div>
@@ -91,7 +91,7 @@ footer a{color:var(--muted)}
 <div class="cta">
   <p>Tell me the device and the budget you are working against. If none of these cores is right, I will say so — and quote for one built to fit.</p>
   <div class="btns">
-    <a class="btn sec" href="mailto:admin@t27.ai?subject=Arithmetic cores that have already been to silicon">admin@t27.ai</a>
+    <a class="btn sec" href="mailto:admin@t27.ai?subject=Arithmetic cores measured on a binary FPGA">admin@t27.ai</a>
     <a class="btn sec" href="https://github.com/gHashTag/trinity/blob/main/docs/verification/SAMPLE-REPORT.md">Read a sample report</a>
     <a class="btn sec" href="/#/ip">Open the interactive site</a>
     <a class="btn sec" href="/ru/ip/" hreflang="ru" lang="ru">Читать по-русски</a>
