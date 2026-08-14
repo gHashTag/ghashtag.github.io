@@ -38,6 +38,7 @@ Two deliberate choices:
 Usage: python3 regen-blog.py [path-to-trinity/apps/website]
 """
 import json
+import math
 import os
 import shutil
 import subprocess
@@ -154,6 +155,50 @@ def fit_title(title: str, lang: str) -> tuple:
     return size, lines
 
 
+PHI = 1.618033988749895
+GOLDEN_ANGLE = 2 * math.pi / (PHI * PHI)   # 137,5077° — окружность, поделённая на φ²
+
+
+def starfield() -> str:
+    """То же звёздное поле, что на главной, но застывшее в одном кадре.
+
+    Параметры взяты из `components/PhiStarfield.tsx` без пересчёта:
+    спираль Фогеля (угол i·137,5077°, радиус √(i/N)), 233 звезды, сжатие по
+    вертикали 0,92, радиус 0,5+1,5·(1−d), базовая прозрачность 0,28+0,5·(1−d).
+    Мерцание в картинке невозможно, поэтому взята фаза покоя того же
+    выражения (0,62+0,38·sin(phase)) — так яркости распределены как в живом
+    кадре, а не ровным слоем.
+
+    Звёзды под заголовком гасятся втрое: в ленте картинка показывается
+    шириной около 500 px, и точка вплотную к букве там читается как дефект
+    растра, а не как звезда.
+    """
+    cx, cy = W / 2, H / 2
+    max_r = math.hypot(W, H) * 0.62
+    out = []
+    for i in range(233):
+        t = (i + 0.5) / 233
+        r = math.sqrt(t) * max_r
+        a = i * GOLDEN_ANGLE
+        x = cx + math.cos(a) * r
+        y = cy + math.sin(a) * r * 0.92
+        if not (-6 <= x <= W + 6 and -6 <= y <= H + 6):
+            continue
+        rad = 0.5 + (1 - t) * 1.5
+        phase = (i * GOLDEN_ANGLE) % (2 * math.pi)
+        alpha = (0.28 + (1 - t) * 0.5) * (0.62 + 0.38 * math.sin(phase))
+        if 60 <= x <= 1120:
+            if 140 <= y <= 500:            # полоса заголовка
+                alpha *= 0.34
+            elif 90 <= y <= 132 or 536 <= y <= 596:
+                # Строки мелкого кегля: там звезда попадает в букву и читается
+                # как лишняя точка над буквой, а не как фон.
+                alpha *= 0.12
+        out.append(f'  <circle cx="{x:.1f}" cy="{y:.1f}" r="{rad:.2f}"'
+                   f' fill="#ffffff" opacity="{alpha:.3f}"/>\n')
+    return "".join(out)
+
+
 def card_svg(post: dict, lang: str) -> str:
     """Одна карточка: крупный заголовок, тонкая подпись, ничего лишнего.
 
@@ -190,23 +235,10 @@ def card_svg(post: dict, lang: str) -> str:
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}"'
         f' viewBox="0 0 {W} {H}" role="img" aria-label="{esc(title)}">\n'
-        '  <defs>\n'
-        '    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">\n'
-        '      <stop offset="0%" stop-color="#04070a"/><stop offset="100%" stop-color="#0a1417"/>\n'
-        '    </linearGradient>\n'
-        '    <radialGradient id="halo" cx="0.88" cy="0.08" r="0.75">\n'
-        '      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.16"/>\n'
-        '      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>\n'
-        '    </radialGradient>\n'
-        '    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">\n'
-        '      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.95"/>'
-        '<stop offset="100%" stop-color="#00ff88" stop-opacity="0.06"/>\n'
-        '    </linearGradient>\n'
-        '  </defs>\n'
-        f'  <rect width="{W}" height="{H}" fill="url(#bg)"/>\n'
-        f'  <rect width="{W}" height="{H}" fill="url(#halo)"/>\n'
+        f'  <rect width="{W}" height="{H}" fill="#000000"/>\n'
+        f'{starfield()}'
         f'{motif}'
-        f'  <rect x="0" y="0" width="{W}" height="6" fill="url(#glow)"/>\n'
+        f'  <rect x="0" y="0" width="{W}" height="4" fill="#00ff88"/>\n'
         '  <rect x="80" y="106" width="12" height="12" fill="#00ff88"/>\n'
         f'  <text x="108" y="120" font-family="{ff}" font-size="21" letter-spacing="6"'
         f' fill="#00ff88">{esc(kicker)}</text>'
