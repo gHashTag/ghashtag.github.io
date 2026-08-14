@@ -30,6 +30,17 @@
       <category>yosys</category>
     </item>
     <item>
+      <title>Five reasons the build was red, and the fifth was mine</title>
+      <link>https://t27.ai/#/blog/five-reasons-the-build-was-red</link>
+      <guid isPermaLink="false">five-reasons-the-build-was-red</guid>
+      <pubDate>Sat, 15 Aug 2026 12:00:00 GMT</pubDate>
+      <description>Our CLI could not be installed by anyone, and the CI that should have said so had zero successes in thirty runs. Each cause hid the next; removing the fourth created the fifth.</description>
+      <category>CI</category>
+      <category>Zig</category>
+      <category>Build systems</category>
+      <category>Tooling</category>
+    </item>
+    <item>
       <title>A correct gate with a manual remedy is an outage</title>
       <link>https://t27.ai/#/blog/a-correct-gate-with-a-manual-remedy</link>
       <guid isPermaLink="false">a-correct-gate-with-a-manual-remedy</guid>
