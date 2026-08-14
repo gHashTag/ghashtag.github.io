@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Пять причин, по которым сборка была красной, и пятая — моя · TRINITY</title>
+<meta name="description" content="Наш CLI не мог поставить никто, а CI, который должен был об этом сказать, имел ноль успехов из тридцати прогонов. Каждая причина прятала следующую; удаление четвёртой породило пятую." />
+<link rel="canonical" href="https://t27.ai/ru/blog/five-reasons-the-build-was-red/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/five-reasons-the-build-was-red/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/five-reasons-the-build-was-red/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/five-reasons-the-build-was-red/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/five-reasons-the-build-was-red/" />
+<meta property="og:title" content="Пять причин, по которым сборка была красной, и пятая — моя" />
+<meta property="og:description" content="Наш CLI не мог поставить никто, а CI, который должен был об этом сказать, имел ноль успехов из тридцати прогонов. Каждая причина прятала следующую; удаление четвёртой породило пятую." />
+<meta property="og:image" content="https://t27.ai/og-blog-five-reasons-the-build-was-red-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Пять причин, по которым сборка была красной, и пятая — моя" />
+<meta name="twitter:description" content="Наш CLI не мог поставить никто, а CI, который должен был об этом сказать, имел ноль успехов из тридцати прогонов. Каждая причина прятала следующую; удаление четвёртой породило пятую." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Пять причин, по которым сборка была красной, и пятая — моя","description":"Наш CLI не мог поставить никто, а CI, который должен был об этом сказать, имел ноль успехов из тридцати прогонов. Каждая причина прятала следующую; удаление четвёртой породило пятую.","url":"https://t27.ai/ru/blog/five-reasons-the-build-was-red/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/five-reasons-the-build-was-red/"},"image":"https://t27.ai/og-blog-five-reasons-the-build-was-red-ru.png","datePublished":"2026-08-15","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"CI, Zig, Build systems, Tooling"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Пять причин, по которым сборка была красной, и пятая — моя</h1>
+<p class="meta">2026-08-15 · 7 мин чтения</p>
+<p class="lede">Наш CLI не мог поставить никто, а CI, который должен был об этом сказать, имел ноль успехов из тридцати прогонов. Каждая причина прятала следующую; удаление четвёртой породило пятую.</p>
+<div class="tags"><span class="tag">CI</span><span class="tag">Zig</span><span class="tag">Build systems</span><span class="tag">Tooling</span></div>
+<p>До вчерашнего дня наш инструмент командной строки не мог поставить никто, включая нас. Не «было неудобно собрать» — `zig build` не мог его произвести из чистого клона ни на одной машине. Задача CI, существующая ровно чтобы об этом сообщить, падала тридцать прогонов подряд, что равносильно молчанию.</p>
+<p>Пять причин, наложенных друг на друга. Каждая прятала следующую, поэтому любое исправление выглядело как несработавшее.</p>
+<h2>1. Флаг, который был и который не передавали</h2>
+<p>Сборка компилирует четыре GUI-цели, линкующие raylib. У раннера нет raylib и нет причин ему быть. В `build.zig` давно есть `-Dci=true`, пропускающий ровно эти цели; воркфлоу его никогда не передавал. Одно слово — а ошибка «unable to find dynamic system library» указывала на отсутствующий пакет, а не на отсутствующий флаг.</p>
+<h2>2. Версия, которую не пинили</h2>
+<p>Второй воркфлоу ставил Zig через `brew install zig`, то есть текущий. Текущий — 0.16, а дерево под 0.15.2, который пинят остальные 28 воркфлоу. На 0.16 `build.zig` не компилируется вовсе: `linkLibC` переехал, а вендоренный пакет зовёт удалённые `std.mem.trimLeft` и `std.process.getEnvVarOwned`.</p>
+<h2>3. Раннер, чей SDK слишком новый</h2>
+<p>С запиненной версией сборка всё равно умирала — теперь на libSystem: `undefined _abort`, `_bzero`, `___availability_version_check`. Задача шла на `macos-latest`, чей SDK Zig 0.15.2 линковать не умеет. Тот же отказ воспроизводится на рабочем Mac с macOS 26 — по нему его и опознали. Перевели на ubuntu, где и так работают 116 из 127 задач репозитория.</p>
+<h2>4. Модуль из файла, которого нет нигде</h2>
+<p>И только тогда всплыла честная ошибка:</p>
+<pre><code>error: failed to check cache:
+  &#x27;trinity-nexus/output/lang/zig/full-serve-v1.zig&#x27; file_hash FileNotFound</code></pre>
+<p>Этот путь в gitignore, не отслеживается ничем и отсутствует во всех чекаутах и кэшах машины. Спека, названная его источником, тоже не существует — каталог с ней пуст. Артефакт нельзя было ни получить, ни перегенерировать, и сборка была невозможна ровно столько, сколько стояла эта ссылка.</p>
+<p>И его никто не импортировал. Единственная ссылка в дереве — закомментированная строка. Удаление не стоило ни капли функциональности.</p>
+<h2>5. Та, что устроил я</h2>
+<p>Удаление сломало сборку немедленно:</p>
+<pre><code>src/tri/env_loader.zig:8:12: error: dependency on libc must be explicitly specified in the build command</code></pre>
+<p>Мёртвый модуль нёс `.link_libc = true`. CLI действительно нужен libc, и он получал его побочным эффектом от модуля, который никто не использовал, укоренённого в файле, которого ни у кого нет. Объявить зависимость там, где ей место, — одна строка; и она стала видна только потому, что маскировавшее её исчезло.</p>
+<p>Вот что стоит запомнить. Четыре причины из пяти чужие и копились месяцами. Пятая — моя, сделанная минутами раньше, и CI поймал её на следующем прогоне. В этом и разница, которую даёт работающий гейт, и работать он начал только после снятия четвёртого слоя.</p>
+<h2>Чего стоит вечно красная проверка</h2>
+<blockquote>Проверка, которая всегда красная, несёт ровно столько же информации, сколько всегда зелёная.</blockquote>
+<p>В тот же день раньше наш мерж лёг в main, и все воркфлоу покраснели. Установить, что это не мы, можно было только открыв лог и сравнив с родительским коммитом вручную. Автоматика сказать этого не могла — она месяц отвечала «failure» на всё.</p>
+<p>Красный гейт не просто перестаёт ловить регрессии. Он стоит ручного расследования на каждом коммите, который его задевает, и приучает всех перестать смотреть — поэтому четыре слоя и смогли накопиться незамеченными.</p>
+<h2>Теперь он ставится</h2>
+<p>Образ, опубликованный CI из того мержа, был вытянут и запущен до написания этого текста — только поэтому здесь вообще что-то утверждается:</p>
+<pre><code>docker pull --platform linux/amd64 \
+  ghcr.io/ghashtag/trinity:c7689530274d706fb0876b41e3ec0671ae16960d
+
+docker run --rm --platform linux/amd64 \
+  ghcr.io/ghashtag/trinity:c7689530274d706fb0876b41e3ec0671ae16960d blog</code></pre>
+<p>Две детали, которые открываются только исполнением. Образ только amd64, поэтому обычный pull на Apple Silicon падает с «no matching manifest for linux/arm64/v8». И закрепляйте sha, а не `:latest`: два пуша с разницей в пятнадцать секунд оба опубликовались, тег достался более раннему, и в `:latest` сейчас нет свежей подкоманды, а в sha-теге она есть.</p>
+<p>Запускается там `tri` — инструмент, которым написан этот блог. `tri blog check` перепроверяет по API GitHub каждое состояние pull request, названное в посте, потому что состояние, записанное прозой, устаревает после публикации; `tri blog lint` не пропускает опубликованный пост без квитанций или без раздела о недоказанном. Обе команды существуют потому, что обе ошибки сперва были сделаны здесь.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>От начала до конца проверен только контейнер. npm показывает, что пакет @playra/tri существует, и репозиторий Homebrew-тапа отвечает; ни то, ни другое не устанавливалось и не запускалось, поэтому работоспособность не заявляется.</li><li>У одного инструмента три версии: заголовок README говорит v6.3.0, npm публикует 1.0.1, бинарь печатает v5.1.0. Измерена только последняя. Какая авторитетна — не решено.</li><li>Воркфлоу codegen по-прежнему красный, но на более позднем шаге: он зовёт scripts/validate_codegen.sh, которого больше нет. Это другая задача, и она не решена.</li><li>Образ собран только под linux/amd64. На Apple Silicon он идёт через эмуляцию; arm64-образа нет, и время работы ни там, ни там не измерялось.</li><li>Сборка работает. Корректен ли CLI — отдельный вопрос, о котором здесь не сказано ничего: зелёная компиляция не равна проходящим тестам, а тесты остаются красными.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/trinity/commit/c7689530274d706fb0876b41e3ec0671ae16960d">trinity c768953 — the merge that turned the CLI build green</a></li><li><a href="https://github.com/gHashTag/trinity/actions/runs/31827529498">run 31827529498 — Build &amp; Push Trinity CLI, first success after 30+ red runs</a></li><li><a href="https://github.com/gHashTag/trinity/pkgs/container/trinity">the image that run published, pinned by sha</a></li></ul></div>
+<div class="cta"><p>Каждая цифра выше измерена, и рядом с ней названы её пределы.</p><div class="btns"><a class="btn" href="/?lang=ru#/blog/five-reasons-the-build-was-red">Открыть интерактивную версию</a><a class="btn sec" href="/blog/five-reasons-the-build-was-red/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Пять причин, по которым сборка была красной, и пятая — моя">admin@t27.ai</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
