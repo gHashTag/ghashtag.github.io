@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A correct gate with a manual remedy is an outage · TRINITY</title>
+<meta name="description" content="Twelve consecutive publisher runs failed on a check that was right every time, and six merged pull requests spent sixteen hours invisible to readers." />
+<link rel="canonical" href="https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/a-correct-gate-with-a-manual-remedy/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/" />
+<meta property="og:title" content="A correct gate with a manual remedy is an outage" />
+<meta property="og:description" content="Twelve consecutive publisher runs failed on a check that was right every time, and six merged pull requests spent sixteen hours invisible to readers." />
+<meta property="og:image" content="https://t27.ai/og-blog-a-correct-gate-with-a-manual-remedy.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="A correct gate with a manual remedy is an outage" />
+<meta name="twitter:description" content="Twelve consecutive publisher runs failed on a check that was right every time, and six merged pull requests spent sixteen hours invisible to readers." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"A correct gate with a manual remedy is an outage","description":"Twelve consecutive publisher runs failed on a check that was right every time, and six merged pull requests spent sixteen hours invisible to readers.","url":"https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/"},"image":"https://t27.ai/og-blog-a-correct-gate-with-a-manual-remedy.png","datePublished":"2026-08-14","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"delivery, ci, publishing, postmortem"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>A correct gate with a manual remedy is an outage</h1>
+<p class="meta">2026-08-14 · 7 min read</p>
+<p class="lede">Twelve consecutive publisher runs failed on a check that was right every time, and six merged pull requests spent sixteen hours invisible to readers.</p>
+<div class="tags"><span class="tag">delivery</span><span class="tag">ci</span><span class="tag">publishing</span><span class="tag">postmortem</span></div>
+<h2>The check was right twelve times in a row</h2>
+<p>The apex, t27.ai, is served by a repository that is not the one the website is developed in. A scheduled publisher checks out the sources from gHashTag/trinity, builds them, copies the result over the apex tree, runs the same verification a human publish would run, and commits only if that verification passes. Between 16:03 UTC on 13 August and 06:00 UTC on 14 August it ran twelve times and failed twelve times, always on the same line.</p>
+<pre><code>blog drift: the app ships [a-repair-reaches-only-the-copy-it-lands-in
+  a-suite-that-runs-nothing-exits-zero each-half-imported-the-other
+  eleven-verdicts-were-windows-not-checkpoints green-ci-does-not-mean-usable
+  open-gigabit-ethernet-artix7 scale-field-width-already-published]
+but blog/ holds [same list minus eleven-verdicts] — rerun build-blog.py
+- **FAIL** verify-site.sh rejected the built tree — nothing pushed</code></pre>
+<p>Every word of that is accurate. The application really did list seven posts and the static tree really did hold six, and a post the application lists but the tree lacks is an HTTP 404 for every reader who does not execute JavaScript. The gate found a real defect and refused to publish a tree containing it. That is what it is for.</p>
+<h2>The remedy was a human, so the failure was total</h2>
+<p>The static pages under blog/ are generated by build-blog.py from a file called blog-posts.json, and blog-posts.json was a snapshot somebody refreshed by hand. The publisher never invoked either. So the chain from a merged post to a readable page had one link that only a person could close, and the gate sat downstream of that link.</p>
+<p>The consequence is the part worth keeping. The publisher is a single sequence: verify, then commit, then push. A red verification does not skip the blog and publish the rest; it publishes nothing. So a missing static page for one blog post held back every merge that came after it, none of which had anything to do with the blog.</p>
+<div class="tw"><table><thead><tr><th>Merged into trinity</th><th>What it changed</th><th>Reached a reader</th></tr></thead><tbody><tr><td>#742, 15:12 UTC</td><td>the blog post that tripped the gate</td><td>after 16 hours</td></tr><tr><td>#743, 15:17 UTC</td><td>dead translation keys and disabled sections removed</td><td>after 16 hours</td></tr><tr><td>#745, 16:12 UTC</td><td>a table of contents for the long verification page</td><td>after 15 hours</td></tr><tr><td>#747, 17:31 UTC</td><td>vertical rhythm aligned across the sub-pages</td><td>after 14 hours</td></tr><tr><td>#748, 18:15 UTC</td><td>the author page translated for de, es, zh</td><td>after 13 hours</td></tr><tr><td>#749, 20:08 UTC</td><td>the format-selection matrix at /#/select</td><td>after 11 hours</td></tr></tbody></table></div>
+<p>For sixteen hours the answer to &quot;is it merged&quot; was yes and the answer to &quot;can anyone see it&quot; was no, and only one of those questions had an instrument pointed at it. The dashboard of green merges was not lying; it was answering a different question than the one that matters.</p>
+<h2>The fix moves the remedy into the pipeline</h2>
+<p>One script now owns the whole chain and the publisher calls it on every run: transpile the real posts module from the sources it just built, write blog-posts.json, regenerate blog/ and ru/blog/ and both feeds, draw a card for any post that does not have one, then regenerate the sitemap from what is on disk. The drift gate stays exactly as it was. It is still the thing that would catch a broken generator; it is no longer the thing that waits for a person.</p>
+<p>Two details in that script are there because of how they fail rather than how they work. The exported publishedPosts is a function, not an array: stringifying the binding itself yields undefined and writes a syntactically valid, entirely empty data file without raising anything, which would delete the blog rather than fail to update it. And the cards were hand-written SVG rasterised by qlmanage, a macOS utility no runner has, so an unattended publish could never have produced the image the gate demands — the generator draws the card directly instead, in the only font family on the runner that covers Cyrillic.</p>
+<p>The reverse direction is wired too. A post withdrawn upstream now loses its static directory, because the same gate fails the other way round when the tree holds more than the application ships, and a fix that only handles the direction that happened is half a fix.</p>
+<h2>What the green run proves and what it does not</h2>
+<p>The first run after the change published the current sources and the apex now serves the seventh post at its own URL in both languages, with the card on disk. That is a measured fact about one run. It is not evidence that the pipeline has no other manual link in it — three more generators in the same repository are still invoked by hand, and the only reason they have not caused an outage is that no gate currently depends on them.</p>
+<blockquote>A gate is only as useful as its remedy is automatic. Correct and unattendable is a worse combination than approximate and self-healing, because the correct one stops everything and tells you it was right.</blockquote>
+<div class="box"><h2>What this does not settle</h2><ul><li>The drift gate compares two lists of slugs. Nothing fetches a published page as a reader without JavaScript would, so a post can pass the gate and still be unreadable for a reason the gate does not model.</li><li>The workflow asks for a run every fifteen minutes; the observed spacing on 13-14 August was closer to an hour, because GitHub throttles scheduled workflows. The comment in the file claiming a fifteen-minute worst case is therefore wrong, and nothing on the site measures the real lag between a merge and a reader.</li><li>Cards for new posts are now drawn with Pillow in DejaVu, while the hand-made ones are set in Inter. That difference is visible and unmeasured — no platform preview has been checked against a generated card.</li><li>Only the blog was audited for this shape. Other generated surfaces in the same repository — the book under docs/, the result pages under r/ — have generators that are also invoked by hand, and nobody has checked whether any gate depends on them.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/ghashtag.github.io/actions/runs/31774839732">ghashtag.github.io run 31774839732 — the last of twelve failures</a></li><li><a href="https://github.com/gHashTag/ghashtag.github.io/actions/runs/31780655887">ghashtag.github.io run 31780655887 — the first green run after the fix</a></li><li><a href="https://github.com/gHashTag/ghashtag.github.io/commit/cf8534f450ef344be36eda90bff7e79ac316279d">ghashtag.github.io cf8534f — the publisher now regenerates the blog itself</a></li><li><a href="https://github.com/gHashTag/ghashtag.github.io/blob/main/regen-blog.py">regen-blog.py — the script that owns the chain</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/a-correct-gate-with-a-manual-remedy">Open the interactive version</a><a class="btn sec" href="/ru/blog/a-correct-gate-with-a-manual-remedy/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=A correct gate with a manual remedy is an outage">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
