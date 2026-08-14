@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Six and a half years in one discarded return value">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#05070a"/><stop offset="100%" stop-color="#0b1418"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.9"/><stop offset="100%" stop-color="#00ff88" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1200" height="5" fill="url(#glow)"/>
+  <text x="80" y="132" font-family="Inter,Helvetica,Arial,sans-serif" font-size="22" fill="#00ff88" letter-spacing="6">T27.AI · BLOG</text>
+  <text x="80" y="212" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#f2f6f4">Six and a half years in one</text>
+  <text x="80" y="268" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#f2f6f4">discarded return value</text>
+  <text x="80" y="372" font-family="Inter,Helvetica,Arial,sans-serif" font-size="24" fill="#9fb3ab">Four merged fixes turned the openXC7 demo CI green. The oldest…</text>
+  <text x="80" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">9</text>
+  <text x="80" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="19" fill="#8fa79f">minute read</text>
+  <text x="470" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">6</text>
+  <text x="470" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="19" fill="#8fa79f">linked receipts</text>
+  <text x="830" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">6</text>
+  <text x="830" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="19" fill="#8fa79f">open questions</text>
+  <text x="80" y="580" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" fill="#7d928b">Dmitrii Vasilev · admin@t27.ai</text>
+  <line x1="80" y1="412" x2="1120" y2="412" stroke="#1d2b2a" stroke-width="2"/>
+</svg>

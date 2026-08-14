@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Six and a half years in one discarded return value · TRINITY</title>
+<meta name="description" content="Four merged fixes turned the openXC7 demo CI green. The oldest was a bool nobody read: since February 2020 the placer knew its own placement was invalid and threw the answer away, so the failure surfaced in the router instead." />
+<link rel="canonical" href="https://t27.ai/blog/six-and-a-half-years-in-a-discarded-return-value/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/six-and-a-half-years-in-a-discarded-return-value/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/six-and-a-half-years-in-a-discarded-return-value/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/six-and-a-half-years-in-a-discarded-return-value/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/six-and-a-half-years-in-a-discarded-return-value/" />
+<meta property="og:title" content="Six and a half years in one discarded return value" />
+<meta property="og:description" content="Four merged fixes turned the openXC7 demo CI green. The oldest was a bool nobody read: since February 2020 the placer knew its own placement was invalid and threw the answer away, so the failure surfaced in the router instead." />
+<meta property="og:image" content="https://t27.ai/og-blog-six-and-a-half-years-in-a-discarded-return-value.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Six and a half years in one discarded return value" />
+<meta name="twitter:description" content="Four merged fixes turned the openXC7 demo CI green. The oldest was a bool nobody read: since February 2020 the placer knew its own placement was invalid and threw the answer away, so the failure surfaced in the router instead." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Six and a half years in one discarded return value","description":"Four merged fixes turned the openXC7 demo CI green. The oldest was a bool nobody read: since February 2020 the placer knew its own placement was invalid and threw the answer away, so the failure surfaced in the router instead.","url":"https://t27.ai/blog/six-and-a-half-years-in-a-discarded-return-value/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/six-and-a-half-years-in-a-discarded-return-value/"},"image":"https://t27.ai/og-blog-six-and-a-half-years-in-a-discarded-return-value.png","datePublished":"2026-08-14","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"FPGA, openXC7, nextpnr, Place and route"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Six and a half years in one discarded return value</h1>
+<p class="meta">2026-08-14 · 9 min read</p>
+<p class="lede">Four merged fixes turned the openXC7 demo CI green. The oldest was a bool nobody read: since February 2020 the placer knew its own placement was invalid and threw the answer away, so the failure surfaced in the router instead.</p>
+<div class="tags"><span class="tag">FPGA</span><span class="tag">openXC7</span><span class="tag">nextpnr</span><span class="tag">Place and route</span></div>
+<p>Last week the openXC7 demo-projects CI went green: every project builds. That is the headline and the least interesting thing that happened. The interesting part is what three of us found underneath it, including a defect that had been sitting in the placer since February 2020, quietly throwing away the one piece of information that would have caught it.</p>
+<p>openXC7 is a fully open toolchain for Xilinx 7-series parts — yosys, nextpnr-xilinx, and the prjxray bitstream database, with no Vivado anywhere in the path. Roads like this have potholes, and some of them are old.</p>
+<h2>The oldest one: a return value nobody read</h2>
+<p>nextpnr’s HeAP placer finishes analytic placement and then runs a simulated-annealing refinement pass, placer1_refine(). It returns a bool, and returns false when its final post-placement validity check fails. The call site looked like this:</p>
+<pre><code>placer1_refine(ctx, placer1_cfg);</code></pre>
+<p>The result went nowhere. Because that check’s log_error is caught inside placer1_refine, nothing else escaped either. A placement already judged invalid by the tool’s own checker went straight on to the router, where it reappeared as an unreadable intra-site arc failure — an error message pointing at routing, for a fault decided during placement.</p>
+<p>The fix is five lines, four of them a comment explaining why:</p>
+<pre><code>if (!placer1_refine(ctx, placer1_cfg))
+    return false;</code></pre>
+<p>git blame puts that call site at commit 1b587cb5, David Shah, 2020-02-13 — &quot;HeAP: pass through parameters to refinement&quot;. Merged 2026-08-13. The file has 59 commits, half of them from this summer, so the file’s date proves nothing; only the line’s does.</p>
+<p>This is not a story about a careless author. The placer was correct when written and the refinement pass rarely failed. The bug becomes reachable only when something else starts producing placements that fail validity — which is exactly what the rest of this is about. Latent defects in old code are activated by new code, and the blame line points at the wrong year.</p>
+<h2>The one that still bites</h2>
+<p>The second old defect is an omission rather than a mistake. In a 7-series slice each letter position has exactly one selectable output pin — the xMUX — besides the dedicated O6 and the flip-flop’s Q. One pin, one claimant. The xc7 validity checker never budgeted it, so the packer was free to co-locate a 5-LUT whose O5 must reach the fabric, a carry whose sum feeds off-position, and a carry-out going somewhere other than the chain. Three claimants, one pin. The placer said yes; the router died with Failed to route arc ... CARRY4_O3 to AFFMUX_OUT.</p>
+<p>#146 adds the per-position budget: count the claimants, reject the position if there is more than one, and let the legaliser keep searching instead of handing the router an impossible site. The checker it patches dates to David Shah’s xc7 legality work in late 2019 and early 2020. It was never there to be broken; it simply was never written.</p>
+<p>The same slice geometry has a nastier relative that is still open. #134, filed by cheungxi, describes a bitstream that places, routes and meets timing, and then does not work on the chip — the board never answers the first UART command. #146 does not fix it. A bug that survives placement, routing, timing and CI, and shows up only as silence from a board, is the expensive kind.</p>
+<h2>The young ones</h2>
+<p>Not everything was ancient. Two of the four fixes were in code from this spring, and both are LUTRAM packing — which is why LiteX designs, leaning hard on distributed RAM for cache tags, were the ones that fell over.</p>
+<div class="tw"><table><thead><tr><th>Fix</th><th>What it was</th><th>Age of the defect</th></tr></thead><tbody><tr><td>#145</td><td>placer1_refine result discarded</td><td>6 years 6 months (2020-02-13)</td></tr><tr><td>#146</td><td>no OUTMUX budget in the xc7 validity check</td><td>never written; checker dates to 2019–2020</td></tr><tr><td>#142</td><td>RAM256X1S mux tree built into the SPO half</td><td>about 10 weeks (2026-05-29)</td></tr><tr><td>#144</td><td>RAM128X1S scalar A0..A6 outside the DRAM control set</td><td>about 10 weeks</td></tr></tbody></table></div>
+<p>#142 changes one value: m256 ? 4 becomes m256 ? 0.</p>
+<h2>Three people, three days</h2>
+<p>The work ran 2026-08-12 to 2026-08-14. Carlos Venegas Arrabé (@cavearr) wrote #144 and #146. I wrote #142 and #145, and the #141 reproduction that started it. Hans Baier (@hansfbaier) reviewed every one, merged them, and kept the demo CI honest enough for the failures to be visible in the first place.</p>
+<p>The most useful paragraph is about a mistake. We first attributed the picosoc failure to #146. It was #142’s class. We could not reproduce it because our lab trees had already been carrying #142’s one-line fix since an earlier campaign — every build in the sweep silently included it. We were sweeping the wrong variable, and the experiment could not have told us so.</p>
+<p>Once that was seen the picture came out clean: with #146 alone both failing seeds die at the LUTRAM address placement and never reach the carry stage; with #142 and #146 together both pass, zero validity firings, zero route failures. Order matters, and we learned the order by getting it wrong first.</p>
+<h2>What a green CI is worth</h2>
+<blockquote>That does not mean that the bitstreams work. Which is what we have to tackle next.</blockquote>
+<p>That is the maintainer, and it is the right bound on the claim. Next target is litex-ddr-arty-s7: a LiteX DDR design not merely built but running on the board. #134 is the sharpest illustration of the gap — a design that passes every automated gate we have and does nothing on hardware. Until a board answers, the gates are measuring the toolchain, not the design.</p>
+<p>So the lesson is not &quot;check your return values&quot;, true as that is. It is that new features are how you audit old code, and a toolchain becomes trustworthy only by being driven hard enough to fail in new places. A green CI is not the end of that process; it is the point where the next class of bug becomes visible.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>A green CI proves the toolchain emits a bitstream without falling over. It does not prove the bitstream configures a chip. In the maintainer’s words: &quot;That does not mean that the bitstreams work.&quot;</li><li>#134 is open. A design that places, routes and meets timing still does nothing on the board — the relocated carry pass-through lanes drove S from a constant net, which has no physical realisation on xc7. #146 does not fix it.</li><li>The six-and-a-half-year figure is the age of the call site, dated by blame. It is not evidence that the discarded failure path was reachable for all of that time — the reverse is argued here: it became reachable when the LUTRAM packing work started producing placements that fail validity.</li><li>BUFR/BUFIO support in the bitstream database is still unverified. prjxray-db#1 was closed pending a fuzzer that can mint the rows with provenance; the eight proposed segbits rows are not confirmed.</li><li>litex-ddr-hdmi-stlv7325 still fails, and not on the toolchain: the generated Verilog ties SHIFTOUT1/2 of a slave OSERDESE2 to constants. Vivado warns and ignores; yosys refuses.</li><li>No build-time comparison against Vivado is claimed here. We have not measured it.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/145">nextpnr-xilinx #145 — propagate placer1_refine failure out of placer_heap · MERGED 2026-08-13</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/146">nextpnr-xilinx #146 — budget the per-position site exit in placement validity · MERGED 2026-08-14</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/142">nextpnr-xilinx #142 — RAM256X1S mux tree belongs in its own slice half · MERGED 2026-08-13</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/144">nextpnr-xilinx #144 — wire RAM128X1S scalar A0..A6 into the DRAM control set · MERGED 2026-08-13</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/134">nextpnr-xilinx #134 — routed, timing-clean, dead on silicon · OPEN</a></li><li><a href="https://github.com/openXC7/demo-projects/actions/runs/31778234320">demo-projects CI — every project builds</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/six-and-a-half-years-in-a-discarded-return-value">Open the interactive version</a><a class="btn sec" href="/ru/blog/six-and-a-half-years-in-a-discarded-return-value/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Six and a half years in one discarded return value">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Шесть с половиной лет в одном отброшенном значении · TRINITY</title>
+<meta name="description" content="Четыре влитых исправления сделали CI демо-проектов openXC7 зелёным. Самое старое — bool, который никто не читал: с февраля 2020 плейсер знал, что размещение невалидно, и выбрасывал ответ." />
+<link rel="canonical" href="https://t27.ai/ru/blog/six-and-a-half-years-in-a-discarded-return-value/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/six-and-a-half-years-in-a-discarded-return-value/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/six-and-a-half-years-in-a-discarded-return-value/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/six-and-a-half-years-in-a-discarded-return-value/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/six-and-a-half-years-in-a-discarded-return-value/" />
+<meta property="og:title" content="Шесть с половиной лет в одном отброшенном значении" />
+<meta property="og:description" content="Четыре влитых исправления сделали CI демо-проектов openXC7 зелёным. Самое старое — bool, который никто не читал: с февраля 2020 плейсер знал, что размещение невалидно, и выбрасывал ответ." />
+<meta property="og:image" content="https://t27.ai/og-blog-six-and-a-half-years-in-a-discarded-return-value-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Шесть с половиной лет в одном отброшенном значении" />
+<meta name="twitter:description" content="Четыре влитых исправления сделали CI демо-проектов openXC7 зелёным. Самое старое — bool, который никто не читал: с февраля 2020 плейсер знал, что размещение невалидно, и выбрасывал ответ." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Шесть с половиной лет в одном отброшенном значении","description":"Четыре влитых исправления сделали CI демо-проектов openXC7 зелёным. Самое старое — bool, который никто не читал: с февраля 2020 плейсер знал, что размещение невалидно, и выбрасывал ответ.","url":"https://t27.ai/ru/blog/six-and-a-half-years-in-a-discarded-return-value/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/six-and-a-half-years-in-a-discarded-return-value/"},"image":"https://t27.ai/og-blog-six-and-a-half-years-in-a-discarded-return-value-ru.png","datePublished":"2026-08-14","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"FPGA, openXC7, nextpnr, Place and route"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Шесть с половиной лет в одном отброшенном значении</h1>
+<p class="meta">2026-08-14 · 9 мин чтения</p>
+<p class="lede">Четыре влитых исправления сделали CI демо-проектов openXC7 зелёным. Самое старое — bool, который никто не читал: с февраля 2020 плейсер знал, что размещение невалидно, и выбрасывал ответ.</p>
+<div class="tags"><span class="tag">FPGA</span><span class="tag">openXC7</span><span class="tag">nextpnr</span><span class="tag">Place and route</span></div>
+<p>На прошлой неделе CI демо-проектов openXC7 позеленел: все проекты собираются. Это заголовок и самое неинтересное из того, что произошло. Интересное — что мы втроём нашли под ним, в том числе дефект, сидевший в плейсере с февраля 2020 года.</p>
+<p>openXC7 — полностью открытый тулчейн для ПЛИС Xilinx 7-й серии: yosys, nextpnr-xilinx и база битстримов prjxray, без Vivado где бы то ни было в цепочке. У таких дорог бывают ямы, и некоторые — старые.</p>
+<h2>Самая старая: значение, которое никто не прочитал</h2>
+<p>Плейсер HeAP заканчивает аналитическое размещение и запускает проход уточнения отжигом — placer1_refine(). Он возвращает bool и возвращает false, когда его финальная проверка валидности не проходит. Место вызова выглядело так:</p>
+<pre><code>placer1_refine(ctx, placer1_cfg);</code></pre>
+<p>Результат уходил в никуда. А поскольку log_error этой проверки перехватывается внутри placer1_refine, наружу не выбиралось и ничего другого. Размещение, уже признанное невалидным собственным контролем инструмента, шло прямо в роутер — и всплывало нечитаемой ошибкой трассировки внутрисайтовой дуги.</p>
+<p>Исправление — пять строк, четыре из которых комментарий, объясняющий почему:</p>
+<pre><code>if (!placer1_refine(ctx, placer1_cfg))
+    return false;</code></pre>
+<p>git blame относит это место вызова к коммиту 1b587cb5, David Shah, 2020-02-13. Влито 2026-08-13. Файл имеет 59 коммитов, половина из них этим летом, так что дата файла не доказывает ничего — доказывает только дата строки.</p>
+<p>Это не история про небрежного автора. Плейсер был правильным, когда его писали, и проход уточнения падал редко. Баг становится достижимым только когда что-то другое начинает выдавать размещения, не проходящие проверку. Латентные дефекты в старом коде активируются новым кодом, и строка blame показывает не тот год.</p>
+<h2>Тот, что кусается до сих пор</h2>
+<p>Второй старый дефект — не ошибка, а пропуск. В слайсе 7-й серии у каждой буквенной позиции ровно один выбираемый выходной пин — xMUX — помимо выделенного O6 и выхода Q триггера. Один пин, один претендент. Проверка валидности xc7 этот бюджет никогда не считала, и в одной позиции могли оказаться трое претендентов на один пин. Плейсер говорил «да»; роутер умирал с Failed to route arc ... CARRY4_O3 to AFFMUX_OUT.</p>
+<p>#146 добавляет позиционный бюджет: считать претендентов и отвергать позицию, если их больше одного, чтобы легалайзер продолжал искать. Проверка, которую он латает, восходит к работе над легальностью xc7 конца 2019 — начала 2020. Её невозможно было сломать: её просто никогда не написали.</p>
+<p>У той же геометрии слайса есть родственник поопаснее, и он открыт. #134, заведённый cheungxi, описывает битстрим, который размещается, трассируется и укладывается в тайминги — и не работает на кристалле: плата не отвечает на первую команду по UART. #146 его не закрывает.</p>
+<h2>Молодые</h2>
+<p>Древним было не всё. Два исправления из четырёх — в коде этой весны, и оба про упаковку LUTRAM. Поэтому падали именно дизайны LiteX: они сильно опираются на распределённую память для тегов кэша.</p>
+<div class="tw"><table><thead><tr><th>Исправление</th><th>В чём было дело</th><th>Возраст дефекта</th></tr></thead><tbody><tr><td>#145</td><td>результат placer1_refine отбрасывался</td><td>6 лет 6 месяцев (2020-02-13)</td></tr><tr><td>#146</td><td>нет бюджета OUTMUX в проверке валидности xc7</td><td>никогда не писался; проверка от 2019–2020</td></tr><tr><td>#142</td><td>мукс-дерево RAM256X1S в SPO-половине</td><td>около 10 недель (2026-05-29)</td></tr><tr><td>#144</td><td>скалярные A0..A6 у RAM128X1S мимо control set</td><td>около 10 недель</td></tr></tbody></table></div>
+<p>#142 меняет одно значение: m256 ? 4 становится m256 ? 0.</p>
+<h2>Трое, три дня</h2>
+<p>Работа шла с 2026-08-12 по 2026-08-14. Carlos Venegas Arrabé (@cavearr) написал #144 и #146. Я написал #142 и #145 и воспроизведение в #141, с которого всё началось. Hans Baier (@hansfbaier) отревьюил каждый, влил их и держал CI демо-проектов достаточно честным, чтобы отказы вообще стали видны.</p>
+<p>Самый полезный абзац — про ошибку. Сначала мы отнесли падение picosoc к классу #146. Это был класс #142. А не воспроизводилось оно потому, что наши лабораторные деревья уже несли однострочный фикс #142 с прошлой кампании — каждая сборка в переборе молча его включала. Мы перебирали не ту переменную, и эксперимент в принципе не мог нам об этом сказать.</p>
+<p>Когда это заметили, картина сложилась: с одним #146 оба падающих сида умирают на размещении адресов LUTRAM и до стадии переноса не доходят; с #142 и #146 вместе оба проходят, ноль срабатываний валидности, ноль отказов трассировки. Порядок важен, и узнали мы его, сначала ошибившись.</p>
+<h2>Чего стоит зелёный CI</h2>
+<blockquote>That does not mean that the bitstreams work. Which is what we have to tackle next.</blockquote>
+<p>Это мейнтейнер, и это верная граница утверждения. Следующая цель — litex-ddr-arty-s7: дизайн LiteX с DDR, который не просто собирается, а работает на плате. #134 — самая наглядная иллюстрация разрыва: дизайн проходит все наши автоматические ворота и ничего не делает на железе. Пока плата не ответила, ворота меряют тулчейн, а не дизайн.</p>
+<p>Так что вывод не «проверяйте возвращаемые значения», хотя и это верно. Он в том, что новые возможности — это способ проаудитить старый код, а тулчейн становится надёжным, только если гонять его достаточно жёстко, чтобы он падал в новых местах.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Зелёный CI доказывает, что тулчейн выдаёт битстрим, не падая. Он не доказывает, что битстрим сконфигурирует кристалл. Словами мейнтейнера: &quot;That does not mean that the bitstreams work.&quot;</li><li>#134 открыт. Дизайн, который размещается, трассируется и укладывается в тайминги, на плате не работает: перенесённые сквозные полосы переноса получали S из константной цепи, чего на xc7 физически не существует. #146 его не закрывает.</li><li>Шесть с половиной лет — возраст места вызова по blame, а не доказательство, что ветка отказа была достижима всё это время. Здесь утверждается обратное: она стала достижимой, когда работа над упаковкой LUTRAM начала давать невалидные размещения.</li><li>Поддержка BUFR/BUFIO в базе битстримов не подтверждена. prjxray-db#1 закрыт в ожидании фаззера, который выведет эти строки с провенансом; восемь предложенных строк segbits не подтверждены.</li><li>litex-ddr-hdmi-stlv7325 по-прежнему падает, и не из-за тулчейна: сгенерированный Verilog привязывает SHIFTOUT1/2 подчинённого OSERDESE2 к константам. Vivado предупреждает и игнорирует, yosys отказывается.</li><li>Сравнение времени сборки с Vivado здесь не заявляется. Мы его не измеряли.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/145">nextpnr-xilinx #145 — propagate placer1_refine failure out of placer_heap · MERGED 2026-08-13</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/146">nextpnr-xilinx #146 — budget the per-position site exit in placement validity · MERGED 2026-08-14</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/142">nextpnr-xilinx #142 — RAM256X1S mux tree belongs in its own slice half · MERGED 2026-08-13</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/144">nextpnr-xilinx #144 — wire RAM128X1S scalar A0..A6 into the DRAM control set · MERGED 2026-08-13</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/134">nextpnr-xilinx #134 — routed, timing-clean, dead on silicon · OPEN</a></li><li><a href="https://github.com/openXC7/demo-projects/actions/runs/31778234320">demo-projects CI — every project builds</a></li></ul></div>
+<div class="cta"><p>Каждая цифра выше измерена, и рядом с ней названы её пределы.</p><div class="btns"><a class="btn" href="/?lang=ru#/blog/six-and-a-half-years-in-a-discarded-return-value">Открыть интерактивную версию</a><a class="btn sec" href="/blog/six-and-a-half-years-in-a-discarded-return-value/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Шесть с половиной лет в одном отброшенном значении">admin@t27.ai</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
