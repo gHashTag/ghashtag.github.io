@@ -89,6 +89,21 @@ ranks for nothing. `build-blog.py` puts the whole article in the HTML — 1,259
 and 3,085 words — and the gate now fails any post under 400 words for exactly
 that reason.
 
+**A gate whose remedy is manual stops the whole pipeline.** `build-blog.py` was
+fed by a `blog-posts.json` somebody refreshed by hand, and `verify-site.sh`
+compares the slugs in the shipped `Blog-*.js` chunk against `ls -d blog/*/`. So
+adding a post upstream blocked its own publication — and everything merged after
+it. Between 2026-08-13 15:xx UTC and 2026-08-14 the publisher failed twelve times
+in a row on `blog drift: … rerun build-blog.py`, and six merged pull requests with
+nothing to do with the blog never reached a reader for sixteen hours. The gate was
+right every single time; nothing was wired to satisfy it. `regen-blog.py` now owns
+the chain — `posts.ts` → `blog-posts.json` → `blog/`, `ru/blog/`, the feeds, a
+drawn OG card for any post without one, then `build-landing.py` for the sitemap —
+and the publisher calls it on every run. Cards for new posts are drawn with
+Pillow in DejaVu rather than rasterised from hand-written Inter SVG, because no
+runner has `qlmanage`; an auto-generated card is therefore visibly not a hand-made
+one.
+
 **Extract data by running the module, not by reading it.** The posts live in
 TypeScript in another repo. Transpiling with the project's own esbuild and
 importing the result is the only version that cannot drift from what ships. It

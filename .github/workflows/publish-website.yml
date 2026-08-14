@@ -60,6 +60,13 @@ jobs:
         with:
           node-version: '20'
 
+      # Pillow draws the OG card for a post that does not have one yet. The
+      # cards were hand-written SVG rasterised by qlmanage, which exists only on
+      # a Mac, so an unattended publish could never produce one — and
+      # verify-site.sh requires og-blog-<slug>.png on disk for every post.
+      - name: Card rasteriser
+        run: python3 -m pip install --quiet --disable-pip-version-check pillow
+
       - name: Build
         working-directory: .src/apps/website
         run: |
@@ -131,6 +138,23 @@ jobs:
           # Additive on purpose. The generated pages (cases/, gft/, about/ …),
           # the OG images and CNAME are not in dist/ and must survive.
           rsync -a .src/apps/website/dist/ ./
+
+          # The static blog is generated from trinity's posts.ts, and until now
+          # that generation was a manual step nobody had wired in. So publishing
+          # a new post required a human to remember it, and verify-site.sh —
+          # correctly — refused to publish anything at all until they did:
+          # between 2026-08-13 15:xx UTC and 2026-08-14, twelve consecutive runs
+          # failed on `blog drift: … rerun build-blog.py`, and six merged pull
+          # requests unrelated to the blog never reached a reader. A gate whose
+          # remedy is manual stops the whole pipeline, not just the part that
+          # tripped it.
+          # This step runs without `set -e`, so the exit status is read here:
+          # a failed regeneration would otherwise fall through to the drift gate
+          # and be reported as a content problem instead of a broken generator.
+          if ! python3 regen-blog.py .src/apps/website; then
+            say "- **FAIL** regen-blog.py could not rebuild the static blog"
+            exit 1
+          fi
 
           # Restamp sitemap lastmod from git, because sitemap.xml is a committed
           # static file with no generator: every publish moves the files it
