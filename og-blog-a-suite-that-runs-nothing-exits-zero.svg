@@ -9,16 +9,15 @@
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect x="0" y="0" width="1200" height="5" fill="url(#glow)"/>
-  <text x="80" y="132" font-family="Inter,Helvetica,Arial,sans-serif" font-size="30" fill="#00ff88" letter-spacing="3">T27.AI</text>
-  <text x="80" y="248" font-family="Inter,Helvetica,Arial,sans-serif" font-size="64" font-weight="700" fill="#e8f4ef">Zero of six hundred</text>
-  <text x="80" y="318" font-family="Inter,Helvetica,Arial,sans-serif" font-size="64" font-weight="700" fill="#e8f4ef">and forty</text>
-  <text x="80" y="366" font-family="Inter,Helvetica,Arial,sans-serif" font-size="26" fill="#9fb3ab">A suite that runs nothing also exits 0</text>
-  <line x1="80" y1="412" x2="1120" y2="412" stroke="#1d2b2a" stroke-width="2"/>
-  <text x="80" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">640</text>
-  <text x="80" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="20" fill="#8fa79f">test blocks declared</text>
-  <text x="470" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">0</text>
-  <text x="470" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="20" fill="#8fa79f">of them executed</text>
-  <text x="830" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">5</text>
-  <text x="830" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="20" fill="#8fa79f">packages swept, five unusable</text>
+  <text x="80" y="132" font-family="Inter,Helvetica,Arial,sans-serif" font-size="22" fill="#00ff88" letter-spacing="6">T27.AI · BLOG</text>
+  <text x="80" y="212" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#f2f6f4">Zero of six hundred and forty</text>
+  <text x="80" y="372" font-family="Inter,Helvetica,Arial,sans-serif" font-size="24" fill="#9fb3ab">A package declared 640 tests and ran none of them, and the…</text>
+  <text x="80" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">9</text>
+  <text x="80" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="19" fill="#8fa79f">minute read</text>
+  <text x="470" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">5</text>
+  <text x="470" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="19" fill="#8fa79f">linked receipts</text>
+  <text x="830" y="486" font-family="Inter,Helvetica,Arial,sans-serif" font-size="44" font-weight="700" fill="#00ff88">4</text>
+  <text x="830" y="522" font-family="Inter,Helvetica,Arial,sans-serif" font-size="19" fill="#8fa79f">open questions</text>
   <text x="80" y="580" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" fill="#7d928b">Dmitrii Vasilev · admin@t27.ai</text>
+  <line x1="80" y1="412" x2="1120" y2="412" stroke="#1d2b2a" stroke-width="2"/>
 </svg>
