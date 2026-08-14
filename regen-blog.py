@@ -52,13 +52,22 @@ W, H = 1200, 630
 INTER = REPO / "fonts" / "Inter-Variable.ttf"
 
 
-def font(size: int, bold: bool):
-    """Открыть закреплённый в репозитории Inter с нужной вариацией."""
+TITLE_VARIATION = "Black"       # вес 900 — тот же, что в SVG заголовка карточки
+
+
+def font(size: int, bold=True):
+    """Открыть закреплённый в репозитории Inter с нужной вариацией.
+
+    `bold` принимает и имя вариации строкой. Важно измерять ширину тем же
+    весом, которым строка будет нарисована: Black шире Bold, и подбор
+    кегля по метрикам Bold пустил бы заголовок за поля.
+    """
     from PIL import ImageFont
     if not INTER.is_file():
         raise SystemExit("regen-blog: fonts/Inter-Variable.ttf отсутствует — нельзя менять шрифт молча")
     value = ImageFont.truetype(str(INTER), size)
-    value.set_variation_by_name("Bold" if bold else "Regular")
+    name = bold if isinstance(bold, str) else ("Bold" if bold else "Regular")
+    value.set_variation_by_name(name)
     return value
 
 
@@ -122,7 +131,7 @@ def fit_title(title: str, lang: str) -> tuple:
     draw = ImageDraw.Draw(Image.new("RGB", (10, 10)))
     limit = 1010
     for size in (96, 84, 74, 64, 56):
-        f = font(size, True)
+        f = font(size, TITLE_VARIATION)
         words, lines, cur = title.split(), [], ""
         for w in words:
             cand = f"{cur} {w}".strip()
@@ -138,7 +147,7 @@ def fit_title(title: str, lang: str) -> tuple:
     # Ничего не подошло: обрезать по последней строке, но не молча — многоточие
     # показывает читателю, что заголовок продолжается в статье.
     size = 56
-    f = font(size, True)
+    f = font(size, TITLE_VARIATION)
     words, lines, cur = title.split(), [], ""
     for w in words:
         cand = f"{cur} {w}".strip()
@@ -230,7 +239,7 @@ def card_svg(post: dict, lang: str) -> str:
         for g, y in (("\u2212", 250), ("0", 350), ("+", 450)))
     body = "".join(
         f'\n  <text x="80" y="{first + i * lead}" font-family="{ff}" font-size="{size}"'
-        f' font-weight="700" fill="#f4f8f6">{esc(line)}</text>'
+        f' font-weight="900" fill="#ffffff">{esc(line)}</text>'
         for i, line in enumerate(lines))
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}"'
