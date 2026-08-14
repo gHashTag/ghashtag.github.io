@@ -185,6 +185,12 @@
       "source_committed_at": "2026-08-14T22:11:21Z",
       "published_at": "2026-08-14T23:23:35.883141Z",
       "delay_minutes": 72.2
+    },
+    {
+      "source_commit": "34c1386f23f9fb6eb8eb41e699dcdfa5dec1c25c",
+      "source_committed_at": "2026-08-14T23:22:31Z",
+      "published_at": "2026-08-14T23:49:58.449720Z",
+      "delay_minutes": 27.5
     }
   ]
 }
