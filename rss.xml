@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 14 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 15 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Half the build is bitstream generation, and the trivial design was the slow one</title>
+      <link>https://t27.ai/#/blog/half-the-build-is-bitstream-generation</link>
+      <guid isPermaLink="false">half-the-build-is-bitstream-generation</guid>
+      <pubDate>Sat, 15 Aug 2026 12:00:00 GMT</pubDate>
+      <description>Fifteen openXC7 builds with stated boundaries: for small designs more time goes to turning FASM into a bitstream than to place-and-route, a blinky beaten by a GF multiplier, and 25% spread on byte-identical work.</description>
+      <category>FPGA</category>
+      <category>openXC7</category>
+      <category>Benchmarking</category>
+      <category>Measurement</category>
+    </item>
     <item>
       <title>A correct gate with a manual remedy is an outage</title>
       <link>https://t27.ai/#/blog/a-correct-gate-with-a-manual-remedy</link>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Половина сборки — это генерация битстрима, а самым медленным оказался тривиальный дизайн · TRINITY</title>
+<meta name="description" content="Пятнадцать сборок openXC7 с объявленными границами: у малых дизайнов на превращение FASM в битстрим уходит больше времени, чем на трассировку, blinky проиграл умножителю GF, а разброс на побайтово одинаковой работе — 25%." />
+<link rel="canonical" href="https://t27.ai/ru/blog/half-the-build-is-bitstream-generation/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/half-the-build-is-bitstream-generation/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/half-the-build-is-bitstream-generation/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/half-the-build-is-bitstream-generation/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/half-the-build-is-bitstream-generation/" />
+<meta property="og:title" content="Половина сборки — это генерация битстрима, а самым медленным оказался тривиальный дизайн" />
+<meta property="og:description" content="Пятнадцать сборок openXC7 с объявленными границами: у малых дизайнов на превращение FASM в битстрим уходит больше времени, чем на трассировку, blinky проиграл умножителю GF, а разброс на побайтово одинаковой работе — 25%." />
+<meta property="og:image" content="https://t27.ai/og-blog-half-the-build-is-bitstream-generation-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Половина сборки — это генерация битстрима, а самым медленным оказался тривиальный дизайн" />
+<meta name="twitter:description" content="Пятнадцать сборок openXC7 с объявленными границами: у малых дизайнов на превращение FASM в битстрим уходит больше времени, чем на трассировку, blinky проиграл умножителю GF, а разброс на побайтово одинаковой работе — 25%." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Половина сборки — это генерация битстрима, а самым медленным оказался тривиальный дизайн","description":"Пятнадцать сборок openXC7 с объявленными границами: у малых дизайнов на превращение FASM в битстрим уходит больше времени, чем на трассировку, blinky проиграл умножителю GF, а разброс на побайтово одинаковой работе — 25%.","url":"https://t27.ai/ru/blog/half-the-build-is-bitstream-generation/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/half-the-build-is-bitstream-generation/"},"image":"https://t27.ai/og-blog-half-the-build-is-bitstream-generation-ru.png","datePublished":"2026-08-15","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"FPGA, openXC7, Benchmarking, Measurement"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Половина сборки — это генерация битстрима, а самым медленным оказался тривиальный дизайн</h1>
+<p class="meta">2026-08-15 · 7 мин чтения</p>
+<p class="lede">Пятнадцать сборок openXC7 с объявленными границами: у малых дизайнов на превращение FASM в битстрим уходит больше времени, чем на трассировку, blinky проиграл умножителю GF, а разброс на побайтово одинаковой работе — 25%.</p>
+<div class="tags"><span class="tag">FPGA</span><span class="tag">openXC7</span><span class="tag">Benchmarking</span><span class="tag">Measurement</span></div>
+<p>У всех есть представление о том, сколько занимает открытый тулчейн для Xilinx. Опубликованного числа с приложенным методом я не нашёл — а числа в нашем собственном репозитории оказались оценками, а не измерениями: три разных дизайна с одинаковым временем, по чему и видно, что секундомер никто не включал. Поэтому мы включили.</p>
+<h2>Что измеряется, а что нет</h2>
+<p>Границы — это и есть суть, потому что именно на них такие сравнения обычно жульничают.</p>
+<div class="tw"><table><thead><tr><th>Измеряется</th><th>Не измеряется</th></tr></thead><tbody><tr><td>синтез yosys</td><td>docker pull</td></tr><tr><td>размещение и трассировка nextpnr-xilinx</td><td>git checkout</td></tr><tr><td>fasm2frames + xc7frames2bit</td><td>генерация chipdb</td></tr></tbody></table></div>
+<p>chipdb собирается один раз отдельной задачей и раздаётся остальным артефактом — он одинаков во всех прогонах и лежит вне окна замера. Это свойство кристалла, а не дизайна, и у Vivado такого шага нет вообще; включать его значило бы соврать в чью-то пользу.</p>
+<p>Пять прогонов на дизайн, сид зафиксирован на 1. Машина: общий раннер GitHub ubuntu-latest, 4 ядра. Кристалл: xc7a200tfbg484-2.</p>
+<h2>Числа</h2>
+<div class="tw"><table><thead><tr><th>дизайн</th><th>медиана</th><th>min</th><th>max</th><th>синтез</th><th>P&amp;R</th><th>битстрим</th></tr></thead><tbody><tr><td>gf12_mul</td><td>46.1с</td><td>37.6с</td><td>48.2с</td><td>9.8с</td><td>6.7с</td><td>29.4с</td></tr><tr><td>blinky</td><td>60.7с</td><td>54.6с</td><td>69.6с</td><td>3.5с</td><td>28.9с</td><td>28.2с</td></tr><tr><td>gf128_mul</td><td>533.2с</td><td>521.5с</td><td>662.6с</td><td>163.1с</td><td>253.7с</td><td>122.3с</td></tr></tbody></table></div>
+<h2>Тривиальный дизайн оказался не быстрым</h2>
+<p>Мигающий светодиод — 60.7 с. Умножитель GF(2^12) — 46.1 с. Умножитель крупнее по любой мерке и закончил на четверть быстрее.</p>
+<p>Причина не в размере. blinky размещается плейсером отжига под ограничение 100 МГц, умножитель — аналитическим плейсером под 5 МГц. Трассировка blinky занимает 28.9 с против 6.7 с у умножителя — вчетверо, и в сторону, противоположную размерам. На этом масштабе время сборки решают плейсер и целевая частота, а нетлист почти не участвует.</p>
+<p>Это стоит знать, прежде чем цитировать чей-либо результат на blinky, включая наш.</p>
+<h2>Половина времени уходит туда, о чём не говорят</h2>
+<p>Генерация битстрима — fasm2frames и следом xc7frames2bit — заняла 28.2 с у blinky и 29.4 с у умножителя. Это 46% и 64% полного времени сборки, и величина почти постоянна: дизайны различаются во всём остальном, а их битстрим-стадия расходится на секунду.</p>
+<p>Она ведёт себя как пол. Для чего угодно малого больше времени уходит на превращение FASM во фреймы и фреймов в .bit, чем на размещение и трассировку. Усилия по оптимизации в этом тулчейне идут преимущественно в плейсер и роутер, где и находятся интересные алгоритмы; на малых дизайнах секунды лежат не там.</p>
+<p>Пол перестаёт доминировать, когда дизайн достаточно велик. У gf128_mul битстрим — 122.3 с из 533.2 с, то есть 23%, тогда как трассировка занимает 253.7 с, а синтез 163.1 с. Эти две растут вместе с нетлистом, битстрим-стадия — гораздо медленнее.</p>
+<h2>Одно время сборки — это не измерение</h2>
+<p>Каждый прогон одного дизайна выполнял побайтово одинаковую работу: те же исходники, те же ограничения, тот же сид, тот же образ контейнера. Разброс всё равно такой:</p>
+<div class="tw"><table><thead><tr><th>дизайн</th><th>min → max</th><th>разброс к медиане</th></tr></thead><tbody><tr><td>blinky</td><td>54.6с → 69.6с</td><td>25%</td></tr><tr><td>gf12_mul</td><td>37.6с → 48.2с</td><td>23%</td></tr><tr><td>gf128_mul</td><td>521.5с → 662.6с</td><td>26%</td></tr></tbody></table></div>
+<p>Около четверти, устойчиво, на трёх дизайнах с одиннадцатикратной разницей во времени. Это машина — общие раннеры с шумными соседями, — а не тулчейн, потому что тулчейну каждый раз давали один и тот же вход.</p>
+<p>Практическое следствие: время из одного прогона может отстоять от медианы на четверть, и внутри этого прогона ничто об этом не скажет. Кто публикует одно число для любого из тулчейнов, публикует выборку из распределения, в которое не заглянул. Включая то число, которое опубликовали бы мы, запустив это один раз.</p>
+<h2>Две вещи, которые я сделал неправильно по дороге</h2>
+<p>Первая попытка потеряла все пять задач одного дизайна на синтезе: его обёртка инстанцирует ядро декодера из git-сабмодуля, а задача делала checkout без сабмодулей. Моя ошибка, локальная для одного дизайна — два других свои замеры выдали.</p>
+<p>Исправление вышло хуже поломки. Добавленные сабмодули уронили сам шаг checkout, и второй прогон потерял все пятнадцать задач, включая два дизайна, которым сабмодуль был не нужен и которые часом раньше прошли чисто. Этот сабмодуль из CI недоступен вовсе. Декодеры выбыли из набора, их место занял самодостаточный умножитель GF(2^128) — поэтому диапазон размеров в таблице такой широкий.</p>
+<p>Третья ошибка до прогона не дошла. В заголовке воркфлоу было написано, что пять повторов нужны из-за чувствительности nextpnr к сиду. Сид зафиксирован, значит повторы измеряют не это, а машину. Останься эта формулировка, пост открывался бы утверждением о плейсере, которого данные не подтверждают.</p>
+<h2>Что сделало бы это сравнением</h2>
+<p>Колонка Vivado, полученная на тех же трёх дизайнах с теми же границами, на машине, описанной так же точно. Мы её произвести не можем. Дизайны — обычные Verilog и XDC, воркфлоу открыт, так что вторую половину может добавить любой, у кого Vivado есть. А если половины разойдутся так, что ни одна сторона не воспроизведёт другую, — это и будет самым интересным исходом, а не провалом.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Это не сравнение. Колонки Vivado нет, потому что здесь нет Vivado — ни лицензии, ни установки. Все три дизайна это обычный Verilog + XDC под xc7a200tfbg484-2, так что любой, у кого лицензия есть, может собрать те же три и положить свои числа рядом.</li><li>Одна машина: общий раннер GitHub ubuntu-latest, 4 ядра. Абсолютные секунды на вашу рабочую станцию не переносятся. Пропорции между фазами, возможно, переносятся — но это гипотеза, а не результат.</li><li>Сид зафиксирован на 1 во всех прогонах, поэтому здесь ничто не измеряет чувствительность nextpnr к сиду. Перебор сидов смешал бы два источника разброса в одной колонке.</li><li>Три дизайна, все наши, все на одном кристалле. Это не представительная выборка — её хватает, чтобы показать форму, и не хватает, чтобы обобщать числа.</li><li>n=5. Разброс приведён как есть, от min до max. Доверительный интервал не заявляется — при таком n он был бы нечестен.</li><li>Генерация битстрима здесь означает fasm2frames и xc7frames2bit из prjxray. Другой бэкенд сдвинул бы эту колонку, поэтому вывод касается этого тулчейна, а не открытых тулчейнов вообще.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/blob/main/.github/workflows/openxc7-build-timing.yml">trinity-fpga — the workflow, with the boundaries stated in its header</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/actions/runs/31822095102">run 31822095102 — 17/17 green, the fifteen measurements below</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/actions/runs/31820544225">run 31820544225 — the first attempt, which lost five jobs to my error</a></li></ul></div>
+<div class="cta"><p>Каждая цифра выше измерена, и рядом с ней названы её пределы.</p><div class="btns"><a class="btn" href="/?lang=ru#/blog/half-the-build-is-bitstream-generation">Открыть интерактивную версию</a><a class="btn sec" href="/blog/half-the-build-is-bitstream-generation/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Половина сборки — это генерация битстрима, а самым медленным оказался тривиальный дизайн">admin@t27.ai</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
