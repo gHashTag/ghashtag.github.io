@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Train a neural network on an FPGA · TRINITY</title>
-<meta name="description" content="Eight modules from an empty toolchain to a neural network performing its own backward pass on live silicon. Entirely open-source: no Vivado, no licences, no step you cannot reproduce." />
+<meta name="description" content="Eight modules from an empty toolchain to a neural network performing its own backward pass on a binary FPGA. Entirely open-source: no Vivado, no licences, no step you cannot reproduce." />
 <link rel="canonical" href="https://t27.ai/course/" />
 <link rel="alternate" hreflang="en" href="https://t27.ai/course/" />
 <link rel="alternate" hreflang="ru" href="https://t27.ai/ru/course/" />
@@ -14,13 +14,13 @@
 <meta property="og:locale" content="en_US" />
 <meta property="og:url" content="https://t27.ai/course/" />
 <meta property="og:title" content="Train a neural network on an FPGA" />
-<meta property="og:description" content="Eight modules from an empty toolchain to a neural network performing its own backward pass on live silicon. Entirely open-source: no Vivado, no licences, no step you cannot reproduce." />
+<meta property="og:description" content="Eight modules from an empty toolchain to a neural network performing its own backward pass on a binary FPGA. Entirely open-source: no Vivado, no licences, no step you cannot reproduce." />
 <meta property="og:image" content="https://t27.ai/og-course.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Train a neural network on an FPGA" />
-<meta name="twitter:description" content="Eight modules from an empty toolchain to a neural network performing its own backward pass on live silicon. Entirely open-source: no Vivado, no licences, no step you cannot reproduce." />
+<meta name="twitter:description" content="Eight modules from an empty toolchain to a neural network performing its own backward pass on a binary FPGA. Entirely open-source: no Vivado, no licences, no step you cannot reproduce." />
 <link rel="icon" href="/favicon.svg" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Train a neural network on an FPGA","description":"Eight modules from an empty toolchain to a neural network performing its own backward pass on live silicon. Entirely open-source: no Vivado, no licences, no step you cannot reproduce.","url":"https://t27.ai/course/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Train a neural network on an FPGA","description":"Eight modules from an empty toolchain to a neural network performing its own backward pass on a binary FPGA. Entirely open-source: no Vivado, no licences, no step you cannot reproduce.","url":"https://t27.ai/course/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
 <style>*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
@@ -63,23 +63,23 @@ footer a{color:var(--muted)}
 
 <p class="eyebrow">Course</p>
 <h1>Train a neural network on an FPGA.</h1>
-<p class="lede">Not inference — training, on the chip itself. Eight modules from an empty toolchain to a network that learns on live silicon, entirely on open tools: no Vivado, no licences, and no step you cannot reproduce yourself.</p>
+<p class="lede">Not inference — training, on the chip itself. Eight modules from an empty toolchain to a network that learns on a binary FPGA, entirely on open tools: no Vivado, no licences, and no step you cannot reproduce yourself.</p>
 
 <h2>Eight modules</h2>
 <div class="items">
-<div class="item"><h3>01 · The open flow from nothing</h3><p>Yosys, nextpnr-xilinx, prjxray, openFPGALoader and iverilog installed and verified on macOS arm64 or Linux. First bitstream blinking an LED on a real board, no vendor licence anywhere in the chain.</p></div>
-<div class="item"><h3>02 · Exactly as much Verilog as you need</h3><p>Synchronous design, registers versus latches, and why an accidental latch is the classic bug that only shows up on silicon.</p></div>
+<div class="item"><h3>01 · The open flow from nothing</h3><p>Yosys, nextpnr-xilinx, prjxray, openFPGALoader and iverilog installed and verified on macOS arm64 or Linux. A bitstream blinks an LED on a real board, no vendor licence anywhere in the chain.</p></div>
+<div class="item"><h3>02 · Exactly as much Verilog as you need</h3><p>Synchronous design, registers versus latches, and why an accidental latch is the classic bug that shows up on hardware.</p></div>
 <div class="item"><h3>03 · Arithmetic as the foundation of ML in hardware</h3><p>Why float is expensive, what quantisation really costs, and where ternary and low-precision formats come from.</p></div>
 <div class="item"><h3>04 · Bit-exact verification — the heart of the course</h3><p>An independent Python reference model, per-stage known-answer vectors, checked through iverilog. Why a testbench written from the design&#x27;s own assumptions cheerfully agrees with its bugs.</p></div>
 <div class="item"><h3>05 · A matrix multiplier that closes timing</h3><p>MAC to array to pipeline. Reading the router&#x27;s timing report and fighting for frequency on a real example — including why a hard multiplier in the path can leave you with no frequency report at all.</p></div>
 <div class="item"><h3>06 · Neural network inference on the FPGA</h3><p>Layers, activations, dataflow and on-chip memory, running on the board rather than in a simulator.</p></div>
 <div class="item"><h3>07 · On-chip training — the capstone</h3><p>Backward pass and SGD in RTL. The network learns XOR on the FPGA itself, 4 of 4, bit-exact against the reference. Almost nobody has done this by hand.</p></div>
-<div class="item"><h3>08 · Onward to silicon</h3><p>The Tiny Tapeout path: preparing a design, what changes between FPGA and ASIC, and where the open silicon ecosystem stands after the move to IHP.</p></div>
+<div class="item"><h3>08 · From FPGA to an ASIC submission</h3><p>The Tiny Tapeout path: preparing a design, what changes between FPGA and ASIC, and where the open ASIC ecosystem stands after the move to IHP.</p></div>
 </div>
 <h2>How this differs from the free alternatives</h2>
 <div class="items">
-<div class="item"><h3>hls4ml (CERN) — free</h3><p>Inference only, generated through HLS, and the flow underneath is a vendor toolchain. Excellent at what it does — it does not train on the chip, and it does not leave you able to read the RTL it produced.</p></div>
-<div class="item"><h3>Vendor courses (Intel, AMD) — free</h3><p>Built to teach you their tools on their silicon. Nothing transfers to a flow you can run without a licence.</p></div>
+<div class="item"><h3>hls4ml (CERN) — free</h3><p>Inference is generated through HLS and the flow underneath is a vendor toolchain. It does not train on the chip or leave you able to read the RTL it produced.</p></div>
+<div class="item"><h3>Vendor courses (Intel, AMD) — free</h3><p>Built to teach you their tools on their hardware. Nothing transfers to a flow you can run without a licence.</p></div>
 <div class="item"><h3>University FPGA courses</h3><p>Usually stop at simulation, and where they reach a board it is through Vivado or Quartus.</p></div>
 <div class="item"><h3>What is left</h3><p>Two things exist nowhere on that list: a backward pass running on the chip itself, and a flow with no vendor licence in it. If inference through HLS is what you need, use hls4ml — it is good, it is free, and I would tell you the same in an email.</p></div>
 </div>

@@ -1,83 +1,130 @@
 #!/usr/bin/env python3
-"""Rasterise the og-*.svg cards to 1200x630 PNG, because no social platform
-renders SVG previews -- every share link currently comes through with no card.
+"""Собрать все OG-карточки сайта единым воспроизводимым способом.
 
-qlmanage is the rasteriser (headless Chrome hangs on the second invocation in a
-session, reproducibly). It renders into a square canvas, top-aligned and
-vertically stretched, on a white ground. A centred crop is therefore WRONG: the
-first attempt silently ate the T27.AI eyebrow and the accent bar off the top of
-every card, and it only showed up on looking at the result.
+SVG остаются читаемыми исходниками карточек, а PNG — их обязательным
+растровым представлением для социальных сетей.  Раньше PNG, сделанные вручную
+на macOS через qlmanage, и PNG для новых постов, нарисованные Pillow на Linux,
+использовали разные шрифты.  Этот скрипт нормализует SVG на Inter и рендерит
+все карточки через librsvg с локальным fontconfig, поэтому результат не
+зависит от шрифтов образа CI.
 
-So: find the card by its own pixels, crop to exactly that, and resize the box to
-1200x630. That is correct whatever scale qlmanage chose, because the source
-viewBox is 1200x630 and the whole box maps back onto it.
+    python3 build-og.py
 """
+from __future__ import annotations
+
+import os
+import re
+import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 from PIL import Image
 
 W, H = 1200, 630
 REPO = Path(__file__).resolve().parent
-TMP = Path("/tmp/ogbuild2")
+FONT = REPO / "fonts" / "Inter-Variable.ttf"
 
 
-def square_wrapper(svg_text: str) -> str:
-    """Nest the 1200x630 card inside a 1200x1200 artboard.
-
-    qlmanage fits a render to the taller axis and then crops the wider one, so
-    handing it the card directly produced a 1.563x magnification with everything
-    past x~768 simply gone. That is not a subtle failure: it silently removed the
-    third statistic from every card -- "147 MHz pipelined on Artix-7",
-    "SKY130 taped out", "2 arXiv papers" -- and the result still looked like a
-    finished card, which is why it shipped.
-
-    A square source has nothing to crop, so the whole width survives and the card
-    lands at a known offset instead of a detected one.
-    """
-    inner = svg_text.replace("<svg ", '<svg x="0" y="285" ', 1)
-    return (
-        '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" '
-        'viewBox="0 0 1200 1200">'
-        '<rect width="1200" height="1200" fill="#05070a"/>'
-        f"{inner}</svg>"
+def ensure_blog_index_source() -> Path:
+    """Создать исходник карточки индекса блога, у которого раньше был только PNG."""
+    path = REPO / "og-image.svg"
+    path.write_text(
+        f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="T27.AI blog">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#05070a"/><stop offset="100%" stop-color="#0b1418"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.9"/><stop offset="100%" stop-color="#00ff88" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+  <rect width="{W}" height="{H}" fill="url(#bg)"/>
+  <rect x="0" y="0" width="{W}" height="5" fill="url(#glow)"/>
+  <text x="80" y="132" font-family="Inter,Helvetica,Arial,sans-serif" font-size="22" letter-spacing="6" fill="#00ff88" opacity="0.85">T27.AI · BLOG</text>
+  <text x="80" y="248" font-family="Inter,Helvetica,Arial,sans-serif" font-size="62" font-weight="700" fill="#f2f6f4">Published here.</text>
+  <text x="80" y="306" font-family="Inter,Helvetica,Arial,sans-serif" font-size="28" fill="#9fb3ab">Measured results, receipts and open questions.</text>
+  <line x1="80" y1="372" x2="1120" y2="372" stroke="#1d2b2a" stroke-width="2"/>
+  <text x="80" y="452" font-family="Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#00ff88">Static HTML</text>
+  <text x="80" y="490" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" fill="#8fa79f">readable without JavaScript</text>
+  <text x="80" y="566" font-family="Inter,Helvetica,Arial,sans-serif" font-size="22" fill="#7d928b">Dmitrii Vasilev · admin@t27.ai</text>
+</svg>
+""",
+        encoding="utf-8",
     )
+    return path
 
 
-def main():
-    TMP.mkdir(exist_ok=True)
+def normalise_svg(path: Path) -> None:
+    """Явно закрепить Inter у старых карточек вместо системных семейств."""
+    text = path.read_text(encoding="utf-8")
+    text = re.sub(r'font-family="[^"]+"', 'font-family="Inter,Helvetica,Arial,sans-serif"', text)
+    path.write_text(text, encoding="utf-8")
+
+
+def fontconfig_file(tmp: Path) -> Path:
+    config = tmp / "fonts.conf"
+    config.write_text(
+        """<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+<fontconfig>
+  <dir>""" + str(REPO / "fonts") + """</dir>
+  <cachedir>""" + str(tmp / "fontcache") + """</cachedir>
+  <alias>
+    <family>Inter</family>
+    <default><family>Inter</family></default>
+  </alias>
+</fontconfig>
+""",
+        encoding="utf-8",
+    )
+    return config
+
+
+def render(svg: Path, png: Path, env: dict[str, str]) -> None:
+    result = subprocess.run(
+        ["rsvg-convert", "--width", str(W), "--height", str(H), "--output", str(png), str(svg)],
+        text=True,
+        capture_output=True,
+        env=env,
+    )
+    if result.returncode:
+        raise RuntimeError(f"{svg.name}: librsvg завершился с {result.returncode}: {result.stderr.strip()}")
+    with Image.open(png) as image:
+        if image.size != (W, H):
+            raise RuntimeError(f"{svg.name}: получен размер {image.size}, ожидался {(W, H)}")
+
+
+def main() -> int:
+    if not FONT.is_file():
+        raise SystemExit(f"Нет {FONT.relative_to(REPO)}: добавить Inter вместе с лицензией нельзя пропускать")
+    if not shutil.which("rsvg-convert"):
+        raise SystemExit("Нет rsvg-convert: установить librsvg2-bin, затем повторить сборку карточек")
+
+    ensure_blog_index_source()
     svgs = sorted(REPO.glob("og-*.svg"))
     if not svgs:
-        sys.exit("no og-*.svg found")
-    bad = 0
-    for svg in svgs:
-        for stale in TMP.glob("*.png"):
-            stale.unlink()
-        square = TMP / f"{svg.stem}.square.svg"
-        square.write_text(square_wrapper(svg.read_text(encoding="utf-8")), encoding="utf-8")
-        subprocess.run(["qlmanage", "-t", "-s", "1200", "-o", str(TMP), str(square)],
-                       capture_output=True)
-        raw = TMP / f"{square.name}.png"
-        if not raw.exists():
-            print(f"  {svg.name}: RASTERISE FAILED")
-            bad += 1
-            continue
-        im = Image.open(raw).convert("RGB")
-        if im.size != (1200, 1200):
-            print(f"  {svg.name}: expected a 1200x1200 render, got {im.size}")
-            bad += 1
-            continue
-        # The card sits at a known offset in a square artboard, so this is a
-        # fixed crop rather than a guess about where the artwork begins.
-        card = im.crop((0, 285, 1200, 915))
-        if card.size != (W, H):
-            card = card.resize((W, H), Image.LANCZOS)
-        out = REPO / f"{svg.stem}.png"
-        card.save(out, "PNG", optimize=True)
-        print(f"  {svg.name:<22} -> {out.name} ({out.stat().st_size // 1024} kB)")
-    sys.exit(1 if bad else 0)
+        raise SystemExit("Не найдены исходники og-*.svg")
+
+    with tempfile.TemporaryDirectory(prefix="t27-og-") as tmp_name:
+        tmp = Path(tmp_name)
+        env = os.environ.copy()
+        env["FONTCONFIG_FILE"] = str(fontconfig_file(tmp))
+        env["FONTCONFIG_PATH"] = str(tmp)
+        for svg in svgs:
+            normalise_svg(svg)
+            png = svg.with_suffix(".png")
+            render(svg, png, env)
+            print(f"  {svg.name:<56} -> {png.name}")
+
+    expected = {svg.stem for svg in svgs}
+    actual = {png.stem for png in REPO.glob("og-*.png")}
+    if expected != actual:
+        raise SystemExit(f"Наборы SVG и PNG расходятся: только SVG={sorted(expected-actual)}, только PNG={sorted(actual-expected)}")
+    print(f"Готово: {len(svgs)} карточек Inter размером {W}×{H}.")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

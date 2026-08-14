@@ -243,6 +243,71 @@ PYCHK
       red "blog drift: the app ships [$(echo $shipped)] but blog/ holds [$(echo $static)] — rerun build-blog.py"
     fi
   fi
+
+  # Список каталогов доказывает лишь существование пути. HashRouter возвращает
+  # оболочку приложения для любого фрагментного маршрута, включая несуществующий
+  # пост, поэтому HTTP 200 и index.html не доказывают, что читатель без
+  # JavaScript получил статью. Берём тот же снимок постов, который создал
+  # статическое дерево, и проверяем оба языка как видимый HTML: script и style
+  # не считаются, заголовок поста обязан быть в тексте, а короткая оболочка не
+  # может пройти порог объёма.
+  python3 - <<'PYBLOG' || red "static blog reader-content check failed"
+from html.parser import HTMLParser
+from html import unescape
+import json
+from pathlib import Path
+import re
+import sys
+
+class VisibleText(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.hidden = 0
+        self.in_body = 0
+        self.parts = []
+    def handle_starttag(self, tag, attrs):
+        if tag == "body":
+            self.in_body += 1
+        if tag in {"script", "style", "noscript", "template"}:
+            self.hidden += 1
+    def handle_endtag(self, tag):
+        if tag in {"script", "style", "noscript", "template"} and self.hidden:
+            self.hidden -= 1
+        if tag == "body" and self.in_body:
+            self.in_body -= 1
+    def handle_data(self, data):
+        if self.in_body and not self.hidden:
+            self.parts.append(data)
+
+def visible(path):
+    parser = VisibleText()
+    parser.feed(path.read_text(encoding="utf-8"))
+    return re.sub(r"\s+", " ", unescape(" ".join(parser.parts))).strip()
+
+posts = json.loads(Path("blog-posts.json").read_text(encoding="utf-8"))
+problems = []
+for post in posts:
+    slug, english = post.get("slug"), post.get("title")
+    russian = (post.get("ru") or {}).get("title") or english
+    if not slug or not english:
+        problems.append(f"blog-posts.json has incomplete post data: {post!r}")
+        continue
+    for root, title in (("blog", english), ("ru/blog", russian)):
+        page = Path(root) / slug / "index.html"
+        if not page.is_file():
+            problems.append(f"{page} is missing")
+            continue
+        text = visible(page)
+        words = len(re.findall(r"\S+", text))
+        if title not in text:
+            problems.append(f"{page} does not expose its post title outside script/style")
+        if words < 200:
+            problems.append(f"{page} has only {words} visible words outside script/style")
+if problems:
+    print("\n".join("  " + p for p in problems))
+    sys.exit(1)
+print(f"static reader-content check covers {len(posts)} published slug(s), both languages")
+PYBLOG
 fi
 
 # lastmod is worth having only if it is true. A sitemap that stamps every URL

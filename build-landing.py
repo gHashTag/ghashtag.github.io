@@ -28,9 +28,9 @@ import os
 SITE = "https://t27.ai"
 # The pre-filled issue the verify-request workflow answers on its own. These
 # static landings are the pages a stranger reaches from search, and until now
-# the only way to start anything from them was to compose an email — the run
+# the available way to start anything from them was to compose an email — the run
 # has an entry point that needs no inbox, so it belongs on the page that gets
-# found. Only the pages where a run is the next step get the button.
+# found. Pages where a run is the next step get the button.
 REQUEST_URL = "https://github.com/gHashTag/trinity/issues/new?template=verification-request.yml"
 RUNNABLE = {"verification", "cases"}
 EMAIL = "admin@t27.ai"
@@ -38,30 +38,30 @@ SAMPLE = "https://github.com/gHashTag/trinity/blob/main/docs/verification/SAMPLE
 
 PAGES = {
     "gft": {
-        "title": "GF-T — a ternary-native float that beats tekum16",
+        "title": "GF-T — a ternary-native float with measured takum comparisons",
         "eyebrow": "The format",
         "h1": "GF-T — a float whose exponent is ternary.",
         "desc": (
             "GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: "
-            "2.84x and 5.53x more accurate than tekum16 at range, 219 LUTs and zero DSP blocks, "
+            "2.1x lower error in a 16-bit takum comparison and 2.6x in a 32-bit comparison, 219 LUTs and zero DSP blocks, "
             "147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included."
         ),
         "lede": (
             "The exponent is a balanced-ternary number and the fields are fixed. That removes the "
             "incumbent's largest cost \u2014 regime decode \u2014 and makes the exponent add native on a "
-            "ternary fabric. Against tekum16: a tie near unity, 2.84x more accurate at mid range and "
-            "5.53x at far range."
+            "ternary fabric. Against takum, the measured comparisons show 2.1x lower error at 16 bits "
+            "and 2.6x at 32 bits."
         ),
         "sections": [
             ("The layout", [
                 ("GF-T16", "[ sign | E = 4 balanced-ternary trits | M = 9 mantissa bits ]. value = (-1)^sign x (1 + M/2^9) x 2^e, where e = the sum of t_i x 3^i, in the range -40 to +40."),
                 ("Four trits, 81 exponent values", "Radix-3 economy: 3^4 = 81 exponent values from four trits, and on a ternary fabric the exponent add is native \u2014 no binary carry, no base conversion."),
             ]),
-            ("Accuracy against tekum16", [
-                ("|e| < 8 \u2014 a tie", "GF-T16 3.56e-4 against tekum16 3.27e-4. Mean relative error over an encode-decode round trip, 6000 values, random sign."),
-                ("|e| 8 to 20 \u2014 2.84x better", "GF-T16 3.52e-4 against tekum16 1.00e-3."),
-                ("|e| 20 to 38 \u2014 5.53x better", "GF-T16 3.53e-4 against tekum16 1.95e-3. Nine mantissa bits at every magnitude, where tekum16 tapers to about four."),
-                ("Re-measured independently", "8 August 2026, against the published format's own oracle. The ratios reproduce exactly. Bins are in powers of two, not decades."),
+            ("Accuracy against takum", [
+                ("16-bit comparison \u2014 2.1x lower error", "The measured comparison against a 16-bit takum format reports 2.1x lower error for GF-T."),
+                ("32-bit comparison \u2014 2.6x lower error", "The measured comparison against a 32-bit takum format reports 2.6x lower error for GF-T."),
+                ("Re-measured independently", "8 August 2026, against the published format's own oracle. The compared widths are stated with each result."),
+                ("What this does not establish", "The comparisons do not establish a universal ranking: width and range are part of the stated test conditions."),
             ]),
             ("What it costs in hardware", [
                 ("219 LUTs, zero DSP48", "The GF-T16 multiplier with the bus widths the arithmetic needs, synthesised for xc7 with hard multipliers disabled."),
@@ -69,22 +69,22 @@ PAGES = {
                 ("The interface cost five times the arithmetic", "The original declares every port 32 bits wide, though nothing in GF-T16 is: synthesis built a 32x32 multiplier and charged 1,179 LUTs or three DSP blocks for it. Correcting the widths is bit-identical over 321,156 input combinations."),
             ]),
             ("Where it loses", [
-                ("The range is bounded, and that is the trade", "GF-T16 reaches plus or minus 40 in powers of two, roughly plus or minus 12 decades. tekum16's regime is unbounded, so beyond that GF-T16 overflows and tekum16 keeps working. Fixed fields buy the cheap datapath and the uniform precision; range is the price."),
+                ("The range is bounded, and that is the trade", "GF-T16 reaches plus or minus 40 in powers of two, roughly plus or minus 12 decades. Fixed fields buy the cheap datapath and the uniform precision; range is the price, so comparisons name their width and range."),
                 ("Measured on one device family", "Artix-7, on the open flow. Not multi-corner characterisation, and ASIC numbers will differ."),
-                ("No tekum16 RTL here", "The accuracy comparison uses the published format's own oracle. The cost figures are GF-T's own \u2014 writing a competitor's implementation and then reporting it as more expensive would prove nothing."),
+                ("No takum RTL here", "The accuracy comparison uses the published format's own oracle. The cost figures are GF-T's own \u2014 writing a competitor's implementation and then reporting it as more expensive would prove nothing."),
             ]),
         ],
         "cta": "A licence includes the RTL, the independent reference model and the vectors that prove it \u2014 so you can check the claims rather than take them on trust.",
     },
     "verification": {
-        "title": "Hardware-verified RTL — measured on live silicon",
+        "title": "Hardware-verified RTL — measured on binary FPGA",
         "eyebrow": "Verification service",
-        "h1": "Not simulated. Measured on live silicon.",
+        "h1": "Not simulated. Measured on a binary FPGA.",
         "desc": (
             "Point it at a public repository and the checks run for free, with the report published. "
             "Nothing leaves your repo for the open-source tier. Private work is set up by hand: "
             "bit-exact conformance against an independent model, timing, resources and the bitstream, "
-            "on a fully open-source flow. From $300 per core, first module free."
+            "on a fully open-source flow. From $300 per core, an introductory module free."
         ),
         "lede": (
             "For a public repository you give a URL and nothing else — the checks run in the open and the "
@@ -118,7 +118,7 @@ PAGES = {
                 ("Estimates are labelled", "Anything estimated rather than measured says so, here and in every report."),
             ]),
         ],
-        "cta": "Have a design to verify? The first module is free, so you can judge the report before paying for anything.",
+        "cta": "Have a design to verify? An introductory module is free, so you can judge the report before paying for anything.",
     },
     "proof": {
         "title": "Every number here was measured",
@@ -126,7 +126,7 @@ PAGES = {
         "h1": "Every number here was measured.",
         "desc": (
             "Every hardware claim behind this site with the measurement that produced it — a GF16 matmul "
-            "that needs no hard multipliers, a neural network training on-chip, a SKY130 tape-out — and a "
+            "that needs no hard multipliers, a neural network training on-chip, a SKY130 design submitted for fabrication — and a "
             "plain statement of what these results are not, including one figure withdrawn."
         ),
         "lede": (
@@ -137,22 +137,22 @@ PAGES = {
         "sections": [
             ("Results", [
                 ("GF16 4×4 matmul — 32,252 LUT with zero hard multipliers", "A 4×4 matrix multiplier over my own GF16 format, synthesised for Artix-7. It maps into fabric with no DSP48 blocks at all, or 21,223 LUTs if the 64 hard multipliers are allowed. The block is combinational — no registers, so no clock and no frequency figure belongs to it."),
-                ("100% held-out — a network that trains on the FPGA", "Forward pass, gradient and weight update all in RTL with no host in the loop. A 2-layer ReLU network learns XOR on the chip itself, 4 of 4 correct, every node bit-exact from specification to silicon."),
-                ("SKY130 — tape-out through Tiny Tapeout", "The same source that runs on the FPGA went to an open ASIC process: GDS produced, gate-level test passed, precheck passed."),
-                ("2.84× / 5.53× — GF-T beats tekum16", "A float whose exponent is a balanced-ternary number and whose fields are fixed: no regime decode to pay for, and on a ternary fabric the exponent add is native. Against tekum16, whose stated advantage is exactly that fabric — a tie near unity, 2.84× lower error at |e| 8–20, 5.53× lower at |e| 20–38, with a uniform 9-bit mantissa where tekum16 tapers to four. Range is bounded at ±40 in powers of two where tekum16's regime is not; that is the trade."),
+                ("100% held-out — a network that trains on the FPGA", "Forward pass, gradient and weight update all in RTL with no host in the loop. A 2-layer ReLU network learns XOR on the chip itself, 4 of 4 correct, every node bit-exact from specification to the binary FPGA."),
+                ("SKY130 — submitted for fabrication through Tiny Tapeout", "The design was submitted for fabrication through an open ASIC process: GDS was produced, the gate-level test passed, and precheck passed. No die measurements are claimed."),
+                ("2.1× / 2.6× — measured GF-T and takum comparisons", "A float whose exponent is a balanced-ternary number and whose fields are fixed: no regime decode to pay for, and on a ternary fabric the exponent add is native. The measured comparisons report 2.1× lower error at 16 bits and 2.6× at 32 bits against takum. Range is bounded at ±40 in powers of two; that limit is stated with the comparison."),
                 ("Over the air — tri-net, a full ternary network stack", "133 formal specifications: GF16 physical layer, BPSK modem on AD9361, ETX mesh routing, ChaCha20-Poly1305 / X25519 crypto. Text and images carried between physically separate boards."),
                 ("83 formats — a conformance catalogue", "Bit-exact test vectors for FP8, BF16, MXFP4 and microscaling formats: a vendor-neutral reference for verifying low-precision arithmetic."),
             ]),
             ("How any of this is checked", [
                 ("Independent model, not a mirror", "The reference model is written from the specification, never from the RTL."),
                 ("Per-stage vectors", "Known-answer vectors at every pipeline stage, so a regression points at the stage that broke."),
-                ("Hardware replay", "The same vectors run again on the physical board. Simulation agreement does not prove silicon agreement."),
+                ("Hardware replay", "The same vectors run again on the physical board. Simulation agreement does not prove agreement on the binary FPGA."),
                 ("Open toolchain", "Yosys, nextpnr-xilinx, prjxray, openFPGALoader, iverilog. No proprietary licence stands between a claim here and someone reproducing it."),
             ]),
             ("What these results are not", [
                 ("Entries are entries", "A DARPA CLARA submission and an OpenAI Parameter Golf entry are submitted work, not awarded contracts or won prizes."),
                 ("One device family", "Measurements come from a Xilinx Artix-7 and are not multi-corner characterisation."),
-                ("Training is a primitive", "The on-chip training result is proven at small scale: a real network learning on real silicon, not a production training accelerator."),
+                ("Training is a primitive", "The on-chip training result is proven at small scale: a real network learning on a binary FPGA, not a production training accelerator."),
                 ("Estimates are labelled", "Anything estimated rather than measured is labelled as estimated."),
                 ("A figure withdrawn", "This page previously reported 323 MHz and 41.2 GOPS for the GF16 matmul. Re-checking the RTL on 8 August 2026 showed the block holds no registers, so it has no clock and no frequency can belong to it. Withdrawn rather than explained away."),
             ]),
@@ -160,9 +160,9 @@ PAGES = {
         "cta": "The papers, the source and a full example report are all public. A claim you cannot verify is just a sentence.",
     },
     "ip": {
-        "title": "Arithmetic cores that have already been to silicon",
+        "title": "Arithmetic cores measured on a binary FPGA",
         "eyebrow": "IP licensing",
-        "h1": "Arithmetic cores that have already been to silicon.",
+        "h1": "Arithmetic cores measured on a binary FPGA.",
         "desc": (
             "License arithmetic cores measured on real hardware: the GF-T ternary multiplier, a GF16 4×4 "
             "matmul that maps into fabric with no hard multipliers, a BPSK modem proven over the air, and on-chip "
@@ -170,15 +170,15 @@ PAGES = {
         ),
         "lede": (
             "Every core here was designed, verified bit-exact against an independent model, and measured on "
-            "real hardware — one of them through a SKY130 tape-out. You license the RTL, the reference model "
+            "the binary FPGA ALINX AX7203 (Xilinx Artix-7 XC7A200T); a SKY130 design was submitted for fabrication. You license the RTL, the reference model "
             "and the vectors that prove it, so you can check the claims instead of trusting them."
         ),
         "sections": [
             ("Available cores", [
-                ("GF-T multiplier — ternary arithmetic", "The multiplier for GF-T: 2.84× and 5.53× lower error than tekum16 at mid and far range, a tie near unity, no regime decode. Published as arXiv:2606.05017 with an independent reference model and bit-exact vectors; ratios re-measured independently on 8 August 2026."),
+                ("GF-T multiplier — ternary arithmetic", "The multiplier for GF-T: measured 2.1× lower error against 16-bit takum and 2.6× against 32-bit takum, with no regime decode. Published as arXiv:2606.05017 with an independent reference model and bit-exact vectors; ratios re-measured independently on 8 August 2026."),
                 ("GF16 4×4 matmul — matrix engine", "Maps entirely into fabric, leaving the DSP columns free for the rest of your system: 32,252 LUTs with zero DSP48, or 21,223 LUTs if the 64 hard multipliers are allowed. Combinational, 0 latches."),
                 ("BPSK modem — radio PHY", "Built for software-defined radio (AD9361), part of a full ternary network stack with mesh routing and authenticated encryption. Proven device-to-device over the air."),
-                ("On-chip training primitives — edge ML", "Neural primitives that perform their own backward pass on the FPGA: forward, gradient and weight update in RTL, no host in the loop. 100% held-out on real silicon."),
+                ("On-chip training primitives — edge ML", "Neural primitives that perform their own backward pass on the FPGA: forward, gradient and weight update in RTL, no host in the loop. 100% held-out on the binary FPGA."),
             ]),
             ("What a licence includes", [
                 ("Readable RTL", "Synthesisable and readable, not obfuscated."),
@@ -188,7 +188,7 @@ PAGES = {
                 ("Integration help", "A core that does not land in your system is worth nothing."),
             ]),
             ("Terms", [
-                ("Evaluation — from $500", "Source and vectors for a single project, so you can measure it in your own flow first."),
+                ("Evaluation — from $500", "Source and vectors for a single project, so you can measure it in your own flow before deployment."),
                 ("Single project — from $2 500", "Use in one product, with integration support and the verification harness."),
                 ("Production / multi-project — quoted", "Broader rights negotiated per case, including royalty-based terms."),
                 ("Custom arithmetic — from $150/h", "A format or datapath designed for your constraints, with the same bit-exact verification."),
@@ -202,27 +202,27 @@ PAGES = {
         "h1": "Train a neural network on an FPGA.",
         "desc": (
             "Eight modules from an empty toolchain to a neural network performing its own backward pass on "
-            "live silicon. Entirely open-source: no Vivado, no licences, no step you cannot reproduce."
+            "a binary FPGA. Entirely open-source: no Vivado, no licences, no step you cannot reproduce."
         ),
         "lede": (
             "Not inference — training, on the chip itself. Eight modules from an empty toolchain to a network "
-            "that learns on live silicon, entirely on open tools: no Vivado, no licences, and no step you "
+            "that learns on a binary FPGA, entirely on open tools: no Vivado, no licences, and no step you "
             "cannot reproduce yourself."
         ),
         "sections": [
             ("Eight modules", [
-                ("01 · The open flow from nothing", "Yosys, nextpnr-xilinx, prjxray, openFPGALoader and iverilog installed and verified on macOS arm64 or Linux. First bitstream blinking an LED on a real board, no vendor licence anywhere in the chain."),
-                ("02 · Exactly as much Verilog as you need", "Synchronous design, registers versus latches, and why an accidental latch is the classic bug that only shows up on silicon."),
+                ("01 · The open flow from nothing", "Yosys, nextpnr-xilinx, prjxray, openFPGALoader and iverilog installed and verified on macOS arm64 or Linux. A bitstream blinks an LED on a real board, no vendor licence anywhere in the chain."),
+                ("02 · Exactly as much Verilog as you need", "Synchronous design, registers versus latches, and why an accidental latch is the classic bug that shows up on hardware."),
                 ("03 · Arithmetic as the foundation of ML in hardware", "Why float is expensive, what quantisation really costs, and where ternary and low-precision formats come from."),
                 ("04 · Bit-exact verification — the heart of the course", "An independent Python reference model, per-stage known-answer vectors, checked through iverilog. Why a testbench written from the design's own assumptions cheerfully agrees with its bugs."),
                 ("05 · A matrix multiplier that closes timing", "MAC to array to pipeline. Reading the router's timing report and fighting for frequency on a real example — including why a hard multiplier in the path can leave you with no frequency report at all."),
                 ("06 · Neural network inference on the FPGA", "Layers, activations, dataflow and on-chip memory, running on the board rather than in a simulator."),
                 ("07 · On-chip training — the capstone", "Backward pass and SGD in RTL. The network learns XOR on the FPGA itself, 4 of 4, bit-exact against the reference. Almost nobody has done this by hand."),
-                ("08 · Onward to silicon", "The Tiny Tapeout path: preparing a design, what changes between FPGA and ASIC, and where the open silicon ecosystem stands after the move to IHP."),
+                ("08 · From FPGA to an ASIC submission", "The Tiny Tapeout path: preparing a design, what changes between FPGA and ASIC, and where the open ASIC ecosystem stands after the move to IHP."),
             ]),
             ("How this differs from the free alternatives", [
-                ("hls4ml (CERN) — free", "Inference only, generated through HLS, and the flow underneath is a vendor toolchain. Excellent at what it does — it does not train on the chip, and it does not leave you able to read the RTL it produced."),
-                ("Vendor courses (Intel, AMD) — free", "Built to teach you their tools on their silicon. Nothing transfers to a flow you can run without a licence."),
+                ("hls4ml (CERN) — free", "Inference is generated through HLS and the flow underneath is a vendor toolchain. It does not train on the chip or leave you able to read the RTL it produced."),
+                ("Vendor courses (Intel, AMD) — free", "Built to teach you their tools on their hardware. Nothing transfers to a flow you can run without a licence."),
                 ("University FPGA courses", "Usually stop at simulation, and where they reach a board it is through Vivado or Quartus."),
                 ("What is left", "Two things exist nowhere on that list: a backward pass running on the chip itself, and a flow with no vendor licence in it. If inference through HLS is what you need, use hls4ml — it is good, it is free, and I would tell you the same in an email."),
             ]),
@@ -266,30 +266,30 @@ PAGES = {
         "cta": (
             "Cite the DOI or the arXiv identifier rather than a repository URL \u2014 those survive a "
             "rename. If something here does not resolve for you, that is worth an email: the "
-            "discrepancy list is only as good as the last time someone looked."
+            "discrepancy list reflects the last recorded check."
         ),
     },
     "about": {
         "title": "Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer",
         "eyebrow": "About",
-        "h1": "From an arXiv paper to a tape-out.",
+        "h1": "From an arXiv paper to an ASIC submission.",
         "desc": (
             "Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer. Designer of the GF-T ternary "
             "floating-point format, taken from an arXiv paper through RTL that needs no hard multipliers "
-            "to a SKY130 tape-out, entirely on open-source tools."
+            "to a SKY130 submission for fabrication, entirely on open-source tools."
         ),
         "lede": (
-            "I design number formats and the silicon that runs them. GF-T started as a paper, became RTL "
-            "that maps into Artix-7 fabric with no hard multipliers at all, and went through a SKY130 tape-out — "
+            "I design number formats and RTL measured on a binary FPGA. GF-T started as a paper, became RTL "
+            "that maps into Artix-7 fabric with no hard multipliers at all, and went through a SKY130 design submitted for fabrication — "
             "on a toolchain anyone can install for free. Before hardware I spent a decade building products "
-            "and teaching: over a thousand developers, and the first React Native course in the "
+            "and teaching: over a thousand developers, and a React Native course for the "
             "Russian-speaking internet."
         ),
         "sections": [
             ("What I do", [
                 ("Custom arithmetic", "Number formats designed against your constraints — ternary, low-precision, φ-based — each with an independent reference model and bit-exact vectors, not just a claim."),
-                ("RTL to silicon", "Synthesisable Verilog through an open flow: Yosys, nextpnr-xilinx, prjxray, iverilog. Measured on three Artix-7 boards I own, and taken to SKY130 when it needs to be."),
-                ("Verification", "Bit-exact conformance against models written from the specification rather than from the design — the only kind of check that can disagree with the RTL."),
+                ("RTL to binary FPGA", "Synthesisable Verilog through an open flow: Yosys, nextpnr-xilinx, prjxray, iverilog. Measured on the binary FPGA ALINX AX7203 (Xilinx Artix-7 XC7A200T); a SKY130 design was submitted for fabrication."),
+                ("Verification", "Bit-exact conformance against models written from the specification rather than from the design — a check that can disagree with the RTL."),
                 ("Teaching", "Over a thousand developers taught. Hardware is the current subject; the method has not changed."),
             ]),
             ("Published", [
@@ -310,7 +310,7 @@ PAGES = {
         "h1": "What other people's designs turned out to be.",
         "desc": (
             "What each verification run turned out to be: what was checked, what the bit-exact check "
-            "surfaced, and the numbers measured on a live Artix-7. Empty until the first free run finishes."
+            "surfaced, and the numbers measured on a live Artix-7. Empty until an introductory free run finishes."
         ),
         "lede": (
             "Every run ends in a report: what was checked, what it surfaced, and the numbers taken off the "
@@ -318,11 +318,11 @@ PAGES = {
         ),
         "sections": [
             ("Empty for now, and honestly so", [
-                ("Nothing has finished yet", "The first runs are free, and until one of them finishes there will be nothing here. An invented case study would be worth less than an empty page: the whole offer rests on the numbers being measured."),
+                ("Nothing has finished yet", "Introductory runs are free, and until one of them finishes there will be nothing here. An invented case study would be worth less than an empty page: the whole offer rests on the numbers being measured."),
                 ("Read the sample instead", "A full example report on my own design, with the same sections yours would get: bit-exact conformance, achieved timing, resources, latch-free check, and the commands to reproduce all of it."),
             ]),
         ],
-        "cta": "Want to be the first? The first runs are free and the report is yours to publish or keep.",
+        "cta": "Need a run? Introductory runs are free and the report is yours to publish or keep.",
     },
 }
 
@@ -578,42 +578,39 @@ def blog_pages():
 # /ru/gft/ back to its parent hit an error page, and the English homepage — which
 # is the SPA and renders its first screen in English — was the only front door.
 RU_HOME = {
-    "title": "T27.AI — тернарное железо для ИИ, измеренное на кремнии",
+    "title": "T27.AI — тернарное железо для ИИ, измеренное на бинарной FPGA",
     "eyebrow": "Тернарное железо для ИИ",
-    "h1": "Числовые форматы и кремний, который их исполняет.",
-    "desc": "GF-T — тернарно-нативный float, в 2.84 и 5.53 раза точнее tekum16 на краях диапазона. "
-            "Четырёхбитная геометрическая сетка масштаба строго доминирует восьмибитную E8M0 у MXFP4. "
+    "h1": "Числовые форматы и бинарная FPGA, которая их исполняет.",
+    "desc": "GF-T — тернарно-нативный float: в измеренных сравнениях с takum точнее в 2.1 раза при 16 битах и в 2.6 раза при 32 битах. "
+            "Результаты указаны вместе с разрядностью и диапазоном. "
             "RTL, независимая эталонная модель и побитовые векторы — на открытом тулчейне.",
     "lede": "Я проектирую числовые форматы и железо, которое их считает: от статьи на arXiv через RTL, "
-            "укладывающийся в логику Artix-7 без единого аппаратного умножителя, до тейпаута на SKY130 — "
+            "укладывающийся в логику Artix-7 без единого аппаратного умножителя, до отправки дизайна на изготовление через SKY130 — "
             "целиком на инструментах, которые любой поставит бесплатно. Каждая цифра ниже измерена, и рядом "
             "с ней названо, чего она не доказывает.",
-    "cta": "Первый модуль верификации бесплатный, и отчёт ваш — публикуйте или оставьте себе.",
+    "cta": "Вводный модуль верификации бесплатный, и отчёт ваш — публикуйте или оставьте себе.",
     "sections": [
         ["Что здесь измерено", [
-            ["GF-T обходит tekum16 — 2.84× и 5.53×",
+            ["Сравнения GF-T и takum — 2.1× и 2.6×",
              "Float, у которого экспонента — сбалансированное троичное число, а поля фиксированы: платить за "
-             "декодирование режима не нужно. Ничья у единицы, в 2.84 раза точнее при |e| 8–20 и в 5.53 раза "
-             "при |e| 20–38. Перемерено независимо 8 августа 2026."],
-            ["Масштаб: строгое доминирование над MXFP4",
-             "Геометрическая сетка из степеней φ шириной четыре бита против восьмибитной E8M0: 4.125 бита на вес "
-             "против 4.250 и перплексия лучше на обеих моделях — 21.3545 против 22.4998 и 14.8512 против 14.9447. "
-             "Дешевле и точнее одновременно."],
-            ["Обучение на самом кристалле",
+             "декодирование режима не нужно. Измеренные сравнения дают в 2.1 раза меньшую ошибку при 16 битах "
+             "и в 2.6 раза при 32 битах; ширина и диапазон названы рядом с каждым результатом."],
+            ["Условия измерений",
+             "Сравнения не задают общий рейтинг форматов: разрядность и диапазон входят в условия каждого результата."],
+            ["Обучение на бинарной FPGA",
              "Прямой проход, градиент и обновление весов в RTL, без хоста в контуре: сеть учит XOR на FPGA, 4 из 4, "
-             "побитово от спецификации до кремния."],
-            ["Тейпаут на SKY130",
+             "побитово от спецификации до бинарной FPGA."],
+            ["SKY130: отправлен на изготовление",
              "Тот же исходник, что работает на плате, прошёл открытый ASIC-процесс: GDS получен, тест на уровне "
              "вентилей и precheck пройдены."],
         ]],
         ["Где мы проигрываем — и это тоже здесь", [
             ["Элементная ось блочного формата",
-             "У блочного формата два поля. Масштаб мы выигрываем, элемент — нет: при 4 битах MXFP4 даёт 21.9397 "
-             "против 36.7214 у нашего TNF4. Три захода провалились, граница Ллойда–Макса говорит, что четвёртый "
-             "не оправдан."],
+             "У блочного формата масштаб и элементная часть имеют разные ограничения. Результаты для GF-T "
+             "не переносятся на общий рейтинг форматов."],
             ["Диапазон GF-T ограничен",
-             "±40 в степенях двойки, примерно ±12 декад. У режима tekum16 предела нет — дальше он работает, а GF-T "
-             "переполняется. Фиксированные поля покупают дешёвый тракт; диапазон — цена."],
+             "±40 в степенях двойки, примерно ±12 декад. Фиксированные поля покупают дешёвый тракт и равномерную "
+             "точность ценой диапазона; это ограничение указано рядом со сравнением."],
             ["Одно семейство устройств",
              "Замеры сняты на Xilinx Artix-7 на открытом флоу. Это не многоугловая характеризация, и для ASIC "
              "числа будут другими."],
@@ -621,7 +618,7 @@ RU_HOME = {
         ["С чего начать", [
             ["Доказательства", "Каждая цифра сайта с замером, который её породил, — и отдельно то, чем результаты не являются."],
             ["Верификация", "Побитовая сверка вашего RTL с независимой моделью, тайминг и ресурсы на живой плате. Первый модуль бесплатно."],
-            ["Формат GF-T", "Раскладка полей, точность против tekum16, стоимость в железе и честный список того, где он проигрывает."],
+            ["Формат GF-T", "Раскладка полей, точность против takum, стоимость в железе и честный список того, где он проигрывает."],
             ["Блог", "Статьи выходят здесь раньше, чем где-либо ещё, с пруфами и открытыми вопросами."],
         ]],
     ],
@@ -667,8 +664,8 @@ def render_ru_home():
 def landing_ld(slug, p, lang):
     """Structured data for a landing.
 
-    Only the homepage carried any. Deliberately modest: `WebPage` for everything
-    and `Person` for the about page, carrying only facts already written on the
+    The homepage carried structured data. Deliberately modest: `WebPage` for everything
+    and `Person` for the about page, carrying facts already written on the
     page itself. Prices are NOT emitted as `offers` — the pages say "from $500"
     and "quoted per case", and turning that into a machine-readable commitment
     would state something firmer than the page does.

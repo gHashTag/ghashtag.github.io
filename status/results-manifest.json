@@ -1,0 +1,14 @@
+{
+  "paths": [
+    "r/NikLeberg/tt_um_float_synth/",
+    "r/Santeep/TT_UM_SERDES/",
+    "r/divadnauj-GB/tt_um_divadnauj-GB_serv_soc_wb/",
+    "r/gHashTag/t27/chips/euler/",
+    "r/gHashTag/t27/chips/gamma/",
+    "r/gHashTag/t27/chips/phi/",
+    "r/gHashTag/trinity-fpga/ttsky26c/holo/",
+    "r/gHashTag/trinity-fpga/ttsky26c/mini/",
+    "r/pongsagon/tt_um_pongsagon_tinygpu_v2/",
+    "r/santhoshs93/tt_um_santhosh_stoch_neuron/"
+  ]
+}

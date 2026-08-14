@@ -1,7 +1,8 @@
 """Pull all chapters from Neon → docs-src/src/*.md + SUMMARY.md."""
+from pathlib import Path
 import psycopg2, os, re
 URI = "postgresql://neondb_owner:npg_NHBC5hdbM0Kx@ep-curly-math-ao51pquy-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
-ROOT = "/home/user/workspace/coq-census/repos/ghashtag.github.io/docs-src/src"
+ROOT = Path(__file__).resolve().parents[1] / "docs-src" / "src"
 os.makedirs(ROOT, exist_ok=True)
 
 def slug(ch_num):
