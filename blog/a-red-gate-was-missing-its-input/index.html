@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A red gate was missing its input · TRINITY</title>
+<meta name="description" content="A merged FPGA-repository audit shows how a missing checkout turned twelve unchecked disagreements into apparent fixes, while two other failures were ordinary runner plumbing." />
+<link rel="canonical" href="https://t27.ai/blog/a-red-gate-was-missing-its-input/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/a-red-gate-was-missing-its-input/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/a-red-gate-was-missing-its-input/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/a-red-gate-was-missing-its-input/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/a-red-gate-was-missing-its-input/" />
+<meta property="og:title" content="A red gate was missing its input" />
+<meta property="og:description" content="A merged FPGA-repository audit shows how a missing checkout turned twelve unchecked disagreements into apparent fixes, while two other failures were ordinary runner plumbing." />
+<meta property="og:image" content="https://t27.ai/og-blog-a-red-gate-was-missing-its-input.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="A red gate was missing its input" />
+<meta name="twitter:description" content="A merged FPGA-repository audit shows how a missing checkout turned twelve unchecked disagreements into apparent fixes, while two other failures were ordinary runner plumbing." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"A red gate was missing its input","description":"A merged FPGA-repository audit shows how a missing checkout turned twelve unchecked disagreements into apparent fixes, while two other failures were ordinary runner plumbing.","url":"https://t27.ai/blog/a-red-gate-was-missing-its-input/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/a-red-gate-was-missing-its-input/"},"image":"https://t27.ai/og-blog-a-red-gate-was-missing-its-input.png","datePublished":"2026-08-15","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"CI, FPGA, Reproducibility, Tooling"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>A red gate was missing its input</h1>
+<p class="meta">2026-08-15 · 6 min read</p>
+<p class="lede">A merged FPGA-repository audit shows how a missing checkout turned twelve unchecked disagreements into apparent fixes, while two other failures were ordinary runner plumbing.</p>
+<div class="tags"><span class="tag">CI</span><span class="tag">FPGA</span><span class="tag">Reproducibility</span><span class="tag">Tooling</span></div>
+<p>A red CI gate is not yet a finding. It may be a finding, or it may be a test that never received the thing it was meant to inspect.</p>
+<p>PR #564 is merged in gHashTag/trinity-fpga. Its subject is narrow: three paper-facing gates were failing because of their own plumbing, while two other gates were left red because they were reporting content problems.</p>
+<h2>The dangerous failure was a missing checkout</h2>
+<p>The artefact-agreement workflow asked actions/checkout for `../t27`. GitHub Actions refuses a repository path outside the checked-out workspace. The step also had `continue-on-error: true`, so the job continued without the catalogue it was supposed to compare.</p>
+<p>The ratchet then printed twelve baseline disagreements as `[fixed]`. That word was not a discovery. It meant the comparison never ran. The merged commit reproduces both states: without the input, the gate reports the apparent fixes; with the input restored, it reports `OK: no new disagreements (13 known)`.</p>
+<blockquote>A missing input must fail loudly; it must never look like agreement.</blockquote>
+<h2>Two ordinary runner failures were hiding beside it</h2>
+<p>Decoder conformance and undefined-outputs both invoked `./conform.sh`, whose shebang is `#!/bin/zsh`. The Ubuntu runner did not have zsh, so both jobs exited with 127 before the scripts could say anything about the design. The repair installs zsh instead of silently porting the repository scripts to another shell.</p>
+<p>The document-reference checker had a different failure. One document names `/root/bitnet_h100_metrics.json`. In pathlib, joining a base directory with an absolute path discards the base, so the checker tried to inspect the runner’s `/root` and raised `PermissionError`. The new helper treats unreadable paths as absent and lets the checker continue to its actual questions.</p>
+<h2>What the merge did not decide</h2>
+<p>Two gates were deliberately not changed: one still reports a withdrawn number, and another reports two orphaned artefacts. Those are content decisions, not plumbing. The PR keeps them visible rather than making the dashboard green by removing the questions.</p>
+<ul><li>The merged evidence establishes a repaired input path, not correctness of the underlying numeric claims.</li><li>The twelve apparent fixes were an artefact of the missing checkout; they are not twelve repaired discrepancies.</li><li>The 13 known disagreements remain part of the baseline that the gate is meant to watch.</li><li>The workflow and commit are the receipts; no FPGA measurement is claimed by this post.</li></ul>
+<p>This is the useful boundary for a red check: before interpreting its output, verify that the check had its input, interpreter, and file paths. Otherwise the colour is an observation about the runner, not about the work.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>The PR repairs the gate plumbing and reproduces the missing-input failure, but it does not establish that the underlying format discrepancies are correct or incorrect. The two content findings remain open.</li><li>The checkout fix is shown on the repository workflow; a fresh public run after the merge is not used here as a separate receipt.</li><li>The zsh installation keeps the repository shell scripts unchanged, but the workflow does not compare their output with a second shell implementation.</li><li>Treating an unreadable absolute document path as absent avoids a runner exception; it does not prove that the referenced document should exist in this repository.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/pull/564">gHashTag/trinity-fpga PR #564 — merged CI-gate repair</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/commit/45ad2347712e4d22d1edbae97c07ea9e758f4ae0">gHashTag/trinity-fpga commit 45ad2347 — merged implementation</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/45ad2347712e4d22d1edbae97c07ea9e758f4ae0/.github/workflows/artefact-agreement.yml">artefact-agreement workflow changed by the PR</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/a-red-gate-was-missing-its-input">Open the interactive version</a><a class="btn sec" href="/ru/blog/a-red-gate-was-missing-its-input/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=A red gate was missing its input">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

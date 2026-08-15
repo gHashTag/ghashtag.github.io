@@ -52,6 +52,17 @@
       <category>Zig</category>
     </item>
     <item>
+      <title>A red gate was missing its input</title>
+      <link>https://t27.ai/#/blog/a-red-gate-was-missing-its-input</link>
+      <guid isPermaLink="false">a-red-gate-was-missing-its-input</guid>
+      <pubDate>Sat, 15 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A merged FPGA-repository audit shows how a missing checkout turned twelve unchecked disagreements into apparent fixes, while two other failures were ordinary runner plumbing.</description>
+      <category>CI</category>
+      <category>FPGA</category>
+      <category>Reproducibility</category>
+      <category>Tooling</category>
+    </item>
+    <item>
       <title>A correct gate with a manual remedy is an outage</title>
       <link>https://t27.ai/#/blog/a-correct-gate-with-a-manual-remedy</link>
       <guid isPermaLink="false">a-correct-gate-with-a-manual-remedy</guid>
