@@ -84,8 +84,21 @@ def extract(site: Path) -> list:
     esbuild = site / "node_modules/.bin/esbuild"
     exe = [str(esbuild)] if esbuild.is_file() else ["npx", "--yes", "esbuild"]
     mjs = Path("/tmp/regen-posts.mjs")
-    run(exe + ["src/data/blog/posts.ts", "--format=esm", "--platform=node",
-               f"--outfile={mjs}", "--log-level=error"], cwd=site)
+    # --bundle, because posts.ts stopped being self-contained.
+    #
+    # trinity#772 split the blog into ./index, ./types and ./bodies/<slug>.
+    # Without --bundle, esbuild transpiles the one file and PRESERVES its
+    # imports, so the output in /tmp asks node for /tmp/index and dies:
+    #
+    #   Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/index'
+    #   imported from /tmp/regen-posts.mjs
+    #
+    # Six consecutive publishes failed that way before it was noticed, because
+    # nothing here watches this repository's own runs -- the gate in trinity
+    # watches the served bytes, and stale bytes are still served bytes.
+    run(exe + ["src/data/blog/posts.ts", "--bundle", "--format=esm",
+               "--platform=node", f"--outfile={mjs}", "--log-level=error"],
+        cwd=site)
     out = run(["node", "-e",
                f"import('{mjs}').then(m=>"
                "process.stdout.write(JSON.stringify(m.publishedPosts(),null,1)))"])
