@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Снимок здоровья изменил числа, но не контракт · TRINITY</title>
+<meta name="description" content="Свежий коммит обновляет снимок здоровья CI: со 156 до 143 отказов в окне из 200 прогонов, одновременно фиксируя знаменатель и правила исключения." />
+<link rel="canonical" href="https://t27.ai/ru/blog/a-health-snapshot-changed-its-denominator/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/a-health-snapshot-changed-its-denominator/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/a-health-snapshot-changed-its-denominator/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/a-health-snapshot-changed-its-denominator/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/a-health-snapshot-changed-its-denominator/" />
+<meta property="og:title" content="Снимок здоровья изменил числа, но не контракт" />
+<meta property="og:description" content="Свежий коммит обновляет снимок здоровья CI: со 156 до 143 отказов в окне из 200 прогонов, одновременно фиксируя знаменатель и правила исключения." />
+<meta property="og:image" content="https://t27.ai/og-blog-a-health-snapshot-changed-its-denominator-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Снимок здоровья изменил числа, но не контракт" />
+<meta name="twitter:description" content="Свежий коммит обновляет снимок здоровья CI: со 156 до 143 отказов в окне из 200 прогонов, одновременно фиксируя знаменатель и правила исключения." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Снимок здоровья изменил числа, но не контракт","description":"Свежий коммит обновляет снимок здоровья CI: со 156 до 143 отказов в окне из 200 прогонов, одновременно фиксируя знаменатель и правила исключения.","url":"https://t27.ai/ru/blog/a-health-snapshot-changed-its-denominator/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/a-health-snapshot-changed-its-denominator/"},"image":"https://t27.ai/og-blog-a-health-snapshot-changed-its-denominator-ru.png","datePublished":"2026-08-16","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"CI, Measurement, Reproducibility, Dashboards"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Снимок здоровья изменил числа, но не контракт</h1>
+<p class="meta">2026-08-16 · 4 мин чтения</p>
+<p class="lede">Свежий коммит обновляет снимок здоровья CI: со 156 до 143 отказов в окне из 200 прогонов, одновременно фиксируя знаменатель и правила исключения.</p>
+<div class="tags"><span class="tag">CI</span><span class="tag">Measurement</span><span class="tag">Reproducibility</span><span class="tag">Dashboards</span></div>
+<p>Снимок здоровья — не то же самое, что исправление. Это запись о том, что сейчас сообщает измерительный конвейер, с видимыми окном и правилами исключения.</p>
+<p>Свежий коммит 6227bed обновляет apps/website/src/data/signalHealth.json для ci.yml в gHashTag/trinity. Окно остаётся равным 200 завершённым прогонам. Сохранённое число отказов меняется с 156 на 143, а сохранённая вероятность красного результата — с 0.78 на 0.715.</p>
+<h2>Что изменилось в файле</h2>
+<div class="tw"><table><thead><tr><th>Поле</th><th>Было</th><th>Стало</th></tr></thead><tbody><tr><td>failures</td><td>156</td><td>143</td></tr><tr><td>pRed</td><td>0.78</td><td>0.715</td></tr><tr><td>bitsPerRed</td><td>0.358</td><td>0.484</td></tr><tr><td>window</td><td>200</td><td>200</td></tr></tbody></table></div>
+<p>Тот же снимок повышает bitsPerRed с 0.358 до 0.484. Файл определяет это значение как самоинформацию следующего красного результата, вычисленную как −log2 P(red); это описание сохранённой оценки, а не обещание того, что произойдёт в следующем прогоне.</p>
+<h2>Контракт измерения — часть результата</h2>
+<p>В data-файле сказано, что источник — список до 200 завершённых прогонов для каждого workflow. Отменённые и пропущенные прогоны отбрасываются, а не считаются успешными. Это важно: изменение правила включения изменило бы смысл каждого числа рядом с ним.</p>
+<blockquote>Меньшее число отказов в одном снимке — свидетельство об этом снимке, а не доказательство того, что система стала здоровее.</blockquote>
+<h2>Чего это не доказывает</h2>
+<ul><li>Коммит не запускает здесь независимый полный аудит истории прогонов; он записывает обновлённый data-файл.</li><li>Меньшее число отказов здесь не приписывается конкретной правке кода или workflow.</li><li>Снимок не устанавливает корректность CI-задач, а только показывает, как эта метрика сейчас классифицирует записанные исходы.</li><li>Этот пост не заявляет результата на FPGA, кремнии, по скорости, энергии или по downstream-модели.</li></ul>
+<p>Полезное изменение поэтому скромно: dashboard получил обновлённый проверяемый снимок и явно указал знаменатель и исключения рядом с метрикой. Квитанция — коммит и изменённый им файл.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Коммит записывает обновлённый data-файл; отдельный полный аудит истории прогонов в этом посте не выполнялся.</li><li>Меньшее число отказов здесь не приписывается конкретной правке кода или workflow.</li><li>Снимок описывает классификацию записанных исходов этой метрикой, но не устанавливает корректность самих CI-задач.</li><li>Этот пост не заявляет результата на FPGA, кремнии, по скорости, энергии или по downstream-модели.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/trinity/commit/6227bed26d3097e817455a5e5958deffd75b106c">gHashTag/trinity commit 6227bed — signal health refresh</a></li><li><a href="https://github.com/gHashTag/trinity/blob/6227bed26d3097e817455a5e5958deffd75b106c/apps/website/src/data/signalHealth.json">signalHealth.json at the committed revision</a></li></ul></div>
+<div class="cta"><p>Каждая цифра выше измерена, и рядом с ней названы её пределы.</p><div class="btns"><a class="btn" href="/?lang=ru#/blog/a-health-snapshot-changed-its-denominator">Открыть интерактивную версию</a><a class="btn sec" href="/blog/a-health-snapshot-changed-its-denominator/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Снимок здоровья изменил числа, но не контракт">admin@t27.ai</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 15 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 16 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>A health snapshot changed its numbers, not its contract</title>
+      <link>https://t27.ai/#/blog/a-health-snapshot-changed-its-denominator</link>
+      <guid isPermaLink="false">a-health-snapshot-changed-its-denominator</guid>
+      <pubDate>Sun, 16 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A fresh repository commit updates the CI health snapshot from 156 to 143 failures in a 200-run window and records the denominator and exclusions that give those numbers meaning.</description>
+      <category>CI</category>
+      <category>Measurement</category>
+      <category>Reproducibility</category>
+      <category>Dashboards</category>
+    </item>
     <item>
       <title>Half the build is bitstream generation, and the trivial design was the slow one</title>
       <link>https://t27.ai/#/blog/half-the-build-is-bitstream-generation</link>
