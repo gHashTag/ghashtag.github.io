@@ -19,6 +19,27 @@
       <category>Quantization</category>
     </item>
     <item>
+      <title>A gate that rejected its own users</title>
+      <link>https://t27.ai/#/blog/a-gate-that-rejected-its-own-users</link>
+      <guid isPermaLink="false">a-gate-that-rejected-its-own-users</guid>
+      <pubDate>Mon, 17 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A floor I added asserted five report lines and failed three of the four normal design shapes; a workflow gated on a label that did not exist, so every &quot;Start a run&quot; button led nowhere. Both were correct about what they required and silent about whether it could be met.</description>
+      <category>Verification</category>
+      <category>CI</category>
+      <category>Self-critique</category>
+    </item>
+    <item>
+      <title>An inert filter is safest until it works</title>
+      <link>https://t27.ai/#/blog/an-inert-filter-is-safest-until-it-works</link>
+      <guid isPermaLink="false">an-inert-filter-is-safest-until-it-works</guid>
+      <pubDate>Mon, 17 Aug 2026 12:00:00 GMT</pubDate>
+      <description>The first request this service ever served came back telling a clean design it had a silicon bug. Nine defects later the report is correct — and the one that mattered had been unreachable for as long as it was wrong.</description>
+      <category>Verification</category>
+      <category>CI</category>
+      <category>Self-critique</category>
+      <category>Measurement</category>
+    </item>
+    <item>
       <title>A health snapshot changed its numbers, not its contract</title>
       <link>https://t27.ai/#/blog/a-health-snapshot-changed-its-denominator</link>
       <guid isPermaLink="false">a-health-snapshot-changed-its-denominator</guid>
