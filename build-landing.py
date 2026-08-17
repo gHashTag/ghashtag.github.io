@@ -489,9 +489,18 @@ def _provenance_line(lang="en"):
     bits = " · ".join(x for x in (pv.get("yosys"), pv.get("iverilog")) if x)
     if not bits:
         return ""
-    return (f" Прогоны выполнены {pv.get('ranAt','')} на: {bits}."
-            if lang == "ru" else
-            f" Produced on {pv.get('ranAt','')} with: {bits}.")
+    # The offered workflow pins a different yosys than the one these runs were
+    # measured with. Both facts are true and the difference is real — about 9%
+    # on cell count, with wires and flip-flops stable — so it is stated rather
+    # than left for a reader to discover by re-running and disagreeing.
+    pinned = "Yosys 0.68+71 (oss-cad-suite 2026-08-12)"
+    if lang == "ru":
+        return (f" Прогоны выполнены {pv.get('ranAt','')} на: {bits}."
+                f" Предлагаемый воркфлоу закреплён на другой версии — {pinned};"
+                " повтор даст другое число ячеек и те же провода и триггеры.")
+    return (f" Produced on {pv.get('ranAt','')} with: {bits}."
+            f" The workflow offered on this site pins a different build — {pinned} —"
+            " so a re-run differs on cell count and agrees on wires and flip-flops.")
 
 
 def _cases_copy(lang="en"):
