@@ -326,8 +326,15 @@ for d in lms:
         v = datetime.date.fromisoformat(d)
     except ValueError:
         print(f"  malformed lastmod {d!r}"); sys.exit(1)
-    if v > today:
-        print(f"  lastmod in the future: {d}"); sys.exit(1)
+    # A day of slack, because the two sides of this comparison keep different
+    # clocks. `git log --format=%cs` reports the committer's date in the
+    # COMMITTER's timezone, and this runs on a runner in UTC — so a commit made
+    # in the evening at UTC+7 is dated tomorrow from here. That is a timezone,
+    # not a fabricated date, and it froze the publisher for six consecutive
+    # runs while the site served hours-old content. An invented future date is
+    # not one day out.
+    if v > today + datetime.timedelta(days=1):
+        print(f"  lastmod more than a day in the future: {d}"); sys.exit(1)
 # The old test here was "all the dates are the same, therefore the field is not
 # derived". That is a proxy, and today it fired on a true state: this site was
 # published fifteen times in one day, so every file's last commit really is
@@ -363,7 +370,7 @@ if mismatched:
     print("  lastmod does not follow the repository — the field is not derived")
     sys.exit(1)
 PYLM
-[ "$fails" = 0 ] && green "sitemap lastmod: $(grep -c '<lastmod>' sitemap.xml) dates, $(grep -oE '<lastmod>[^<]*' sitemap.xml | sort -u | wc -l | tr -d ' ') distinct, none in the future"
+[ "$fails" = 0 ] && green "sitemap lastmod: $(grep -c '<lastmod>' sitemap.xml) dates, $(grep -oE '<lastmod>[^<]*' sitemap.xml | sort -u | wc -l | tr -d ' ') distinct, none more than a day ahead"
 
 grep -q "Sitemap: $SITE/sitemap.xml" robots.txt 2>/dev/null \
   && green "robots.txt points at the sitemap" \
