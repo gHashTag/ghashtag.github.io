@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 16 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 17 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>A multiplicity correction changed the deployment reading</title>
+      <link>https://t27.ai/#/blog/a-multiplicity-correction-changed-the-deployment-reading</link>
+      <guid isPermaLink="false">a-multiplicity-correction-changed-the-deployment-reading</guid>
+      <pubDate>Mon, 17 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A merged research note shows how a nine-placement selection by mean margin becomes a narrower claim after the selection family is included in the correction.</description>
+      <category>Measurement</category>
+      <category>Reproducibility</category>
+      <category>Statistics</category>
+      <category>Quantization</category>
+    </item>
     <item>
       <title>A health snapshot changed its numbers, not its contract</title>
       <link>https://t27.ai/#/blog/a-health-snapshot-changed-its-denominator</link>
