@@ -153,6 +153,15 @@ jobs:
           # the page starts disagreeing with the app it sits beside — which is
           # how it came to claim nothing had finished while ten runs existed.
           # Refreshed from the sources this publish already checked out.
+          if [ -f .src/apps/website/src/data/verificationTiers.ts ]; then
+            ( cd .src/apps/website && npx --yes esbuild src/data/verificationTiers.ts \
+                --format=esm --platform=node --outfile=/tmp/tiers.mjs >/dev/null 2>&1 )
+            node -e "import('/tmp/tiers.mjs').then(m=>console.log(JSON.stringify({tiers:m.DELIVERY_TIERS,lede:m.TIERS_LEDE},null,1)))" > tiers.json
+            say "- refreshed tiers.json from trinity (the /verification/ prices)"
+          else
+            say "- **FAIL** trinity has no verificationTiers.ts — /verification/ prices would go stale"
+            exit 1
+          fi
           if [ -f .src/apps/website/src/data/runs.json ]; then
             cp .src/apps/website/src/data/runs.json runs.json
             python3 build-landing.py >/dev/null

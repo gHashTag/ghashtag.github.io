@@ -105,12 +105,8 @@ PAGES = {
                 ("2. I build an independent model", "Written from the operation, never from your RTL — a testbench derived from the same assumptions as a design agrees with the design's bugs."),
                 ("3. You get a signed report", "Measured numbers, vectors, bitstream, and every command needed to reproduce it."),
             ]),
-            ("Pricing", [
-                ("Single core — $300", "One module or IP core: bit-exact check, timing, resources, report."),
-                ("Block — $800", "A full block with multiple cores, integration checks and a written analysis."),
-                ("Tape-out ready — $2 000", "Everything above plus the preparation a shuttle submission needs."),
-                ("Retainer — $1–3k / month", "Ongoing verification as your design changes."),
-            ]),
+            # Filled from tiers.json at the entry point, below.
+            ("Pricing", []),
             ("What this is not", [
                 ("One device family", "Measurements come from a Xilinx Artix-7. This is not multi-corner characterisation and does not claim to be."),
                 ("Not a sign-off flow", "It is an independent check, not a substitute for a full commercial sign-off."),
@@ -400,6 +396,12 @@ def load_ru():
     if "cases" in data:
         data["cases"]["sections"] = cases_sections("ru")
         data["cases"].update(_cases_copy("ru"))
+    if "verification" in data:
+        secs = data["verification"]["sections"]
+        for k, sec in enumerate(secs):
+            if sec[0] in ("Цены", "Pricing"):
+                secs[k] = list(pricing_section("ru"))
+        data["verification"].update(verification_copy("ru"))
     for slug, ru in data.items():
         en = PAGES.get(slug)
         if en is None:
@@ -512,6 +514,63 @@ def _cases_copy(lang="en"):
                  "shown with the command that produced it, and with what it does not establish."
                  + _provenance_line("en")),
         "cta": "Need a run? Introductory runs are free and the report is yours to publish or keep.",
+    }
+
+
+# ---------------------------------------------------------------------------
+# /verification/ used to carry a hand-written price list — $300 / $800 / $2 000
+# / $1-3k per month — while DELIVERY_TIERS, which the app reads, said "Free",
+# "From $2 500 per core" and "Quoted per design". Eight-fold on one line item,
+# and each page linked to the other. The static one is what carries the
+# canonical link and what search indexes.
+#
+# The same page's lede promised the free public run returns "bit-exact
+# conformance ... achieved timing, resources and the bitstream" — the exact
+# conflation verificationTiers.ts was written to remove. Both come from the
+# data now.
+# ---------------------------------------------------------------------------
+
+def _tiers():
+    import json
+    if not os.path.exists("tiers.json"):
+        raise SystemExit("tiers.json is missing; /verification/ cannot be generated from data")
+    d = json.load(open("tiers.json", encoding="utf-8"))
+    t = d.get("tiers") or []
+    if len(t) < 3:
+        raise SystemExit(f"tiers.json parsed to {len(t)} tiers; expected at least 3")
+    return d
+
+
+def pricing_section(lang="en"):
+    ru = lang == "ru"
+    d = _tiers()
+    items = []
+    for t in d["tiers"]:
+        name = t["name"]["ru" if ru else "en"]
+        price = t["price"]["ru" if ru else "en"]
+        turn = t["turnaround"]["ru" if ru else "en"]
+        first = (t["delivers"]["ru" if ru else "en"] or [""])[0]
+        lead = "Срок: " if ru else "Turnaround: "
+        items.append((f"{name} — {price}", f"{lead}{turn}. {first}"))
+    return ("Цены" if ru else "Pricing", items)
+
+
+def verification_copy(lang="en"):
+    d = _tiers()
+    lede = d.get("lede", {}).get("ru" if lang == "ru" else "en", "")
+    free = d["tiers"][0]["price"]["ru" if lang == "ru" else "en"]
+    if lang == "ru":
+        return {
+            "desc": ("Наведите на публичный репозиторий — структурная проверка идёт бесплатно, "
+                     "отчёт публикуется. " + free + ". Соответствие независимой модели и работа "
+                     "на плате — отдельные ступени, с отдельной ценой."),
+            "lede": lede,
+        }
+    return {
+        "desc": ("Point it at a public repository and the structural check runs for free, with the "
+                 "report published. " + free + ". Conformance against an independent model and "
+                 "work on the board are separate tiers, priced separately."),
+        "lede": lede,
     }
 
 
@@ -858,6 +917,31 @@ if __name__ == "__main__":
     # The Russian side is filled inside load_ru(), after that file is read.
     PAGES["cases"]["sections"] = cases_sections("en")
     PAGES["cases"].update(_cases_copy("en"))
+
+    # /verification/ carried a hand-written price list that disagreed with the
+    # data by 8x on one line item. Emitted from tiers.json now.
+    for k, sec in enumerate(PAGES["verification"]["sections"]):
+        if sec[0] == "Pricing":
+            PAGES["verification"]["sections"][k] = pricing_section("en")
+    PAGES["verification"].update(verification_copy("en"))
+
+    # A price on the page that is not in the data is the defect this replaces,
+    # so it is checked rather than trusted. Any $-amount in the rendered
+    # English copy must appear verbatim in tiers.json.
+    import re as _re
+    _t = _tiers()
+    _known = " ".join(
+        t["price"]["en"] + " " + t["price"]["ru"] for t in _t["tiers"]
+    )
+    _page = " ".join(
+        [PAGES["verification"]["desc"], PAGES["verification"]["lede"]]
+        + [a + " " + b for _h, _items in PAGES["verification"]["sections"] for a, b in _items]
+    )
+    for _amt in _re.findall(r"\$\s?[0-9][0-9  ,]*", _page):
+        if _amt.strip() not in _known:
+            raise SystemExit(
+                f"verification: the page quotes {_amt.strip()!r}, which is not in tiers.json"
+            )
 
     # A page that claims emptiness while the data holds runs is the defect this
     # replaces, so it is checked rather than trusted: one section per run, and

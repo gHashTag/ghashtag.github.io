@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Hardware-verified RTL — measured on binary FPGA · TRINITY</title>
-<meta name="description" content="Point it at a public repository and the checks run for free, with the report published. Nothing leaves your repo for the open-source tier. Private work is set up by hand: bit-exact conformance against an independent model, timing, resources and the bitstream, on a fully open-source flow. From $300 per core, an introductory module free." />
+<meta name="description" content="Point it at a public repository and the structural check runs for free, with the report published. Free for a public repository. Conformance against an independent model and work on the board are separate tiers, priced separately." />
 <link rel="canonical" href="https://t27.ai/verification/" />
 <link rel="alternate" hreflang="en" href="https://t27.ai/verification/" />
 <link rel="alternate" hreflang="ru" href="https://t27.ai/ru/verification/" />
@@ -14,13 +14,13 @@
 <meta property="og:locale" content="en_US" />
 <meta property="og:url" content="https://t27.ai/verification/" />
 <meta property="og:title" content="Hardware-verified RTL — measured on binary FPGA" />
-<meta property="og:description" content="Point it at a public repository and the checks run for free, with the report published. Nothing leaves your repo for the open-source tier. Private work is set up by hand: bit-exact conformance against an independent model, timing, resources and the bitstream, on a fully open-source flow. From $300 per core, an introductory module free." />
+<meta property="og:description" content="Point it at a public repository and the structural check runs for free, with the report published. Free for a public repository. Conformance against an independent model and work on the board are separate tiers, priced separately." />
 <meta property="og:image" content="https://t27.ai/og-verification.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Hardware-verified RTL — measured on binary FPGA" />
-<meta name="twitter:description" content="Point it at a public repository and the checks run for free, with the report published. Nothing leaves your repo for the open-source tier. Private work is set up by hand: bit-exact conformance against an independent model, timing, resources and the bitstream, on a fully open-source flow. From $300 per core, an introductory module free." />
+<meta name="twitter:description" content="Point it at a public repository and the structural check runs for free, with the report published. Free for a public repository. Conformance against an independent model and work on the board are separate tiers, priced separately." />
 <link rel="icon" href="/favicon.svg" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Hardware-verified RTL — measured on binary FPGA","description":"Point it at a public repository and the checks run for free, with the report published. Nothing leaves your repo for the open-source tier. Private work is set up by hand: bit-exact conformance against an independent model, timing, resources and the bitstream, on a fully open-source flow. From $300 per core, an introductory module free.","url":"https://t27.ai/verification/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Hardware-verified RTL — measured on binary FPGA","description":"Point it at a public repository and the structural check runs for free, with the report published. Free for a public repository. Conformance against an independent model and work on the board are separate tiers, priced separately.","url":"https://t27.ai/verification/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
 <style>*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
@@ -63,7 +63,7 @@ footer a{color:var(--muted)}
 
 <p class="eyebrow">Verification service</p>
 <h1>Not simulated. Measured on a binary FPGA.</h1>
-<p class="lede">For a public repository you give a URL and nothing else — the checks run in the open and the report is published here whichever way it goes. For private work the run is arranged directly. Either way it comes back as a signed report: bit-exact conformance against an independent model, achieved timing, resources and the bitstream, on a fully open-source toolchain, so every number can be reproduced.</p>
+<p class="lede">Three tiers, and the button above starts the first one. They are separated because they establish different things: the free run is structural and concludes nothing about whether your design is correct, and saying so is the only way the other two mean anything.</p>
 
 <h2>What the report contains</h2>
 <div class="items">
@@ -80,10 +80,9 @@ footer a{color:var(--muted)}
 </div>
 <h2>Pricing</h2>
 <div class="items">
-<div class="item"><h3>Single core — $300</h3><p>One module or IP core: bit-exact check, timing, resources, report.</p></div>
-<div class="item"><h3>Block — $800</h3><p>A full block with multiple cores, integration checks and a written analysis.</p></div>
-<div class="item"><h3>Tape-out ready — $2 000</h3><p>Everything above plus the preparation a shuttle submission needs.</p></div>
-<div class="item"><h3>Retainer — $1–3k / month</h3><p>Ongoing verification as your design changes.</p></div>
+<div class="item"><h3>Structural — automated — Free for a public repository</h3><p>Turnaround: Minutes. Every file your info.yaml declares is present, and the design elaborates from that list alone.</p></div>
+<div class="item"><h3>Conformance against an independent model — From $2 500 per core, first module free</h3><p>Turnaround: 3–5 working days. A reference model written from your description of what the design should do — never from your RTL, because a model derived from the code agrees with the code including where it is wrong.</p></div>
+<div class="item"><h3>On the board — Quoted per design</h3><p>Turnaround: Days — board time is queued. Place-and-route on a named part, with the resource counters the router emits after routing completed.</p></div>
 </div>
 <h2>What this is not</h2>
 <div class="items">
