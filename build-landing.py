@@ -316,12 +316,10 @@ PAGES = {
             "Every run ends in a report: what was checked, what it surfaced, and the numbers taken off the "
             "board. They are collected here, with the client's permission and without edits in my favour."
         ),
-        "sections": [
-            ("Empty for now, and honestly so", [
-                ("Nothing has finished yet", "Introductory runs are free, and until one of them finishes there will be nothing here. An invented case study would be worth less than an empty page: the whole offer rests on the numbers being measured."),
-                ("Read the sample instead", "A full example report on my own design, with the same sections yours would get: bit-exact conformance, achieved timing, resources, latch-free check, and the commands to reproduce all of it."),
-            ]),
-        ],
+        # Filled from runs.json at import time, below. Left empty here so that a
+        # missing data file is a hard failure rather than a page that quietly
+        # reverts to claiming nothing has finished.
+        "sections": [],
         "cta": "Need a run? Introductory runs are free and the report is yours to publish or keep.",
     },
 }
@@ -399,6 +397,9 @@ def load_ru():
         return {}
     data = json.load(open("landing-ru.json", encoding="utf-8"))
     data.pop("_comment", None)
+    if "cases" in data:
+        data["cases"]["sections"] = cases_sections("ru")
+        data["cases"].update(_cases_copy("ru"))
     for slug, ru in data.items():
         en = PAGES.get(slug)
         if en is None:
@@ -418,6 +419,100 @@ def load_ru():
                     f"English has {len(es[1])}"
                 )
     return data
+
+
+# ---------------------------------------------------------------------------
+# The case-studies page said "Empty for now, and honestly so — nothing has
+# finished yet" while runs.json held ten finished runs, five of them on other
+# people's designs. The claim had been true when it was written; the SPA was
+# repaired and this generator was not, so the static page — the one a crawler
+# and a link preview see — went on telling visitors there was nothing here.
+#
+# It is generated from the data now, so it cannot disagree with it again.
+# ---------------------------------------------------------------------------
+
+def _runs():
+    import json
+    if not os.path.exists("runs.json"):
+        raise SystemExit("runs.json is missing; /cases/ cannot be generated from data")
+    d = json.load(open("runs.json", encoding="utf-8"))
+    # The file is {"provenance": {...}, "runs": [...]}; taking every value of the
+    # top-level dict picks up provenance as if it were a run.
+    if isinstance(d, list):
+        runs = d
+    elif isinstance(d.get("runs"), list):
+        runs = d["runs"]
+    else:
+        raise SystemExit("runs.json has no 'runs' list")
+    if not runs:
+        raise SystemExit("runs.json parsed to zero runs")
+    return runs
+
+
+def cases_sections(lang="en"):
+    """One section per run: the design, then every check with its command."""
+    ru = lang == "ru"
+    out = []
+    for r in _runs():
+        third = r.get("thirdParty")
+        if ru:
+            tag = "чужой дизайн" if third else "свой дизайн"
+            head = f'{r["design"]} — {r["repo"]} ({tag})'
+        else:
+            tag = "third-party" if third else "my own"
+            head = f'{r["design"]} — {r["repo"]} ({tag})'
+        items = []
+        what = (r.get("whatRu") if ru else None) or r.get("what", "")
+        items.append(("Что это" if ru else "What it is",
+                      f'{what} Top: {r.get("top","?")}. Tiles: {r.get("tiles","?")}. '
+                      + (f'Прогон от {r.get("date","")}.' if ru else f'Run of {r.get("date","")}.')))
+        for c in r.get("checks", []):
+            detail = (c.get("detailRu") if ru else None) or c.get("detail", "")
+            cmd = c.get("command", "")
+            text = detail + ((("  Команда: " if ru else "  Command: ") + cmd) if cmd else "")
+            items.append((f'{c.get("status","?")} · {c.get("name","?")}', text))
+        out.append((head, items))
+    return out
+
+
+def _provenance_line(lang="en"):
+    """The tools that produced these numbers, named. A cell count without its
+    yosys version is not reproducible, and this page tells the reader to
+    re-run the commands."""
+    import json
+    d = json.load(open("runs.json", encoding="utf-8"))
+    pv = d.get("provenance", {}) if isinstance(d, dict) else {}
+    if not pv:
+        return ""
+    bits = " · ".join(x for x in (pv.get("yosys"), pv.get("iverilog")) if x)
+    if not bits:
+        return ""
+    return (f" Прогоны выполнены {pv.get('ranAt','')} на: {bits}."
+            if lang == "ru" else
+            f" Produced on {pv.get('ranAt','')} with: {bits}.")
+
+
+def _cases_copy(lang="en"):
+    runs = _runs()
+    n = len(runs)
+    third = sum(1 for r in runs if r.get("thirdParty"))
+    if lang == "ru":
+        return {
+            "desc": (f"Что показали проверки чужого RTL: {n} прогонов, из них {third} на чужих дизайнах. "
+                     "Под каждой строкой — команда, которой она получена."),
+            "lede": (f"Здесь {n} завершённых прогонов, {third} из них на дизайнах других людей. "
+                     "Каждая проверка приведена вместе с командой, чтобы её можно было повторить, "
+                     "и вместе с тем, чего она не устанавливает." + _provenance_line("ru")),
+            "cta": "Нужен прогон? Первый бесплатен, отчёт ваш — публикуйте или оставьте себе.",
+        }
+    return {
+        "desc": (f"What each verification run turned out to be: {n} runs, {third} of them on other "
+                 "people's designs, each line with the command that produced it."),
+        "lede": (f"{n} finished runs, {third} of them on designs that are not mine. Every check is "
+                 "shown with the command that produced it, and with what it does not establish."
+                 + _provenance_line("en")),
+        "cta": "Need a run? Introductory runs are free and the report is yours to publish or keep.",
+    }
 
 
 def render(slug, p, lang="en"):
@@ -758,6 +853,23 @@ def sitemap(slugs):
 if __name__ == "__main__":
     here = os.path.dirname(os.path.abspath(__file__))
     os.chdir(here)
+
+    # Built from runs.json so the page cannot disagree with the data again.
+    # The Russian side is filled inside load_ru(), after that file is read.
+    PAGES["cases"]["sections"] = cases_sections("en")
+    PAGES["cases"].update(_cases_copy("en"))
+
+    # A page that claims emptiness while the data holds runs is the defect this
+    # replaces, so it is checked rather than trusted: one section per run, and
+    # no section may say the page is empty.
+    _n = len(_runs())
+    if len(PAGES["cases"]["sections"]) != _n:
+        raise SystemExit(f"cases: {len(PAGES['cases']['sections'])} sections for {_n} runs")
+    _flat = " ".join(h + " " + " ".join(a + " " + b for a, b in items)
+                     for h, items in PAGES["cases"]["sections"])
+    for _bad in ("Nothing has finished", "Empty for now", "nothing here"):
+        if _bad.lower() in _flat.lower():
+            raise SystemExit(f"cases: the page still says {_bad!r} while runs.json holds {_n} runs")
     for slug, p in PAGES.items():
         os.makedirs(slug, exist_ok=True)
         with open(f"{slug}/index.html", "w", encoding="utf-8") as fh:

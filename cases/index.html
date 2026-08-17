@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Verification runs on other people&#x27;s RTL · TRINITY</title>
-<meta name="description" content="What each verification run turned out to be: what was checked, what the bit-exact check surfaced, and the numbers measured on a live Artix-7. Empty until an introductory free run finishes." />
+<meta name="description" content="What each verification run turned out to be: 10 runs, 5 of them on other people&#x27;s designs, each line with the command that produced it." />
 <link rel="canonical" href="https://t27.ai/cases/" />
 <link rel="alternate" hreflang="en" href="https://t27.ai/cases/" />
 <link rel="alternate" hreflang="ru" href="https://t27.ai/ru/cases/" />
@@ -14,13 +14,13 @@
 <meta property="og:locale" content="en_US" />
 <meta property="og:url" content="https://t27.ai/cases/" />
 <meta property="og:title" content="Verification runs on other people&#x27;s RTL" />
-<meta property="og:description" content="What each verification run turned out to be: what was checked, what the bit-exact check surfaced, and the numbers measured on a live Artix-7. Empty until an introductory free run finishes." />
+<meta property="og:description" content="What each verification run turned out to be: 10 runs, 5 of them on other people&#x27;s designs, each line with the command that produced it." />
 <meta property="og:image" content="https://t27.ai/og-cases.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Verification runs on other people&#x27;s RTL" />
-<meta name="twitter:description" content="What each verification run turned out to be: what was checked, what the bit-exact check surfaced, and the numbers measured on a live Artix-7. Empty until an introductory free run finishes." />
+<meta name="twitter:description" content="What each verification run turned out to be: 10 runs, 5 of them on other people&#x27;s designs, each line with the command that produced it." />
 <link rel="icon" href="/favicon.svg" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Verification runs on other people's RTL","description":"What each verification run turned out to be: what was checked, what the bit-exact check surfaced, and the numbers measured on a live Artix-7. Empty until an introductory free run finishes.","url":"https://t27.ai/cases/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Verification runs on other people's RTL","description":"What each verification run turned out to be: 10 runs, 5 of them on other people's designs, each line with the command that produced it.","url":"https://t27.ai/cases/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
 <style>*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
@@ -63,12 +63,97 @@ footer a{color:var(--muted)}
 
 <p class="eyebrow">Case studies</p>
 <h1>What other people&#x27;s designs turned out to be.</h1>
-<p class="lede">Every run ends in a report: what was checked, what it surfaced, and the numbers taken off the board. They are collected here, with the client&#x27;s permission and without edits in my favour.</p>
+<p class="lede">10 finished runs, 5 of them on designs that are not mine. Every check is shown with the command that produced it, and with what it does not establish. Produced on 2026-08-11 with: Yosys 0.65 (git sha1 aec814bdf3071f7e0fd0fbe43f7f711e99d01e24) · Icarus Verilog 13.0 (stable, v13_0).</p>
 
-<h2>Empty for now, and honestly so</h2>
+<h2>TRI-1 Phi — gHashTag/t27 · chips/phi (my own)</h2>
 <div class="items">
-<div class="item"><h3>Nothing has finished yet</h3><p>Introductory runs are free, and until one of them finishes there will be nothing here. An invented case study would be worth less than an empty page: the whole offer rests on the numbers being measured.</p></div>
-<div class="item"><h3>Read the sample instead</h3><p>A full example report on my own design, with the same sections yours would get: bit-exact conformance, achieved timing, resources, latch-free check, and the commands to reproduce all of it.</p></div>
+<div class="item"><h3>What it is</h3><p>Single-tile GF16 ternary dot4 MAC with a Lucas power-on self test. Top: tt_um_trinity_nano. Tiles: 1x1. Run of 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>16 of 16 declared files found in src/ (13 before the fix)  Command: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>clean, after the three missing files were declared  Command: iverilog -g2012 -t null -I src -s tt_um_trinity_nano src/*.v</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>no $_DLATCH_ cells after techmap  Command: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>10,534 cells including submodules, 4,050 wires. 4,663x $_MUX_, 2,252x $_AND_, 1,660x $_OR_, 1,316x $_XOR_  Command: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>210 flip-flops, so a clock frequency is a meaningful thing to ask about  Command: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>TRI-1 Euler — gHashTag/t27 · chips/euler (my own)</h2>
+<div class="items">
+<div class="item"><h3>What it is</h3><p>GF16 e-engine, 8x2 tiles. Top: tt_um_ghtag_trinity_gf16. Tiles: 8x2. Run of 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>34 of 34 declared files found in src/  Command: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>clean from the declared list alone  Command: iverilog -g2012 -t null -I src -s tt_um_ghtag_trinity_gf16 src/*.v</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>no $_DLATCH_ cells after techmap  Command: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>39,991 cells including submodules, 37,170 wires. 18,083x $_MUX_, 8,073x $_AND_, 5,823x $_OR_, 5,469x $_XOR_  Command: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>473 flip-flops  Command: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>TRI-1 Gamma — gHashTag/t27 · chips/gamma (my own)</h2>
+<div class="items">
+<div class="item"><h3>What it is</h3><p>32-tile, 8-column neuromorphic array. Top: tt_um_trinity_max_true. Tiles: 8x4. Run of 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>44 of 44 declared files found in src/ (43 before the fix)  Command: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>clean, after the missing file was declared  Command: iverilog -g2012 -t null -I src -s tt_um_trinity_max_true src/*.v</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>no $_DLATCH_ cells after techmap  Command: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>205,992 cells including submodules, 102,588 wires. 90,628x $_MUX_, 45,141x $_AND_, 32,355x $_OR_, 27,239x $_XOR_  Command: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>1,929 flip-flops  Command: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>Quantum Brain MINI — gHashTag/trinity-fpga · ttsky26c/mini (my own)</h2>
+<div class="items">
+<div class="item"><h3>What it is</h3><p>Single-column cortex: 4 GF16 cells, 75-word ROM, 16-opcode ISA. Top: tt_um_qbrain_mini. Tiles: 1x1. Run of 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>1 of 1 declared file found (info.yaml declared none until 11 Aug 2026)  Command: glob src/*.v</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>clean  Command: iverilog -g2012 -t null -I src -s tt_um_qbrain_mini src/tt_um_qbrain_mini.v</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>no $_DLATCH_ cells after techmap  Command: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>49 cells including submodules, 57 wires. 28x $_XOR_, 16x $_DFFE_PN0P_, 1x $_DFF_PN0_  Command: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>17 flip-flops  Command: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>Quantum Brain HOLOGRAPHIC — gHashTag/trinity-fpga · ttsky26c/holo (my own)</h2>
+<div class="items">
+<div class="item"><h3>What it is</h3><p>Holographic variant of the Quantum Brain column. Top: tt_um_qbrain_holo. Tiles: 1x2. Run of 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>1 of 1 declared file found (info.yaml declared none until 11 Aug 2026)  Command: glob src/*.v</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>clean  Command: iverilog -g2012 -t null -I src -s tt_um_qbrain_holo src/tt_um_qbrain_holo.v</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>no $_DLATCH_ cells after techmap  Command: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>128 cells including submodules, 193 wires. 63x $_DFFE_PN0P_, 42x $_XOR_, 3x $_DFF_PN0_  Command: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>66 flip-flops  Command: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>TinyGPU v2 — pongsagon/tt_um_pongsagon_tinygpu_v2 (third-party)</h2>
+<div class="items">
+<div class="item"><h3>What it is</h3><p>Somebody else&#x27;s GPU, the largest of the three. Top: tt_um_pongsagon_tinygpu_v2. Tiles: see info.yaml. Run of 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>10 of 10 declared files found  Command: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>clean from the declared list alone  Command: iverilog -g2012 -t null -I src -s &lt;top&gt; &lt;declared sources&gt;</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>no $_DLATCH_ cells after techmap  Command: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>34,223 cells including submodules, 15,846 wires. 11,251x $_AND_, 9,213x $_OR_, 5,942x $_MUX_, 3,065x $_XOR_  Command: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>3,383 flip-flops  Command: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>Float synth — NikLeberg/tt_um_float_synth (third-party)</h2>
+<div class="items">
+<div class="item"><h3>What it is</h3><p>A floating-point synthesiser — the closest of the three to my own subject. Top: tt_um_float_synth_nikleberg. Tiles: see info.yaml. Run of 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>2 of 2 declared files found  Command: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>clean from the declared list alone  Command: iverilog -g2012 -t null -I src -s &lt;top&gt; &lt;declared sources&gt;</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>no $_DLATCH_ cells after techmap  Command: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>900 cells including submodules, 904 wires. 210x $_NOT_, 197x $_OR_, 180x $_AND_, 180x $_DFF_P_  Command: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>183 flip-flops  Command: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>SERV RISC-V SoC on Wishbone — divadnauj-GB/tt_um_divadnauj-GB_serv_soc_wb (third-party)</h2>
+<div class="items">
+<div class="item"><h3>What it is</h3><p>A bit-serial RISC-V core with a Wishbone SoC around it, across 40 declared files. Top: tt_um_divadnauj_GB_serv_soc_wb. Tiles: see info.yaml. Run of 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>40 of 40 declared files found  Command: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>clean from the declared list alone  Command: iverilog -g2012 -t null -I src -s &lt;top&gt; &lt;declared sources&gt;</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>no $_DLATCH_ cells after techmap  Command: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>8,301 cells including submodules, 4,903 wires. 2,081x $_AND_, 1,957x $_OR_, 1,605x $_MUX_, 689x $_DFFE_PP0P_  Command: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>1,751 flip-flops  Command: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>Stochastic neuron — santhoshs93/tt_um_santhosh_stoch_neuron (third-party)</h2>
+<div class="items">
+<div class="item"><h3>What it is</h3><p>A stochastic-computing neuron. Top: tt_um_santhosh_stoch_neuron. Tiles: see info.yaml. Run of 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>2 of 2 declared files found  Command: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>clean from the declared list alone  Command: iverilog -g2012 -t null -I src -s &lt;top&gt; &lt;declared sources&gt;</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>no $_DLATCH_ cells after techmap  Command: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>1,575 cells including submodules, 810 wires. 445x $_AND_, 439x $_OR_, 249x $_MUX_, 173x $_DFFE_PN0P_  Command: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>208 flip-flops  Command: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>SERDES — Santeep/TT_UM_SERDES (third-party)</h2>
+<div class="items">
+<div class="item"><h3>What it is</h3><p>A serialiser/deserialiser, the smallest of the five. Top: tt_um_serdes. Tiles: see info.yaml. Run of 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>2 of 2 declared files found  Command: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>clean from the declared list alone  Command: iverilog -g2012 -t null -I src -s &lt;top&gt; &lt;declared sources&gt;</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>no $_DLATCH_ cells after techmap  Command: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>244 cells including submodules, 115 wires. 123x $_MUX_, 36x $_DFFE_PN0P_, 29x $_DFFE_PP_, 18x $_DFFE_PN0N_  Command: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>103 flip-flops  Command: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
 </div>
 
 <div class="cta">

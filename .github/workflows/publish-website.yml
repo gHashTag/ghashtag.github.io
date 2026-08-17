@@ -148,6 +148,20 @@ jobs:
           # the OG images and CNAME are not in dist/ and must survive.
           rsync -a .src/apps/website/dist/ ./
 
+          # /cases/ is generated from runs.json, and this copy is a snapshot of
+          # trinity's. A snapshot that is never refreshed goes stale silently and
+          # the page starts disagreeing with the app it sits beside — which is
+          # how it came to claim nothing had finished while ten runs existed.
+          # Refreshed from the sources this publish already checked out.
+          if [ -f .src/apps/website/src/data/runs.json ]; then
+            cp .src/apps/website/src/data/runs.json runs.json
+            python3 build-landing.py >/dev/null
+            say "- refreshed runs.json from trinity and rebuilt the landing pages"
+          else
+            say "- **FAIL** trinity has no apps/website/src/data/runs.json — /cases/ would go stale"
+            exit 1
+          fi
+
           # The static blog is generated from trinity's posts.ts, and until now
           # that generation was a manual step nobody had wired in. So publishing
           # a new post required a human to remember it, and verify-site.sh —

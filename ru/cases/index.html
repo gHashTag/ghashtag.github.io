@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Прогоны верификации на чужом RTL · TRINITY</title>
-<meta name="description" content="Чем обернулся каждый прогон верификации: что проверялось, что вскрыла побитовая сверка и какие числа сняты с живого Artix-7. Пусто, пока не завершится вводный бесплатный прогон." />
+<meta name="description" content="Что показали проверки чужого RTL: 10 прогонов, из них 5 на чужих дизайнах. Под каждой строкой — команда, которой она получена." />
 <link rel="canonical" href="https://t27.ai/ru/cases/" />
 <link rel="alternate" hreflang="en" href="https://t27.ai/cases/" />
 <link rel="alternate" hreflang="ru" href="https://t27.ai/ru/cases/" />
@@ -14,13 +14,13 @@
 <meta property="og:locale" content="ru_RU" />
 <meta property="og:url" content="https://t27.ai/ru/cases/" />
 <meta property="og:title" content="Прогоны верификации на чужом RTL" />
-<meta property="og:description" content="Чем обернулся каждый прогон верификации: что проверялось, что вскрыла побитовая сверка и какие числа сняты с живого Artix-7. Пусто, пока не завершится вводный бесплатный прогон." />
+<meta property="og:description" content="Что показали проверки чужого RTL: 10 прогонов, из них 5 на чужих дизайнах. Под каждой строкой — команда, которой она получена." />
 <meta property="og:image" content="https://t27.ai/og-cases-ru.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Прогоны верификации на чужом RTL" />
-<meta name="twitter:description" content="Чем обернулся каждый прогон верификации: что проверялось, что вскрыла побитовая сверка и какие числа сняты с живого Artix-7. Пусто, пока не завершится вводный бесплатный прогон." />
+<meta name="twitter:description" content="Что показали проверки чужого RTL: 10 прогонов, из них 5 на чужих дизайнах. Под каждой строкой — команда, которой она получена." />
 <link rel="icon" href="/favicon.svg" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Прогоны верификации на чужом RTL","description":"Чем обернулся каждый прогон верификации: что проверялось, что вскрыла побитовая сверка и какие числа сняты с живого Artix-7. Пусто, пока не завершится вводный бесплатный прогон.","url":"https://t27.ai/ru/cases/","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Прогоны верификации на чужом RTL","description":"Что показали проверки чужого RTL: 10 прогонов, из них 5 на чужих дизайнах. Под каждой строкой — команда, которой она получена.","url":"https://t27.ai/ru/cases/","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
 <style>*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
@@ -63,16 +63,101 @@ footer a{color:var(--muted)}
 
 <p class="eyebrow">Кейсы</p>
 <h1>Чем оказались чужие дизайны.</h1>
-<p class="lede">Каждый прогон заканчивается отчётом: что проверено, что вскрылось и какие числа сняты с платы. Они собираются здесь — с разрешения клиента и без правок в мою пользу.</p>
+<p class="lede">Здесь 10 завершённых прогонов, 5 из них на дизайнах других людей. Каждая проверка приведена вместе с командой, чтобы её можно было повторить, и вместе с тем, чего она не устанавливает. Прогоны выполнены 2026-08-11 на: Yosys 0.65 (git sha1 aec814bdf3071f7e0fd0fbe43f7f711e99d01e24) · Icarus Verilog 13.0 (stable, v13_0).</p>
 
-<h2>Пока пусто, и честно</h2>
+<h2>TRI-1 Phi — gHashTag/t27 · chips/phi (свой дизайн)</h2>
 <div class="items">
-<div class="item"><h3>Ничего ещё не завершилось</h3><p>Первые прогоны бесплатны, и пока хотя бы один не закончится, здесь ничего не будет. Выдуманный кейс стоил бы меньше пустой страницы: всё предложение держится на том, что числа измерены.</p></div>
-<div class="item"><h3>Пока читайте образец</h3><p>Полный пример отчёта на моём собственном дизайне, с теми же разделами, что получите вы: побитовое соответствие, достигнутый тайминг, ресурсы, проверка на защёлки и команды, чтобы всё это воспроизвести.</p></div>
+<div class="item"><h3>Что это</h3><p>Одноэлементный тернарный MAC dot4 GF16 с тестом самозапуска по числам Лукаса. Top: tt_um_trinity_nano. Tiles: 1x1. Прогон от 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>В src/ найдены 16 из 16 объявленных файлов (до исправления было 13).  Команда: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>Сборка чистая после объявления трёх отсутствовавших файлов.  Команда: iverilog -g2012 -t null -I src -s tt_um_trinity_nano src/*.v</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>После techmap ячеек $_DLATCH_ нет.  Команда: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>10 534 ячейки вместе с подмодулями, 4 050 соединений: $_MUX_ — 4 663, $_AND_ — 2 252, $_OR_ — 1 660, $_XOR_ — 1 316.  Команда: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>210 триггеров, поэтому вопрос о тактовой частоте имеет смысл.  Команда: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>TRI-1 Euler — gHashTag/t27 · chips/euler (свой дизайн)</h2>
+<div class="items">
+<div class="item"><h3>Что это</h3><p>Движок GF16 из тайлов 8×2. Top: tt_um_ghtag_trinity_gf16. Tiles: 8x2. Прогон от 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>В src/ найдены 34 из 34 объявленных файлов.  Команда: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>Сборка чистая только по объявленному списку.  Команда: iverilog -g2012 -t null -I src -s tt_um_ghtag_trinity_gf16 src/*.v</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>После techmap ячеек $_DLATCH_ нет.  Команда: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>39 991 ячейка вместе с подмодулями, 37 170 соединений: $_MUX_ — 18 083, $_AND_ — 8 073, $_OR_ — 5 823, $_XOR_ — 5 469.  Команда: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>473 триггера.  Команда: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>TRI-1 Gamma — gHashTag/t27 · chips/gamma (свой дизайн)</h2>
+<div class="items">
+<div class="item"><h3>Что это</h3><p>Нейроморфный массив из 32 тайлов в 8 столбцах. Top: tt_um_trinity_max_true. Tiles: 8x4. Прогон от 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>В src/ найдены 44 из 44 объявленных файлов (до исправления было 43).  Команда: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>Сборка чистая после объявления отсутствовавшего файла.  Команда: iverilog -g2012 -t null -I src -s tt_um_trinity_max_true src/*.v</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>После techmap ячеек $_DLATCH_ нет.  Команда: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>205 992 ячейки вместе с подмодулями, 102 588 соединений: $_MUX_ — 90 628, $_AND_ — 45 141, $_OR_ — 32 355, $_XOR_ — 27 239.  Команда: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>1 929 триггеров.  Команда: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>Quantum Brain MINI — gHashTag/trinity-fpga · ttsky26c/mini (свой дизайн)</h2>
+<div class="items">
+<div class="item"><h3>Что это</h3><p>Одноколоночная кора: 4 ячейки GF16, ROM на 75 слов, ISA из 16 опкодов. Top: tt_um_qbrain_mini. Tiles: 1x1. Прогон от 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>Найден 1 из 1 объявленного файла (до 11 августа 2026 года info.yaml не объявлял файлов).  Команда: glob src/*.v</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>Сборка чистая.  Команда: iverilog -g2012 -t null -I src -s tt_um_qbrain_mini src/tt_um_qbrain_mini.v</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>После techmap ячеек $_DLATCH_ нет.  Команда: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>49 ячеек вместе с подмодулями, 57 соединений: $_XOR_ — 28, $_DFFE_PN0P_ — 16, $_DFF_PN0_ — 1.  Команда: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>17 триггеров.  Команда: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>Quantum Brain HOLOGRAPHIC — gHashTag/trinity-fpga · ttsky26c/holo (свой дизайн)</h2>
+<div class="items">
+<div class="item"><h3>Что это</h3><p>Голографический вариант колонки Quantum Brain. Top: tt_um_qbrain_holo. Tiles: 1x2. Прогон от 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>Найден 1 из 1 объявленного файла (до 11 августа 2026 года info.yaml не объявлял файлов).  Команда: glob src/*.v</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>Сборка чистая.  Команда: iverilog -g2012 -t null -I src -s tt_um_qbrain_holo src/tt_um_qbrain_holo.v</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>После techmap ячеек $_DLATCH_ нет.  Команда: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>128 ячеек вместе с подмодулями, 193 соединения: $_DFFE_PN0P_ — 63, $_XOR_ — 42, $_DFF_PN0_ — 3.  Команда: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>66 триггеров.  Команда: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>TinyGPU v2 — pongsagon/tt_um_pongsagon_tinygpu_v2 (чужой дизайн)</h2>
+<div class="items">
+<div class="item"><h3>Что это</h3><p>Чужой GPU, крупнейший из трёх. Top: tt_um_pongsagon_tinygpu_v2. Tiles: see info.yaml. Прогон от 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>Найдены 10 из 10 объявленных файлов.  Команда: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>Сборка чистая только по объявленному списку.  Команда: iverilog -g2012 -t null -I src -s &lt;top&gt; &lt;declared sources&gt;</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>После techmap ячеек $_DLATCH_ нет.  Команда: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>34 223 ячейки вместе с подмодулями, 15 846 соединений: $_AND_ — 11 251, $_OR_ — 9 213, $_MUX_ — 5 942, $_XOR_ — 3 065.  Команда: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>3 383 триггера.  Команда: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>Float synth — NikLeberg/tt_um_float_synth (чужой дизайн)</h2>
+<div class="items">
+<div class="item"><h3>Что это</h3><p>Синтезатор чисел с плавающей точкой — из трёх ближе всего к моей теме. Top: tt_um_float_synth_nikleberg. Tiles: see info.yaml. Прогон от 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>Найдены 2 из 2 объявленных файлов.  Команда: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>Сборка чистая только по объявленному списку.  Команда: iverilog -g2012 -t null -I src -s &lt;top&gt; &lt;declared sources&gt;</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>После techmap ячеек $_DLATCH_ нет.  Команда: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>900 ячеек вместе с подмодулями, 904 соединения: $_NOT_ — 210, $_OR_ — 197, $_AND_ — 180, $_DFF_P_ — 180.  Команда: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>183 триггера.  Команда: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>SERV RISC-V SoC on Wishbone — divadnauj-GB/tt_um_divadnauj-GB_serv_soc_wb (чужой дизайн)</h2>
+<div class="items">
+<div class="item"><h3>Что это</h3><p>Разрядно-последовательное ядро RISC-V с SoC на Wishbone, 40 объявленных файлов. Top: tt_um_divadnauj_GB_serv_soc_wb. Tiles: see info.yaml. Прогон от 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>Найдены 40 из 40 объявленных файлов.  Команда: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>Сборка чистая только по объявленному списку.  Команда: iverilog -g2012 -t null -I src -s &lt;top&gt; &lt;declared sources&gt;</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>После techmap ячеек $_DLATCH_ нет.  Команда: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>8 301 ячейка вместе с подмодулями, 4 903 соединения: $_AND_ — 2 081, $_OR_ — 1 957, $_MUX_ — 1 605, $_DFFE_PP0P_ — 689.  Команда: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>1 751 триггер.  Команда: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>Stochastic neuron — santhoshs93/tt_um_santhosh_stoch_neuron (чужой дизайн)</h2>
+<div class="items">
+<div class="item"><h3>Что это</h3><p>Нейрон на стохастических вычислениях. Top: tt_um_santhosh_stoch_neuron. Tiles: see info.yaml. Прогон от 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>Найдены 2 из 2 объявленных файлов.  Команда: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>Сборка чистая только по объявленному списку.  Команда: iverilog -g2012 -t null -I src -s &lt;top&gt; &lt;declared sources&gt;</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>После techmap ячеек $_DLATCH_ нет.  Команда: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>1 575 ячеек вместе с подмодулями, 810 соединений: $_AND_ — 445, $_OR_ — 439, $_MUX_ — 249, $_DFFE_PN0P_ — 173.  Команда: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>208 триггеров.  Команда: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
+</div>
+<h2>SERDES — Santeep/TT_UM_SERDES (чужой дизайн)</h2>
+<div class="items">
+<div class="item"><h3>Что это</h3><p>Последовательный преобразователь SERDES, самый компактный из пяти. Top: tt_um_serdes. Tiles: see info.yaml. Прогон от 2026-08-11.</p></div>
+<div class="item"><h3>PASS · sources resolve</h3><p>Найдены 2 из 2 объявленных файлов.  Команда: info.yaml source_files -&gt; src/</p></div>
+<div class="item"><h3>PASS · elaborates</h3><p>Сборка чистая только по объявленному списку.  Команда: iverilog -g2012 -t null -I src -s &lt;top&gt; &lt;declared sources&gt;</p></div>
+<div class="item"><h3>PASS · no inferred latches</h3><p>После techmap ячеек $_DLATCH_ нет.  Команда: yosys: select -assert-none t:$_DLATCH_* t:$_DLATCHSR_*</p></div>
+<div class="item"><h3>PASS · synthesises</h3><p>244 ячейки вместе с подмодулями, 115 соединений: $_MUX_ — 123, $_DFFE_PN0P_ — 36, $_DFFE_PP_ — 29, $_DFFE_PN0N_ — 18.  Команда: yosys: read; hierarchy -top; proc; opt; fsm; memory; techmap; flatten; stat</p></div>
+<div class="item"><h3>PASS · has clocked logic</h3><p>103 триггера.  Команда: yosys stat: sum of $_DFF*/$_SDFF*/$_ADFF* cells in the flattened netlist</p></div>
 </div>
 
 <div class="cta">
-  <p>Нужен прогон? Вводные прогоны бесплатны, и отчёт ваш — публикуйте или оставьте себе.</p>
+  <p>Нужен прогон? Первый бесплатен, отчёт ваш — публикуйте или оставьте себе.</p>
   <div class="btns">
     <a class="btn" href="https://github.com/gHashTag/trinity/issues/new?template=verification-request.yml">Запустить проверку своего репозитория</a>
     <a class="btn sec" href="mailto:admin@t27.ai?subject=Прогоны верификации на чужом RTL">admin@t27.ai</a>
