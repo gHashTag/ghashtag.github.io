@@ -493,7 +493,14 @@ def _provenance_line(lang="en"):
     # measured with. Both facts are true and the difference is real — about 9%
     # on cell count, with wires and flip-flops stable — so it is stated rather
     # than left for a reader to discover by re-running and disagreeing.
-    pinned = "Yosys 0.68+71 (oss-cad-suite 2026-08-12)"
+    # Was a hard-coded "Yosys 0.68+71", written after observing the pinned
+    # workflow once. Two runs of that same pin then reported 0.68+71 and
+    # 0.68+80 — so `osscadsuite-version: '2026-08-12'` fixes the suite release
+    # and NOT the yosys build inside it. Stating a single build number here
+    # claimed a reproducibility the pin does not deliver, on the page that
+    # promises exactly that. What is true is the weaker sentence.
+    pinned = ("a pinned oss-cad-suite release (2026-08-12), whose yosys build has "
+              "been observed to vary — 0.68+71 and 0.68+80 on two runs of the same pin")
     if lang == "ru":
         return (f" Прогоны выполнены {pv.get('ranAt','')} на: {bits}."
                 f" Предлагаемый воркфлоу закреплён на другой версии — {pinned};"
