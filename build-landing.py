@@ -33,6 +33,24 @@ SITE = "https://t27.ai"
 # found. Pages where a run is the next step get the button.
 REQUEST_URL = "https://github.com/gHashTag/trinity/issues/new?template=verification-request.yml"
 RUNNABLE = {"verification", "cases"}
+# Denylists rather than allowlists, so adding a page cannot silently change the
+# buttons on the eight that were already published.
+#
+# NO_SAMPLE — the sample report is a verification artefact; offering it under a
+# video editor is a non sequitur.
+# NO_APP_LINK — "Open the interactive site" points at /#/<slug>, which only
+# resolves if the SPA in gHashTag/trinity actually routes that slug. It does
+# not route agents/vibee, so the button would land on the SPA's fallback.
+NO_SAMPLE = {"agents/vibee"}
+NO_APP_LINK = {"agents/vibee"}
+# An external product this page is about, rendered as the primary button.
+EXTERNAL = {
+    "agents/vibee": (
+        "https://vibee-editor-production.up.railway.app/",
+        "Open VIBEE",
+        "Открыть VIBEE",
+    ),
+}
 EMAIL = "admin@t27.ai"
 SAMPLE = "https://github.com/gHashTag/trinity/blob/main/docs/verification/SAMPLE-REPORT.md"
 
@@ -318,6 +336,67 @@ PAGES = {
         "sections": [],
         "cta": "Need a run? Introductory runs are free and the report is yours to publish or keep.",
     },
+    # Two-level slug. The writer does os.makedirs(slug) then writes
+    # <slug>/index.html, so this lands at agents/vibee/index.html and
+    # ru/agents/vibee/index.html without any change to the generator.
+    "agents/vibee": {
+        "title": "VIBEE — an AI video editor that runs inside Telegram",
+        "eyebrow": "Agents",
+        "h1": "A video editor that opens inside Telegram.",
+        "desc": (
+            "VIBEE is a Remotion-based video editor that runs as a Telegram Mini App: nine sections "
+            "for the feed, the editor and generation of avatar, video, image and voice — no install, "
+            "opened from the bot."
+        ),
+        "lede": (
+            "It is a React and Remotion editor served as a static bundle, launched from a Telegram "
+            "bot and laid out for a phone. The Telegram runtime is wired properly rather than "
+            "approximated: the viewport and safe-area insets come from the client, the native back "
+            "button drives the router, and the same build still works as an ordinary web page."
+        ),
+        "sections": [
+            [
+                "What it is",
+                [
+                    [
+                        "Nine sections in one bar",
+                        "Feed, search, learn, editor, and generation of avatar, video, image and voice, "
+                        "plus a profile. The strip scrolls horizontally, because nine tabs do not fit "
+                        "across a 375 px phone without crushing the labels.",
+                    ],
+                    [
+                        "Opens on the feed",
+                        "Telegram can only launch the single URL configured in BotFather, always at the "
+                        "root. The root opens the feed rather than a landing page, so the app starts "
+                        "somewhere usable.",
+                    ],
+                    [
+                        "A Mini App, not a web page in a frame",
+                        "Viewport height and safe-area insets are read from the Telegram client and "
+                        "published as CSS properties; the native back button drives router history; "
+                        "vertical swipes are locked so a drag on the feed does not dismiss the app.",
+                    ],
+                ],
+            ],
+            [
+                "Honest limits",
+                [
+                    [
+                        "Rendering is not currently available",
+                        "The editor's render backend ran on external services that are no longer "
+                        "reachable, so export does not complete. The interface, the timeline and the "
+                        "preview work; the final render does not.",
+                    ],
+                    [
+                        "Generation history is not yet shared with the bot",
+                        "Assets created by the bot and assets in the editor are still two separate "
+                        "stores. They are not synchronised yet.",
+                    ],
+                ],
+            ],
+        ],
+        "cta": "Open it from the bot's main menu, or try the web build directly.",
+    },
 }
 
 NAV = [
@@ -329,6 +408,7 @@ NAV = [
     ("cases", "Case studies"),
     ("resources", "Resources"),
     ("about", "About"),
+    ("agents/vibee", "VIBEE"),
 ]
 
 CSS = """*,*::before,*::after{box-sizing:border-box}
@@ -372,6 +452,7 @@ RU_NAV = {
     "gft": "GF-T", "verification": "Верификация", "proof": "Доказательства",
     "ip": "Лицензии", "course": "Курс", "cases": "Кейсы",
     "resources": "Реестр", "about": "Обо мне",
+    "agents/vibee": "VIBEE",
 }
 RU_UI = {
     "run": "Запустить проверку своего репозитория",
@@ -598,6 +679,10 @@ def render(slug, p, lang="en"):
         f'<a class="btn" href="{REQUEST_URL}">{RU_UI["run"] if ru else "Start a run on your repo"}</a>\n    '
         if slug in RUNNABLE else ""
     )
+    ext_btn = ""
+    if slug in EXTERNAL:
+        href, label_en, label_ru = EXTERNAL[slug]
+        ext_btn = f'<a class="btn" href="{href}">{label_ru if ru else label_en}</a>\n    '
     nav = "".join(
         f'<a href="{prefix}/{s}/"{" aria-current=\"page\"" if s == slug else ""}>'
         f'{html.escape(RU_NAV.get(s, label) if ru else label)}</a>'
@@ -621,7 +706,10 @@ def render(slug, p, lang="en"):
         f'\n<link rel="alternate" hreflang="ru" href="{SITE}/ru/{slug}/" />'
         f'\n<link rel="alternate" hreflang="x-default" href="{SITE}/{slug}/" />'
     )
-    og = f"og-{slug}-ru.png" if ru else f"og-{slug}.png"
+    # A two-level slug would put a slash in the filename (og-agents/vibee.png),
+    # naming a file inside a directory that does not exist.
+    og_slug = slug.replace("/", "-")
+    og = f"og-{og_slug}-ru.png" if ru else f"og-{og_slug}.png"
     return f"""<!doctype html>
 <html lang="{'ru' if ru else 'en'}">
 <head>
@@ -660,9 +748,9 @@ def render(slug, p, lang="en"):
 <div class="cta">
   <p>{html.escape(p['cta'])}</p>
   <div class="btns">
-    {run_btn}<a class="btn sec" href="mailto:{EMAIL}?subject={html.escape(p['title'])}">{EMAIL}</a>
-    <a class="btn sec" href="{SAMPLE}">{RU_UI["sample"] if ru else "Read a sample report"}</a>
-    <a class="btn sec" href="{'/?lang=ru#/' if ru else '/#/'}{slug}">{RU_UI["app"] if ru else "Open the interactive site"}</a>
+    {ext_btn}{run_btn}<a class="btn sec" href="mailto:{EMAIL}?subject={html.escape(p['title'])}">{EMAIL}</a>
+    {"" if slug in NO_SAMPLE else f'<a class="btn sec" href="{SAMPLE}">{RU_UI["sample"] if ru else "Read a sample report"}</a>'}
+    {"" if slug in NO_APP_LINK else f'<a class="btn sec" href="{"/?lang=ru#/" if ru else "/#/"}{slug}">{RU_UI["app"] if ru else "Open the interactive site"}</a>'}
     <a class="btn sec" href="{('/' + slug + '/') if ru else ('/ru/' + slug + '/')}" hreflang="{'en' if ru else 'ru'}" lang="{'en' if ru else 'ru'}">{RU_UI["other"] if ru else "Читать по-русски"}</a>
   </div>
 </div>

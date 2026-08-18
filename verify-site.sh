@@ -17,7 +17,7 @@ set -uo pipefail
 cd "$(dirname "$0")"
 
 SITE="https://t27.ai"
-PAGES="gft verification proof ip course cases about"
+PAGES="gft verification proof ip course cases about agents/vibee"
 fails=0
 
 red()  { printf '  \033[31m✗\033[0m %s\n' "$1"; fails=$((fails + 1)); }
@@ -154,8 +154,12 @@ for p in $PAGES; do
   for g in "$p/index.html" "$rf"; do
     grep -q 'application/ld+json' "$g" || red "$g carries no JSON-LD"
   done
-  [ -f "og-$p-ru.png" ] && green "ru/$p/ og:image og-$p-ru.png is on disk" \
-    || red "ru/$p/ og:image og-$p-ru.png is missing"
+  # Mirror build-landing.py: a two-level slug must not put a slash in the
+  # filename, or this looks for og-agents/vibee-ru.png — a file inside a
+  # directory that does not exist.
+  ogp="${p//\//-}"
+  [ -f "og-$ogp-ru.png" ] && green "ru/$p/ og:image og-$ogp-ru.png is on disk" \
+    || red "ru/$p/ og:image og-$ogp-ru.png is missing"
   grep -q "<loc>$SITE/ru/$p/</loc>" sitemap.xml 2>/dev/null \
     || red "sitemap.xml does not list /ru/$p/"
 done
