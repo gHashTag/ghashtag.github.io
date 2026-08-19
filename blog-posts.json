@@ -552,7 +552,7 @@
     },
     {
      "kind": "p",
-     "text": "С последней строкой было хуже, чем просто пробел, когда страница вышла впервые: один документ сообщал, что движки прошиты в плату, другой в том же каталоге -- что загружаемый битстрим не доказан. Верным одновременно это быть не могло. Утверждение исправлено в самом источнике: теперь оно читается как результат моделирования и называет четыре артефакта, которые закроют вопрос, -- файл ограничений с заполненными выводами, лог трассировки с именем верхнего модуля, полученный из него битстрим и транскрипт прошивки с чтением кода кристалла. Приведённые числа вопрос решить и не могли: это те же эталонные векторы, что лежат в стендах моделирования."
+     "text": "С последней строкой было хуже, чем просто пробел, когда страница вышла впервые: один документ сообщал, что движки прошиты в плату, другой в том же каталоге -- что загружаемый битстрим не доказан. Верным одновременно это быть не могло. Исправление написано и открыто публично: запрос на слияние tri-net 382 переводит утверждение в разряд результатов моделирования и называет четыре артефакта, которые закроют вопрос, -- файл ограничений с заполненными выводами, лог трассировки с именем верхнего модуля, полученный из него битстрим и транскрипт прошивки с чтением кода кристалла. Приведённые числа вопрос решить и не могли: это те же эталонные векторы, что лежат в стендах моделирования."
     },
     {
      "kind": "p",
@@ -1006,7 +1006,7 @@
    },
    {
     "kind": "p",
-    "text": "That last row was worse than a gap when this page first went up: one document claimed the engines had been flashed to a board, another in the same directory said a loadable bitstream was not proven. Both could not be true. The claim has since been corrected at the source -- it now reads as simulation, and names the four artefacts that would close it: a pin-complete constraint file, a routing log naming the top, the bitstream that log produced, and a programming transcript with the part identifier read back. The quoted vectors could never have settled it, because they are the same golden vectors the simulation benches carry."
+    "text": "That last row was worse than a gap when this page first went up: one document claimed the engines had been flashed to a board, another in the same directory said a loadable bitstream was not proven. Both could not be true. The correction is written and public as tri-net pull request 382 -- it makes the claim read as simulation and names the four artefacts that would close it: a pin-complete constraint file, a routing log naming the top, the bitstream that log produced, and a programming transcript with the part identifier read back. The quoted vectors could never have settled it, because they are the same golden vectors the simulation benches carry."
    },
    {
     "kind": "p",
