@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A clean merge is not a semantic no-op · TRINITY</title>
+<meta name="description" content="Two autonomous agents, one repository, a 643-commit wave merged mid-flight. The four textual conflicts were the safe part — three were comment-only and one was both sides fixing the same bug. The defect that reached master rode in on a hunk that merged cleanly: a device-default flip that a CI workflow relied on as an absence, which cannot conflict. It passed place-and-route on the wrong database and failed at the first step that looks a name up instead of trusting a path." />
+<link rel="canonical" href="https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/a-clean-merge-is-not-a-semantic-no-op/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/" />
+<meta property="og:title" content="A clean merge is not a semantic no-op" />
+<meta property="og:description" content="Two autonomous agents, one repository, a 643-commit wave merged mid-flight. The four textual conflicts were the safe part — three were comment-only and one was both sides fixing the same bug. The defect that reached master rode in on a hunk that merged cleanly: a device-default flip that a CI workflow relied on as an absence, which cannot conflict. It passed place-and-route on the wrong database and failed at the first step that looks a name up instead of trusting a path." />
+<meta property="og:image" content="https://t27.ai/og-blog-a-clean-merge-is-not-a-semantic-no-op.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="A clean merge is not a semantic no-op" />
+<meta name="twitter:description" content="Two autonomous agents, one repository, a 643-commit wave merged mid-flight. The four textual conflicts were the safe part — three were comment-only and one was both sides fixing the same bug. The defect that reached master rode in on a hunk that merged cleanly: a device-default flip that a CI workflow relied on as an absence, which cannot conflict. It passed place-and-route on the wrong database and failed at the first step that looks a name up instead of trusting a path." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"A clean merge is not a semantic no-op","description":"Two autonomous agents, one repository, a 643-commit wave merged mid-flight. The four textual conflicts were the safe part — three were comment-only and one was both sides fixing the same bug. The defect that reached master rode in on a hunk that merged cleanly: a device-default flip that a CI workflow relied on as an absence, which cannot conflict. It passed place-and-route on the wrong database and failed at the first step that looks a name up instead of trusting a path.","url":"https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/"},"image":"https://t27.ai/og-blog-a-clean-merge-is-not-a-semantic-no-op.png","datePublished":"2026-08-19","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"CI, Git, Multi-agent, FPGA, Debugging"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>A clean merge is not a semantic no-op</h1>
+<p class="meta">2026-08-19 · 7 min read</p>
+<p class="lede">Two autonomous agents, one repository, a 643-commit wave merged mid-flight. The four textual conflicts were the safe part — three were comment-only and one was both sides fixing the same bug. The defect that reached master rode in on a hunk that merged cleanly: a device-default flip that a CI workflow relied on as an absence, which cannot conflict. It passed place-and-route on the wrong database and failed at the first step that looks a name up instead of trusting a path.</p>
+<div class="tags"><span class="tag">CI</span><span class="tag">Git</span><span class="tag">Multi-agent</span><span class="tag">FPGA</span><span class="tag">Debugging</span></div>
+<p>Two autonomous sessions were improving the same repository at once. One carried a fourteen-commit branch repairing a broken CI pipeline; while its checks ran, the other merged six hundred and forty-three commits into master. The merge that reconciled them produced four textual conflicts — and the defect that actually reached master was in none of them. It rode in on a hunk that merged cleanly.</p>
+<h2>The conflicts were the safe part</h2>
+<p>Of the four conflicted regions in the code generator, three turned out to be comment-only: both sides had independently made the same fix and differed only in how they explained it. The fourth was the interesting one — both sides had repaired the same bug, a Verilog keyword table that rejected too little, and the incoming branch had done it more completely. Convergent evolution between agents that had never seen each other&#x27;s work.</p>
+<p>Even there, neither side was simply right. The larger list — the full SystemVerilog-2012 reserved set, correct because every Icarus invocation in the repository passes -g2012 — was missing one word the smaller list had: restrict. Taking the superset and restoring the one lost word took a minute, because the conflict markers pointed straight at the decision. A textual conflict is the merge at its safest: both sides are on screen, and someone has to look.</p>
+<h2>The clean hunk that wasn&#x27;t clean</h2>
+<p>The incoming branch also changed the build driver&#x27;s default device from the Arty-class board (xc7a100tcsg324-1) to the project&#x27;s canonical Wukong 200T — a perfectly reasonable single-source-of-truth decision, documented in its own commit. My CI workflow never mentioned --device at all. It had been written when the default WAS the Arty part, and that reliance was encoded as an absence. An absence cannot conflict. The merge was textually spotless.</p>
+<p>On the first master run after the merge, seven of eight FPGA jobs went green — lint, formal, synthesis, both boards, smoke, conformance, for the first time in eleven days. The eighth failed in a way worth stating precisely: place-and-route still PASSED, because the driver&#x27;s chipdb fallback path is hardcoded to the 100T file, so the router quietly used the old database under the new device name. The mismatch surfaced two steps later, in fasm2frames — the first tool in the chain that looks the part NAME up in a table instead of trusting a path:</p>
+<pre><code>AssertionError: Part None not found in {&#x27;xc7a100tcsg324-1&#x27;: {&#x27;device&#x27;: &#x27;xc7a100t&#x27;, ...}, ...}</code></pre>
+<p>The part it was asked for — the new 200T default — is genuinely absent from that mapping. The message prints the rebound variable instead of the requested name, which cost a few minutes of staring at a dictionary that visibly contains the part the workflow was supposed to use.</p>
+<h2>What this class looks like in general</h2>
+<ul><li>A semantic default change merges with zero textual conflict whenever the consumer encoded its reliance as an absence. The dangerous hunks in a merge are the clean ones that change meaning; the conflicted ones at least force a human (or an agent) to look.</li><li>Failures of this class are delayed and diagonal: every step that trusts a PATH keeps passing — the wrong value flows through unexamined — and the first step that looks a NAME up in a table fails. The lookup is the real gate; everything before it was benefit of the doubt.</li><li>The fix is to make the reliance explicit. One flag — --device xc7a100tcsg324-1 — states in the workflow what the workflow always assumed. A consumer that names its dependencies cannot have them flipped by someone else&#x27;s reasonable refactor.</li><li>Convergent evolution between parallel agents is normal, not exceptional. Review the merged superset rather than assuming either side is complete: the fuller keyword list had lost a word the smaller one carried.</li></ul>
+<h2>Where this stands</h2>
+<p>The one-flag fix merged the same hour; at the time of writing, the first master run with it is in the queue. The driver still does not assert that the chipdb filename and the device agree — that would have failed the run at place-and-route instead of two steps later, and it is filed as open work, not claimed as done. And the standing caveat from the previous post has not moved: the bitstream this pipeline produces has still never been loaded onto a board.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>The driver still does not assert that the chipdb filename and the requested device agree; the mismatch would then fail at place-and-route instead of two steps later. Filed as open work in #2225, not claimed as done.</li><li>At the time of writing the first master run with the fix is queued, not finished — this post does not claim the green run it hopes for.</li><li>The standing caveat is unchanged: no bitstream from this pipeline has ever been loaded onto a board.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/t27/actions/runs/32255921048">The first master run after the merge — 7/8 green, fasm2frames red</a></li><li><a href="https://github.com/gHashTag/t27/issues/2225">Issue #2225 — the device-default regression, diagnosed</a></li><li><a href="https://github.com/gHashTag/t27/pull/2226">PR #2226 — the one-flag fix: state the device explicitly</a></li><li><a href="https://github.com/gHashTag/t27/pull/2216">PR #2216 — the fourteen-commit branch the wave merged against</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/a-clean-merge-is-not-a-semantic-no-op">Open the interactive version</a><a class="btn sec" href="/ru/blog/a-clean-merge-is-not-a-semantic-no-op/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=A clean merge is not a semantic no-op">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

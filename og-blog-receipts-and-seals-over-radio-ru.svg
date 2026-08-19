@@ -94,9 +94,9 @@
   <rect x="0" y="0" width="1200" height="4" fill="#00ff88"/>
   <rect x="80" y="106" width="12" height="12" fill="#00ff88"/>
   <text x="108" y="120" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="21" letter-spacing="6" fill="#00ff88">T27.AI · БЛОГ</text>
-  <text x="80" y="254" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="96" font-weight="900" fill="#ffffff">Квитанции и печати</text>
-  <text x="80" y="360" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="96" font-weight="900" fill="#ffffff">покрытия через</text>
-  <text x="80" y="466" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="96" font-weight="900" fill="#ffffff">радиосеть</text>
+  <text x="80" y="254" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="96" font-weight="900" fill="#ffffff">Квитанции и</text>
+  <text x="80" y="360" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="96" font-weight="900" fill="#ffffff">печати покрытия</text>
+  <text x="80" y="466" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="96" font-weight="900" fill="#ffffff">через радиосеть</text>
   <line x1="80" y1="524" x2="1120" y2="524" stroke="#18292b" stroke-width="2"/>
   <text x="80" y="574" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="23" fill="#93aaa2">21 мин чтения  ·  6 пруфов со ссылкой  ·  6 открытых вопросов</text>
   <text x="1120" y="574" text-anchor="end" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="21"  fill="#6f8580">Dmitrii Vasilev · t27.ai</text>
