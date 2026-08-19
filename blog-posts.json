@@ -4,7 +4,7 @@
   "title": "Receipts and coverage seals over a radio mesh",
   "summary": "Bytes crossed two radio hops between four boards and arrived byte-exact, with one coverage seal recomputed independently at three points and agreeing at all three. What that proves, what it does not, what the thing is built on, and where the commercial radios are plainly ahead.",
   "date": "2026-08-19",
-  "readingMinutes": 17,
+  "readingMinutes": 21,
   "tags": [
    "Mesh",
    "DePIN",
@@ -62,6 +62,67 @@
     {
      "kind": "p",
      "text": "Четыре одноплатных радиоузла на столе, одна подсеть, 2,4 ГГц. Байты ушли с первой платы, прошли два радиопрыжка и пришли на четвёртую без единой ошибки. В трёх точках этого пути печать покрытия пересчитывалась независимо, и все три сошлись: 0x9DBE2510. Это весь результат, и дальше речь о том, чего он стоит."
+    },
+    {
+     "kind": "h",
+     "text": "Что здесь на троичной логике и как далеко это дошло"
+    },
+    {
+     "kind": "p",
+     "text": "Троичность здесь -- это одна конкретная схема, и назвать её стоит раньше всего остального: двухбитный код веса, где 01 выбирает +x, 10 выбирает -x, а всё прочее -- ноль. Умножение превращается в смену знака, умножитель исчезает, дальше работает обычное дерево сумматоров. На этом единственном примитиве держатся согласованный фильтр на 8 отводов, 63-отводный приёмник ПСП, систолическая плитка и небольшой классификатор, все веса которого равны -1, 0 или +1."
+    },
+    {
+     "kind": "p",
+     "text": "Это же слово в том же репозитории носит и вторая, никак не связанная вещь. У формата GF-T экспонента «уравновешенно-троичная» лишь в том смысле, что её пространство кодов содержит 3^Et значений, отцентрованных смещением. В железе пересчёт экспоненты -- это a_off + b_off + carry - BIAS, обычное двоичное сложение. Ни один трит нигде не материализуется. Троичными называются обе вещи, а троичной схемой является только первая."
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Узел",
+      "Что в нём троичного",
+      "Наивысший достигнутый статус",
+      "Чем подтверждено"
+     ],
+     "rows": [
+      [
+       "Согласованный фильтр на 8 отводов",
+       "Отводы со знаковым выбором; код синхронизации использует все три символа, два отвода из восьми нулевые",
+       "Работал в матрице Zynq XC7Z020 на реальном записанном эфире: 256 из 256 бит в бит",
+       "results/cstream2.log, ветвь feat/own-rtl-in-radio-path"
+      ],
+      [
+       "63-отводный приёмник ПСП",
+       "63 отвода со знаковым выбором в уравновешенном дереве сумматоров, ни одного блока DSP48E1 по построению",
+       "Работал в матрице: 256 из 256 бит в бит, с отрицательными контролями и двумя неисправностями, внесёнными в сам битстрим и упавшими ровно как предсказано",
+       "results/pn63_success.log, negative_controls.log, bitstream_mutants.log, та же ветвь"
+      ],
+      [
+       "Систолическая плитка и классификатор",
+       "Тот же примитив; в файле весов классификатора ровно три кода и ничего сверх",
+       "Синтезировано: 527 таблиц, 45 цепочек переноса, 165 триггеров и ни одной ячейки DSP48E1",
+       "yosys synth_xilinx на tern_corr8_stream, перезапущено, а не переписано"
+      ],
+      [
+       "Арифметика GF-T в RTL",
+       "Пространство кодов экспоненты в 3^Et значений; само сложение двоичное",
+       "Промоделировано и синтезировано: 16-битное умножение -- 1 DSP48E1, 47 таблиц, 18 цепочек переноса",
+       "fpga/gft/SYNTH_RESULTS.md, воспроизведено"
+      ],
+      [
+       "GF-T на кремнии",
+       "Тот же формат, исполняемый на Artix-7",
+       "Не доказано. Заявлено подробно, но ни лога размещения, ни битстрима, ни захвата UART нет ни в одной ветви",
+       "docs/VERIFIABLE_COMPUTE.md утверждает; fpga/gft/SYNTH_RESULTS.md пишет, что трассировка и загружаемый битстрим не доказаны"
+      ]
+     ]
+    },
+    {
+     "kind": "p",
+     "text": "Последняя строка -- та, за которую нас и следует держать, поэтому скажем прямо: репозиторий противоречит сам себе. Один документ сообщает, что шесть движков GF-T были размещены, трассированы и прошиты в плату Artix-7 и ответили по последовательному порту; другой, в том же каталоге, пишет, что загружаемый битстрим не доказан и заявления о работе на кремнии не делается. Три независимых прохода искали артефакт -- лог трассировки, битстрим, захват порта -- и все три вернулись ни с чем. Приведённые числа вопрос тоже не решают: это те же эталонные векторы, что лежат в коммитнутых стендах моделирования, и два из пяти воспроизводятся в симуляторе на ноутбуке, при полном отсутствии платы в комнате."
+    },
+    {
+     "kind": "p",
+     "text": "Проверено вживую по ходу написания, на плате, подключённой по USB: цепочка JTAG отдаёт код кристалла 0x23727093 -- это тот самый XC7Z020, о котором говорит страница, значит кремний соответствует заявленному. А вот якорь в матрице читается как 0x3FF8 там, где наша схема ответила бы 0x47C0: сейчас загружен вендорский образ, не наш. Троичный приёмник работал в этой матрице в августе, на ветви, которая до main не дошла; сегодня он там не работает."
     },
     {
      "kind": "h",
@@ -416,7 +477,7 @@
       "Наибольшая когда-либо работавшая сеть -- четыре узла на одном столе, в одной подсети.",
       "За исключением одного прогона в режиме FDD, прыжки разнесены во времени по схеме накопить-и-передать, а не идут одновременно.",
       "Печать покрытия -- 32-битная контрольная сумма на ключе. В самой спецификации сказано, что для настоящих расчётов её следовало бы ещё и подписывать.",
-      "Ни один битстрим этого проекта никогда не загружался в матрицу узла. Модем, пронёсший каждый байт, работал программно на ядре ARM.",
+      "Модем, пронёсший каждый байт, работал программно на ядре ARM, а не в матрице. Наш троичный приёмник в матрице узла работал -- в августе, 256 из 256 бит в бит, -- но эти журналы лежат на ветви, не дошедшей до main, а на проверенной сегодня плате загружен вендорский образ, не наш.",
       "Никакой расчётный контракт нигде не развёрнут.",
       "Слой маршрутизации с метрикой ETX проверен на хосте; демон, работающий на узлах, использует UDP поверх Ethernet вместо радиоканала."
      ]
@@ -449,6 +510,67 @@
    {
     "kind": "p",
     "text": "Four single-board radios on a desk, one subnet, 2.4 GHz. Bytes left the first board, crossed two radio hops, and arrived byte-exact at the fourth. At three separate points along that path a coverage seal was recomputed independently, and all three agreed: 0x9DBE2510. That is the whole result, and the rest of this page is about what it is worth."
+   },
+   {
+    "kind": "h",
+    "text": "What here is ternary, and how far each part got"
+   },
+   {
+    "kind": "p",
+    "text": "Ternary here is one specific circuit, and it deserves naming before anything else: a two-bit weight code where 01 selects +x, 10 selects -x and everything else selects 0. Every multiply becomes a sign flip, the multiplier disappears, and a plain adder tree does the rest. That single primitive carries the 8-tap matched filter, the 63-tap PN despreader, a systolic tile, and a small classifier whose weights are all -1, 0 or +1."
+   },
+   {
+    "kind": "p",
+    "text": "A second, unrelated thing in the same repository also wears the word. GF-T, the number format, has an exponent that is balanced-ternary only in the sense that its code space holds 3^Et values centred on a bias. In hardware the exponent update is a_off + b_off + carry - BIAS: an ordinary binary add. No trit is ever materialised. Both are called ternary and only the first is a ternary circuit."
+   },
+   {
+    "kind": "table",
+    "head": [
+     "Block",
+     "What is ternary about it",
+     "Highest status actually reached",
+     "What proves it"
+    ],
+    "rows": [
+     [
+      "8-tap matched filter",
+      "Sign-select taps; the sync code uses all three symbols, two of eight taps are 0",
+      "Ran in the fabric of a Zynq XC7Z020 on real captured air: 256 of 256 bit-exact",
+      "results/cstream2.log, on branch feat/own-rtl-in-radio-path"
+     ],
+     [
+      "63-tap PN despreader",
+      "63 sign-select taps summed in a balanced adder tree, zero DSP48E1 by construction",
+      "Ran in the fabric: 256 of 256 bit-exact, with negative controls and two faults injected into the bitstream itself failing as predicted",
+      "results/pn63_success.log, negative_controls.log, bitstream_mutants.log, same branch"
+     ],
+     [
+      "Systolic tile and classifier",
+      "Same primitive; the classifier's weight file uses exactly three codes and nothing else",
+      "Synthesised: 527 LUT, 45 CARRY4, 165 flip-flops and no DSP48E1 cell at all",
+      "yosys synth_xilinx on tern_corr8_stream, re-run rather than quoted"
+     ],
+     [
+      "GF-T arithmetic in RTL",
+      "Exponent code space of 3^Et values; the add itself is binary",
+      "Simulated and synthesised: a 16-bit multiply is 1 DSP48E1, 47 LUT, 18 CARRY4",
+      "fpga/gft/SYNTH_RESULTS.md, reproduced"
+     ],
+     [
+      "GF-T on silicon",
+      "Would be the same format, executing on an Artix-7",
+      "Not proven. Claimed in detail, but no place-and-route log, no bitstream, no UART capture exists in any branch",
+      "docs/VERIFIABLE_COMPUTE.md asserts it; fpga/gft/SYNTH_RESULTS.md says place-and-route and a loadable bitstream are not proven"
+     ]
+    ]
+   },
+   {
+    "kind": "p",
+    "text": "That last row is the one to hold us to, so state it plainly: the repository contradicts itself. One document says six GF-T engines were placed, routed and flashed to an Artix-7 board and answered over a serial line; another, in the same directory, says a loadable bitstream is not proven and makes no claim of on-silicon execution. Three independent audit passes went looking for the artefact -- a routing log, a bitstream, a serial capture -- and all three came back with nothing. The quoted values do not settle it either, because they are the same golden vectors the committed simulation benches carry; two of the five reproduce in a simulator on a laptop with no board in the room."
+   },
+   {
+    "kind": "p",
+    "text": "Checked live while writing this, on a board plugged in over USB: the JTAG chain reads back a part identifier of 0x23727093, which is the XC7Z020 the page claims, so the silicon is what it says it is. The fabric anchor, however, reads 0x3FF8 where our design would answer 0x47C0 -- the vendor image is loaded right now, not ours. The ternary despreader ran in that fabric in August, on a branch that has not reached main; it is not running there today."
    },
    {
     "kind": "h",
@@ -803,7 +925,7 @@
      "The largest network ever run is four nodes on one desk, on one subnet.",
      "Except for a single FDD run, the hops are time-separated store-and-forward, not concurrent traffic.",
      "The coverage seal is a 32-bit keyed checksum. The specification itself says a production settlement would additionally sign it.",
-     "No bitstream of this project has ever been configured into a node's fabric. The modem that carried every byte ran in software on the ARM core.",
+     "The modem that carried every byte ran in software on the ARM core, not in the fabric. A ternary despreader of ours did run in a node's fabric in August -- 256 of 256 bit-exact -- but those logs sit on a branch that has not reached main, and the board checked today carries the vendor image, not ours.",
      "No settlement contract is deployed anywhere.",
      "The routing layer with the ETX metric is host-tested; the daemon that runs on the nodes uses UDP over Ethernet as a stand-in for the radio link."
     ]
