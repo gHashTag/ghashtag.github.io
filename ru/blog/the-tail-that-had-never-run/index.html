@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Хвост, который никогда не исполнялся · TRINITY</title>
+<meta name="description" content="Собирающая битстрим CI-задача была красной одиннадцать дней. Под этим — тринадцать слоёв дефектов, каждый невидим, пока не вылечен верхний: фальшивая база кристалла, список зависимостей, который никто не исполнял, и шаг успеха, отвергнувший первый настоящий битстрим в истории задачи. Теперь задача выдаёт битстрим xc7a100t в 3 822 704 байта через полностью открытый поток." />
+<link rel="canonical" href="https://t27.ai/ru/blog/the-tail-that-had-never-run/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-tail-that-had-never-run/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-tail-that-had-never-run/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-tail-that-had-never-run/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/the-tail-that-had-never-run/" />
+<meta property="og:title" content="Хвост, который никогда не исполнялся" />
+<meta property="og:description" content="Собирающая битстрим CI-задача была красной одиннадцать дней. Под этим — тринадцать слоёв дефектов, каждый невидим, пока не вылечен верхний: фальшивая база кристалла, список зависимостей, который никто не исполнял, и шаг успеха, отвергнувший первый настоящий битстрим в истории задачи. Теперь задача выдаёт битстрим xc7a100t в 3 822 704 байта через полностью открытый поток." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-tail-that-had-never-run-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Хвост, который никогда не исполнялся" />
+<meta name="twitter:description" content="Собирающая битстрим CI-задача была красной одиннадцать дней. Под этим — тринадцать слоёв дефектов, каждый невидим, пока не вылечен верхний: фальшивая база кристалла, список зависимостей, который никто не исполнял, и шаг успеха, отвергнувший первый настоящий битстрим в истории задачи. Теперь задача выдаёт битстрим xc7a100t в 3 822 704 байта через полностью открытый поток." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Хвост, который никогда не исполнялся","description":"Собирающая битстрим CI-задача была красной одиннадцать дней. Под этим — тринадцать слоёв дефектов, каждый невидим, пока не вылечен верхний: фальшивая база кристалла, список зависимостей, который никто не исполнял, и шаг успеха, отвергнувший первый настоящий битстрим в истории задачи. Теперь задача выдаёт битстрим xc7a100t в 3 822 704 байта через полностью открытый поток.","url":"https://t27.ai/ru/blog/the-tail-that-had-never-run/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/the-tail-that-had-never-run/"},"image":"https://t27.ai/og-blog-the-tail-that-had-never-run-ru.png","datePublished":"2026-08-19","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"CI, FPGA, openXC7, Debugging, Self-critique"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Хвост, который никогда не исполнялся</h1>
+<p class="meta">2026-08-19 · 9 мин чтения</p>
+<p class="lede">Собирающая битстрим CI-задача была красной одиннадцать дней. Под этим — тринадцать слоёв дефектов, каждый невидим, пока не вылечен верхний: фальшивая база кристалла, список зависимостей, который никто не исполнял, и шаг успеха, отвергнувший первый настоящий битстрим в истории задачи. Теперь задача выдаёт битстрим xc7a100t в 3 822 704 байта через полностью открытый поток.</p>
+<div class="tags"><span class="tag">CI</span><span class="tag">FPGA</span><span class="tag">openXC7</span><span class="tag">Debugging</span><span class="tag">Self-critique</span></div>
+<p>CI-задача, собирающая битстрим для FPGA, была красной одиннадцать дней. Починка оказалась не починкой, а починками: тринадцать разных дефектов, сложенных так, что каждый можно было обнаружить, только вылечив предыдущий. Хвост задачи — синтез, трассировка, генерация фреймов, сборка битстрима — не исполнялся никогда. Ни разу за всю историю задачи.</p>
+<p>Это стоит записать не потому, что тринадцать — большое число, а потому, что каждый слой был невидим снаружи, пока падал слой над ним. Конвейер, умирающий на шаге 3, не сообщает о шагах с 4 по 14 ничего — и «ничего» здесь буквально: ни строчки лога, ни ошибки типов, ни предупреждения линтера. Код, который никогда не исполнялся, — это не работающий код и не падающий код. Это пустое место.</p>
+<h2>Луковица, сжато</h2>
+<div class="tw"><table><thead><tr><th>слой</th><th>что было сломано</th><th>почему слой ниже был невидим</th></tr></thead><tbody><tr><td>1–2</td><td>цикл yosys-линта не мог пройти в принципе: выживал 1 модуль из 32; не хватало флагов -sv и -DSIMULATION</td><td>всё после линта пропускалось</td></tr><tr><td>3–6</td><td>четыре бага кодогенератора: ключевые слова Verilog как идентификаторы, экранирование до флэттенинга полей вместо после, неэкранированные вызовы и return-lvalue</td><td>сгенерированные файлы не доходили до синтеза</td></tr><tr><td>7</td><td>workflow клонировал YosysHQ/nextpnr — в котором архитектуры xilinx нет вовсе; она живёт в форке openXC7/nextpnr-xilinx</td><td>cmake умирал раньше всего остального</td></tr><tr><td>8</td><td>база данных кристалла была мегабайтом /dev/zero, и трассировщику не на что было опираться</td><td>фальшивый артефакт пропускал следующие шаги в ловушку</td></tr><tr><td>9</td><td>pip3 install sby — SymbiYosys нет на PyPI и никогда не было; формальная задача падала на установке в каждом прогоне с рождения</td><td>ничего после строки установки не исполнялось никогда</td></tr><tr><td>10</td><td>потолки времени: лимит в 45 минут убил здоровый прогон на 46 минут; отдельно apt на мёртвом зеркале молча сжигал целые потолки</td><td>убитая задача выглядит как упавшая</td></tr><tr><td>11</td><td>драйвер сборки жёстко зашивает build/fpga/prjxray, свой PYTHONPATH и путь к prjxray-db — а workflow складывал все три под ~/</td><td>первый в истории прогон, дошедший до трассировки, умер на следующем шаге</td></tr><tr><td>12</td><td>requirements.txt в prjxray пинит editable-пути на сабмодули и инструменты, несовместимые с текущим Python; настоящая цепочка импортов — шесть пакетов</td><td>список зависимостей никто никогда не исполнял</td></tr><tr><td>13</td><td>шаг метрик требовал файл с буквальным именем bitstream.bit; драйвер называет выход по top-модулю — zerodsp_top.bit</td><td>первый настоящий битстрим в истории задачи провалил шаг, который должен был отчитаться об успехе</td></tr></tbody></table></div>
+<p>Слой 8 заслуживает отдельного предложения. Фальшивый артефакт хуже отсутствующего: база из /dev/zero позволяла следующим шагам запускаться и падать не по той причине — так по-настоящему сломанное описание выводов пряталось за базой, через которую нельзя было оттрассировать ничего. Когда шаг ещё не умеет дать следующему настоящий вход, честный ход — упасть громко, а не изготовить заглушку.</p>
+<h2>Что это закончило: проверка следующего слоя до пуша</h2>
+<p>Первые восемь слоёв снимались дорогим способом — по одному кругу CI на каждый, по сорок пять — девяносто минут за урок. Последние три сняты одним пушем, потому что каждый проверялся локально до коммита:</p>
+<ul><li>Слой 11: грепни исходник драйвера сборки на его склейки путей. Драйвер задаёт контракт; workflow либо удовлетворяет этим точным путям, либо передаёт флаги. Угадывание «стандартных мест» не делает ни того, ни другого.</li><li>Слой 12: не читай файл зависимостей — исполни инструмент. PYTHONPATH=&lt;клон&gt; python3 fasm2frames.py --help на точном списке пакетов-кандидатов — минутный локальный эксперимент вместо сорокапятиминутного круга CI.</li><li>Слой 13 (и одна мина, обезвреженная до срабатывания): два шага upload-artifact@v4 делили одно имя артефакта. v4 падает на дубликате имени — второй шаг «проходил» только потому, что первый ничего не находил. Починка первого взвела бы второй.</li></ul>
+<pre><code>=== FASM → Frames ===
+Frames: build/fpga/synth/design.frames
+=== Frames → Bitstream ===
+Bitstream: build/fpga/zerodsp_top.bit (3822704 bytes)
+=== FPGA E2E build finished ===</code></pre>
+<p>3 822 704 байта — это точный размер конфигурации xc7a100t. Поток, который его произвёл, полностью открыт: yosys для синтеза, nextpnr-xilinx для трассировки по базе, сгенерированной bbaexport из дерева openXC7, fasm2frames из prjxray для сборки фреймов, xc7frames2bit для контейнера. Vivado нет нигде на этом пути.</p>
+<h2>Правило, в которое сжимается вся история</h2>
+<p>Задача, которая всегда падала рано, содержит хвост, который никогда не исполнялся, — и этот хвост надо считать ненаписанным кодом: вычитывать, исполнять локально где возможно и никогда не доверять ему на основании правдоподобного вида. Следствие срезает цену: починив слой N, потрать лишние десять минут и проверь слой N+1 руками. Каждый из трёх последних слоёв был виден заранее любому, кто посмотрел бы: один grep, один --help, один листинг каталога в публичном репозитории.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Битстрим ни разу не загружался в плату: у CI-машины нет FPGA, и корректность за пределами внутренних проверок тулчейна не доказана. Единственный значимый тест — прошивка живого железа — для этого артефакта не проводился.</li><li>Тайминг — из модели nextpnr, а не из измерения. Никакого заявления о Fmax не делается.</li><li>Поток собирает только минимальный профиль; большие профили через починенный конвейер не проходили.</li><li>Зависания apt-зеркала, сжигавшие целые потолки времени, ограничены, но не устранены — патч с timeout+retry готов, но не влит.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/t27/pull/2216">gHashTag/t27 PR #2216 — the pull request carrying all thirteen layers</a></li><li><a href="https://github.com/gHashTag/t27/actions/runs/32247529041">The first run to produce a real bitstream — fpga-bitstream job log</a></li><li><a href="https://github.com/gHashTag/t27/issues/2214">Issue #2214 — the red-since-birth diagnosis across jobs</a></li><li><a href="https://github.com/gHashTag/t27/issues/2215">Issue #2215 — fpga-build: every job red, root causes enumerated</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx">openXC7/nextpnr-xilinx — the fork that actually contains the xilinx architecture</a></li></ul></div>
+<div class="cta"><p>Каждая цифра выше измерена, и рядом с ней названы её пределы.</p><div class="btns"><a class="btn" href="/?lang=ru#/blog/the-tail-that-had-never-run">Открыть интерактивную версию</a><a class="btn sec" href="/blog/the-tail-that-had-never-run/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Хвост, который никогда не исполнялся">admin@t27.ai</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
