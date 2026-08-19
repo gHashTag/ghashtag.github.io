@@ -12,7 +12,7 @@
       <link>https://t27.ai/#/blog/receipts-and-seals-over-radio</link>
       <guid isPermaLink="false">receipts-and-seals-over-radio</guid>
       <pubDate>Wed, 19 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Bytes crossed two radio hops between four boards and arrived byte-exact, with one cryptographic seal identical at all three points. What that proves, what it does not, and why the interesting part is the audit trail rather than the radio.</description>
+      <description>Bytes crossed two radio hops between four boards and arrived byte-exact, with one coverage seal recomputed independently at three points and agreeing at all three. What that proves, what it does not, what the thing is built on, and where the commercial radios are plainly ahead.</description>
       <category>Mesh</category>
       <category>DePIN</category>
       <category>Verifiable compute</category>
