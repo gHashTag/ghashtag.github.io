@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The golden ratio in this format is a scale factor, not information · TRINITY</title>
+<meta name="description" content="A format with phi in its name. Measured: in the two-bit digit alphabet phi is not observable at all, and a dot product of GFTernary vectors is exactly phi-squared times the same codes read as balanced ternary. The prior art put phi where it does carry information — in 2002." />
+<link rel="canonical" href="https://t27.ai/blog/phi-is-a-scale-not-information/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/phi-is-a-scale-not-information/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/phi-is-a-scale-not-information/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/phi-is-a-scale-not-information/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/phi-is-a-scale-not-information/" />
+<meta property="og:title" content="The golden ratio in this format is a scale factor, not information" />
+<meta property="og:description" content="A format with phi in its name. Measured: in the two-bit digit alphabet phi is not observable at all, and a dot product of GFTernary vectors is exactly phi-squared times the same codes read as balanced ternary. The prior art put phi where it does carry information — in 2002." />
+<meta property="og:image" content="https://t27.ai/og-blog-phi-is-a-scale-not-information.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The golden ratio in this format is a scale factor, not information" />
+<meta name="twitter:description" content="A format with phi in its name. Measured: in the two-bit digit alphabet phi is not observable at all, and a dot product of GFTernary vectors is exactly phi-squared times the same codes read as balanced ternary. The prior art put phi where it does carry information — in 2002." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The golden ratio in this format is a scale factor, not information","description":"A format with phi in its name. Measured: in the two-bit digit alphabet phi is not observable at all, and a dot product of GFTernary vectors is exactly phi-squared times the same codes read as balanced ternary. The prior art put phi where it does carry information — in 2002.","url":"https://t27.ai/blog/phi-is-a-scale-not-information/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/phi-is-a-scale-not-information/"},"image":"https://t27.ai/og-blog-phi-is-a-scale-not-information.png","datePublished":"2026-08-18","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Number formats, Measurement, Self-critique, FPGA"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>The golden ratio in this format is a scale factor, not information</h1>
+<p class="meta">2026-08-18 · 8 min read</p>
+<p class="lede">A format with phi in its name. Measured: in the two-bit digit alphabet phi is not observable at all, and a dot product of GFTernary vectors is exactly phi-squared times the same codes read as balanced ternary. The prior art put phi where it does carry information — in 2002.</p>
+<div class="tags"><span class="tag">Number formats</span><span class="tag">Measurement</span><span class="tag">Self-critique</span><span class="tag">FPGA</span></div>
+<p>A format called GoldenFloat has a golden ratio in its name. The question worth asking is not whether 1.618 is close to phi. It is whether the thing the format calls phi satisfies the property that defines phi, in the arithmetic the format actually uses.</p>
+<p>Three arithmetics here carry a phi, and they do not agree.</p>
+<div class="tw"><table><thead><tr><th>where</th><th>phi^2 = phi + 1 ?</th><th>notes</th></tr></thead><tbody><tr><td>the oracle, exact ring Z[phi]</td><td>yes, symbolically</td><td>14641/14641 sign decisions agree with 60-digit arithmetic; never touches a float</td></tr><tr><td>the closed 2-bit format</td><td>not measurable</td><td>see below</td></tr><tr><td>the RTL, fp32</td><td>no, off by 1 ulp</td><td>0x40278DDF against 0x40278DDE</td></tr></tbody></table></div>
+<h2>phi is not observable in the closed format</h2>
+<p>Decode two codes, operate, quantise back by sign. Substituting 1, 2, pi, 0.001 or 10^12 for phi reproduces the identical 16 addition and 16 multiplication results. At two bits the format is observationally balanced ternary.</p>
+<p>In a dot product the same fact takes a sharper form. Every digit is phi*t with t in {-1, 0, +1}, so each product term is (phi*t)(phi*u) = phi^2*t*u, and by linearity:</p>
+<pre><code>&lt;x, y&gt;  =  phi^2 * &lt;x~, y~&gt;</code></pre>
+<p>where x~ and y~ are the same codes read as balanced ternary. Verified on 20000 random dot products as integer equality in Z[phi] — the accumulator is always (k, k). A first attempt measured this through a decimal phi, got 1e-47, and nearly reported it as exact. The ruler was the error, not the result.</p>
+<figure><svg viewBox="0 0 780 320" role="img" aria-label="The same constant phi in two placements: in the digit alphabet it factors out of a dot product, in the positional weights it cannot" width="780" height="320" style="display:block;width:100%;max-width:780px;height:auto" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><g fill="none" stroke="currentColor" stroke-width="1.4" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12"><text x="16" y="22" font-size="13" font-weight="600" stroke="none" fill="currentColor">phi in the DIGIT ALPHABET</text><text x="16" y="40" font-size="11" stroke="none" fill="currentColor" opacity="0.7">GFTernary, 2 bits</text><rect x="16" y="56" width="56" height="30" rx="4"/><text x="44" y="76" text-anchor="middle" stroke="none" fill="currentColor">-phi</text><rect x="80" y="56" width="56" height="30" rx="4"/><text x="108" y="76" text-anchor="middle" stroke="none" fill="currentColor">0</text><rect x="144" y="56" width="56" height="30" rx="4"/><text x="172" y="76" text-anchor="middle" stroke="none" fill="currentColor">+phi</text><text x="16" y="106" font-size="11" stroke="none" fill="currentColor" opacity="0.7">weight</text><text x="44" y="122" text-anchor="middle" stroke="none" fill="currentColor">1</text><text x="108" y="122" text-anchor="middle" stroke="none" fill="currentColor">1</text><text x="172" y="122" text-anchor="middle" stroke="none" fill="currentColor">1</text><line x1="108" y1="132" x2="108" y2="164" marker-end="url(#ar)"/><text x="118" y="152" font-size="11" stroke="none" fill="currentColor" opacity="0.8">dot product</text><rect x="16" y="168" width="184" height="32" rx="4"/><text x="108" y="188" text-anchor="middle" stroke="none" fill="currentColor">&lt;x, y&gt;</text><line x1="108" y1="204" x2="108" y2="240" marker-end="url(#ar)" stroke="#d4af37" stroke-dasharray="5 3"/><text x="118" y="226" font-size="11" stroke="none" fill="#d4af37">phi factors out</text><rect x="6" y="244" width="204" height="46" rx="4" stroke="#d4af37"/><text x="108" y="263" text-anchor="middle" stroke="none" fill="#d4af37">phi^2 x &lt;x~, y~&gt;</text><text x="108" y="280" text-anchor="middle" font-size="11" stroke="none" fill="#d4af37">a per-tensor scale</text><line x1="300" y1="50" x2="300" y2="296" stroke-width="1" opacity="0.35"/><text x="390" y="22" font-size="13" font-weight="600" stroke="none" fill="currentColor">phi in the POSITIONAL WEIGHTS</text><text x="390" y="40" font-size="11" stroke="none" fill="currentColor" opacity="0.7">Stakhov 2002, on Bergman 1957</text><rect x="390" y="56" width="56" height="30" rx="4"/><text x="418" y="76" text-anchor="middle" stroke="none" fill="currentColor">-1</text><rect x="454" y="56" width="56" height="30" rx="4"/><text x="482" y="76" text-anchor="middle" stroke="none" fill="currentColor">0</text><rect x="518" y="56" width="56" height="30" rx="4"/><text x="546" y="76" text-anchor="middle" stroke="none" fill="currentColor">+1</text><text x="390" y="106" font-size="11" stroke="none" fill="currentColor" opacity="0.7">weight</text><text x="418" y="122" text-anchor="middle" stroke="none" fill="currentColor">phi^0</text><text x="482" y="122" text-anchor="middle" stroke="none" fill="currentColor">phi^2</text><text x="546" y="122" text-anchor="middle" stroke="none" fill="currentColor">phi^4</text><line x1="482" y1="132" x2="482" y2="164" marker-end="url(#ar)"/><text x="492" y="152" font-size="11" stroke="none" fill="currentColor" opacity="0.8">dot product</text><rect x="390" y="168" width="184" height="32" rx="4"/><text x="482" y="188" text-anchor="middle" stroke="none" fill="currentColor">&lt;x, y&gt;</text><text x="482" y="232" text-anchor="middle" font-size="11" stroke="none" fill="currentColor" opacity="0.55">(no such edge)</text><text x="482" y="252" text-anchor="middle" font-size="11" stroke="none" fill="currentColor" opacity="0.55">the weights differ, so phi</text><text x="482" y="268" text-anchor="middle" font-size="11" stroke="none" fill="currentColor" opacity="0.55">cannot be factored out</text><text x="600" y="188" font-size="11" stroke="none" fill="currentColor" opacity="0.7">carries</text><text x="600" y="203" font-size="11" stroke="none" fill="currentColor" opacity="0.7">information</text></g></svg><figcaption>The same constant, two placements, opposite outcomes. On the left every digit carries the same weight, so phi factors out of the sum and lands in a per-tensor scale. On the right the weights are powers of phi, so it cannot: the extra edge on the left is the whole difference.</figcaption></figure>
+<h2>So what does phi cost?</h2>
+<p>phi^2 = 2.618034 is a constant every quantised pipeline already carries as a per-tensor scale. The fp32 constant implementing it, 0x3FCF1BBD, is the correctly-rounded phi — 0.138 ulp — and buys no representational power while costing rounding: 14 ulp on a dot product of length 4096, and phi^2 != phi + 1 in the hardware by 1 ulp.</p>
+<p>The board pays for that in area. It computes the product of two 2-bit codes by decoding both to fp32, running a full IEEE-shaped multiplier, and thresholding the 32-bit result back down to 2 bits.</p>
+<div class="tw"><table><thead><tr><th>unit</th><th>cells</th><th>wires</th><th>flops</th></tr></thead><tbody><tr><td>gf_mul_param, free 32-bit inputs</td><td>1654</td><td>1664</td><td>17</td></tr><tr><td>the exact unit, no multiplier and no phi</td><td>13</td><td>14</td><td>0</td></tr><tr><td>the fp32 path with only 2-bit inputs</td><td>14</td><td>63</td><td>2</td></tr></tbody></table></div>
+<p>Measured with Yosys 0.65. The version is part of the number: the same script on 0.33 reports different cell counts. All 16 input pairs agree between the two units, driven through the fp32 pipeline&#x27;s handshake — equivalent, not merely smaller.</p>
+<p>The third row is not a design. It is yosys reaching the same conclusion by constant propagation: given only four input codes, the multiplier folds away. That fold is luck, not architecture. The design still asks for a general multiplier to compute a function of four bits, and a tool that does not fold it pays the first row.</p>
+<h2>Where phi does carry information</h2>
+<p>None of this says phi is a bad choice. It says the digit alphabet is the placement where phi cannot do any work. Put it in the positional weights and it can: Stakhov&#x27;s ternary mirror-symmetrical system uses digits {-1, 0, +1} with weights phi^(2i), building on Bergman&#x27;s 1957 base-phi system. There a digit&#x27;s position changes its value, so phi does not factor out.</p>
+<p>That system was reimplemented here and checked: every integer from 0 to 12 has a representation whose digit string is unchanged when read backwards. Stakhov built a self-checking adder on exactly that property — a fault breaks the symmetry, so the code detects its own errors.</p>
+<blockquote>Same constant, opposite outcome. The prior art chose the load-bearing placement in 2002.</blockquote>
+<h2>A check that cannot fail</h2>
+<p>The verifier behind all of this was mutation-tested, and it passed a mutation it should have failed: flipping one entry of its lookup table left every claim green, because the table sat on both sides of the identity being tested and cancelled with itself. An hour earlier, a workflow step written to catch a silently-ignored toolchain pin had read an 8-digit date out of a version string that contains no date, so its guard skipped and the step reported success without comparing anything.</p>
+<p>Both were vacuous. Neither was caught by reading; both were caught by changing a constant and noticing nothing went red. That became a command, and pointing it back at the verifier found a third: the substitution test above compared quantiser tables only against each other, so a degenerate quantiser would have made the whole inertness claim pass vacuously. It is pinned to the decode RTL now.</p>
+<p>A check that cannot fail is indistinguishable from one that passed.</p>
+<h2>What none of this establishes</h2>
+<p>No frequency, no board, no power. The exact unit is combinational, so its zero flip-flops are a property of the unit and not a speed claim. Nothing here compares any design against a specification. And the measurement that would decide whether this format family is worth publishing at all — the block axis against MXFP4 — has not been made.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>The area comparison is one multiplier on Yosys 0.65. Whether a board-level synthesis folds the fp32 path or pays for it has not been measured, and that is the number that decides whether this matters in practice.</li><li>The RTL quantiser has an asymmetric dead zone (+0.25 against 0.5) where the oracle documents a pure sign rule. They agree on every reachable input today. Nothing checks that they still agree if the input set widens.</li><li>The mirror-symmetric prior art was reproduced for N = 0..12 by exhaustive search. No claim is made about larger N, and no adder was built.</li><li>Whether phi as an exponent base would beat base 2 on a real workload is untested. It is not used as a base anywhere in this codebase — the ladders are base 2, and one is base 3.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/pull/582">gHashTag/trinity-fpga #582 — the native phi check, mutation-tested</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/pull/584">gHashTag/trinity-fpga #584 — 1654 cells against 13, and 16/16 equivalent</a></li><li><a href="https://github.com/gHashTag/t27/pull/2177">gHashTag/t27 #2177 — tri mutate, the command that found the third vacuous check</a></li><li><a href="https://doi.org/10.1093/comjnl/45.2.221">Stakhov, The Computer Journal 45(2):221-236 (2002) — phi in the positional weights</a></li><li><a href="https://doi.org/10.2307/3029218">Bergman, Mathematics Magazine 31:98-110 (1957) — the base-phi system underneath it</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/phi-is-a-scale-not-information">Open the interactive version</a><a class="btn sec" href="/ru/blog/phi-is-a-scale-not-information/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=The golden ratio in this format is a scale factor, not information">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://t27.ai/</loc><lastmod>2026-08-18</lastmod></url>
+  <url><loc>https://t27.ai/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/gft/</loc><lastmod>2026-08-18</lastmod></url>
   <url><loc>https://t27.ai/verification/</loc><lastmod>2026-08-18</lastmod></url>
   <url><loc>https://t27.ai/proof/</loc><lastmod>2026-08-18</lastmod></url>
@@ -31,46 +31,52 @@
   <url><loc>https://t27.ai/ru/proof/</loc><lastmod>2026-08-18</lastmod></url>
   <url><loc>https://t27.ai/ru/resources/</loc><lastmod>2026-08-18</lastmod></url>
   <url><loc>https://t27.ai/ru/verification/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/a-gate-that-rejected-its-own-users/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/a-health-snapshot-changed-its-denominator/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/a-multiplicity-correction-changed-the-deployment-reading/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/a-red-gate-was-missing-its-input/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/a-repair-reaches-only-the-copy-it-lands-in/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/a-suite-that-runs-nothing-exits-zero/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/an-inert-filter-is-safest-until-it-works/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/each-half-imported-the-other/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/eleven-verdicts-were-windows-not-checkpoints/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/five-reasons-the-build-was-red/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/green-ci-does-not-mean-usable/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/half-the-build-is-bitstream-generation/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/open-gigabit-ethernet-artix7/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/scale-field-width-already-published/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/six-and-a-half-years-in-a-discarded-return-value/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/the-generated-file-was-three-years-old/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/the-search-space-erased-a-significance-claim/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/a-gate-that-rejected-its-own-users/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/a-health-snapshot-changed-its-denominator/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/a-multiplicity-correction-changed-the-deployment-reading/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/a-red-gate-was-missing-its-input/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/a-repair-reaches-only-the-copy-it-lands-in/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/a-suite-that-runs-nothing-exits-zero/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/an-inert-filter-is-safest-until-it-works/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/each-half-imported-the-other/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/eleven-verdicts-were-windows-not-checkpoints/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/five-reasons-the-build-was-red/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/green-ci-does-not-mean-usable/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/half-the-build-is-bitstream-generation/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/open-gigabit-ethernet-artix7/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/scale-field-width-already-published/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/six-and-a-half-years-in-a-discarded-return-value/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/the-generated-file-was-three-years-old/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/the-search-space-erased-a-significance-claim/</loc><lastmod>2026-08-18</lastmod></url>
+  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/a-gate-that-rejected-its-own-users/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/a-health-snapshot-changed-its-denominator/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/a-multiplicity-correction-changed-the-deployment-reading/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/a-red-gate-was-missing-its-input/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/a-repair-reaches-only-the-copy-it-lands-in/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/a-suite-that-runs-nothing-exits-zero/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/an-inert-filter-is-safest-until-it-works/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/each-half-imported-the-other/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/eleven-verdicts-were-windows-not-checkpoints/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/five-reasons-the-build-was-red/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/green-ci-does-not-mean-usable/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/half-the-build-is-bitstream-generation/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/open-gigabit-ethernet-artix7/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/phi-is-a-scale-not-information/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/receipts-and-seals-over-radio/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/scale-field-width-already-published/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/six-and-a-half-years-in-a-discarded-return-value/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/the-full-adder-made-the-cost-claim-comparable/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/the-generated-file-was-three-years-old/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/blog/the-search-space-erased-a-significance-claim/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/a-gate-that-rejected-its-own-users/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/a-health-snapshot-changed-its-denominator/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/a-multiplicity-correction-changed-the-deployment-reading/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/a-red-gate-was-missing-its-input/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/a-repair-reaches-only-the-copy-it-lands-in/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/a-suite-that-runs-nothing-exits-zero/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/an-inert-filter-is-safest-until-it-works/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/each-half-imported-the-other/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/eleven-verdicts-were-windows-not-checkpoints/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/five-reasons-the-build-was-red/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/green-ci-does-not-mean-usable/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/half-the-build-is-bitstream-generation/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/open-gigabit-ethernet-artix7/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/phi-is-a-scale-not-information/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/receipts-and-seals-over-radio/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/scale-field-width-already-published/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/six-and-a-half-years-in-a-discarded-return-value/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/the-full-adder-made-the-cost-claim-comparable/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/the-generated-file-was-three-years-old/</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/the-search-space-erased-a-significance-claim/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/docs/about.html</loc><lastmod>2026-08-18</lastmod></url>
   <url><loc>https://t27.ai/docs/app-a.html</loc><lastmod>2026-08-18</lastmod></url>
   <url><loc>https://t27.ai/docs/app-b.html</loc><lastmod>2026-08-18</lastmod></url>

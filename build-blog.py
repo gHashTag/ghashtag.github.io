@@ -54,6 +54,9 @@ blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1
 pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
 code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 .tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
 table{border-collapse:collapse;width:100%;font-size:.9rem}
 th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
 th{color:#00ff88;font-weight:600}
@@ -150,6 +153,11 @@ def block_html(b):
         )
         # Wide tables scroll inside their own box; the page body must not.
         return f'<div class="tw"><table><thead><tr>{head}</tr></thead><tbody>{rows}</tbody></table></div>'
+    if k == "figure":
+        # The SVG is authored in trinity's own data files and reaches here through
+        # blog-posts.json unchanged -- no reader supplies it -- so it is inlined as
+        # markup, exactly as the app does. The caption is prose and is escaped.
+        return f"<figure>{b['svg']}<figcaption>{esc(b['caption'])}</figcaption></figure>"
     raise SystemExit(f"build-blog: unknown block kind {k!r} -- add it rather than dropping it")
 
 

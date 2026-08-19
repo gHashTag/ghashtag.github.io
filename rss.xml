@@ -6,7 +6,41 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 19 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Receipts and coverage seals over a radio mesh</title>
+      <link>https://t27.ai/#/blog/receipts-and-seals-over-radio</link>
+      <guid isPermaLink="false">receipts-and-seals-over-radio</guid>
+      <pubDate>Wed, 19 Aug 2026 12:00:00 GMT</pubDate>
+      <description>Bytes crossed two radio hops between four boards and arrived byte-exact, with one cryptographic seal identical at all three points. What that proves, what it does not, and why the interesting part is the audit trail rather than the radio.</description>
+      <category>Mesh</category>
+      <category>DePIN</category>
+      <category>Verifiable compute</category>
+      <category>Zynq</category>
+      <category>openXC7</category>
+    </item>
+    <item>
+      <title>The golden ratio in this format is a scale factor, not information</title>
+      <link>https://t27.ai/#/blog/phi-is-a-scale-not-information</link>
+      <guid isPermaLink="false">phi-is-a-scale-not-information</guid>
+      <pubDate>Tue, 18 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A format with phi in its name. Measured: in the two-bit digit alphabet phi is not observable at all, and a dot product of GFTernary vectors is exactly phi-squared times the same codes read as balanced ternary. The prior art put phi where it does carry information — in 2002.</description>
+      <category>Number formats</category>
+      <category>Measurement</category>
+      <category>Self-critique</category>
+      <category>FPGA</category>
+    </item>
+    <item>
+      <title>The full adder made the cost claim comparable</title>
+      <link>https://t27.ai/#/blog/the-full-adder-made-the-cost-claim-comparable</link>
+      <guid isPermaLink="false">the-full-adder-made-the-cost-claim-comparable</guid>
+      <pubDate>Tue, 18 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A merged FPGA-repository PR replaces a magnitude-only comparison with a full adder and reports 3000 oracle checks, 0 errors, and a 440-LUT post-synthesis result.</description>
+      <category>FPGA</category>
+      <category>Measurement</category>
+      <category>Arithmetic</category>
+      <category>Self-critique</category>
+    </item>
     <item>
       <title>A multiplicity correction changed the deployment reading</title>
       <link>https://t27.ai/#/blog/a-multiplicity-correction-changed-the-deployment-reading</link>
