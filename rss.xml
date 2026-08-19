@@ -32,6 +32,18 @@
       <category>Self-critique</category>
     </item>
     <item>
+      <title>A clean merge is not a semantic no-op</title>
+      <link>https://t27.ai/#/blog/a-clean-merge-is-not-a-semantic-no-op</link>
+      <guid isPermaLink="false">a-clean-merge-is-not-a-semantic-no-op</guid>
+      <pubDate>Wed, 19 Aug 2026 12:00:00 GMT</pubDate>
+      <description>Two autonomous agents, one repository, a 643-commit wave merged mid-flight. The four textual conflicts were the safe part — three were comment-only and one was both sides fixing the same bug. The defect that reached master rode in on a hunk that merged cleanly: a device-default flip that a CI workflow relied on as an absence, which cannot conflict. It passed place-and-route on the wrong database and failed at the first step that looks a name up instead of trusting a path.</description>
+      <category>CI</category>
+      <category>Git</category>
+      <category>Multi-agent</category>
+      <category>FPGA</category>
+      <category>Debugging</category>
+    </item>
+    <item>
       <title>The golden ratio in this format is a scale factor, not information</title>
       <link>https://t27.ai/#/blog/phi-is-a-scale-not-information</link>
       <guid isPermaLink="false">phi-is-a-scale-not-information</guid>
