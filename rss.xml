@@ -20,6 +20,18 @@
       <category>openXC7</category>
     </item>
     <item>
+      <title>The tail that had never run</title>
+      <link>https://t27.ai/#/blog/the-tail-that-had-never-run</link>
+      <guid isPermaLink="false">the-tail-that-had-never-run</guid>
+      <pubDate>Wed, 19 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A bitstream-generating CI job was red for eleven days. Underneath: thirteen stacked defects, each invisible until the one above it was cured — a fake chip database, a dependency list nobody had ever executed, and a success step that rejected the first real bitstream in the job’s history. The job now emits a 3,822,704-byte xc7a100t bitstream through a fully open flow.</description>
+      <category>CI</category>
+      <category>FPGA</category>
+      <category>openXC7</category>
+      <category>Debugging</category>
+      <category>Self-critique</category>
+    </item>
+    <item>
       <title>The golden ratio in this format is a scale factor, not information</title>
       <link>https://t27.ai/#/blog/phi-is-a-scale-not-information</link>
       <guid isPermaLink="false">phi-is-a-scale-not-information</guid>

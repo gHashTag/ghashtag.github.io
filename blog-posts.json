@@ -348,6 +348,12 @@
      ],
      "rows": [
       [
+       "Проба троичного узла",
+       "Сам примитив: процессор подаёт отсчёт и двухбитный вес, матрица отвечает +x, -x или 0",
+       "Работал в матрице платы 19 августа 2026: якорь 0x47C0, пульс идёт, ответы +42, -42, 0, 0, +127, -127 для кодов 01, 10, 00, 11 -- бит в бит",
+       "results/ps7_probe_silicon_2026-08-19.log, получен в тот же день"
+      ],
+      [
        "Согласованный фильтр на 8 отводов",
        "Отводы со знаковым выбором; код синхронизации использует все три символа, два отвода из восьми нулевые",
        "Работал в матрице Zynq XC7Z020 на реальном записанном эфире: 256 из 256 бит в бит",
@@ -381,11 +387,11 @@
     },
     {
      "kind": "p",
-     "text": "Последняя строка -- та, за которую нас и следует держать, поэтому скажем прямо: репозиторий противоречит сам себе. Один документ сообщает, что шесть движков GF-T были размещены, трассированы и прошиты в плату Artix-7 и ответили по последовательному порту; другой, в том же каталоге, пишет, что загружаемый битстрим не доказан и заявления о работе на кремнии не делается. Три независимых прохода искали артефакт -- лог трассировки, битстрим, захват порта -- и все три вернулись ни с чем. Приведённые числа вопрос тоже не решают: это те же эталонные векторы, что лежат в коммитнутых стендах моделирования, и два из пяти воспроизводятся в симуляторе на ноутбуке, при полном отсутствии платы в комнате."
+     "text": "С последней строкой было хуже, чем просто пробел, когда страница вышла впервые: один документ сообщал, что движки прошиты в плату, другой в том же каталоге -- что загружаемый битстрим не доказан. Верным одновременно это быть не могло. Утверждение исправлено в самом источнике: теперь оно читается как результат моделирования и называет четыре артефакта, которые закроют вопрос, -- файл ограничений с заполненными выводами, лог трассировки с именем верхнего модуля, полученный из него битстрим и транскрипт прошивки с чтением кода кристалла. Приведённые числа вопрос решить и не могли: это те же эталонные векторы, что лежат в стендах моделирования."
     },
     {
      "kind": "p",
-     "text": "Проверено вживую по ходу написания, на плате, подключённой по USB: цепочка JTAG отдаёт код кристалла 0x23727093 -- это тот самый XC7Z020, о котором говорит страница, значит кремний соответствует заявленному. А вот якорь в матрице читается как 0x3FF8 там, где наша схема ответила бы 0x47C0: сейчас загружен вендорский образ, не наш. Троичный приёмник работал в этой матрице в августе, на ветви, которая до main не дошла; сегодня он там не работает."
+     "text": "Эта строка -- не цитата из старого журнала. Она получена по ходу написания страницы, на плате, стоящей на столе: цепочка JTAG отдаёт код кристалла 0x23727093, тот самый XC7Z020, о котором говорит страница, а после загрузки матрица ответила якорем 0x47C0, который отличает наш образ от вендорского. Первая попытка перезагрузила плату -- запись битстрима, пока radio-DMA в середине транзакции, вешает процессор, и заканчивает это только сторожевой таймер, -- поэтому теперь загрузка сначала разбирает шину: снять потоки отсчётов, отвязать ядра радиотракта, отвязать оба движка DMA, опустить Ethernet из матрицы и только затем писать. Обычная перезагрузка вернула вендорский образ и радио, поэтому такую проверку и можно было себе позволить."
     },
     {
      "kind": "h",
@@ -796,6 +802,12 @@
     ],
     "rows": [
      [
+      "Ternary MAC probe",
+      "The primitive on its own: the processor hands the fabric a sample and a two-bit weight, the fabric answers +x, -x or 0",
+      "Ran in the PL of a board on 19 Aug 2026: anchor 0x47C0, heartbeat moving, and +42, -42, 0, 0, +127, -127 for weight codes 01, 10, 00, 11 -- bit-exact",
+      "results/ps7_probe_silicon_2026-08-19.log, produced on the day"
+     ],
+     [
       "8-tap matched filter",
       "Sign-select taps; the sync code uses all three symbols, two of eight taps are 0",
       "Ran in the fabric of a Zynq XC7Z020 on real captured air: 256 of 256 bit-exact",
@@ -829,11 +841,11 @@
    },
    {
     "kind": "p",
-    "text": "That last row is the one to hold us to, so state it plainly: the repository contradicts itself. One document says six GF-T engines were placed, routed and flashed to an Artix-7 board and answered over a serial line; another, in the same directory, says a loadable bitstream is not proven and makes no claim of on-silicon execution. Three independent audit passes went looking for the artefact -- a routing log, a bitstream, a serial capture -- and all three came back with nothing. The quoted values do not settle it either, because they are the same golden vectors the committed simulation benches carry; two of the five reproduce in a simulator on a laptop with no board in the room."
+    "text": "That last row was worse than a gap when this page first went up: one document claimed the engines had been flashed to a board, another in the same directory said a loadable bitstream was not proven. Both could not be true. The claim has since been corrected at the source -- it now reads as simulation, and names the four artefacts that would close it: a pin-complete constraint file, a routing log naming the top, the bitstream that log produced, and a programming transcript with the part identifier read back. The quoted vectors could never have settled it, because they are the same golden vectors the simulation benches carry."
    },
    {
     "kind": "p",
-    "text": "Checked live while writing this, on a board plugged in over USB: the JTAG chain reads back a part identifier of 0x23727093, which is the XC7Z020 the page claims, so the silicon is what it says it is. The fabric anchor, however, reads 0x3FF8 where our design would answer 0x47C0 -- the vendor image is loaded right now, not ours. The ternary despreader ran in that fabric in August, on a branch that has not reached main; it is not running there today."
+    "text": "That row is not a quotation from an old log. It was produced while this page was being written, on a board plugged into the desk: the JTAG chain reads back part identifier 0x23727093, the XC7Z020 this page claims, and after the load the fabric answered with the anchor 0x47C0 that separates our bitstream from the vendor one. The first attempt rebooted the board -- writing a bitstream while the radio DMA is mid-transaction hangs the processor and only the watchdog ends it -- so the load now tears the bus down first: kill the sample streams, unbind the radio cores, unbind both DMA engines, drop the fabric Ethernet, then write. A plain reboot restored the vendor image and the radio afterwards, which is why this is a safe thing to have done."
    },
    {
     "kind": "h",
