@@ -225,6 +225,28 @@ def starfield() -> str:
     return "".join(out)
 
 
+ART = "og-art"
+
+
+def art_svg(slug: str):
+    """Карточка из нарисованного триптиха, если он лежит в og-art/<slug>.jpg.
+
+    Растр не встраивается в SVG через base64 намеренно: файл остаётся ссылкой,
+    поэтому репозиторий не хранит вторую копию картинки, а build-og.py
+    продолжает видеть ровно один SVG на один PNG и его строгий гейт
+    соответствия наборов не ломается. Ссылка относительная — rsvg-convert
+    разрешает её от каталога SVG.
+    """
+    if not (REPO / ART / f"{slug}.jpg").is_file():
+        return None
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" '
+            f'xmlns:xlink="http://www.w3.org/1999/xlink" width="{W}" height="{H}" '
+            f'viewBox="0 0 {W} {H}" role="img" aria-label="{slug}">'
+            f'<rect width="{W}" height="{H}" fill="#000000"/>'
+            f'<image xlink:href="{ART}/{slug}.jpg" x="0" y="0" '
+            f'width="{W}" height="{H}"/></svg>\n')
+
+
 def card_svg(post: dict, lang: str) -> str:
     """Одна карточка: крупный заголовок, тонкая подпись, ничего лишнего.
 
@@ -313,9 +335,10 @@ def cards(posts: list) -> int:
                 continue
             stem = f"og-blog-{p['slug']}" + ("-ru" if lang == "ru" else "")
             svg = REPO / f"{stem}.svg"
-            svg.write_text(card_svg(p, lang), encoding="utf-8")
+            drawn = art_svg(p["slug"])
+            svg.write_text(drawn or card_svg(p, lang), encoding="utf-8")
             render_png(svg, REPO / f"{stem}.png")
-            print(f"drew {stem}.svg + .png")
+            print(f"drew {stem}.svg + .png" + (" (\u0442\u0440\u0438\u043f\u0442\u0438\u0445)" if drawn else ""))
             made += 1
     return made
 
