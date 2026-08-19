@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fourteen rows agreed; one did not · TRINITY</title>
+<meta name="description" content="A post-route CI run gives fifteen instrumented FPGA frequency rows a sourced comparison: fourteen fall inside the flow’s measured noise band, while LNS16 remains an explicit exception and one design is still uninstrumented." />
+<link rel="canonical" href="https://t27.ai/blog/fourteen-rows-agreed-one-did-not/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/fourteen-rows-agreed-one-did-not/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/fourteen-rows-agreed-one-did-not/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/fourteen-rows-agreed-one-did-not/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/fourteen-rows-agreed-one-did-not/" />
+<meta property="og:title" content="Fourteen rows agreed; one did not" />
+<meta property="og:description" content="A post-route CI run gives fifteen instrumented FPGA frequency rows a sourced comparison: fourteen fall inside the flow’s measured noise band, while LNS16 remains an explicit exception and one design is still uninstrumented." />
+<meta property="og:image" content="https://t27.ai/og-blog-fourteen-rows-agreed-one-did-not.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Fourteen rows agreed; one did not" />
+<meta name="twitter:description" content="A post-route CI run gives fifteen instrumented FPGA frequency rows a sourced comparison: fourteen fall inside the flow’s measured noise band, while LNS16 remains an explicit exception and one design is still uninstrumented." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Fourteen rows agreed; one did not","description":"A post-route CI run gives fifteen instrumented FPGA frequency rows a sourced comparison: fourteen fall inside the flow’s measured noise band, while LNS16 remains an explicit exception and one design is still uninstrumented.","url":"https://t27.ai/blog/fourteen-rows-agreed-one-did-not/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/fourteen-rows-agreed-one-did-not/"},"image":"https://t27.ai/og-blog-fourteen-rows-agreed-one-did-not.png","datePublished":"2026-08-19","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"FPGA, CI, Measurement, Reproducibility, Self-critique"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Fourteen rows agreed; one did not</h1>
+<p class="meta">2026-08-19 · 6 min read</p>
+<p class="lede">A post-route CI run gives fifteen instrumented FPGA frequency rows a sourced comparison: fourteen fall inside the flow’s measured noise band, while LNS16 remains an explicit exception and one design is still uninstrumented.</p>
+<div class="tags"><span class="tag">FPGA</span><span class="tag">CI</span><span class="tag">Measurement</span><span class="tag">Reproducibility</span><span class="tag">Self-critique</span></div>
+<p>A published FPGA frequency is a claim until the same measurement path can produce it. The G8 audit had sixteen published rows without post-route evidence. Its new CI run gives fifteen instrumented rows a direct comparison and leaves the exceptions named.</p>
+<p>Status: [measured — CI post-route]. Run 32263875250 routed the tnf-format-throughput arms for the xc7a200tfbg484-2 target used by the ALINX AX7203 design flow. Fourteen of fifteen instrumented rows fall inside the toolchain’s audited seed band, with CI-to-published ratios from 0.90× to 1.32×.</p>
+<h2>Agreement means within the measured band</h2>
+<p>The comparison band is 1.6–41.7%: the measured seed dispersion of this flow. “Reproduced” therefore means within noise, not equality. Binary16 is 1.00×, int8 and binary32 are 0.97×, and takum16 is 1.09× in the same table. No ranking is inferred from those ratios.</p>
+<div class="tw"><table><thead><tr><th>Row</th><th>CI / published</th><th>Reading</th></tr></thead><tbody><tr><td>binary16</td><td>1.00×</td><td>within band</td></tr><tr><td>int8</td><td>0.97×</td><td>within band</td></tr><tr><td>takum16</td><td>1.09×</td><td>within band</td></tr><tr><td>posit32</td><td>1.32×</td><td>within band</td></tr><tr><td>LNS16</td><td>1.46×</td><td>outside band</td></tr></tbody></table></div>
+<h2>The exception is more useful than a clean table</h2>
+<p>LNS16 is the one instrumented row outside the band: CI reports 62.66 MHz against a published 43.04 MHz, or 1.46×. The published number has no in-tree record, so the repository now has a sourced CI value and an unresolved provenance question, not a quiet reconciliation.</p>
+<p>A second boundary is not a disagreement: “plastic 16-bit, 318.47 MHz” has no harness in this sweep because it is a tab:hierarchy design rather than a tnet tract. The measurement campaign cannot confirm or reject that row yet.</p>
+<h2>A correction inside the audit</h2>
+<p>The same record corrects the instrument map. IBM hex32 does have an in-tree harness, s_ibmhfp.v, and routes at 51.72 MHz against a published 46.78 MHz, a ratio of 1.11×. The correction is small; the important part is that the row became inspectable instead of being omitted.</p>
+<blockquote>Measured-with-two-exceptions is a result. Unsourced is not a result.</blockquote>
+<h2>What this does not establish</h2>
+<ul><li>This is post-route CI evidence for a target part, not a UART or physical-board measurement on the ALINX AX7203.</li><li>The rows do not establish throughput, energy, model accuracy, or downstream utility.</li><li>The LNS16 mismatch has no diagnosed cause. An original log or an explicit supersession is still needed.</li><li>The plastic-16bit row remains uninstrumented; its published frequency is not validated by this run.</li></ul>
+<p>The practical gain is narrower and stronger than a headline: fifteen rows now have CI-sourced comparisons, fourteen agree within the flow’s measured noise, and the two remaining gaps have names. That is enough to decide what to measure next, not enough to declare the whole table settled.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>This is post-route CI evidence for the target part, not a UART or physical-board measurement on the ALINX AX7203.</li><li>The LNS16 mismatch has no diagnosed cause. An original log or an explicit supersession is still needed.</li><li>The plastic-16bit row remains uninstrumented; its published frequency is not validated by this run.</li><li>No throughput, energy, model-accuracy, or downstream-workload result is established by this audit.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/pull/624">gHashTag/trinity-fpga PR #624 — merged G8 verdict</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/actions/runs/32263875250">Public CI run 32263875250 — post-route measurement</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/6f0d1882efdad37f2af8cd415a50d2cd4ac45828/docs/G8-VERDICT.md">docs/G8-VERDICT.md at the merged commit</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/commit/6f0d1882efdad37f2af8cd415a50d2cd4ac45828">Merged commit 6f0d1882 — the published verdict</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/fourteen-rows-agreed-one-did-not">Open the interactive version</a><a class="btn sec" href="/ru/blog/fourteen-rows-agreed-one-did-not/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Fourteen rows agreed; one did not">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

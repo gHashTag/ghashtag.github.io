@@ -44,6 +44,18 @@
       <category>Debugging</category>
     </item>
     <item>
+      <title>Fourteen rows agreed; one did not</title>
+      <link>https://t27.ai/#/blog/fourteen-rows-agreed-one-did-not</link>
+      <guid isPermaLink="false">fourteen-rows-agreed-one-did-not</guid>
+      <pubDate>Wed, 19 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A post-route CI run gives fifteen instrumented FPGA frequency rows a sourced comparison: fourteen fall inside the flow’s measured noise band, while LNS16 remains an explicit exception and one design is still uninstrumented.</description>
+      <category>FPGA</category>
+      <category>CI</category>
+      <category>Measurement</category>
+      <category>Reproducibility</category>
+      <category>Self-critique</category>
+    </item>
+    <item>
       <title>The golden ratio in this format is a scale factor, not information</title>
       <link>https://t27.ai/#/blog/phi-is-a-scale-not-information</link>
       <guid isPermaLink="false">phi-is-a-scale-not-information</guid>
