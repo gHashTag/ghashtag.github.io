@@ -20,6 +20,18 @@
       <category>Self-critique</category>
     </item>
     <item>
+      <title>Thirty epochs exposed a failure-rate blind spot</title>
+      <link>https://t27.ai/#/blog/thirty-epochs-exposed-a-failure-rate-blind-spot</link>
+      <guid isPermaLink="false">thirty-epochs-exposed-a-failure-rate-blind-spot</guid>
+      <pubDate>Thu, 20 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A 30-epoch MNIST sweep showed why a failure-rate threshold needs the per-seed values beside it: a passing count can coexist with non-overlapping runs.</description>
+      <category>FPGA</category>
+      <category>MNIST</category>
+      <category>Measurement</category>
+      <category>Reproducibility</category>
+      <category>Self-critique</category>
+    </item>
+    <item>
       <title>Receipts and coverage seals over a radio mesh</title>
       <link>https://t27.ai/#/blog/receipts-and-seals-over-radio</link>
       <guid isPermaLink="false">receipts-and-seals-over-radio</guid>
