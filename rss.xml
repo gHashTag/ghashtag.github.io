@@ -6,7 +6,19 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 19 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 20 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Formal was green and had never run a solver</title>
+      <link>https://t27.ai/#/blog/formal-was-green-and-had-never-run-a-solver</link>
+      <guid isPermaLink="false">formal-was-green-and-had-never-run-a-solver</guid>
+      <pubDate>Thu, 20 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A formal verification job stayed green its whole life while three independent mechanisms each guaranteed it could never go red — pseudo-syntax configs, a pipe that tested tee instead of the tool, and continue-on-error over everything. Peeling it to the first genuine proof took seven named layers, including RTL four months older than the compiler under test and property files that never instantiated the DUT. It ends with the repository’s first real formal verdicts: fifo and mac, Status PASSED under z3.</description>
+      <category>CI</category>
+      <category>Formal</category>
+      <category>FPGA</category>
+      <category>Debugging</category>
+      <category>Self-critique</category>
+    </item>
     <item>
       <title>Receipts and coverage seals over a radio mesh</title>
       <link>https://t27.ai/#/blog/receipts-and-seals-over-radio</link>
