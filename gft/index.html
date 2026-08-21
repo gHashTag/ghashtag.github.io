@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>GF-T — a ternary-native float with measured takum comparisons · TRINITY</title>
-<meta name="description" content="GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 2.1x lower error in a 16-bit takum comparison and 2.6x in a 32-bit comparison, 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included." />
+<meta name="description" content="GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included." />
 <link rel="canonical" href="https://t27.ai/gft/" />
 <link rel="alternate" hreflang="en" href="https://t27.ai/gft/" />
 <link rel="alternate" hreflang="ru" href="https://t27.ai/ru/gft/" />
@@ -14,13 +14,13 @@
 <meta property="og:locale" content="en_US" />
 <meta property="og:url" content="https://t27.ai/gft/" />
 <meta property="og:title" content="GF-T — a ternary-native float with measured takum comparisons" />
-<meta property="og:description" content="GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 2.1x lower error in a 16-bit takum comparison and 2.6x in a 32-bit comparison, 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included." />
+<meta property="og:description" content="GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included." />
 <meta property="og:image" content="https://t27.ai/og-gft.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="GF-T — a ternary-native float with measured takum comparisons" />
-<meta name="twitter:description" content="GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 2.1x lower error in a 16-bit takum comparison and 2.6x in a 32-bit comparison, 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included." />
+<meta name="twitter:description" content="GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included." />
 <link rel="icon" href="/favicon.svg" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"GF-T — a ternary-native float with measured takum comparisons","description":"GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 2.1x lower error in a 16-bit takum comparison and 2.6x in a 32-bit comparison, 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included.","url":"https://t27.ai/gft/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"GF-T — a ternary-native float with measured takum comparisons","description":"GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: 219 LUTs and zero DSP blocks, 147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included.","url":"https://t27.ai/gft/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
 <style>*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
@@ -63,7 +63,7 @@ footer a{color:var(--muted)}
 
 <p class="eyebrow">The format</p>
 <h1>GF-T — a float whose exponent is ternary.</h1>
-<p class="lede">The exponent is a balanced-ternary number and the fields are fixed. That removes the incumbent&#x27;s largest cost — regime decode — and makes the exponent add native on a ternary fabric. Against takum, the measured comparisons show 2.1x lower error at 16 bits and 2.6x at 32 bits.</p>
+<p class="lede">The exponent is a balanced-ternary number and the fields are fixed. That removes the incumbent&#x27;s largest cost — regime decode — and makes the exponent add native on a ternary fabric. The accuracy advantage over takum this page used to report has been withdrawn: restated at equal stored width it does not survive.</p>
 
 <h2>The layout</h2>
 <div class="items">
@@ -72,10 +72,10 @@ footer a{color:var(--muted)}
 </div>
 <h2>Accuracy against takum</h2>
 <div class="items">
-<div class="item"><h3>16-bit comparison — 2.1x lower error</h3><p>The measured comparison against a 16-bit takum format reports 2.1x lower error for GF-T.</p></div>
-<div class="item"><h3>32-bit comparison — 2.6x lower error</h3><p>The measured comparison against a 32-bit takum format reports 2.6x lower error for GF-T.</p></div>
-<div class="item"><h3>Re-measured independently</h3><p>8 August 2026, against the published format&#x27;s own oracle. The compared widths are stated with each result.</p></div>
-<div class="item"><h3>What this does not establish</h3><p>The comparisons do not establish a universal ranking: width and range are part of the stated test conditions.</p></div>
+<div class="item"><h3>2.1x / 2.6x — withdrawn</h3><p>This page reported 2.1x lower error against takum16 and 2.6x against takum32. Both are withdrawn. The oracle they were measured against negated wrongly on every negative code, and the budget was nominal rather than equal stored width.</p></div>
+<div class="item"><h3>What replaces them</h3><p>Restated at equal stored width the comparison is a tie, not a win. On the TNF rung of the same ladder: 5.32e-3 against takum16&#x27;s 5.70e-3 at sixteen bits, 1.20e-7 against takum32&#x27;s 1.26e-7 at thirty-two. No format wins by more than the width it gives up.</p></div>
+<div class="item"><h3>What still stands, and it is not accuracy</h3><p>The one measured asymmetry is hardware: a full TNF(4,8) adder is 397 LUT against a true base-3 tekum8 adder&#x27;s 15,251 — 38x — with TNF the wider format. Decode is 1 LUT against 542. Post-synthesis for xc7, no place-and-route, no silicon.</p></div>
+<div class="item"><h3>What this does not establish</h3><p>No universal ranking. Width and range are part of the stated test conditions, and an accuracy claim quoted without them is the error that produced the withdrawn figures above.</p></div>
 </div>
 <h2>What it costs in hardware</h2>
 <div class="items">

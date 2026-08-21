@@ -61,14 +61,14 @@ PAGES = {
         "h1": "GF-T — a float whose exponent is ternary.",
         "desc": (
             "GF-T puts the exponent of a float in balanced ternary and keeps the fields fixed: "
-            "2.1x lower error in a 16-bit takum comparison and 2.6x in a 32-bit comparison, 219 LUTs and zero DSP blocks, "
+            "219 LUTs and zero DSP blocks, "
             "147 MHz pipelined on an Artix-7. Reference model and bit-exact vectors included."
         ),
         "lede": (
             "The exponent is a balanced-ternary number and the fields are fixed. That removes the "
             "incumbent's largest cost \u2014 regime decode \u2014 and makes the exponent add native on a "
-            "ternary fabric. Against takum, the measured comparisons show 2.1x lower error at 16 bits "
-            "and 2.6x at 32 bits."
+            "ternary fabric. The accuracy advantage over takum this page used to report has been "
+            "withdrawn: restated at equal stored width it does not survive."
         ),
         "sections": [
             ("The layout", [
@@ -76,10 +76,10 @@ PAGES = {
                 ("Four trits, 81 exponent values", "Radix-3 economy: 3^4 = 81 exponent values from four trits, and on a ternary fabric the exponent add is native \u2014 no binary carry, no base conversion."),
             ]),
             ("Accuracy against takum", [
-                ("16-bit comparison \u2014 2.1x lower error", "The measured comparison against a 16-bit takum format reports 2.1x lower error for GF-T."),
-                ("32-bit comparison \u2014 2.6x lower error", "The measured comparison against a 32-bit takum format reports 2.6x lower error for GF-T."),
-                ("Re-measured independently", "8 August 2026, against the published format's own oracle. The compared widths are stated with each result."),
-                ("What this does not establish", "The comparisons do not establish a universal ranking: width and range are part of the stated test conditions."),
+                ("2.1x / 2.6x \u2014 withdrawn", "This page reported 2.1x lower error against takum16 and 2.6x against takum32. Both are withdrawn. The oracle they were measured against negated wrongly on every negative code, and the budget was nominal rather than equal stored width."),
+                ("What replaces them", "Restated at equal stored width the comparison is a tie, not a win. On the TNF rung of the same ladder: 5.32e-3 against takum16's 5.70e-3 at sixteen bits, 1.20e-7 against takum32's 1.26e-7 at thirty-two. No format wins by more than the width it gives up."),
+                ("What still stands, and it is not accuracy", "The one measured asymmetry is hardware: a full TNF(4,8) adder is 397 LUT against a true base-3 tekum8 adder's 15,251 \u2014 38x \u2014 with TNF the wider format. Decode is 1 LUT against 542. Post-synthesis for xc7, no place-and-route, no silicon."),
+                ("What this does not establish", "No universal ranking. Width and range are part of the stated test conditions, and an accuracy claim quoted without them is the error that produced the withdrawn figures above."),
             ]),
             ("What it costs in hardware", [
                 ("219 LUTs, zero DSP48", "The GF-T16 multiplier with the bus widths the arithmetic needs, synthesised for xc7 with hard multipliers disabled."),
@@ -153,7 +153,7 @@ PAGES = {
                 ("GF16 4×4 matmul — 32,252 LUT with zero hard multipliers", "A 4×4 matrix multiplier over my own GF16 format, synthesised for Artix-7. It maps into fabric with no DSP48 blocks at all, or 21,223 LUTs if the 64 hard multipliers are allowed. The block is combinational — no registers, so no clock and no frequency figure belongs to it."),
                 ("100% held-out — a network that trains on the FPGA", "Forward pass, gradient and weight update all in RTL with no host in the loop. A 2-layer ReLU network learns XOR on the chip itself, 4 of 4 correct, every node bit-exact from specification to the binary FPGA."),
                 ("SKY130 — submitted for fabrication through Tiny Tapeout", "The design was submitted for fabrication through an open ASIC process: GDS was produced, the gate-level test passed, and precheck passed. No die measurements are claimed."),
-                ("2.1× / 2.6× — measured GF-T and takum comparisons", "A float whose exponent is a balanced-ternary number and whose fields are fixed: no regime decode to pay for, and on a ternary fabric the exponent add is native. The measured comparisons report 2.1× lower error at 16 bits and 2.6× at 32 bits against takum. Range is bounded at ±40 in powers of two; that limit is stated with the comparison."),
+                ("2.1× / 2.6× — withdrawn, and what stands instead", "A float whose exponent is a balanced-ternary number and whose fields are fixed: no regime decode to pay for, and on a ternary fabric the exponent add is native. The accuracy lead over takum once reported here is withdrawn — at equal stored width the comparison ties rather than wins. What survives is measured in hardware, not accuracy: 38× fewer LUT on a full adder against a true base-3 opponent. Range is bounded at ±40 in powers of two; that limit is stated with every result."),
                 ("Over the air — tri-net, a full ternary network stack", "133 formal specifications: GF16 physical layer, BPSK modem on AD9361, ETX mesh routing, ChaCha20-Poly1305 / X25519 crypto. Text and images carried between physically separate boards."),
                 ("83 formats — a conformance catalogue", "Bit-exact test vectors for FP8, BF16, MXFP4 and microscaling formats: a vendor-neutral reference for verifying low-precision arithmetic."),
             ]),
@@ -189,7 +189,7 @@ PAGES = {
         ),
         "sections": [
             ("Available cores", [
-                ("GF-T multiplier — ternary arithmetic", "The multiplier for GF-T: measured 2.1× lower error against 16-bit takum and 2.6× against 32-bit takum, with no regime decode. Published as arXiv:2606.05017 with an independent reference model and bit-exact vectors; ratios re-measured independently on 8 August 2026."),
+                ("GF-T multiplier — ternary arithmetic", "The multiplier for GF-T: fixed fields, no regime decode. Published as arXiv:2606.05017 with an independent reference model and bit-exact vectors. The accuracy ratios against takum this entry used to quote are withdrawn — they did not survive restatement at equal stored width."),
                 ("GF16 4×4 matmul — matrix engine", "Maps entirely into fabric, leaving the DSP columns free for the rest of your system: 32,252 LUTs with zero DSP48, or 21,223 LUTs if the 64 hard multipliers are allowed. Combinational, 0 latches."),
                 ("BPSK modem — radio PHY", "Built for software-defined radio (AD9361), part of a full ternary network stack with mesh routing and authenticated encryption. Proven device-to-device over the air."),
                 ("On-chip training primitives — edge ML", "Neural primitives that perform their own backward pass on the FPGA: forward, gradient and weight update in RTL, no host in the loop. 100% held-out on the binary FPGA."),
@@ -839,7 +839,7 @@ RU_HOME = {
     "title": "T27.AI — тернарное железо для ИИ, измеренное на бинарной FPGA",
     "eyebrow": "Тернарное железо для ИИ",
     "h1": "Числовые форматы и бинарная FPGA, которая их исполняет.",
-    "desc": "GF-T — тернарно-нативный float: в измеренных сравнениях с takum точнее в 2.1 раза при 16 битах и в 2.6 раза при 32 битах. "
+    "desc": "GF-T — тернарно-нативный float: 38× меньше LUT на полном сумматоре против настоящего base-3 соперника. "
             "Результаты указаны вместе с разрядностью и диапазоном. "
             "RTL, независимая эталонная модель и побитовые векторы — на открытом тулчейне.",
     "lede": "Я проектирую числовые форматы и железо, которое их считает: от статьи на arXiv через RTL, "
@@ -849,10 +849,15 @@ RU_HOME = {
     "cta": "Вводный модуль верификации бесплатный, и отчёт ваш — публикуйте или оставьте себе.",
     "sections": [
         ["Что здесь измерено", [
-            ["Сравнения GF-T и takum — 2.1× и 2.6×",
+            ["Сравнения GF-T и takum — 2.1× и 2.6× отозваны",
              "Float, у которого экспонента — сбалансированное троичное число, а поля фиксированы: платить за "
-             "декодирование режима не нужно. Измеренные сравнения дают в 2.1 раза меньшую ошибку при 16 битах "
-             "и в 2.6 раза при 32 битах; ширина и диапазон названы рядом с каждым результатом."],
+             "декодирование режима не нужно. Прежде здесь стояла в 2.1 раза меньшая ошибка при 16 битах и в 2.6 "
+             "при 32 — обе цифры отозваны: оракул неверно отрицал отрицательные коды, а бюджет был номинальный, "
+             "а не равная ширина хранения. При равной ширине это ничья, а не выигрыш."],
+            ["Что устояло — и это не точность",
+             "Единственная измеренная асимметрия в железе: полный сумматор TNF(4,8) — 397 LUT против 15 251 "
+             "у настоящего base-3 сумматора tekum8, то есть 38×, причём TNF шире. Декод 1 LUT против 542. "
+             "Post-synthesis для xc7, без place-and-route, без кремния."],
             ["Условия измерений",
              "Сравнения не задают общий рейтинг форматов: разрядность и диапазон входят в условия каждого результата."],
             ["Обучение на бинарной FPGA",

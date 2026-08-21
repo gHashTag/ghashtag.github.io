@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>GF-T — тернарно-нативный float с измеренными сравнениями takum · TRINITY</title>
-<meta name="description" content="GF-T — тернарно-нативный float: в измеренных сравнениях с takum точнее в 2.1 раза при 16 битах и в 2.6 раза при 32 битах, 219 LUT и ноль DSP-блоков, 147 МГц на конвейере на Artix-7. Эталонная модель и побитовые векторы прилагаются." />
+<meta name="description" content="GF-T — тернарно-нативный float: 219 LUT и ноль DSP-блоков, 147 МГц на конвейере на Artix-7. Эталонная модель и побитовые векторы прилагаются. Прежний выигрыш по точности над takum отозван — при равной ширине хранения он не воспроизводится." />
 <link rel="canonical" href="https://t27.ai/ru/gft/" />
 <link rel="alternate" hreflang="en" href="https://t27.ai/gft/" />
 <link rel="alternate" hreflang="ru" href="https://t27.ai/ru/gft/" />
@@ -14,13 +14,13 @@
 <meta property="og:locale" content="ru_RU" />
 <meta property="og:url" content="https://t27.ai/ru/gft/" />
 <meta property="og:title" content="GF-T — тернарно-нативный float с измеренными сравнениями takum" />
-<meta property="og:description" content="GF-T — тернарно-нативный float: в измеренных сравнениях с takum точнее в 2.1 раза при 16 битах и в 2.6 раза при 32 битах, 219 LUT и ноль DSP-блоков, 147 МГц на конвейере на Artix-7. Эталонная модель и побитовые векторы прилагаются." />
+<meta property="og:description" content="GF-T — тернарно-нативный float: 219 LUT и ноль DSP-блоков, 147 МГц на конвейере на Artix-7. Эталонная модель и побитовые векторы прилагаются. Прежний выигрыш по точности над takum отозван — при равной ширине хранения он не воспроизводится." />
 <meta property="og:image" content="https://t27.ai/og-gft-ru.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="GF-T — тернарно-нативный float с измеренными сравнениями takum" />
-<meta name="twitter:description" content="GF-T — тернарно-нативный float: в измеренных сравнениях с takum точнее в 2.1 раза при 16 битах и в 2.6 раза при 32 битах, 219 LUT и ноль DSP-блоков, 147 МГц на конвейере на Artix-7. Эталонная модель и побитовые векторы прилагаются." />
+<meta name="twitter:description" content="GF-T — тернарно-нативный float: 219 LUT и ноль DSP-блоков, 147 МГц на конвейере на Artix-7. Эталонная модель и побитовые векторы прилагаются. Прежний выигрыш по точности над takum отозван — при равной ширине хранения он не воспроизводится." />
 <link rel="icon" href="/favicon.svg" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"GF-T — тернарно-нативный float с измеренными сравнениями takum","description":"GF-T — тернарно-нативный float: в измеренных сравнениях с takum точнее в 2.1 раза при 16 битах и в 2.6 раза при 32 битах, 219 LUT и ноль DSP-блоков, 147 МГц на конвейере на Artix-7. Эталонная модель и побитовые векторы прилагаются.","url":"https://t27.ai/ru/gft/","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"GF-T — тернарно-нативный float с измеренными сравнениями takum","description":"GF-T — тернарно-нативный float: 219 LUT и ноль DSP-блоков, 147 МГц на конвейере на Artix-7. Эталонная модель и побитовые векторы прилагаются. Прежний выигрыш по точности над takum отозван — при равной ширине хранения он не воспроизводится.","url":"https://t27.ai/ru/gft/","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"TRINITY","url":"https://t27.ai/"}}</script>
 <style>*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
@@ -63,7 +63,7 @@ footer a{color:var(--muted)}
 
 <p class="eyebrow">Формат</p>
 <h1>GF-T — float, у которого экспонента тернарная.</h1>
-<p class="lede">Экспонента — сбалансированное троичное число, поля фиксированы. Это убирает декодирование режима и делает сложение экспонент нативным на тернарной фабрике. В измеренных сравнениях с takum ошибка ниже в 2.1 раза при 16 битах и в 2.6 раза при 32 битах.</p>
+<p class="lede">Экспонента — сбалансированное троичное число, поля фиксированы. Это убирает декодирование режима и делает сложение экспонент нативным на тернарной фабрике. Выигрыш по точности над takum, который здесь стоял, отозван: при равной ширине хранения сравнение сводится в ничью.</p>
 
 <h2>Раскладка полей</h2>
 <div class="items">
@@ -72,8 +72,8 @@ footer a{color:var(--muted)}
 </div>
 <h2>Точность против takum</h2>
 <div class="items">
-<div class="item"><h3>16-битное сравнение — ошибка ниже в 2.1 раза</h3><p>Измеренное сравнение с 16-битным форматом takum показывает для GF-T ошибку ниже в 2.1 раза.</p></div>
-<div class="item"><h3>32-битное сравнение — ошибка ниже в 2.6 раза</h3><p>Измеренное сравнение с 32-битным форматом takum показывает для GF-T ошибку ниже в 2.6 раза.</p></div>
+<div class="item"><h3>2.1× / 2.6× — отозвано</h3><p>Здесь стояла ошибка ниже в 2.1 раза против takum16 и в 2.6 раза против takum32. Обе цифры отозваны: оракул, против которого их мерили, неверно отрицал каждый отрицательный код, а бюджет был номинальный, а не равная ширина хранения.</p></div>
+<div class="item"><h3>Что стоит вместо них</h3><p>При равной ширине хранения это ничья, а не выигрыш. На ступени TNF той же лестницы: 5.32e-3 против 5.70e-3 у takum16 на шестнадцати битах, 1.20e-7 против 1.26e-7 у takum32 на тридцати двух. Ни один формат не выигрывает больше, чем отдаёт ширины. Устояла асимметрия в железе: полный сумматор 397 LUT против 15 251 — 38×.</p></div>
 <div class="item"><h3>Перемерено независимо</h3><p>8 августа 2026 года, по собственному оракулу опубликованного формата. Разрядность указана рядом с каждым результатом.</p></div>
 <div class="item"><h3>Чего сравнение не устанавливает</h3><p>Оно не устанавливает универсальное ранжирование: разрядность и диапазон входят в условия измерения.</p></div>
 </div>
