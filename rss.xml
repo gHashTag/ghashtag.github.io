@@ -6,7 +6,19 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 21 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Equal stored width removed an accuracy lead</title>
+      <link>https://t27.ai/#/blog/equal-stored-width-removed-an-accuracy-lead</link>
+      <guid isPermaLink="false">equal-stored-width-removed-an-accuracy-lead</guid>
+      <pubDate>Fri, 21 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A corrected equal-stored-width remeasurement withdrew an earlier 2.1×/2.6× lead over takum and records the oracle and budget defects that changed the reading.</description>
+      <category>Measurement</category>
+      <category>Reproducibility</category>
+      <category>Self-critique</category>
+      <category>FPGA</category>
+      <category>Accuracy</category>
+    </item>
     <item>
       <title>Formal was green and had never run a solver</title>
       <link>https://t27.ai/#/blog/formal-was-green-and-had-never-run-a-solver</link>
