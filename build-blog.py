@@ -23,6 +23,7 @@ binding itself yields `undefined` and writes a broken file without erroring.
 import html
 import json
 import os
+import re
 
 SITE = "https://t27.ai"
 EMAIL = "admin@t27.ai"
@@ -131,24 +132,59 @@ def esc(s):
     return html.escape(str(s))
 
 
+INLINE = re.compile(r"\*\*([^*]+)\*\*|`([^`]+)`")
+
+
+def rich(text):
+    """Escape, then RENDER the inline markup instead of showing it.
+
+    Readers were getting the source. `**Executed**` and `` `zig build` ``
+    reached t27.ai with their delimiters intact on 18 of 62 pages, because this
+    file escaped and stopped. The app had the same defect (trinity#864, #865).
+
+    Two forms, because the corpus was measured before the fix was chosen: 31
+    bold spans, 123 code spans, zero markdown links. A markdown dependency
+    would be more machinery than the data needs.
+
+    Bold RECURSES. One Russian paragraph is a code span inside a bold span; a
+    flat pass matches the bold first, `[^*]+` swallows the backticks, and the
+    reader sees them. That one was found only because the sweep covered BOTH
+    locales -- an English-only sweep over a bilingual corpus reads clean while
+    checking half the pages.
+
+    A `code` BLOCK never comes here: one post quotes tool output that literally
+    contains `- **NOTE** purely combinational`, where the asterisks are data.
+    """
+    out, last = [], 0
+    for m in INLINE.finditer(str(text)):
+        out.append(esc(str(text)[last:m.start()]))
+        if m.group(1) is not None:
+            out.append(f"<strong>{rich(m.group(1))}</strong>")
+        else:
+            out.append(f"<code>{esc(m.group(2))}</code>")
+        last = m.end()
+    out.append(esc(str(text)[last:]))
+    return "".join(out)
+
+
 def block_html(b):
     k = b.get("kind")
     if k == "p":
-        return f"<p>{esc(b['text'])}</p>"
+        return f"<p>{rich(b['text'])}</p>"
     if k == "h":
-        return f"<h2>{esc(b['text'])}</h2>"
+        return f"<h2>{rich(b['text'])}</h2>"
     if k == "ul":
-        return "<ul>" + "".join(f"<li>{esc(i)}</li>" for i in b["items"]) + "</ul>"
+        return "<ul>" + "".join(f"<li>{rich(i)}</li>" for i in b["items"]) + "</ul>"
     if k == "ol":
-        return "<ol>" + "".join(f"<li>{esc(i)}</li>" for i in b["items"]) + "</ol>"
+        return "<ol>" + "".join(f"<li>{rich(i)}</li>" for i in b["items"]) + "</ol>"
     if k == "quote":
-        return f"<blockquote>{esc(b['text'])}</blockquote>"
+        return f"<blockquote>{rich(b['text'])}</blockquote>"
     if k == "code":
         return f"<pre><code>{esc(b['text'])}</code></pre>"
     if k == "table":
-        head = "".join(f"<th>{esc(c)}</th>" for c in b["head"])
+        head = "".join(f"<th>{rich(c)}</th>" for c in b["head"])
         rows = "".join(
-            "<tr>" + "".join(f"<td>{esc(c)}</td>" for c in r) + "</tr>"
+            "<tr>" + "".join(f"<td>{rich(c)}</td>" for c in r) + "</tr>"
             for r in b["rows"]
         )
         # Wide tables scroll inside their own box; the page body must not.
@@ -274,7 +310,7 @@ def post_page(p, lang="en"):
     if d.get("openQuestions"):
         parts.append(
             f'<div class="box"><h2>{esc(u["notSettled"])}</h2><ul>'
-            + "".join(f"<li>{esc(q)}</li>" for q in d["openQuestions"])
+            + "".join(f"<li>{rich(q)}</li>" for q in d["openQuestions"])
             + "</ul></div>"
         )
     if d.get("receipts"):

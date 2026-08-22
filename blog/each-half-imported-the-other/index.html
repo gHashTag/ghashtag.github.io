@@ -21,7 +21,7 @@
 <meta name="twitter:title" content="Each half imported the other" />
 <meta name="twitter:description" content="One directory was split across two repositories and both kept flat imports of the other. Neither compiled — and being uncompilable is exactly what kept either from reporting it." />
 <link rel="icon" href="/favicon.svg" />
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Each half imported the other", "description": "One directory was split across two repositories and both kept flat imports of the other. Neither compiled — and being uncompilable is exactly what kept either from reporting it.", "url": "https://t27.ai/blog/each-half-imported-the-other/", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://t27.ai/blog/each-half-imported-the-other/"}, "image": "https://t27.ai/og-blog-each-half-imported-the-other.png", "datePublished": "2026-08-12", "inLanguage": "en", "author": {"@type": "Person", "name": "Dmitrii Vasilev", "url": "https://github.com/gHashTag"}, "publisher": {"@type": "Person", "name": "Dmitrii Vasilev"}, "keywords": "verification, zig, dependencies"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Each half imported the other","description":"One directory was split across two repositories and both kept flat imports of the other. Neither compiled — and being uncompilable is exactly what kept either from reporting it.","url":"https://t27.ai/blog/each-half-imported-the-other/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/each-half-imported-the-other/"},"image":"https://t27.ai/og-blog-each-half-imported-the-other.png","datePublished":"2026-08-12","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"verification, zig, dependencies"}</script>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
@@ -75,12 +75,12 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 <p class="lede">One directory was split across two repositories and both kept flat imports of the other. Neither compiled — and being uncompilable is exactly what kept either from reporting it.</p>
 <div class="tags"><span class="tag">verification</span><span class="tag">zig</span><span class="tag">dependencies</span></div>
 <p>A package with three source files would not build. Its manifest declared a dependency by URL with no hash, so the fetch could not start; there was no build script at all, so there was nothing to run if it had. Underneath both, four imports:</p>
-<pre><code>const vsa         = @import("vsa.zig");
-const hybrid      = @import("hybrid.zig");
-const packed_vsa  = @import("packed_vsa.zig");
-const packed_trit = @import("packed_trit.zig");</code></pre>
+<pre><code>const vsa         = @import(&quot;vsa.zig&quot;);
+const hybrid      = @import(&quot;hybrid.zig&quot;);
+const packed_vsa  = @import(&quot;packed_vsa.zig&quot;);
+const packed_trit = @import(&quot;packed_trit.zig&quot;);</code></pre>
 <p>None of those four files are in that repository. They are in a different one — the numeric library it depends on. And that library’s own <code>packed_vsa.zig</code> opened with this:</p>
-<pre><code>const Entity = @import("knowledge_graph.zig").Entity;</code></pre>
+<pre><code>const Entity = @import(&quot;knowledge_graph.zig&quot;).Entity;</code></pre>
 <p>Which is not there either. It is back in the first repository.</p>
 <h2>The shape of it</h2>
 <p>One directory was divided into two repositories, and on both sides the flat relative imports were left exactly as they were, each now pointing at a sibling that had moved to the other side. The result is symmetric: neither half compiles, and each is missing precisely what the other kept.</p>
@@ -88,8 +88,8 @@ const packed_trit = @import("packed_trit.zig");</code></pre>
 <p>It surfaced by accident. I was exporting an unrelated declaration in the numeric library, and exporting it made the compiler analyse a file it had never analysed. Four more broken paths fell out immediately, and one of them named the other repository.</p>
 <h2>A pin that breaks itself, demonstrated twice</h2>
 <p>A sibling package had this in its manifest:</p>
-<pre><code>.url  = "…/zig-golden-float/archive/refs/heads/main.tar.gz",
-.hash = "golden_float-0.2.0-h7LKhdEX…",</code></pre>
+<pre><code>.url  = &quot;…/zig-golden-float/archive/refs/heads/main.tar.gz&quot;,
+.hash = &quot;golden_float-0.2.0-h7LKhdEX…&quot;,</code></pre>
 <p>A moving reference and a content hash. Upstream was at 2.1.0. The pin had been broken since the first merge after it was written, and the failure lands at fetch — before a compiler reads anything — so it presents as an unbuildable package rather than as a stale dependency.</p>
 <p>I re-pinned it, and it went green. Then I merged one commit upstream, and it broke again inside the hour. That second break is the useful part: it turns an argument into a demonstration. A reference that keeps moving beside a hash that keeps asserting is not a pin, it is a scheduled failure. Both packages now pin to a commit tarball.</p>
 <h2>My own guard measured itself</h2>
@@ -103,7 +103,7 @@ const packed_trit = @import("packed_trit.zig");</code></pre>
 <p>When the two binaries failed to compile, I said in the pull request that these were artefacts of my local toolchain being 0.16 rather than the 0.15.2 the package targets — <code>std.io.getStdOut</code>, <code>ArrayList.init</code>, the <code>std.fs</code> reorganisation. I had been right about that three times already this week, which is presumably why I reached for it a fourth.</p>
 <p>CI on 0.15.2 reported the same errors. They are real: the binaries were written against 0.14 and never migrated. I corrected it in the next commit message and filed the migration as its own issue. Worth publishing rather than quietly amending, because the failure mode is specific and I expect to repeat it — a diagnosis that has been correct several times running stops being checked and starts being assumed.</p>
 <h2>What it took</h2>
-<div class="tw"><table><thead><tr></tr></thead><tbody><tr><td>build.zig</td><td>did not exist</td><td>library module, per-root test target</td></tr><tr><td>manifest</td><td>no fingerprint, dependency without a hash</td><td>ZON, fingerprint, pinned to a commit</td></tr><tr><td>the four imports</td><td>files in another repository</td><td>the dependency module</td></tr><tr><td>workflow</td><td>none</td><td>zig build + zig build test on 0.15.2</td></tr><tr><td>tests</td><td>unrunnable</td><td>7 passed</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th></th><th>Before</th><th>After</th></tr></thead><tbody><tr><td>build.zig</td><td>did not exist</td><td>library module, per-root test target</td></tr><tr><td>manifest</td><td>no fingerprint, dependency without a hash</td><td>ZON, fingerprint, pinned to a commit</td></tr><tr><td>the four imports</td><td>files in another repository</td><td>the dependency module</td></tr><tr><td>workflow</td><td>none</td><td>zig build + zig build test on 0.15.2</td></tr><tr><td>tests</td><td>unrunnable</td><td>7 passed</td></tr></tbody></table></div>
 <p>Seven tests is not much, and I would rather say so than let the green stand in for more than it is. What changed is narrower and worth stating exactly: a package that no one could depend on can now be depended on, and a compiler has read its source for the first time.</p>
 <div class="box"><h2>What this does not settle</h2><ul><li>Only the library was made to build. <code>kg_cli</code> and <code>kg_server</code> are a Zig 0.14 to 0.15 migration across roughly 1300 lines — filed as #3, not attempted here, and until it is done those two tools remain what they have always been: unrunnable.</li><li>I do not know how many other pairs in this fleet have the same shape. The one I found, I found by accident, while fixing something else.</li><li>The library builds and its seven tests pass. Seven is a small number for a graph store, and nothing here establishes that the seven cover anything in particular.</li></ul></div>
 <div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/zig-knowledge-graph/pull/2">zig-knowledge-graph #2 — the near half, merged</a></li><li><a href="https://github.com/gHashTag/zig-knowledge-graph/issues/1">zig-knowledge-graph #1 — the split, open</a></li><li><a href="https://github.com/gHashTag/zig-knowledge-graph/issues/3">zig-knowledge-graph #3 — the two binaries, open</a></li><li><a href="https://github.com/gHashTag/zig-golden-float/pull/99">zig-golden-float #99 — the far half, merged</a></li><li><a href="https://github.com/gHashTag/trinity-training/pull/2">trinity-training #2 — the self-invalidating pin, merged</a></li></ul></div>
