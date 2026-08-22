@@ -6,7 +6,19 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 23 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The ratchet counted a total as an error</title>
+      <link>https://t27.ai/#/blog/the-ratchet-counted-a-total-as-an-error</link>
+      <guid isPermaLink="false">the-ratchet-counted-a-total-as-an-error</guid>
+      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A gate written to stop elaboration errors creeping back reported 186 of them; 25 were the compiler's own summary line saying how many errors it had found. The number had already reached commit messages and a status page. This is the proof that could not have come out any other way, the live emitter defect that was hiding inside the count, why fixing it made the number worse, and one fix that was built, measured, and thrown away.</description>
+      <category>CI</category>
+      <category>Measurement</category>
+      <category>Self-critique</category>
+      <category>FPGA</category>
+      <category>Compilers</category>
+    </item>
     <item>
       <title>Four hundred and twelve tests that were sentences</title>
       <link>https://t27.ai/#/blog/four-hundred-and-twelve-tests-that-were-sentences</link>
