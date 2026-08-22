@@ -31,6 +31,17 @@
       <category>Process</category>
     </item>
     <item>
+      <title>The required check was an echo</title>
+      <link>https://t27.ai/#/blog/the-required-check-was-an-echo</link>
+      <guid isPermaLink="false">the-required-check-was-an-echo</guid>
+      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
+      <description>One of four required status checks — the ones a branch ruleset will not let a merge past — was a shell command that prints a sentence. Twenty lines, no logic, green on every pull request, required for months. Meanwhile the test suite it was believed to be has never blocked a merge, and thirteen tests fail on the main branch indefinitely because nothing was waiting for them.</description>
+      <category>CI</category>
+      <category>Process</category>
+      <category>Measurement</category>
+      <category>Self-critique</category>
+    </item>
+    <item>
       <title>Four hundred and twelve tests that were sentences</title>
       <link>https://t27.ai/#/blog/four-hundred-and-twelve-tests-that-were-sentences</link>
       <guid isPermaLink="false">four-hundred-and-twelve-tests-that-were-sentences</guid>
