@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Троичность выиграла провод, но не вентиль · TRINITY</title>
+<meta name="description" content="Экономичность основания — теорема, а не измерение: 5,66 процента в ламповой модели 1950 года, победа на проводе в USB4 v2 и GDDR7 и проигрыш на вентиле по запасу помехоустойчивости." />
+<link rel="canonical" href="https://t27.ai/ru/blog/ternary-won-the-wire-not-the-gate/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/ternary-won-the-wire-not-the-gate/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/ternary-won-the-wire-not-the-gate/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/ternary-won-the-wire-not-the-gate/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/ternary-won-the-wire-not-the-gate/" />
+<meta property="og:title" content="Троичность выиграла провод, но не вентиль" />
+<meta property="og:description" content="Экономичность основания — теорема, а не измерение: 5,66 процента в ламповой модели 1950 года, победа на проводе в USB4 v2 и GDDR7 и проигрыш на вентиле по запасу помехоустойчивости." />
+<meta property="og:image" content="https://t27.ai/og-blog-ternary-won-the-wire-not-the-gate-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Троичность выиграла провод, но не вентиль" />
+<meta name="twitter:description" content="Экономичность основания — теорема, а не измерение: 5,66 процента в ламповой модели 1950 года, победа на проводе в USB4 v2 и GDDR7 и проигрыш на вентиле по запасу помехоустойчивости." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Троичность выиграла провод, но не вентиль","description":"Экономичность основания — теорема, а не измерение: 5,66 процента в ламповой модели 1950 года, победа на проводе в USB4 v2 и GDDR7 и проигрыш на вентиле по запасу помехоустойчивости.","url":"https://t27.ai/ru/blog/ternary-won-the-wire-not-the-gate/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/ternary-won-the-wire-not-the-gate/"},"image":"https://t27.ai/og-blog-ternary-won-the-wire-not-the-gate-ru.png","datePublished":"2026-08-22","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Number formats, Arithmetic, Signalling, History, Self-critique"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Троичность выиграла провод, но не вентиль</h1>
+<p class="meta">2026-08-22 · 9 мин чтения</p>
+<p class="lede">Экономичность основания — теорема, а не измерение: 5,66 процента в ламповой модели 1950 года, победа на проводе в USB4 v2 и GDDR7 и проигрыш на вентиле по запасу помехоустойчивости.</p>
+<div class="tags"><span class="tag">Number formats</span><span class="tag">Arithmetic</span><span class="tag">Signalling</span><span class="tag">History</span><span class="tag">Self-critique</span></div>
+<p>[Источники — ни одного нашего замера] За троичность приводят одно число: основание 3 экономичнее основания 2. Число верно точно, но про железо не говорит ничего, потому что это теорема, а не результат. Замер, который стоит поставить, назван в конце.</p>
+<h2>Оптимум — Штайнера, 1850; 5,66% — арифметика</h2>
+<p>Стоимость представления числа N в основании b в классической метрике — это число разрядов, умноженное на основание: E(b, N) = b · ⌊log_b(N) + 1⌋, а E/ln(N) стремится к b/ln(b). Минимум по вещественному b — это e; задачу поставил и решил Якоб Штайнер в 1850 году (Journal für die reine und angewandte Mathematik, том 40, с. 208). Сравнение двойки с тройкой — уже не его: это одно деление.</p>
+<div class="tw"><table><thead><tr><th>основание b</th><th>b/ln b</th></tr></thead><tbody><tr><td>2</td><td>2.88539</td></tr><tr><td>e</td><td>2.71828</td></tr><tr><td>3</td><td>2.73072</td></tr><tr><td>4</td><td>2.88539</td></tr><tr><td>10</td><td>4.34294</td></tr></tbody></table></div>
+<p>2.88539 / 2.73072 = 1.0566: троичная асимптотически экономичнее двоичной на 5,66 процента — не в разы. Двойка и четвёрка совпадают точно, потому что 4 = 2². Проверяется одной строкой:</p>
+<pre><code>python3 -c &quot;import math; print([(b, round(b/math.log(b), 5)) for b in (2, math.e, 3, 4, 10)])&quot;</code></pre>
+<h2>Метрика описывает кольцевой счётчик на радиолампах</h2>
+<p>Модель за E(b, N) сформулирована явно: разряд с b состояниями стоит ровно b единиц оборудования. Это Engineering Research Associates, High-Speed Computing Devices (McGraw-Hill, 1950): кольцевой счётчик на триодах, где основанию R нужно R триодов на разряд. Их подсчёт ламп до 10⁶ — 39,20 у основания 2 против 38,24 у основания 3, то есть 2,5 процента, а не 5,66. И там же стоит оговорка, которую цитирующие опускают:</p>
+<blockquote>«the choice of 2 as a radix is frequently justified on more complete analysis» — «выбор двойки как основания часто оправдан при более полном анализе». ERA, High-Speed Computing Devices, 1950, с. 84–87.</blockquote>
+<p>У КМОП-транзистора нет «b состояний по цене b». Стив Вайс напоминает, что модель не работала уже в ламповую эпоху: IBM 650 использовала bi-quinary, семь триодов на десятичный разряд. Смените функцию стоимости — сместится и оптимум: у Георгиу (arXiv:1611.03715) он принимает значения от 1,42 до 3,83 при разных параметрах.</p>
+<h2>На малых диапазонах экономичнее двоичная</h2>
+<div class="tw"><table><thead><tr><th>диапазон N</th><th>b = 2</th><th>b = 3</th><th>b = e</th></tr></thead><tbody><tr><td>1..6</td><td>4.7</td><td>5.0</td><td>4.5</td></tr><tr><td>1..43</td><td>9.3</td><td>9.5</td><td>9.0</td></tr><tr><td>1..182</td><td>13.3</td><td>13.1</td><td>12.9</td></tr><tr><td>1..5329</td><td>23.0</td><td>22.2</td><td>22.1</td></tr></tbody></table></div>
+<p>Это усреднённые, а не асимптотические значения (Wikipedia, Optimal radix choice): первые две строки двоичная выигрывает прямо, а троичная обгоняет только на диапазонах порядка сотен.</p>
+<h2>Сетунь: что известно и что не сходится</h2>
+<p>ВЦ МГУ, лаборатория Брусенцова, по инициативе академика Соболева; первый образец 1958–1959. 200 кГц, около 4500 операций в секунду, слово 9 или 18 тритов, серия 1961–1965 в Казани. Сколько выпущено — не решено: 50 у английской Wikipedia, computer-museum.ru и Хейза, 46 у русской. Почему остановили — тоже: невыгодная заводу цена, административное решение или молчание источника.</p>
+<p>Хейз фиксирует главное: каждый трит был парой ферритовых сердечников, а два сердечника вмещают больше одного трита. На бумаге 18 тритов покрывают 3¹⁸ = 387 420 489 при r·w = 54 против 58 у двоичного эквивалента — в железе этот запас ушёл на реализацию. Сетунь-70 (апрель 1970) осталась единственным экземпляром, а её система команд позже стала ДССП — на двоичных машинах.</p>
+<h2>Сбалансированная троичная — красивая арифметика</h2>
+<ul><li>Диапазон n тритов симметричен, ±(3ⁿ−1)/2: ±193 710 244 для 18 тритов, тогда как дополнительный код асимметричен на единицу.</li><li>Знак — это знак старшей ненулевой цифры, знакового разряда нет.</li><li>Отрицание — поразрядная замена 1 и T, без переносов.</li><li>Усечение и есть округление к ближайшему.</li><li>Одно число занимает ln2/ln3 ≈ 63 процента двоичных разрядов.</li></ul>
+<p>Кнут называет эту запись едва ли не самой красивой системой счисления. Но это свойства записи, а не приборов.</p>
+<h2>Троичность выиграла провод</h2>
+<p>USB4 версии 2.0 (USB-IF, октябрь 2022), Gen4: три уровня, 25,6 ГБод на линию, 11 бит в 7 тритов, потому что 2¹¹ = 2048 ≤ 3⁷ = 2187 — это 99,1 процента троичного предела, а метрика ошибок названа TER. Следом GDDR7: JESD239 от 5 марта 2024 года, первый стандарт DRAM с PAM — 3 бита за 2 такта против 2 у NRZ.</p>
+<div class="tw"><table><thead><tr><th>стандарт</th><th>линейный код</th><th>уровней</th></tr></thead><tbody><tr><td>100BASE-TX</td><td>MLT-3</td><td>3</td></tr><tr><td>100BASE-T4</td><td>8B6T</td><td>3</td></tr><tr><td>1000BASE-T</td><td>4D-PAM5 + trellis</td><td>5</td></tr><tr><td>2.5G/5GBASE-T (802.3bz)</td><td>PAM-16 / 128-DSQ + LDPC</td><td>16</td></tr><tr><td>100BASE-T1 (802.3bw)</td><td>PAM-3</td><td>3</td></tr><tr><td>1000BASE-T1 (802.3bp)</td><td>PAM-3, 750 МБод</td><td>3</td></tr><tr><td>2.5/5/10GBASE-T1 (802.3ch)</td><td>PAM-4</td><td>4</td></tr><tr><td>USB4 v2 Gen4</td><td>PAM-3, 11b/7t</td><td>3</td></tr><tr><td>GDDR7 (JESD239)</td><td>PAM-3</td><td>3</td></tr></tbody></table></div>
+<p>Две строки закрывают распространённое утверждение: 2.5GBASE-T и 5GBASE-T — не PAM-3, а «даунклок» 10GBASE-T с PAM-16 и 128-DSQ, который путают с соседним 2.5GBASE-T1 (802.3ch, PAM-4). И сам PAM-3 — сигнализация на проводе, а не вычисления: на обоих концах линии данные двоичные.</p>
+<h2>И не выиграла вентиль</h2>
+<p>При размахе Vpp и m равноотстоящих уровнях расстояние равно Vpp/(m−1): переход от двух уровней к трём делит запас помехоустойчивости пополам, 6,02 дБ, за прирост плотности log₂3 = 1,58 раза. Таблица USB-IF: относительный запас 1 у PAM-2, 0,5 у PAM-3, 0,33 у PAM-4. В Ethernet тот же коэффициент — пятиуровневому 1000BASE-T нужно примерно на 6 дБ больше SNR, чем трёхуровневому 100BASE-T.</p>
+<p>Второе препятствие — прибор. КМОП-вентиль это выключатель с двумя рельсами и без статического тока; средний уровень приходится изготавливать — делителем со сквозным током, как в троичном CNTFET-инверторе 2005 года, который существует в HSPICE, а не в кремнии, — или приборами с несколькими порогами вне mainstream-КМОП. Дальше область раскритиковала себя сама: Этьембль (arXiv:2207.04839) выносит вывод в заголовок — троичные и четверичные CNTFET-сумматоры менее эффективны, чем двоичные, на сумматорах со сквозным переносом; Такбири с соавторами (CSSP, 2019) показывают, что запасы помехоустойчивости в многозначной логике публиковались завышенными.</p>
+<p>Третье препятствие — размер приза: 5,66 процента асимптотически против индустрии, которая забирала столько же каждые несколько месяцев по закону Мура, не перестраивая булеву алгебру, EDA, компиляторы и IEEE 754.</p>
+<h2>BitNet — это не основание</h2>
+<p>Единственный работающий троичный результат в машинном обучении — BitNet b1.58 (arXiv:2402.17764, февраль 2024, Microsoft Research и UCAS): веса из {−1, 0, +1}, активации 8 бит, а «1,58» — это log₂3, энтропия трита. Работает именно ноль: он даёт явную фильтрацию признаков. У модели 2B4T (arXiv:2504.12285) 2 миллиарда параметров.</p>
+<div class="tw"><table><thead><tr><th>модель</th><th>память без эмбеддингов, ГБ</th><th>latency, мс (декод на CPU)</th><th>энергия, Дж (оценка отчёта)</th></tr></thead><tbody><tr><td>BitNet b1.58 2B4T</td><td>0.4</td><td>29</td><td>0.028</td></tr><tr><td>Gemma-3 1B</td><td>1.4</td><td>41</td><td>0.186</td></tr><tr><td>LLaMA 3.2 1B</td><td>2.0</td><td>48</td><td>0.258</td></tr><tr><td>Qwen2.5 1.5B</td><td>2.6</td><td>65</td><td>0.347</td></tr></tbody></table></div>
+<ul><li>Это двоичное железо с трёхзначным множеством значений весов: позиционной арифметики по основанию 3 здесь нет, умножения убирает само множество {−1, 0, +1}.</li><li>1,58 бита — предел, а не то, что лежит в памяти: четыре тернарных значения пакуются в один int8, то есть 2 бита на вес, перерасход 26 процентов.</li><li>Колонка энергии — модельная оценка из отчёта, а не показание ваттметра.</li><li>Соседние термины к троичности отношения не имеют: TLC NAND — это 3 бита и 8 уровней, PAM-4 — четыре уровня, tri-state в High-Z — отключённый драйвер.</li></ul>
+<h2>Что это не устанавливает</h2>
+<ul><li>Здесь не использован ни один прибор. Каждое число выше списано с источника, и пост кончается тем замером, который их заменит.</li><li>Ходячее «8 487 значений, где троичная проигрывает двоичной» и цифра «40 крат транзисторов на трит» — оба без первоисточника и как факты здесь не используются.</li><li>Публикация Nature Electronics 2019 с изготовленным троичным CNTFET-инвертором не найдена; работа Nature 2019 про RISC-V на нанотрубках — двоичная.</li><li>46 или 50 «Сетуней» — расхождение источников, и никакой RTL его не разрешит.</li><li>PAM-3 в трансиверах mainstream-FPGA не подтверждён: в проверенных материалах AMD Versal и Altera Agilex упоминаний нет.</li><li>Нативную троичность на FPGA проверить нельзя: LUT и триггеры двухуровневые, трит хранится двумя битами — как в процессоре 5500FP и калькуляторе Tiny Tapeout. Вывод «троичность на FPGA дешевле» измерял бы штраф эмуляции.</li></ul>
+<p>Честная позиция узкая. Экономичность основания — это математика: верна точно, равна 5,66 процента и номинирована в триодах кольцевого счётчика 1950 года. Результатом была бы функция стоимости, измеренная на существующих компонентах, — ровно то, чего, по словам Вайса, никто не опубликовал. Эксперимент невелик: сбалансированно-троичный сумматор на N тритов по два бита на трит против двоичного на ⌈N·log₂3⌉ бит того же динамического диапазона, LUT, FF и Fmax после place-and-route, N = 9, 18, 24. Это другая валюта, чем у ERA, и сказать это вслух — половина работы. Гипотеза — троичная сторона проиграет, потеряв аппаратную цепь переноса. Отрицательный результат ценнее: он превращает 76-летний спор из философского в измеренный.</p>
+<p>Такие замеры и ставит клуб «Золотая Литейная» на t27.ai/#/foundry — со знаменателем, условиями и отрицательными результатами тем же кеглем, что и положительные. Если троичный сумматор проиграет, число всё равно будет опубликовано.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Ничего в посте не измерено нами: это чтение источников, а не эксперимент на плате ALINX AX7203 и не результат на кристалле.</li><li>Ходячее число «8 487 значений» и цифра «40 крат транзисторов на трит» — без первоисточника и не используются.</li><li>Публикация Nature Electronics 2019 с изготовленным троичным CNTFET-инвертором не найдена; 46 или 50 «Сетуней» — расхождение остаётся неразрешённым.</li><li>PAM-3 в трансиверах mainstream-FPGA не подтверждён в проверенных материалах AMD Versal и Altera Agilex.</li><li>Пост не устанавливает никакого сравнения стоимости троичной и двоичной арифметики на FPGA или в кремнии; предложенный замер сумматора не поставлен.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://archive.org/details/HighSpeedComputingDevices">ERA, High-Speed Computing Devices (McGraw-Hill, 1950) — the cost model and its own caveat, pp. 84–87</a></li><li><a href="https://www.digizeitschriften.de/download/PPN243919689_0040/PPN243919689_0040___log28.pdf">J. Steiner, Journal für die reine und angewandte Mathematik 40:208, 1850</a></li><li><a href="https://en.wikipedia.org/wiki/Optimal_radix_choice">Optimal radix choice — Wikipedia (averaged E(b,N) table)</a></li><li><a href="https://saweis.net/posts/Revisiting-Radix-Economy.html">Steve Weis — Revisiting Radix Economy</a></li><li><a href="https://web.williams.edu/Mathematics/sjmiller/public_html/105Sp10/addcomments/Hayes_ThirdBase.htm">Brian Hayes, Third Base, American Scientist 89(6):490, 2001 — ferrite-core pair per trit, 50 machines</a></li><li><a href="https://www.computer-museum.ru/histussr/12-6.htm">МЦВМ «Сетунь» — Виртуальный компьютерный музей</a></li><li><a href="https://www.usb.org/sites/default/files/USB%2080G%20PHY%20background.pdf">USB-IF — USB 80G PHY background (PAM-3, 11b/7t, margin table)</a></li><li><a href="https://www.jedec.org/news/pressreleases/jedec-publishes-gddr7-graphics-memory-standard">JEDEC JESD239 GDDR7 press release, 5 March 2024</a></li><li><a href="https://www.ieee802.org/3/bz/public/may15/Souvignier_3bz_01_0515.pdf">IEEE 802.3bz TF, Souvignier/Feyh, May 2015 — 2.5G/5GBASE-T is PAM-16 / 128-DSQ, not PAM-3</a></li><li><a href="https://arxiv.org/abs/2402.17764">arXiv:2402.17764 — The Era of 1-bit LLMs (BitNet b1.58)</a></li><li><a href="https://arxiv.org/abs/2504.12285">arXiv:2504.12285 — BitNet b1.58 2B4T Technical Report</a></li><li><a href="https://arxiv.org/abs/2207.04839">arXiv:2207.04839 — Etiemble, ternary and quaternary CNTFET adders less efficient than binary for CPAs</a></li><li><a href="https://link.springer.com/article/10.1007/s00034-019-01063-8">Takbiri, Faghih Mirzaee, Navi, CSSP 38(9):4280–4301, 2019 — overstated noise margins in MVL</a></li><li><a href="https://www.theregister.com/2026/03/18/ternary_cpu_on_fpga/">The Register, 18 March 2026 — ternary CPU on FPGA (5500FP), two bits per trit</a></li></ul></div>
+<div class="cta"><p>Каждая цифра выше измерена, и рядом с ней названы её пределы.</p><div class="btns"><a class="btn" href="/?lang=ru#/blog/ternary-won-the-wire-not-the-gate">Открыть интерактивную версию</a><a class="btn sec" href="/blog/ternary-won-the-wire-not-the-gate/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Троичность выиграла провод, но не вентиль">admin@t27.ai</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
