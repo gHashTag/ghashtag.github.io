@@ -64,6 +64,16 @@
       <category>Self-critique</category>
     </item>
     <item>
+      <title>I wrote the post, then did the thing</title>
+      <link>https://t27.ai/#/blog/i-wrote-the-post-then-did-the-thing</link>
+      <guid isPermaLink="false">i-wrote-the-post-then-did-the-thing</guid>
+      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
+      <description>Two posts in this series are about gates that fail without changing anyone behaviour. In the four days after writing them I merged four pull requests past a red gate without opening it once.</description>
+      <category>CI</category>
+      <category>Attention</category>
+      <category>Self-critique</category>
+    </item>
+    <item>
       <title>Four hundred and twelve tests that were sentences</title>
       <link>https://t27.ai/#/blog/four-hundred-and-twelve-tests-that-were-sentences</link>
       <guid isPermaLink="false">four-hundred-and-twelve-tests-that-were-sentences</guid>
