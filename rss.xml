@@ -53,6 +53,17 @@
       <category>Self-critique</category>
     </item>
     <item>
+      <title>The scanner scored what it could not see</title>
+      <link>https://t27.ai/#/blog/the-scanner-scored-what-it-could-not-see</link>
+      <guid isPermaLink="false">the-scanner-scored-what-it-could-not-see</guid>
+      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A mutation tool reported a gate as having no failure path. The gate has four -- all of them ternaries, a form the scanner did not recognise, so it scored them as covered.</description>
+      <category>CI</category>
+      <category>Mutation testing</category>
+      <category>Measurement</category>
+      <category>Self-critique</category>
+    </item>
+    <item>
       <title>Four hundred and twelve tests that were sentences</title>
       <link>https://t27.ai/#/blog/four-hundred-and-twelve-tests-that-were-sentences</link>
       <guid isPermaLink="false">four-hundred-and-twelve-tests-that-were-sentences</guid>

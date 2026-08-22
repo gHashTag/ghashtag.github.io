@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The scanner scored what it could not see · TRINITY</title>
+<meta name="description" content="A mutation tool reported a gate as having no failure path. The gate has four -- all of them ternaries, a form the scanner did not recognise, so it scored them as covered." />
+<link rel="canonical" href="https://t27.ai/blog/the-scanner-scored-what-it-could-not-see/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-scanner-scored-what-it-could-not-see/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-scanner-scored-what-it-could-not-see/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-scanner-scored-what-it-could-not-see/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/the-scanner-scored-what-it-could-not-see/" />
+<meta property="og:title" content="The scanner scored what it could not see" />
+<meta property="og:description" content="A mutation tool reported a gate as having no failure path. The gate has four -- all of them ternaries, a form the scanner did not recognise, so it scored them as covered." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-scanner-scored-what-it-could-not-see.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The scanner scored what it could not see" />
+<meta name="twitter:description" content="A mutation tool reported a gate as having no failure path. The gate has four -- all of them ternaries, a form the scanner did not recognise, so it scored them as covered." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The scanner scored what it could not see","description":"A mutation tool reported a gate as having no failure path. The gate has four -- all of them ternaries, a form the scanner did not recognise, so it scored them as covered.","url":"https://t27.ai/blog/the-scanner-scored-what-it-could-not-see/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/the-scanner-scored-what-it-could-not-see/"},"image":"https://t27.ai/og-blog-the-scanner-scored-what-it-could-not-see.png","datePublished":"2026-08-23","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"CI, Mutation testing, Measurement, Self-critique"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>The scanner scored what it could not see</h1>
+<p class="meta">2026-08-23 · 7 min read</p>
+<p class="lede">A mutation tool reported a gate as having no failure path. The gate has four -- all of them ternaries, a form the scanner did not recognise, so it scored them as covered.</p>
+<div class="tags"><span class="tag">CI</span><span class="tag">Mutation testing</span><span class="tag">Measurement</span><span class="tag">Self-critique</span></div>
+<p>A tool that measures whether your safety checks work reported one of them as having no failure path at all. The gate has four. Every one of them is a ternary, and the tool only knew how to recognise the other kind.</p>
+<pre><code>pack_index_consistency_gate.py                 0  no failure path to break</code></pre>
+<p>That line reads like an oddity worth a shrug. It is the worst possible output: a path the scanner cannot see is a path it scores as covered.</p>
+<h2>What it was missing</h2>
+<p>The tool works by mutation. It finds every line where the program returns a failing status, rewrites that line to return success, and demands that the program&#x27;s own negative control notice. A line it cannot find is a line it never breaks, and a line never broken is scored the same as a line whose control caught the break.</p>
+<p>The scanner matched a bare <code>return 1</code> through <code>return 4</code>. It did not match any of these:</p>
+<pre><code>return 0 if not fails else 1
+return 1 if bad else 0
+raise SystemExit(3)</code></pre>
+<p>Across the twelve gate scripts in this repository: <strong>thirty-four failure paths seen, eight missed</strong> — seven ternaries and one <code>SystemExit</code>. The denominator was short by a fifth of what the tool claimed to measure, and the shortfall was invisible because the report only ever counts what it found.</p>
+<h2>The number moved the wrong way, which is the honest direction</h2>
+<p>Fixing the scanner made the results worse. Sites scanned went from thirty-four to forty-two; surviving mutants — the ones nothing catches — went from thirteen to twenty; gates with at least one survivor went from eight to nine.</p>
+<p>This is the second time in this campaign that repairing an instrument has raised a count that reads like a defect count. The first was an elaboration ratchet where removing four syntax errors *increased* the reported error total, because a syntax error truncates the file and hides everything behind it. Both times, the instinct is to distrust the repair. Both times, the higher number is the true one, and the comfort of the lower number was the whole problem.</p>
+<p>Worth writing next to the number itself, not just in the change that produced it: the next person to read the file is not the person who read the pull request.</p>
+<h2>Two ways to get the fix wrong</h2>
+<p><strong>Mutate the ternary&#x27;s arm rather than the whole line.</strong> <code>return 1 if bad else 0</code> has a failing arm and a passing one, and it is tempting to rewrite just the <code>1</code>. But either arm may be the failing one — <code>return 0 if killed else 1</code> is in the same repository — and a mutant that changes nothing and then &quot;survives&quot; is a gap the tool invented. The whole return is replaced.</p>
+<p><strong>Read any digit as a verdict.</strong> <code>return t27c_failures</code> and <code>return code2</code> both contain a matching character. <code>raise SystemExit(main())</code> is a dispatch, not a verdict. Treating those as sites would manufacture survivors in code that is fine.</p>
+<p>That asymmetry is worth being explicit about: a missed site stays an open question, and an invented one gets published as a defect in somebody&#x27;s work. This tool had already invented one finding — a survivor that existed only because the tool ran the first of a gate&#x27;s two controls instead of both — and it went out in an issue and a blog post before anyone checked it. So the digit test is deliberately conservative, and it has its own negative tests.</p>
+<h2>Three defects, one shape</h2>
+<p>This is the third defect in this tool in two days. Laid side by side they are the same mistake:</p>
+<ul><li>It took the <strong>first</strong> control flag a gate declares, not the set — so a gate with two controls was measured by one of them.</li><li>Its control map was <strong>one-to-one</strong>, so a single control covering six gates could not be expressed, and those gates kept reporting as uncovered while the control sat in the tree.</li><li>It matched <strong>one syntactic form</strong> of a failing return, and scored the others as covered.</li></ul>
+<p>Each is scope decided by what was convenient to write rather than by what the rule is for. That is a named class in the taxonomy this same audit produced — and all three instances of it are in the auditor, not in the code being audited.</p>
+<p>There is no clever remedy in that. A tool that measures coverage is itself a thing whose coverage nobody measures, and the only defence found so far is boring: when a report says something surprising about a file, open the file. &quot;No failure path to break&quot; was surprising, and the file was four lines of <code>git grep</code> away.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Whether other syntactic forms of a failing exit are still invisible is not established: the scanner now knows three, and nothing enumerates the set.</li><li>The twenty surviving mutants are not shown to be defects. A survivor means nothing proves the gate will stay right, not that it is wrong today.</li><li>The mutation operator is a single one -- a verdict forced to zero. Inverting a condition is a different class this run does not cover.</li><li>A survivor can mean an unreachable site rather than an uncovered one, and the tool still does not separate the two.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/t27/pull/2470">gHashTag/t27 #2470 -- the scanner fix, and the four unit tests including two negative directions</a></li><li><a href="https://github.com/gHashTag/t27/issues/2468">gHashTag/t27 #2468 -- the survivor the tool invented, and the corrected numbers</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/the-scanner-scored-what-it-could-not-see">Open the interactive version</a><a class="btn sec" href="/ru/blog/the-scanner-scored-what-it-could-not-see/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=The scanner scored what it could not see">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
