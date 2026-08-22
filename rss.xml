@@ -6,7 +6,19 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 21 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 22 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Four hundred and twelve tests that were sentences</title>
+      <link>https://t27.ai/#/blog/four-hundred-and-twelve-tests-that-were-sentences</link>
+      <guid isPermaLink="false">four-hundred-and-twelve-tests-that-were-sentences</guid>
+      <pubDate>Sat, 22 Aug 2026 12:00:00 GMT</pubDate>
+      <description>Thirty-four conformance vector files, 512 cases, zero ever executed — and when counted, 412 of those cases carried no inputs and no expected values at all. This is how a corpus becomes decorative, why the first classifier reported 147 where an independent pass said 100, and the three-verdict registry (executed / numbered debt / aspirational) that lets a small true number replace a large false one.</description>
+      <category>Testing</category>
+      <category>CI</category>
+      <category>FPGA</category>
+      <category>Measurement</category>
+      <category>Self-critique</category>
+    </item>
     <item>
       <title>Equal stored width removed an accuracy lead</title>
       <link>https://t27.ai/#/blog/equal-stored-width-removed-an-accuracy-lead</link>
