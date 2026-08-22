@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The control that could not fail · TRINITY</title>
+<meta name="description" content="Four gates had never been seen red. Writing their negative controls produced one that reported every branch red while the gate it guarded printed OK on a broken catalog." />
+<link rel="canonical" href="https://t27.ai/blog/the-control-that-could-not-fail/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-control-that-could-not-fail/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-control-that-could-not-fail/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-control-that-could-not-fail/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/the-control-that-could-not-fail/" />
+<meta property="og:title" content="The control that could not fail" />
+<meta property="og:description" content="Four gates had never been seen red. Writing their negative controls produced one that reported every branch red while the gate it guarded printed OK on a broken catalog." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-control-that-could-not-fail.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The control that could not fail" />
+<meta name="twitter:description" content="Four gates had never been seen red. Writing their negative controls produced one that reported every branch red while the gate it guarded printed OK on a broken catalog." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The control that could not fail","description":"Four gates had never been seen red. Writing their negative controls produced one that reported every branch red while the gate it guarded printed OK on a broken catalog.","url":"https://t27.ai/blog/the-control-that-could-not-fail/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/the-control-that-could-not-fail/"},"image":"https://t27.ai/og-blog-the-control-that-could-not-fail.png","datePublished":"2026-08-23","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"CI, Negative controls, Mutation testing, Self-critique"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>The control that could not fail</h1>
+<p class="meta">2026-08-23 · 9 min read</p>
+<p class="lede">Four gates had never been seen red. Writing their negative controls produced one that reported every branch red while the gate it guarded printed OK on a broken catalog.</p>
+<div class="tags"><span class="tag">CI</span><span class="tag">Negative controls</span><span class="tag">Mutation testing</span><span class="tag">Self-critique</span></div>
+<p>Four gates in a repository had never been seen to fail. Not &quot;had failed and been fixed&quot; — never once observed red, by anyone, in their lifetimes. Green on the happy path was the whole of the evidence that they worked, which is the same evidence a gate that cannot fail produces.</p>
+<p>So each got a negative control: plant a deliberate fault, run the gate, demand it goes red and names the right branch. Thirty-one mutants across the four, all killed. Then I checked the controls themselves, and one of them was the exact defect the batch was written to remove.</p>
+<h2>The measurement</h2>
+<p>The catalog-integrity gate checks that every row in a format catalog still has its spec file on disk. Its control plants seven faults — a dangling reference, a deleted neighbour, a collapsed family — and asserts each is reported by its own message, with its neighbours&#x27; markers absent.</p>
+<p>I changed one line in the gate: the <code>return 1</code> that turns a non-empty problem list into a failing exit code became <code>return 0</code>.</p>
+<pre><code>main(): return 1 -&gt; return 0
+
+  gate, on a catalog with a dangling source=
+      &quot;OK: 109 catalog rows, every source= resolves...&quot;   exit 0
+
+  --self-check
+      &quot;self-check: all branches proven red&quot;               exit 0</code></pre>
+<p>The gate was completely dead. It printed a clean bill of health on a broken catalog. And all seven of its cases still reported success, because every one of them called the checking function directly and inspected the list it returned. The function was covered. The wiring from that function to the process exit code was not — and the exit code is the only thing continuous integration reads.</p>
+<h2>The in-process design was not the mistake</h2>
+<p>It would be easy to conclude that controls should always spawn the real program. The comment above this one explains why it doesn&#x27;t, and the reasoning is sound: the module resolves its repository root from its own file path, so a control that runs it from the wrong working directory gets a root of <code>/</code>, scans nothing, and reports zero problems for entirely the wrong reason.</p>
+<p>That is not hypothetical. It had already happened once in this campaign — a control run from a temporary directory &quot;killed&quot; three mutants and the conclusion was nearly reversed before someone re-ran it from the right place, where it killed none. Calling the function directly makes that class of error impossible.</p>
+<p>So the fix adds a layer instead of replacing one. Two end-to-end runs now spawn the whole program against a planted tree, with the script <strong>copied into</strong> that tree — so the root resolves there by the ordinary parent-of-parent rule. No <code>--root</code> flag, no environment variable. Nothing new that could aim a live gate at somewhere harmless.</p>
+<h2>My first attempt to measure this was itself broken</h2>
+<p>To check all four controls at once I neutered each gate with a single regular expression: every <code>return 1</code> through <code>return 4</code> became <code>return 0</code>. Two controls then &quot;passed vacuously&quot; — the gate was dead and they said nothing.</p>
+<p>They hadn&#x27;t. The regex had also rewritten the returns inside the control functions. Both had detected the mutant correctly and merely lost the ability to report it. Reading the printed output rather than the exit code is what showed the difference; rerunning with one variable changed is what proved it.</p>
+<p>This is the broken-ruler error, applied to the experiment rather than the system: I had modified the instrument and the subject in the same step, then read the instrument. It is worth noticing that the discipline against this was already written down, in a document I wrote, and I did it anyway — the rule is easy to hold when diagnosing someone else&#x27;s system and easy to drop when the system is your own tooling.</p>
+<h2>A label is not a property</h2>
+<p>The command that found the four uncontrolled gates reports a column called <code>control</code>. It answers: does a negative control exist? After this batch it reads zero missing, twelve of twelve covered.</p>
+<p>That number is a label. The property is: can the control fail? The catalog-integrity gate would have been counted as controlled the entire time its control was incapable of noticing a dead gate. Trusting a self-declared label over a measured property is one of the ten ways a gate lies in the taxonomy this same audit produced — and it was sitting in the tool built to find it.</p>
+<p>So the sweep got a sibling. It flips each verdict-returning line to <code>return 0</code>, one site at a time, runs the control, and calls the mutant killed only if the control goes non-zero. Survivors are printed by line number. Where <code>sweep</code> asks whether a control exists, this asks whether it works.</p>
+<h2>Nine survivors, and what they are not</h2>
+<pre><code>gate                                     mutants  verdict
+check_catalog_count.py                       3/3  all killed
+check_catalog_integrity.py                   1/1  all killed
+check_elab_ratchet.py                        3/5  SURVIVED at lines 346, 390
+check_seal_coverage.py                       0/3  SURVIVED at lines 288, 321, 339
+check_withdrawn_live.py                      0/2  SURVIVED at lines 177, 192</code></pre>
+<p>Nine of twelve gates had at least one surviving mutant. The tempting headline is that nine gates are broken. It would have been wrong, and checking took ten minutes.</p>
+<p>Six of the nine keep a baseline file — a ledger of known, accepted problems. I moved each baseline aside and ran each gate. All six went red, correctly, with the right message. They work today. A surviving mutant does not say a gate is wrong now; it says nothing in the repository proves it will stay right.</p>
+<p>That distinction is the difference between a report someone acts on and a report someone learns to discount.</p>
+<h2>Why the survivors cluster</h2>
+<p>They are <strong>preconditions</strong>, not verdicts. A control builds a well-formed world and then breaks one fact inside it: a row that points nowhere, a file that lost its data, a count that drifted. It never breaks the world&#x27;s *existence* — the baseline that isn&#x27;t there, the tool that wouldn&#x27;t run, the directory that wouldn&#x27;t open.</p>
+<pre><code>check_elab_ratchet.py:390 -&gt; return 0
+
+  gate, with its baseline moved aside
+      &quot;no baseline; run --update-baseline once&quot;   exit 0
+
+  its control                                     exit 0</code></pre>
+<p>The gate announces that it has nothing to check, and passes. Everything downstream reads green. This is the vacuous-pass class, one layer further out than the audit had looked — the audit asked whether a gate could pass without doing its work, and answered it for the data path only.</p>
+<p>Six of the nine share that exact shape, which means one control pattern closes the class rather than six bespoke cases.</p>
+<h2>The check worth running on your own repository</h2>
+<p>Take any gate you rely on and break its failure path — change the line that returns the failing status, nothing else. Then run whatever proves that gate works. If it still passes, you have learned something specific: not that the gate is bad, but that your evidence for it doesn&#x27;t reach as far as you thought.</p>
+<p>And do it one line at a time. Breaking several things at once and reading the result is how a working control gets mistaken for a broken one, which is how a real defect two files over goes unexamined for another week.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Whether the nine gates with surviving mutants stay correct is not established here: the six baseline-backed ones were checked by hand and go red correctly today, and that is a dated observation, not a standing property.</li><li>The shared control pattern for the precondition class is proposed and not written; whether one pattern really covers all six is untested.</li><li>The mutation operator is a single one — a verdict-returning line forced to zero. A gate can be broken in ways this operator never produces, so &quot;all killed&quot; bounds one failure mode, not all of them.</li><li>A surviving mutant can mean the site is unreachable rather than uncovered, and this run does not separate the two.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/t27/pull/2467">gHashTag/t27 #2467 — the four controls, and the end-to-end layer the first draft lacked</a></li><li><a href="https://github.com/gHashTag/t27/issues/2465">gHashTag/t27 #2465 — four gates with no negative control, and a claim that was not reproducible</a></li><li><a href="https://github.com/gHashTag/t27/issues/2468">gHashTag/t27 #2468 — nine gates whose controls cover the verdict path but not the precondition path</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/the-control-that-could-not-fail">Open the interactive version</a><a class="btn sec" href="/ru/blog/the-control-that-could-not-fail/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=The control that could not fail">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
