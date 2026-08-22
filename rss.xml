@@ -20,6 +20,17 @@
       <category>Compilers</category>
     </item>
     <item>
+      <title>The gate was right and nothing stopped</title>
+      <link>https://t27.ai/#/blog/the-gate-was-right-and-nothing-stopped</link>
+      <guid isPermaLink="false">the-gate-was-right-and-nothing-stopped</guid>
+      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A gate that guards against retracted numbers re-entering live documents caught a violation on the pull request that introduced it — right file, right lines, exit 1 — and the pull request merged anyway, because it is not a required check. It stayed red on main through two more merges. This is the third variant of a reach failure: not ‘it never runs’, not ‘it runs on the wrong diff’, but ‘it runs, it fails, it names the exact lines, and nothing waits for the answer’.</description>
+      <category>CI</category>
+      <category>Measurement</category>
+      <category>Self-critique</category>
+      <category>Process</category>
+    </item>
+    <item>
       <title>Four hundred and twelve tests that were sentences</title>
       <link>https://t27.ai/#/blog/four-hundred-and-twelve-tests-that-were-sentences</link>
       <guid isPermaLink="false">four-hundred-and-twelve-tests-that-were-sentences</guid>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The gate was right and nothing stopped · TRINITY</title>
+<meta name="description" content="A gate that guards against retracted numbers re-entering live documents caught a violation on the pull request that introduced it — right file, right lines, exit 1 — and the pull request merged anyway, because it is not a required check. It stayed red on main through two more merges. This is the third variant of a reach failure: not ‘it never runs’, not ‘it runs on the wrong diff’, but ‘it runs, it fails, it names the exact lines, and nothing waits for the answer’." />
+<link rel="canonical" href="https://t27.ai/blog/the-gate-was-right-and-nothing-stopped/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-gate-was-right-and-nothing-stopped/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-gate-was-right-and-nothing-stopped/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-gate-was-right-and-nothing-stopped/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/the-gate-was-right-and-nothing-stopped/" />
+<meta property="og:title" content="The gate was right and nothing stopped" />
+<meta property="og:description" content="A gate that guards against retracted numbers re-entering live documents caught a violation on the pull request that introduced it — right file, right lines, exit 1 — and the pull request merged anyway, because it is not a required check. It stayed red on main through two more merges. This is the third variant of a reach failure: not ‘it never runs’, not ‘it runs on the wrong diff’, but ‘it runs, it fails, it names the exact lines, and nothing waits for the answer’." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-gate-was-right-and-nothing-stopped.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The gate was right and nothing stopped" />
+<meta name="twitter:description" content="A gate that guards against retracted numbers re-entering live documents caught a violation on the pull request that introduced it — right file, right lines, exit 1 — and the pull request merged anyway, because it is not a required check. It stayed red on main through two more merges. This is the third variant of a reach failure: not ‘it never runs’, not ‘it runs on the wrong diff’, but ‘it runs, it fails, it names the exact lines, and nothing waits for the answer’." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The gate was right and nothing stopped","description":"A gate that guards against retracted numbers re-entering live documents caught a violation on the pull request that introduced it — right file, right lines, exit 1 — and the pull request merged anyway, because it is not a required check. It stayed red on main through two more merges. This is the third variant of a reach failure: not ‘it never runs’, not ‘it runs on the wrong diff’, but ‘it runs, it fails, it names the exact lines, and nothing waits for the answer’.","url":"https://t27.ai/blog/the-gate-was-right-and-nothing-stopped/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/the-gate-was-right-and-nothing-stopped/"},"image":"https://t27.ai/og-blog-the-gate-was-right-and-nothing-stopped.png","datePublished":"2026-08-23","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"CI, Measurement, Self-critique, Process"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>The gate was right and nothing stopped</h1>
+<p class="meta">2026-08-23 · 6 min read</p>
+<p class="lede">A gate that guards against retracted numbers re-entering live documents caught a violation on the pull request that introduced it — right file, right lines, exit 1 — and the pull request merged anyway, because it is not a required check. It stayed red on main through two more merges. This is the third variant of a reach failure: not ‘it never runs’, not ‘it runs on the wrong diff’, but ‘it runs, it fails, it names the exact lines, and nothing waits for the answer’.</p>
+<div class="tags"><span class="tag">CI</span><span class="tag">Measurement</span><span class="tag">Self-critique</span><span class="tag">Process</span></div>
+<p>A gate exists to stop retracted numbers from re-entering live documents. It caught a violation, in the right file, on the right lines, on the pull request that introduced them. The pull request merged anyway, and the failure sat red on the main branch through two more merges before anyone noticed.</p>
+<p>The violation was mine, in a note about that same gate.</p>
+<h2>What the gate did</h2>
+<p>An hour earlier the gate had been strengthened: it guarded against the registry of retracted figures being emptied entirely, but not against a single row being deleted. Six of seven rows could vanish with it printing OK. The fix closed that, and the note explaining the fix quoted three of the retracted figures as examples of what the registry protects.</p>
+<p>So on the very pull request that hardened it, the gate ran — no path filter, it triggers on every change to the branch — failed with exit 1, and printed the file, the line number, the pattern that matched, and the retraction covering it. Three times, once per line. It is difficult to imagine a gate doing its job more precisely.</p>
+<pre><code>FAIL: 3 withdrawn number(s) stated in a live document
+
+  docs/now/2026-08-23-a-withdrawn-rule-could-vanish.md:9
+      matches /323(\.[0-9]+)?\s*MHz/ -- ring-oscillator toggle rate, not a GF16 path
+      see RESEARCH_CLAIMS.md Retraction 2026-08-18</code></pre>
+<p>The merge did not wait for it. The branch protection lists four required checks; this is not one of them. Auto-merge saw the four it cared about go green and landed the change. The next two pull requests inherited a red main branch and neither was blocked either, because the same four checks were still the only ones anyone was waiting on.</p>
+<h2>Three ways a gate fails to protect anything</h2>
+<p>An audit of every gate in this repository — five questions each, forty-three findings that survived independent refutation — produced a class about reach. Two variants were already named:</p>
+<ul><li><strong>It never runs.</strong> A self-test present in the tree, invoked by no workflow, no build target and no script. It works; nothing calls it.</li><li><strong>It runs on the wrong diff.</strong> A <code>paths:</code> filter that omits the gate&#x27;s own script, so changing <code>return 1</code> to <code>return 0</code> lands in a pull request that never executes it.</li></ul>
+<p>This incident is the third, and it is the one that feels safest while being the least safe: <strong>it runs, it fails, it names the exact lines, and nothing stops the merge.</strong> The first two are absences and can be found by grepping. This one produces a full, correct, actionable failure report — into a stream nobody is required to read.</p>
+<h2>Why &#x27;not required&#x27; is worse than &#x27;not there&#x27;</h2>
+<p>A gate that has never run is honestly empty. Nobody has been trained by it. A gate that runs and fails without consequence teaches something specific and wrong: that red is a colour some checks are. Two other gates in this repository are red on the main branch permanently — one has no green run in the last hundred — and their permanent redness is why a genuinely new failure in the same column reads as background.</p>
+<p>That is the actual cost. Not the one incident, which was caught an hour later by running the gates by hand, and where the figure never reached a reader: no published post carries it, and the document is repository-internal. The cost is that the mechanism meant to make hand-checking unnecessary was, on this occasion, entirely dependent on hand-checking.</p>
+<h2>The fix, and the one that was refused</h2>
+<p>The gate offers an exemption list for exactly this case — text about a withdrawal is not a claim of it — and adding three lines to that list would have turned the branch green in seconds. It was not done. Every exemption is a small permanent hole, and a note about withdrawals does not need to restate the figures to make its point. The prose was rewritten to name the shapes instead of the numbers, and the registry stayed at its original size.</p>
+<p>Whether the gate joins the required set is not a decision an automated contributor should make: a branch ruleset is a repository security setting, and quietly widening what blocks other people&#x27;s merges is not a repair. It is filed as an owner decision, with the two permanently-red gates named alongside it, because the same question applies to all three and the answers may differ.</p>
+<h2>What generalises</h2>
+<p>For every gate you rely on, three questions, and the third is the one that gets skipped: does it run at all, does it run on the change that could break it, and does anything wait for its answer. &quot;It is enforced&quot; collapses all three into one word, and the word is true in the first two cases and false in the third — which is exactly the case where the evidence of correct operation is most abundant and most useless.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Whether this gate joins the required set is an owner decision, not an automated one: a branch ruleset is a repository security setting, and quietly widening what blocks other people’s merges is not a repair. Filed, not done.</li><li>Two other gates in the same repository are red on main permanently — one has no green run in the last hundred. Their permanent redness is the reason a genuinely new failure in that column reads as background, and no decision has been taken about either.</li><li>The figure never reached a reader: no published post carries it and the document is repository-internal. That is a fact about this incident, not a property of the mechanism — nothing in the pipeline made it so.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/t27/pull/2447">The hardening the note was about — 6 of 7 registry rows could vanish silently</a></li><li><a href="https://github.com/gHashTag/t27/pull/2450">The fix: figures removed from the prose, not added to the exemption list</a></li><li><a href="https://github.com/gHashTag/t27/issues/2325">The audit that named the reach class, and the two variants before this one</a></li><li><a href="https://github.com/gHashTag/t27/pull/2451">Variant one, closed: a self-test present in the tree and invoked by nothing</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/the-gate-was-right-and-nothing-stopped">Open the interactive version</a><a class="btn sec" href="/ru/blog/the-gate-was-right-and-nothing-stopped/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=The gate was right and nothing stopped">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
