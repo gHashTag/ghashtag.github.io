@@ -31,7 +31,7 @@
   <url><loc>https://t27.ai/ru/proof/</loc><lastmod>2026-08-21</lastmod></url>
   <url><loc>https://t27.ai/ru/resources/</loc><lastmod>2026-08-18</lastmod></url>
   <url><loc>https://t27.ai/ru/verification/</loc><lastmod>2026-08-18</lastmod></url>
-  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-08-21</lastmod></url>
+  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-08-22</lastmod></url>
   <url><loc>https://t27.ai/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-08-19</lastmod></url>
@@ -47,6 +47,7 @@
   <url><loc>https://t27.ai/blog/equal-stored-width-removed-an-accuracy-lead/</loc><lastmod>2026-08-21</lastmod></url>
   <url><loc>https://t27.ai/blog/five-reasons-the-build-was-red/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/blog/formal-was-green-and-had-never-run-a-solver/</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://t27.ai/blog/four-hundred-and-twelve-tests-that-were-sentences/</loc><lastmod>2026-08-22</lastmod></url>
   <url><loc>https://t27.ai/blog/fourteen-rows-agreed-one-did-not/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/blog/green-ci-does-not-mean-usable/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/blog/half-the-build-is-bitstream-generation/</loc><lastmod>2026-08-19</lastmod></url>
@@ -60,7 +61,7 @@
   <url><loc>https://t27.ai/blog/the-search-space-erased-a-significance-claim/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/blog/the-tail-that-had-never-run/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/blog/thirty-epochs-exposed-a-failure-rate-blind-spot/</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-08-21</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-08-22</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-08-19</lastmod></url>
@@ -76,6 +77,7 @@
   <url><loc>https://t27.ai/ru/blog/equal-stored-width-removed-an-accuracy-lead/</loc><lastmod>2026-08-21</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/five-reasons-the-build-was-red/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/formal-was-green-and-had-never-run-a-solver/</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/four-hundred-and-twelve-tests-that-were-sentences/</loc><lastmod>2026-08-22</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/fourteen-rows-agreed-one-did-not/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/green-ci-does-not-mean-usable/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/half-the-build-is-bitstream-generation/</loc><lastmod>2026-08-19</lastmod></url>
@@ -90,50 +92,50 @@
   <url><loc>https://t27.ai/ru/blog/the-tail-that-had-never-run/</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/thirty-epochs-exposed-a-failure-rate-blind-spot/</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://t27.ai/docs/about.html</loc><lastmod>2026-08-10</lastmod></url>
-  <url><loc>https://t27.ai/docs/app-a.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/app-b.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/app-c.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/app-d.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/app-e.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/app-f.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/app-g.html</loc><lastmod>2026-04-30</lastmod></url>
+  <url><loc>https://t27.ai/docs/app-a.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/app-b.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/app-c.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/app-d.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/app-e.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/app-f.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/app-g.html</loc><lastmod>2026-08-10</lastmod></url>
   <url><loc>https://t27.ai/docs/app-h.html</loc><lastmod>2026-08-10</lastmod></url>
-  <url><loc>https://t27.ai/docs/app-i.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/app-j.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-1.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-10.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-11.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-12.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-13.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-14.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-15.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-16.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-17.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-18.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-19.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-2.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-20.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-21.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-22.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-23.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-24.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-25.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-26.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-27.html</loc><lastmod>2026-04-30</lastmod></url>
+  <url><loc>https://t27.ai/docs/app-i.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/app-j.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-1.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-10.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-11.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-12.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-13.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-14.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-15.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-16.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-17.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-18.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-19.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-2.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-20.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-21.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-22.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-23.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-24.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-25.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-26.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-27.html</loc><lastmod>2026-08-10</lastmod></url>
   <url><loc>https://t27.ai/docs/ch-28.html</loc><lastmod>2026-08-10</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-29.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-3.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-30.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-31.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-32.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-33.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-34.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-4.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-5.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-6.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-7.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-8.html</loc><lastmod>2026-04-30</lastmod></url>
-  <url><loc>https://t27.ai/docs/ch-9.html</loc><lastmod>2026-04-30</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-29.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-3.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-30.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-31.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-32.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-33.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-34.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-4.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-5.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-6.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-7.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-8.html</loc><lastmod>2026-08-10</lastmod></url>
+  <url><loc>https://t27.ai/docs/ch-9.html</loc><lastmod>2026-08-10</lastmod></url>
   <url><loc>https://t27.ai/docs/index.html</loc><lastmod>2026-08-10</lastmod></url>
   <url><loc>https://t27.ai/docs/intro.html</loc><lastmod>2026-08-10</lastmod></url>
 </urlset>
