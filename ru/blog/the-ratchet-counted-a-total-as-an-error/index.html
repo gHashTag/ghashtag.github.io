@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Храповик посчитал итог за ошибку · TRINITY</title>
+<meta name="description" content="Гейт, написанный чтобы ошибки элаборации не возвращались, сообщил про 186 штук; 25 из них были собственной итоговой строкой компилятора о том, сколько ошибок он нашёл. Число уже успело уехать в коммиты и на страницу статуса. Доказательство, которое не могло получиться иначе, живой дефект эмиттера, прятавшийся внутри счёта, почему от починки число стало хуже, и одна починка, которую построили, измерили и выбросили." />
+<link rel="canonical" href="https://t27.ai/ru/blog/the-ratchet-counted-a-total-as-an-error/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-ratchet-counted-a-total-as-an-error/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-ratchet-counted-a-total-as-an-error/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-ratchet-counted-a-total-as-an-error/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/the-ratchet-counted-a-total-as-an-error/" />
+<meta property="og:title" content="Храповик посчитал итог за ошибку" />
+<meta property="og:description" content="Гейт, написанный чтобы ошибки элаборации не возвращались, сообщил про 186 штук; 25 из них были собственной итоговой строкой компилятора о том, сколько ошибок он нашёл. Число уже успело уехать в коммиты и на страницу статуса. Доказательство, которое не могло получиться иначе, живой дефект эмиттера, прятавшийся внутри счёта, почему от починки число стало хуже, и одна починка, которую построили, измерили и выбросили." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-ratchet-counted-a-total-as-an-error-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Храповик посчитал итог за ошибку" />
+<meta name="twitter:description" content="Гейт, написанный чтобы ошибки элаборации не возвращались, сообщил про 186 штук; 25 из них были собственной итоговой строкой компилятора о том, сколько ошибок он нашёл. Число уже успело уехать в коммиты и на страницу статуса. Доказательство, которое не могло получиться иначе, живой дефект эмиттера, прятавшийся внутри счёта, почему от починки число стало хуже, и одна починка, которую построили, измерили и выбросили." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Храповик посчитал итог за ошибку", "description": "Гейт, написанный чтобы ошибки элаборации не возвращались, сообщил про 186 штук; 25 из них были собственной итоговой строкой компилятора о том, сколько ошибок он нашёл. Число уже успело уехать в коммиты и на страницу статуса. Доказательство, которое не могло получиться иначе, живой дефект эмиттера, прятавшийся внутри счёта, почему от починки число стало хуже, и одна починка, которую построили, измерили и выбросили.", "url": "https://t27.ai/ru/blog/the-ratchet-counted-a-total-as-an-error/", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://t27.ai/ru/blog/the-ratchet-counted-a-total-as-an-error/"}, "image": "https://t27.ai/og-blog-the-ratchet-counted-a-total-as-an-error-ru.png", "datePublished": "2026-08-23", "inLanguage": "ru", "author": {"@type": "Person", "name": "Dmitrii Vasilev", "url": "https://github.com/gHashTag"}, "publisher": {"@type": "Person", "name": "Dmitrii Vasilev"}, "keywords": "CI, Measurement, Self-critique, FPGA, Compilers"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Храповик посчитал итог за ошибку</h1>
+<p class="meta">2026-08-23 · 8 мин чтения</p>
+<p class="lede">Гейт, написанный чтобы ошибки элаборации не возвращались, сообщил про 186 штук; 25 из них были собственной итоговой строкой компилятора о том, сколько ошибок он нашёл. Число уже успело уехать в коммиты и на страницу статуса. Доказательство, которое не могло получиться иначе, живой дефект эмиттера, прятавшийся внутри счёта, почему от починки число стало хуже, и одна починка, которую построили, измерили и выбросили.</p>
+<div class="tags"><span class="tag">CI</span><span class="tag">Measurement</span><span class="tag">Self-critique</span><span class="tag">FPGA</span><span class="tag">Compilers</span></div>
+<p>Гейт, написанный чтобы ошибки элаборации не возвращались, сообщил про 186 штук. Двадцать пять из них ошибками не были. Это строка, которую iverilog печатает в конце упавшего файла, чтобы сказать, сколько ошибок он нашёл.</p>
+<h2>Одна подстрока, двадцать пять фантомов</h2>
+<p>Счётчик ловил любую строку stderr, содержащую подстроку « error». Это очевидный способ считать ошибки компилятора, и здесь он неверен: компилятор закрывает каждый упавший файл итогом «N error(s) during elaboration.» Итог содержит эту подстроку. По фантому на каждый упавший модуль, каждый раз.</p>
+<p>Записывать это стоит не ради бага — баг двухстрочный, — а потому что число уже уехало. Оно стояло в сообщениях коммитов, в комментарии к issue и на странице статуса в виде «573 → 186, минус 68%». Оба конца были завышены одним и тем же механизмом. Направление и доля уцелели; абсолютные значения — нет.</p>
+<h2>Доказательство, а не рассуждение</h2>
+<p>В диагноз «ошибка счёта» легко поверить и легко ошибиться, поэтому стоит настаивать на форме, которая не могла получиться иначе. После исключения итоговой строки каждый модуль падает ровно на единицу. Таких модулей двадцать пять. И 186 − 161 = 25 — это же число модулей, вообще не проходящих элаборацию. Три независимые величины, сходящиеся на одной и той же двадцатке с пятёркой, — это не рассказ о починке, это и есть починка.</p>
+<pre><code>$ tools/check_elab_ratchet.py
+elaboration errors: 161 (baseline 186)
+  BETTER  apb_bridge: 5 -&gt; 4
+  BETTER  assembler: 5 -&gt; 4
+  BETTER  axi4:       3 -&gt; 2
+  ... ещё 22, и каждый ровно на -1
+
+# 25 модулей x 1 фантом = 25;  186 - 161 = 25;  упавших модулей = 25</code></pre>
+<h2>В том же файле стояло и ложное утверждение</h2>
+<p>Докстрока говорила, что оставшиеся ошибки — это «два именованных дизайн-решения». Это было измерено — по одному классу ошибок, несвязанным идентификаторам, где утверждение точно: 56 чтений строковых полей и 12 чтений безразмерных массивов, больше ничего. А написано было так, будто описывает все. Оно описывало 68 из 161.</p>
+<p>Остальные 93 не были классифицированы вообще. Напечатать распределение по форме сообщения вместо подсчёта строк — одна команда, и вот что вышло:</p>
+<ul><li><strong>57 условных выражений</strong> — вторичные. Каждая сидит на той же строке исходника, что и несвязанный идентификатор над ней (57 из 58; одно исключение). Они уйдут вместе с причиной и никогда не были отдельной работой.</li><li><strong>64 несвязанных идентификатора</strong> — те самые два решения, как и заявлено.</li><li><strong>21 чтение массива целиком</strong> — массив передан туда, где ждут значение.</li><li><strong>5 неизвестных типов модулей</strong>, <strong>2 отсутствующие функции</strong> — самотесты, которые никогда не элаборировались.</li><li><strong>4 malformed-инструкции</strong> — живой дефект эмиттера, который никто не назвал, потому что он прятался внутри числа.</li></ul>
+<h2>Дефект, прятавшийся в счёте</h2>
+<p>Параметр по имени «cross» — ключевое слово SystemVerilog — экранировался там, где объявлен, и печатался голым там, где используется, так что сгенерированный part-select читался как ключевое слово, а компилятор отвечал сухим «syntax error». Корень — одна переменная на две работы: одна и та же строка служит и ключом поиска типа в таблице, где обязана остаться сырой, и печатаемым текстом, где обязана быть экранированной. Ключ печатали в пяти местах.</p>
+<p>Ровно эта форма чинилась в этой кодовой базе однажды — для локального массива с именем-ключевым словом, с пометкой, что пути выражений уже верны. Пути part-select никто не прочесал. Когда чинишь «экранировано здесь, но не там», полезный следующий шаг — грепнуть все остальные места, где это значение печатается, прежде чем закрывать.</p>
+<h2>И от починки число стало хуже</h2>
+<p>Снятие четырёх синтаксических ошибок подняло счёт модуля с четырёх до пяти, и храповик справедливо отказался пропускать изменение, пока его не объяснят. Синтаксическая ошибка обрывает файл. За теми четырьмя стояли пять настоящих ошибок элаборации, до которых разбор не доходил, — их и не считали никогда. Синтаксическая ошибка стоит дороже своего номинала, а храповик — это защита от тихого сползания, а не оценка качества.</p>
+<p>Объяснение легло в файл baseline рядом с числом, а не только в пул-реквест. Следующий, кто сюда посмотрит, откроет файл.</p>
+<h2>И одна починка, которую построили, измерили и выбросили</h2>
+<p>Оставшиеся ошибки одного модуля вели к нашему же более раннему изменению: строковым полям дали нулевую ширину, чтобы одна строка не блокировала числовые поля структуры. Верно, когда числовые поля есть. Когда все поля строковые — а таких структур в корпусе четырнадцать, — структура пакуется в ноль бит, а part-select нулевой ширины нелегален.</p>
+<p>Очевидный гвард — отвергать структуры нулевой ширины. Он убирает оба нелегальных part-select и каскадирует: у объемлющей структуры появляется недопустимый тип поля, она перестаёт лоуериться, и числовые чтения, работающие сегодня, превращаются в несвязанные имена. Измерено, а не предсказано: модуль ушёл с 16 ошибок на 33, корпус со 162 на 179. Строгая регрессия в обмен на две нелегальные строки. Ветка удалена, а вопрос заведён входом к тому решению, от которого он на самом деле зависит.</p>
+<p>Из первого черновика того же разбора пришлось убрать и собственное утверждение: будто поле нулевой ширины портит офсеты всего, что за ним. Не портит. Раскладка остаётся самосогласованной, поле просто не имеет хранилища, а чтение и запись падают громко. Эта разница решает, какая починка правильная, — потому и стоило измерить на четырёхстрочном примере вместо того, чтобы утверждать.</p>
+<h2>К чему это обобщается</h2>
+<p>Гейт — это прибор, и приборы ломаются так же, как то, что они измеряют. Если гейт сообщает число, один раз классифицируй его сырой вывод по форме сообщения: напечатай распределение, прочитай каждую строку и убедись, что каждая — то, что ты собирался считать. Считать строки не значит классифицировать. А когда вывод гейта становится фразой, которую говорят о проекте, гейт повышен до публикации — независимо от того, принимал ли кто-нибудь такое решение.</p>
+<div class="box"><h2>Что это не решает</h2><ul><li>Число зависит от прибора: его выдаёт одна версия iverilog, и обновление на раннере сдвинет его без единой правки компилятора. Baseline теперь хранит версию и называет расхождение вместо того, чтобы читать его как регрессию, но межверсионного замера никто не делал.</li><li>За 64 из 161 ошибки по-прежнему отвечают два решения: что значит строковое поле в сгенерированном железе и надо ли отвергать безразмерные массивы-параметры на typecheck. Оба заведены с ценой и рекомендацией; ни одно не принято.</li><li>Отдельный гейт печатей падает на master во всех ста последних прогонах, сообщая про 136 устаревших печатей, при этом его собственный негативный самоконтроль проходит. Он не обязателен и ничего не блокирует — и это более опасное чтение, а не более мягкое.</li></ul></div>
+<div class="box"><h2>Квитанции</h2><ul><li><a href="https://github.com/gHashTag/t27/pull/2435">The phantom count, with the three quantities that agree on 25</a></li><li><a href="https://github.com/gHashTag/t27/pull/2438">The emitter defect that was hiding inside the number</a></li><li><a href="https://github.com/gHashTag/t27/issues/2325">The full classification of all 161 errors</a></li><li><a href="https://github.com/gHashTag/t27/issues/2439">The fix that was measured as a regression and discarded</a></li><li><a href="https://github.com/gHashTag/t27/pull/2437">The three lessons, written into the gate skill</a></li></ul></div>
+<div class="cta"><p>Каждая цифра выше измерена, и рядом с ней названы её пределы.</p><div class="btns"><a class="btn" href="/?lang=ru#/blog/the-ratchet-counted-a-total-as-an-error">Открыть интерактивную версию</a><a class="btn sec" href="/blog/the-ratchet-counted-a-total-as-an-error/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Храповик посчитал итог за ошибку">admin@t27.ai</a><a class="btn sec" href="/ru/blog/">Все посты</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

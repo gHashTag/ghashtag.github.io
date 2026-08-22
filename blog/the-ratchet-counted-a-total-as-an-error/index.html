@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The ratchet counted a total as an error · TRINITY</title>
+<meta name="description" content="A gate written to stop elaboration errors creeping back reported 186 of them; 25 were the compiler&#x27;s own summary line saying how many errors it had found. The number had already reached commit messages and a status page. This is the proof that could not have come out any other way, the live emitter defect that was hiding inside the count, why fixing it made the number worse, and one fix that was built, measured, and thrown away." />
+<link rel="canonical" href="https://t27.ai/blog/the-ratchet-counted-a-total-as-an-error/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-ratchet-counted-a-total-as-an-error/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-ratchet-counted-a-total-as-an-error/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-ratchet-counted-a-total-as-an-error/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/the-ratchet-counted-a-total-as-an-error/" />
+<meta property="og:title" content="The ratchet counted a total as an error" />
+<meta property="og:description" content="A gate written to stop elaboration errors creeping back reported 186 of them; 25 were the compiler&#x27;s own summary line saying how many errors it had found. The number had already reached commit messages and a status page. This is the proof that could not have come out any other way, the live emitter defect that was hiding inside the count, why fixing it made the number worse, and one fix that was built, measured, and thrown away." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-ratchet-counted-a-total-as-an-error.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The ratchet counted a total as an error" />
+<meta name="twitter:description" content="A gate written to stop elaboration errors creeping back reported 186 of them; 25 were the compiler&#x27;s own summary line saying how many errors it had found. The number had already reached commit messages and a status page. This is the proof that could not have come out any other way, the live emitter defect that was hiding inside the count, why fixing it made the number worse, and one fix that was built, measured, and thrown away." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "The ratchet counted a total as an error", "description": "A gate written to stop elaboration errors creeping back reported 186 of them; 25 were the compiler's own summary line saying how many errors it had found. The number had already reached commit messages and a status page. This is the proof that could not have come out any other way, the live emitter defect that was hiding inside the count, why fixing it made the number worse, and one fix that was built, measured, and thrown away.", "url": "https://t27.ai/blog/the-ratchet-counted-a-total-as-an-error/", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://t27.ai/blog/the-ratchet-counted-a-total-as-an-error/"}, "image": "https://t27.ai/og-blog-the-ratchet-counted-a-total-as-an-error.png", "datePublished": "2026-08-23", "inLanguage": "en", "author": {"@type": "Person", "name": "Dmitrii Vasilev", "url": "https://github.com/gHashTag"}, "publisher": {"@type": "Person", "name": "Dmitrii Vasilev"}, "keywords": "CI, Measurement, Self-critique, FPGA, Compilers"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>The ratchet counted a total as an error</h1>
+<p class="meta">2026-08-23 · 8 min read</p>
+<p class="lede">A gate written to stop elaboration errors creeping back reported 186 of them; 25 were the compiler&#x27;s own summary line saying how many errors it had found. The number had already reached commit messages and a status page. This is the proof that could not have come out any other way, the live emitter defect that was hiding inside the count, why fixing it made the number worse, and one fix that was built, measured, and thrown away.</p>
+<div class="tags"><span class="tag">CI</span><span class="tag">Measurement</span><span class="tag">Self-critique</span><span class="tag">FPGA</span><span class="tag">Compilers</span></div>
+<p>A gate we wrote to stop elaboration errors from creeping back reported 186 of them. Twenty-five were not errors. They were the line iverilog prints at the end of a failing file to say how many errors it found.</p>
+<h2>One substring, twenty-five phantoms</h2>
+<p>The counter matched any line of stderr containing the substring ' error'. That is the obvious way to count compiler errors and it is wrong here, because the compiler closes each failing file with a summary: 'N error(s) during elaboration.' The summary contains the substring. One phantom per failing module, every time.</p>
+<p>What makes this worth writing down is not the bug — it is a two-line bug — but that the number had already travelled. It was in commit messages, in an issue comment, and on a status page, in the form '573 down to 186, a 68% reduction'. Both ends of that were inflated by the same mechanism. The direction and the proportion survive; the absolutes did not.</p>
+<h2>Proof, not argument</h2>
+<p>A diagnosis of a counting bug is easy to believe and easy to get wrong, so it is worth insisting on a shape that could not have come out any other way. After excluding the summary line, every single module drops by exactly one. Twenty-five modules do so. And 186 minus 161 is 25, which is also the number of modules that fail to elaborate at all. Three independent quantities agreeing on the same 25 is not a story about the fix; it is the fix.</p>
+<pre><code>$ tools/check_elab_ratchet.py
+elaboration errors: 161 (baseline 186)
+  BETTER  apb_bridge: 5 -&gt; 4
+  BETTER  assembler: 5 -&gt; 4
+  BETTER  axi4:       3 -&gt; 2
+  ... 22 more, every one of them exactly -1
+
+# 25 modules x 1 phantom = 25;  186 - 161 = 25;  failing modules = 25</code></pre>
+<h2>The same file also stated something false</h2>
+<p>Its docstring said the remaining errors are 'two named design decisions'. That was measured — over one class of error, the unbound identifiers, where it is exact: 56 string-field reads and 12 unsized-array reads, nothing else. It was then written as though it described all of them. It described 68 of 161.</p>
+<p>The other 93 had never been classified at all. Printing the distribution by message shape rather than counting lines took one command and produced this:</p>
+<ul><li><strong>57 condition-expression errors</strong> — secondary. Each sits on the same source line as an unbound identifier above it (57 of 58; one exception). They disappear with their cause and were never independent work.</li><li><strong>64 unbound identifiers</strong> — the two design decisions, as claimed.</li><li><strong>21 whole-array reads</strong> — an array passed where a value is expected.</li><li><strong>5 unknown module types</strong>, <strong>2 missing functions</strong> — self-test modules that never elaborated.</li><li><strong>4 malformed statements</strong> — a live emitter defect that nobody had named, because it was hiding inside a number.</li></ul>
+<h2>The defect that was hiding in the count</h2>
+<p>A parameter named 'cross' — a SystemVerilog keyword — was escaped where it is declared and printed bare where it is used, so the generated part-select read as a keyword and the compiler answered with a plain 'syntax error'. The root is one variable doing two jobs: the same string is both the key that looks a type up in a table, where it must stay raw, and the text that gets printed, where it must be escaped. Five places printed the key.</p>
+<p>This exact shape had been repaired in this codebase once before, for a keyword-named local array, with a note recording that the expression paths were already correct. Nobody swept the part-select paths. When you fix 'escaped here but not there', the useful next move is to grep every other place that value is printed before closing it.</p>
+<h2>Fixing it made the number worse</h2>
+<p>Removing four syntax errors raised the module's count from four to five, and the ratchet correctly refused the change until it was explained. A syntax error truncates the file. Behind those four were five real elaboration errors the parser had never reached, so they had never been counted. A syntax error is worth more than its count, and a ratchet is a guard against silent slippage, not a quality score.</p>
+<p>The explanation went into the baseline file next to the number, not only into the pull request. The next person to look will open the file.</p>
+<h2>And one fix that was built, measured, and thrown away</h2>
+<p>The remaining errors in one module traced back to an earlier change of our own: giving string fields zero width, so that a single string would stop blocking a struct's numeric fields. Correct when numeric fields exist. When every field is a string — fourteen such structs in this corpus — the struct packs to zero bits, and a part-select of width zero is not legal.</p>
+<p>The obvious guard is to refuse zero-width structs. It removes both illegal part-selects, and it cascades: the enclosing struct then has an inadmissible field type, stops lowering, and the numeric reads that work today become unbound names. Measured, not predicted: that module went from 16 errors to 33, and the corpus from 162 to 179. A strict regression traded for two illegal lines. The branch was deleted and the question was filed as an input to the decision it actually depends on.</p>
+<p>A claim in the first draft of that write-up also had to go: that the zero-width field corrupted the offsets of everything after it. It does not. The layout stays self-consistent; the field simply has no storage, and both reading and writing it fail loudly. That difference decides which fix is right, which is why it was worth measuring on a four-line example instead of asserting.</p>
+<h2>What generalises</h2>
+<p>A gate is an instrument, and instruments fail the same way the thing they measure does. If a gate reports a number, classify its raw output by message shape once — print the distribution, read every row, and confirm each row is a thing you meant to count. Counting lines is not classifying. And when the output of a gate becomes a sentence you say about the project, the gate has been promoted to a publication, whether or not anyone decided that.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>The count is instrument-relative: it is produced by one iverilog version, and an upgrade on the runner can move it without any compiler change. The baseline now records the version and names a mismatch instead of reporting it as a regression, but no cross-version measurement has been taken.</li><li>Two design decisions still own 64 of the 161 errors: what a string field means in generated hardware, and whether unsized array parameters should be rejected at typecheck. Both are filed with costs and a recommendation; neither is decided.</li><li>A separate seal-coverage gate has failed on master in every one of the last hundred runs, reporting 136 stale seals, while its own negative self-check passes. It is not a required check, so it blocks nothing — which is the more dangerous reading, not the milder one.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/t27/pull/2435">The phantom count, with the three quantities that agree on 25</a></li><li><a href="https://github.com/gHashTag/t27/pull/2438">The emitter defect that was hiding inside the number</a></li><li><a href="https://github.com/gHashTag/t27/issues/2325">The full classification of all 161 errors</a></li><li><a href="https://github.com/gHashTag/t27/issues/2439">The fix that was measured as a regression and discarded</a></li><li><a href="https://github.com/gHashTag/t27/pull/2437">The three lessons, written into the gate skill</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/the-ratchet-counted-a-total-as-an-error">Open the interactive version</a><a class="btn sec" href="/ru/blog/the-ratchet-counted-a-total-as-an-error/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=The ratchet counted a total as an error">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
