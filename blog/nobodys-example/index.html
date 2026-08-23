@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nobody&#x27;s example · TRINITY</title>
+<meta name="description" content="A gate&#x27;s negative control is written by someone who plants the fault it is meant to catch. That one sentence explains almost everything a boundary-mutation operator found in a suite three other operators had already scoured." />
+<link rel="canonical" href="https://t27.ai/blog/nobodys-example/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/nobodys-example/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/nobodys-example/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/nobodys-example/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/nobodys-example/" />
+<meta property="og:title" content="Nobody&#x27;s example" />
+<meta property="og:description" content="A gate&#x27;s negative control is written by someone who plants the fault it is meant to catch. That one sentence explains almost everything a boundary-mutation operator found in a suite three other operators had already scoured." />
+<meta property="og:image" content="https://t27.ai/og-blog-nobodys-example.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Nobody&#x27;s example" />
+<meta name="twitter:description" content="A gate&#x27;s negative control is written by someone who plants the fault it is meant to catch. That one sentence explains almost everything a boundary-mutation operator found in a suite three other operators had already scoured." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Nobody's example","description":"A gate's negative control is written by someone who plants the fault it is meant to catch. That one sentence explains almost everything a boundary-mutation operator found in a suite three other operators had already scoured.","url":"https://t27.ai/blog/nobodys-example/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/nobodys-example/"},"image":"https://t27.ai/og-blog-nobodys-example.png","datePublished":"2026-08-23","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"CI, Mutation testing, Test design, Measurement"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Nobody&#x27;s example</h1>
+<p class="meta">2026-08-23 · 8 min read</p>
+<p class="lede">A gate&#x27;s negative control is written by someone who plants the fault it is meant to catch. That one sentence explains almost everything a boundary-mutation operator found in a suite three other operators had already scoured.</p>
+<div class="tags"><span class="tag">CI</span><span class="tag">Mutation testing</span><span class="tag">Test design</span><span class="tag">Measurement</span></div>
+<p>A gate&#x27;s negative control is written by someone who plants the fault it is meant to catch. That single sentence explains almost everything the boundary operator found.</p>
+<p>The mutation line is closed. Thirteen gates, four operators, 111 mutants, two survivors — and both survivors are proven equivalences that now carry the proof in the output beside them. What follows is not the score. It is the one structural fact the last operator exposed, which the first three could not.</p>
+<h2>Four questions, not one</h2>
+<p>Each operator breaks a gate on purpose and asks whether the gate&#x27;s own control notices. They differ in what they break.</p>
+<ul><li>Silent — <code>return 1</code> becomes <code>return 0</code>. Can the gate still fail at all?</li><li>Loud — <code>return 0</code> becomes <code>return 1</code>. Does anything require it to be quiet?</li><li>Invert — <code>if C:</code> becomes <code>if not (C):</code> where the body carries a verdict. Does it reach the RIGHT verdict?</li><li>Boundary — <code>&gt;</code> becomes <code>&gt;=</code>, <code>&lt;</code> becomes <code>&lt;=</code>. Does it reach the verdict at the right PLACE?</li></ul>
+<p>The first three found gaps and then stopped finding them: 36, 21 and 33 mutants, all killed. The fourth found twelve survivors on its first honest run, in five of thirteen gates, on a suite the other three had already scoured.</p>
+<h2>Every one of them was a degenerate input</h2>
+<p>Six of those twelve closed in a single pass, and they rhymed. Each needed an input no existing case had a reason to build, and in each the missing input was the degenerate one.</p>
+<div class="tw"><table><thead><tr><th>the boundary</th><th>the input nobody planted</th></tr></thead><tbody><tr><td><code>v[0] &gt; 0</code> in a census of prose-only files</td><td>a file with <strong>zero</strong> cases</td></tr><tr><td><code>total &gt; 0 and data == 0</code> for a new file</td><td>a <strong>new</strong> file with zero cases</td></tr><tr><td><code>total == 0 and old[0] &gt; 0</code></td><td>a file <strong>already empty when the ledger was written</strong></td></tr><tr><td><code>len(parts) &gt; 1</code> parsing a ledger line</td><td>a line with <strong>no separator at all</strong></td></tr><tr><td><code>len(fixed) &gt; 5</code> guarding a continuation line</td><td><strong>exactly five</strong> repaired entries</td></tr><tr><td><code>n_ssot &lt; MIN_ROWS</code>, a floor</td><td><strong>exactly</strong> the floor</td></tr></tbody></table></div>
+<p>Nothing there is exotic. Every one is the kind of input a reader would call trivial, and that is precisely why none of them existed.</p>
+<blockquote>A control author plants the fault they are testing for, which is by construction a non-degenerate example: a file with the wrong contents, not a file with no contents.</blockquote>
+<p>To test that a gate catches lost data, you write a file that lost data. To test that it catches an emptied file, you empty one. Both are examples OF something. The empty case, the equal case and the one-off-the-edge case are examples of nothing — they are the inputs that do not illustrate any fault, so no author reaches for them, so no control contains them, so every comparison in the gate is free to sit one place off and pass.</p>
+<p>That is the boundary operator&#x27;s entire yield, and it is not a gap in anyone&#x27;s diligence. It is a consequence of how controls are written.</p>
+<h2>One of them would have cried wolf forever</h2>
+<p>The third row deserves its own paragraph, because it is the one with teeth.</p>
+<p><code>total == 0 and old[0] &gt; 0</code> reports a file that has been EMPTIED. Emptying is a transition: it was not empty, now it is. Change the guard to <code>old[0] &gt;= 0</code> and a file that was already empty when the ledger was written — that never made the transition — is announced as newly emptied. On every run. Forever.</p>
+<p>Not a missed failure, then. A permanent false alarm, which is the failure mode that gets a gate switched off, and after that the gate misses everything. Every case in that control planted its fault AFTER the ledger was written, so the baseline value was never zero and the boundary was never approached from below. Closing it needed a fixture where the fault is present at RECORD time, which is a different question about when, not about what.</p>
+<h2>One planted tree can close two boundaries</h2>
+<p>The count of prose-only files appears twice in the same gate: in the header the ledger writer emits, and again in the census line the verify path prints. Same expression, both sides of the ledger. A single fixture carrying a zero-case file at record time pins both, because they are one question asked twice.</p>
+<p>Worth looking for. When a boundary survives in two places, check whether it is two defects or one expression with two readers.</p>
+<h2>Cosmetic was closed rather than declared, twice</h2>
+<p>Two of the twelve guard a <code>&quot;(+N more)&quot;</code> continuation line. At the boundary they print <code>(+0 more)</code>, which harms nobody, and the honest classification is cosmetic.</p>
+<p>Both were closed with a case anyway. This campaign has twice found a limitation that was written down, sounded mechanical, and was invented — a justification nobody had measured, which read as considered and therefore stopped anyone checking. Against that record, a declared exception costs every future reader more than a case costs to write once.</p>
+<h2>Two survivors, and they are theorems</h2>
+<p>What remains is <code>math.isinf(dec) and (inp &gt; 0) == (dec &gt; 0)</code>, twice. The branch is guarded by <code>elif math.isinf(inp):</code> one line above, so both values are infinite by construction, and for a value in {+inf, −inf} the two forms agree — the only input separating them is zero, and neither can be zero.</p>
+<p>It is worth saying that this was first classified as a CANDIDATE theorem resting on an unchecked property of the codec. That caveat was written after reading the comparison and not the guard above it. The proof is two lines long and was sitting in the file the whole time.</p>
+<p>The line now carries a marker naming itself a known equivalence with the reason. The marker is PRINTED beside the surviving row and never acted on: the row still reads SURVIVED and still counts. Suppressing a row on the strength of a comment is exactly how a declared exception stands for a week while being false.</p>
+<h2>What 111 mutants and two survivors does not say</h2>
+<p>It does not say the gates are correct. It does not say they check the right properties. It says no mutant in four narrow families survives its control, and the families are narrow by construction — a fifth operator is a fifth question.</p>
+<p>The prior after this week is that a new question finds something. Three of the four operators found a defect in the tool asking the question rather than in the code being asked about. That is the least comfortable number in this post and the most useful one.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Whether a fifth operator family finds more is not established. Four were tried, nothing enumerates the set, and three of the four found a defect in the tool asking the question rather than in the code asked about.</li><li>The claim that degeneracy explains the yield is an argument from six cases in one repository, not a measurement across projects. It predicts that other suites have the same hole; that prediction is untested here.</li><li>Two survivors are called proven equivalences on the strength of two enclosing guards. The proof is short and stated in the source, but it is a reading of the code, not an exhaustive check of the input space.</li><li>&quot;No mutant survives&quot; is not &quot;the gates are correct&quot;. Nothing here measures whether a gate checks the property anyone wanted it to check.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/t27/pull/2503">gHashTag/t27 #2503 -- the boundary operator, and the first number that counted docstrings</a></li><li><a href="https://github.com/gHashTag/t27/pull/2504">gHashTag/t27 #2504 -- three boundaries closed, one classification corrected</a></li><li><a href="https://github.com/gHashTag/t27/pull/2507">gHashTag/t27 #2507 -- the last six, and what they had in common</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/nobodys-example">Open the interactive version</a><a class="btn sec" href="/ru/blog/nobodys-example/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Nobody&#x27;s example">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
