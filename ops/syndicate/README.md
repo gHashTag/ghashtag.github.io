@@ -9,6 +9,21 @@ Hashnode / Medium, once per post per channel. State: `~/.config/t27-syndicate/st
     cp config.example.json ~/.config/t27-syndicate/config.json
     # fill in the tokens for the channels you want; empty channels are skipped
 
+### Token runbook (dev.to / Hashnode / Medium)
+
+An agent with a working in-app browser session can create these keys itself:
+
+- **dev.to** — https://dev.to/settings/extensions → "DEV Community API Keys" →
+  describe as `t27 syndication` → Generate → copy into `channels.devto.api_key`.
+- **Hashnode** — https://hashnode.com/settings/developer → "Personal Access
+  Tokens" → Generate (needs a blog; create one at hashnode.com/blog/new first
+  if the account has none) → copy into `channels.hashnode.token`.
+- **Medium** — https://medium.com/me/settings/security → "Integration
+  tokens" → create (integration tokens can only create **drafts**) → copy into
+  `channels.medium.token`.
+
+If the account is not signed in inside the browser, this needs the user.
+
 Run:
 
     .venv/bin/python syndicate.py --dry-run   # preview
