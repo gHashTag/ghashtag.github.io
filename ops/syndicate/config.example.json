@@ -1,0 +1,26 @@
+{
+  "channels": {
+    "telegram": {
+      "_help": "Create bot via @BotFather, add as admin to your channel; chat_id like @my_channel or -100...",
+      "bot_token": "",
+      "chat_id": ""
+    },
+    "devto": {
+      "_help": "Settings > Extensions > DEV Community API Keys",
+      "api_key": "",
+      "publish": false
+    },
+    "hashnode": {
+      "_help": "Hashnode > Blogs > Settings > Developer (Personal Access Token). Drafts land in your blog's drafts.",
+      "token": ""
+    },
+    "medium": {
+      "_help": "Settings > Integration tokens (integration tokens are limited to draft posts)",
+      "token": ""
+    },
+    "indexnow": {
+      "_help": "Instant re-index ping (Bing, Yandex...). Key = name of the <key>.txt file at the site root.",
+      "key": ""
+    }
+  }
+}
