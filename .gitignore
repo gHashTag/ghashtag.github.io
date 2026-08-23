@@ -1,3 +1,5 @@
 
 # Working checkout of the website sources, made by publish-website.yml
 .src/
+__pycache__/
+*.pyc
