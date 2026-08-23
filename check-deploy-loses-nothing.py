@@ -217,6 +217,31 @@ def self_check():
          ["kept-post-one"], ["kept-post-one"],
          0, "no post is lost", ("NOT in this build",))
 
+    # T110: the no-argument branch, found by `tri gates mutate --dir` pointed
+    # at this repository -- the first time this file was audited by the tool
+    # whose lessons it was written from. Every case above passes a build path,
+    # so nothing ran the gate the way a broken caller would.
+    #
+    # It matters because of where this gate is wired. publish-website.yml calls
+    # it as `python3 check-deploy-loses-nothing.py .src/.../dist` inside an
+    # `if !`, so a lost argument reaching `return 0` would read as a passing
+    # check and the cron would publish having compared nothing -- the vacuous
+    # pass, in the guard against the loss it exists to prevent.
+    def no_argument_case():
+        nonlocal ok
+        r = subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve())],
+                           capture_output=True, text=True)
+        good = (r.returncode == 2
+                and "No build path given" in r.stdout
+                and "no post is lost" not in r.stdout
+                and "FAIL:" not in r.stdout)
+        print("  %-34s %s" % ("no argument is not a pass",
+                              "exit 2, says why" if good else "CONTROL FAILED"))
+        if not good:
+            ok = False
+            print("       exit %r (want 2); said %r" % (r.returncode, r.stdout[:300]))
+    no_argument_case()
+
     # T108: the orphan. rsync is additive, so yesterday's chunk sits beside
     # today's; a slug dropped from the reachable chunk is still ON DISK in the
     # unreachable one. Reading every chunk reports it live while the site 404s
@@ -328,7 +353,16 @@ def main(argv):
         return replay_history()
     args = [a for a in argv[1:] if not a.startswith("--")]
     if not args:
-        print(__doc__.strip().splitlines()[-4])
+        # T110: literal, not `__doc__.splitlines()[-4]`. An index into the
+        # docstring is a message that changes when the prose above it is
+        # edited, and this campaign has already had one probe broken by exactly
+        # that kind of positional read.
+        print("usage: check-deploy-loses-nothing.py <path-to-dist>")
+        print("       --history      replay past deploys")
+        print("       --self-check   negative control")
+        print("\n  No build path given, so nothing was compared. This exits 2 rather")
+        print("  than 0: a caller that lost its argument must not read the silence")
+        print("  as a passing check.")
         return 2
     candidate = pathlib.Path(args[0])
     deployed = pathlib.Path(argv[argv.index("--deployed") + 1]) if "--deployed" in argv else HERE
