@@ -144,19 +144,45 @@ def tg_escape(text):
     return re.sub(r"([_*`\[])", r"\\\1", text)
 
 
+def ru_meta(post):
+    """RU title/summary from the ru page the site ships; None if absent."""
+    path = REPO / "ru" / "blog" / post["slug"] / "index.html"
+    try:
+        html = path.read_text()
+    except FileNotFoundError:
+        return None
+    title = re.search(r'property="og:title" content="([^"]*)"', html)
+    desc = re.search(r'property="og:description" content="([^"]*)"', html)
+    if not title or not desc:
+        return None
+    import html as htmlmod
+    return (htmlmod.unescape(title.group(1)), htmlmod.unescape(desc.group(1)))
+
+
 def post_telegram(post, ch, dry):
+    """@t27_lang is a Russian-language channel with a '[измерено]' house style;
+    post the RU version when the site ships one, English otherwise."""
     token, chat = ch["bot_token"], ch["chat_id"]
+    ru = ru_meta(post)
+    title, summary, tail = tg_escape(post["title"]), tg_escape(post["summary"]), ""
+    if ru:
+        title, summary = tg_escape(ru[0]), tg_escape(ru[1])
+        tail = " — измеренные результаты по троичному тракту данных; в каждом посте названо, что не доказано."
+        link = utm(f"{SITE}/ru/blog/{post['slug']}/", "telegram")
+    else:
+        link = utm(f"{SITE}/blog/{post['slug']}/", "telegram")
     if dry:
-        return {"ok": True, "dry": True, "id": None}
-    title = tg_escape(post["title"])
-    summary = tg_escape(post["summary"])
-    link = utm(f"{SITE}/blog/{post['slug']}/", "telegram")
-    # the URL must sit inside (...): the utm params contain _, which legacy
-    # Markdown would otherwise read as an italic entity and fail the send
-    caption = (f"*{title}*\n\n{summary}\n\n"
-               f"[Read the post]({link})\n"
-               f"Measured results on the ternary datapath — every post names "
-               f"what is not proven.")[:1024]
+        return {"ok": True, "dry": True, "id": None, "lang": "ru" if ru else "en"}
+    caption = (f"*[измерено] {title}*\n\n{summary}\n\n[Читать]({link}){tail}")[:1024]
+    r = http_post(
+        f"https://api.telegram.org/bot{token}/sendPhoto",
+        json={"chat_id": chat, "photo": cover_url(post),
+              "caption": caption, "parse_mode": "Markdown"},
+    )
+    if not r.ok:
+        raise RuntimeError(f"telegram HTTP {r.status_code}: "
+                           f"{r.json().get('description', r.text[:150])}")
+    return {"ok": True, "id": r.json()["result"]["message_id"]}
     r = http_post(
         f"https://api.telegram.org/bot{token}/sendPhoto",
         json={"chat_id": chat, "photo": cover_url(post),
