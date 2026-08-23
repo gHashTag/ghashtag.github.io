@@ -23,6 +23,7 @@ the feed and sitemap that still list them.
 
 Usage:
   check-deploy-loses-nothing.py <path-to-dist>     gate
+  check-deploy-loses-nothing.py --history          replay past deploys
   check-deploy-loses-nothing.py --self-check       negative control
 
 Exits non-zero if any deployed slug is absent from the candidate build.
@@ -71,6 +72,69 @@ def compare(deployed_root, candidate_dist):
     return live, new, sorted(live - new), sorted(new - live)
 
 
+def replay_history(limit=None):
+    """Walk this repo's own deploys and report every one that dropped a slug.
+
+    The gate above answers for a build in hand. This answers for the ones
+    already pushed, and it is how the gate first went red on real data: three
+    transitions in 160 commits dropped slugs, two recovered on the next deploy,
+    and one did not -- eleven posts absent from the live site for two days.
+
+    Slugs are read from every Blog-*.js at each commit, not the newest, because
+    orphaned chunks from earlier deploys sit beside the current one and picking
+    by name would compare against whichever sorted first.
+    """
+    def sh(*a):
+        return subprocess.run(a, cwd=str(HERE), capture_output=True, text=True).stdout
+
+    rows = sh("git", "log", "--format=%H|%cd|%s", "--date=short", "--", "assets/")
+    commits = list(reversed(rows.strip().splitlines()))
+    if limit:
+        commits = commits[-limit:]
+
+    def slugs_at(sha):
+        names = [n for n in sh("git", "ls-tree", "-r", "--name-only", sha).splitlines()
+                 if re.match(r"assets/Blog-.*\.js$", n)]
+        if not names:
+            return None
+        text = "".join(sh("git", "show", f"{sha}:{n}") for n in names)
+        out = set()
+        for pat in SLUG_PATTERNS:
+            out |= set(re.findall(pat, text))
+        return out
+
+    prev = prev_meta = None
+    drops = []
+    seen = 0
+    for row in commits:
+        sha, date, subj = row.split("|", 2)
+        s = slugs_at(sha)
+        if s is None:
+            continue
+        seen += 1
+        if prev is not None and (prev - s):
+            drops.append((prev_meta, (sha[:7], date, subj), sorted(prev - s)))
+        prev, prev_meta = s, (sha[:7], date, subj)
+
+    live = slugs_in(blog_chunks(HERE))
+    print(f"replayed {seen} deploy(s) carrying a bundle, of {len(commits)} commits touching assets/")
+    if not drops:
+        print("OK: no deploy in this history dropped a slug")
+        return 0
+    print(f"\n{len(drops)} deploy(s) dropped at least one slug:\n")
+    unrecovered = 0
+    for before, after, lost in drops:
+        still = [s for s in lost if s not in live]
+        unrecovered += bool(still)
+        print(f"  {after[1]}  {after[0]}  {after[2][:64]}")
+        print(f"      dropped {len(lost)}: {', '.join(lost[:4])}{' ...' if len(lost) > 4 else ''}")
+        print(f"      still missing today: {len(still)}"
+              + (f"  <-- LIVE LOSS" if still else "  (recovered by a later deploy)"))
+    # A drop that a later deploy healed is history; one that did not is damage
+    # sitting on the site right now, and only the second is worth an exit code.
+    return 1 if unrecovered else 0
+
+
 def self_check():
     """Plant a build that drops a post; prove this says so. Then one that adds."""
     ok = True
@@ -115,6 +179,65 @@ def self_check():
          ["kept-post-one"], ["kept-post-one"],
          0, "no post is lost", ("NOT in this build",))
 
+    # --history has its own two directions, and it needs them more than the
+    # cases above: when it first ran on real data it printed "still missing
+    # today: 0" for all three drops -- correct, because the loss had just been
+    # repaired -- and a mode whose only observed output is green has not been
+    # shown to go red. Planted as a real git repository, because the replay
+    # reads `git log` and `git ls-tree` and a stub would test the stub.
+    def history_case(label, deploys, worktree, want_rc, want_text, absent):
+        nonlocal ok
+        with tempfile.TemporaryDirectory() as td:
+            root = pathlib.Path(td)
+            (root / "assets").mkdir(parents=True)
+            me = root / pathlib.Path(__file__).name
+            me.write_text(pathlib.Path(__file__).read_text(encoding="utf-8"), encoding="utf-8")
+            env = {**os.environ, "GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@t",
+                   "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@t"}
+            subprocess.run(["git", "init", "-q"], cwd=root, capture_output=True)
+            for i, slugs in enumerate(deploys):
+                (root / "assets" / "Blog-planted.js").write_text(
+                    "".join('slug:"%s",' % s for s in slugs))
+                subprocess.run(["git", "add", "-A", "-f"], cwd=root, capture_output=True)
+                subprocess.run(["git", "commit", "-q", "-m", f"deploy {i}"],
+                               cwd=root, capture_output=True, env=env)
+            # The working tree decides "still missing today", so it is set last
+            # and independently of the final commit.
+            (root / "assets" / "Blog-planted.js").write_text(
+                "".join('slug:"%s",' % s for s in worktree))
+            r = subprocess.run([sys.executable, str(me), "--history"],
+                               capture_output=True, text=True)
+        said = want_text in r.stdout
+        leaked = [a for a in absent if a in r.stdout]
+        good = r.returncode == want_rc and said and not leaked
+        print("  %-34s %s" % (label, "exit %d, says it" % want_rc if good else "CONTROL FAILED"))
+        if not good:
+            ok = False
+            print("       exit %r (want %r); %r present: %s" % (r.returncode, want_rc, want_text, said))
+            if leaked:
+                print("       neighbouring marker leaked: %r" % (leaked,))
+            print("       said   %r" % (r.stdout[:400],))
+
+    # A drop still absent from the working tree: damage sitting on the site.
+    history_case("history: an unhealed drop is red",
+                 [["kept-post-one", "dropped-post-two"], ["kept-post-one"]],
+                 ["kept-post-one"],
+                 1, "<-- LIVE LOSS", ("no deploy in this history dropped",))
+
+    # The same drop, healed by a later deploy. History, not damage -- and the
+    # exit code must say so, or every past incident reds the gate forever.
+    history_case("history: a healed drop is green",
+                 [["kept-post-one", "dropped-post-two"], ["kept-post-one"],
+                  ["kept-post-one", "dropped-post-two"]],
+                 ["kept-post-one", "dropped-post-two"],
+                 0, "(recovered by a later deploy)", ("<-- LIVE LOSS",))
+
+    # And a history with no drop at all must not invent one.
+    history_case("history: a clean history is silent",
+                 [["kept-post-one"], ["kept-post-one", "brand-new-post-here"]],
+                 ["kept-post-one", "brand-new-post-here"],
+                 0, "no deploy in this history dropped a slug", ("LIVE LOSS", "dropped 1"))
+
     # A build with NO chunks at all reads as dropping everything, and that is
     # the correct answer rather than an error: a dist that lost its Blog chunk
     # is exactly the copy that must not happen. Asserted because the empty case
@@ -129,6 +252,8 @@ def self_check():
 def main(argv):
     if "--self-check" in argv:
         return self_check()
+    if "--history" in argv:
+        return replay_history()
     args = [a for a in argv[1:] if not a.startswith("--")]
     if not args:
         print(__doc__.strip().splitlines()[-4])
