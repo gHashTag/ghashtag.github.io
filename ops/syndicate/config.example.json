@@ -1,9 +1,9 @@
 {
   "channels": {
     "telegram": {
-      "_help": "Create bot via @BotFather, add as admin to your channel; chat_id like @my_channel or -100...",
+      "_help": "Create bot via @BotFather, add as admin to the channel (yours is @t27_lang); chat_id like @t27_lang or -100...",
       "bot_token": "",
-      "chat_id": ""
+      "chat_id": "@your_channel"
     },
     "devto": {
       "_help": "Settings > Extensions > DEV Community API Keys",

@@ -32,6 +32,7 @@ import ipaddress
 import json
 import re
 import socket
+import subprocess
 import sys
 import time
 import urllib.parse
@@ -244,17 +245,81 @@ def channel_enabled(name, ch):
     return all(ch.get(k) for k in REQUIRED[name])
 
 
+PROFILE_REPO = "gHashTag/gHashTag"
+PROFILE_START = "<!-- t27-latest-posts:start -->"
+PROFILE_END = "<!-- t27-latest-posts:end -->"
+PROFILE_ANCHOR = "## 📄 Papers"
+
+
+def update_profile(posts, dry):
+    """Keep a 'Latest posts' block in the GitHub profile README in sync.
+
+    The block is delimited by HTML comment markers; content between them is
+    regenerated from the 3 newest blog posts. Updated via the GitHub contents
+    API using the local gh CLI auth. No-op when content is unchanged.
+    """
+    top = sorted(posts, key=lambda p: p["date"], reverse=True)[:3]
+    lines = [PROFILE_START, "",
+             "## 📝 Latest posts — [t27.ai/blog](https://t27.ai/#/blog)", ""]
+    for p in top:
+        link = utm(f"{SITE}/blog/{p['slug']}/", "github-profile")
+        s = p["summary"][:180]
+        s = s[:s.rfind(" ")] if len(p["summary"]) > 180 else s
+        lines.append(f"- **[{p['title']}]({link})** ({p['date']}) — {s}…")
+    lines += ["", PROFILE_END]
+    section = "\n".join(lines)
+
+    cur = subprocess.run(
+        ["gh", "api", f"repos/{PROFILE_REPO}/contents/README.md", "-q", ".content"],
+        capture_output=True, text=True, check=True).stdout
+    import base64
+    readme = base64.b64decode(cur).decode()
+
+    if PROFILE_START in readme:
+        new = re.sub(re.escape(PROFILE_START) + r".*?" + re.escape(PROFILE_END),
+                     section, readme, flags=re.S)
+    elif PROFILE_ANCHOR in readme:
+        new = readme.replace(PROFILE_ANCHOR, section + "\n---\n\n" + PROFILE_ANCHOR, 1)
+    else:
+        new = readme + "\n\n" + section + "\n"
+    if new == readme:
+        print("profile README already up to date")
+        return
+
+    if dry:
+        print("profile README would be updated with:\n" + section)
+        return
+    sha = subprocess.run(
+        ["gh", "api", f"repos/{PROFILE_REPO}/contents/README.md", "-q", ".sha"],
+        capture_output=True, text=True, check=True).stdout.strip()
+    import base64 as b64
+    subprocess.run(
+        ["gh", "api", "--method", "PUT", f"repos/{PROFILE_REPO}/contents/README.md",
+         "-f", f"message=chore: refresh latest blog posts (auto)",
+         "-f", f"sha={sha}",
+         "-f", f"content={b64.b64encode(new.encode()).decode()}"],
+        capture_output=True, text=True, check=True)
+    print(f"profile README updated ({PROFILE_REPO})")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--limit", type=int)
     ap.add_argument("--status", action="store_true")
+    ap.add_argument("--update-profile", action="store_true",
+                    help="refresh the Latest posts block in the GitHub profile README")
     args = ap.parse_args()
+
+    posts = json.loads((REPO / "blog-posts.json").read_text())
+    posts.sort(key=lambda p: p["date"])
+
+    if args.update_profile:
+        update_profile(posts, args.dry_run)
+        return
 
     cfg = load_config()
     state = load_json(STATE_PATH, {})
-    posts = json.loads((REPO / "blog-posts.json").read_text())
-    posts.sort(key=lambda p: p["date"])
 
     if args.status:
         for name in VALID_CHANNELS:
