@@ -57,13 +57,44 @@ def slugs_in(paths):
 
 
 def blog_chunks(root):
-    """Every Blog-*.js under root/assets.
+    """Blog-*.js chunks the page can actually REACH, walking from index.html.
 
-    All of them, not the newest. Earlier deploys leave orphaned chunks behind,
-    and picking one by mtime would compare against whichever the filesystem
-    happened to order first.
+    The first version took every chunk on disk, and today that happens to give
+    the same answer: 16 chunks in the apex, one reachable, and the reachable one
+    carries all 48 slugs. By luck, not by construction.
+
+    The luck runs out in exactly the shape this gate exists to catch. rsync is
+    additive, so a deploy leaves the previous chunk beside the new one; a slug
+    dropped from the new chunk still SITS on disk in the old one, and a
+    disk-wide read reports it as live while the site 404s it. The orphan prune
+    that follows a deploy then deletes the old chunk and the slug is gone for
+    good -- which is how eleven posts left this site on 2026-08-21.
+
+    So: reachability, not presence. Falling back to every chunk when there is no
+    index.html is deliberate and narrow -- a dist without one is not a site, and
+    reporting nothing at all there would be a silent pass.
     """
-    return sorted(glob.glob(os.path.join(str(root), "assets", "Blog-*.js")))
+    root = str(root)
+    index = os.path.join(root, "index.html")
+    every = sorted(glob.glob(os.path.join(root, "assets", "Blog-*.js")))
+    if not os.path.exists(index):
+        return every
+
+    seen, queue = set(), re.findall(
+        r"assets/index-[A-Za-z0-9_-]+\.js",
+        pathlib.Path(index).read_text(errors="replace"))
+    while queue:
+        rel = queue.pop()
+        if rel in seen:
+            continue
+        seen.add(rel)
+        f = pathlib.Path(root) / rel
+        if not f.exists():
+            continue
+        for ref in re.findall(r"[\"'(]\./([A-Za-z0-9_.-]+\.js)[\"')]",
+                              f.read_text(errors="replace")):
+            queue.append("assets/" + ref)
+    return sorted(os.path.join(root, s) for s in seen if re.search(r"Blog-.*\.js$", s))
 
 
 def compare(deployed_root, candidate_dist):
@@ -147,6 +178,13 @@ def self_check():
                 (t / name / "assets").mkdir(parents=True)
                 body = "".join('slug:"%s",' % s for s in slugs)
                 (t / name / "assets" / "Blog-planted.js").write_text(body)
+                # A real index.html and a real entry chunk, so the cases run the
+                # reachability walk rather than the no-index fallback. Planting
+                # only the chunk would test the fallback and call it the gate.
+                (t / name / "assets" / "index-planted.js").write_text(
+                    'import "./Blog-planted.js";')
+                (t / name / "index.html").write_text(
+                    '<script src="assets/index-planted.js"></script>')
             r = subprocess.run(
                 [sys.executable, str(pathlib.Path(__file__).resolve()),
                  str(t / "dist"), "--deployed", str(t / "deployed")],
@@ -178,6 +216,40 @@ def self_check():
     case("an unchanged set passes",
          ["kept-post-one"], ["kept-post-one"],
          0, "no post is lost", ("NOT in this build",))
+
+    # T108: the orphan. rsync is additive, so yesterday's chunk sits beside
+    # today's; a slug dropped from the reachable chunk is still ON DISK in the
+    # unreachable one. Reading every chunk reports it live while the site 404s
+    # it -- and the prune that follows a deploy then deletes the orphan and the
+    # post is gone. That is the exact shape of the 2026-08-21 loss, so it gets a
+    # case rather than a sentence.
+    def orphan_case():
+        nonlocal ok
+        with tempfile.TemporaryDirectory() as td:
+            t = pathlib.Path(td)
+            for name in ("deployed", "dist"):
+                (t / name / "assets").mkdir(parents=True)
+                (t / name / "assets" / "Blog-current.js").write_text('slug:"kept-post-one",')
+                (t / name / "assets" / "index-planted.js").write_text('import "./Blog-current.js";')
+                (t / name / "index.html").write_text(
+                    '<script src="assets/index-planted.js"></script>')
+            # Only the deployed side carries the orphan, and nothing links it.
+            (t / "deployed" / "assets" / "Blog-orphan.js").write_text('slug:"orphaned-post-two",')
+            r = subprocess.run(
+                [sys.executable, str(pathlib.Path(__file__).resolve()),
+                 str(t / "dist"), "--deployed", str(t / "deployed")],
+                capture_output=True, text=True)
+        # The orphaned slug is NOT served, so its absence from the build is not
+        # a loss. Counting it would red every publish after any prune-less
+        # deploy, and a gate that cries wolf is a gate nobody runs.
+        good = r.returncode == 0 and "no post is lost" in r.stdout \
+            and "orphaned-post-two" not in r.stdout
+        print("  %-34s %s" % ("an unreachable chunk is not live",
+                              "exit 0, ignores it" if good else "CONTROL FAILED"))
+        if not good:
+            ok = False
+            print("       exit %r; said %r" % (r.returncode, r.stdout[:300]))
+    orphan_case()
 
     # --history has its own two directions, and it needs them more than the
     # cases above: when it first ran on real data it printed "still missing

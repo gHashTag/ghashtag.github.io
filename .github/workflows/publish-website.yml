@@ -144,6 +144,25 @@ jobs:
             say "- entry bundle unchanged, but other files differ -- publishing"
           fi
 
+          # The question verify-site.sh cannot ask. It compares the shipped
+          # bundle against blog/ and fails on disagreement -- which is the right
+          # check and is structurally blind to a slug leaving BOTH sides at
+          # once. On 2026-08-21 eleven posts did exactly that: they lived only
+          # in the apex bundle, a deploy replaced it with one built from
+          # trinity, and nothing disagreed with anything. They were gone from
+          # the live site for two days.
+          #
+          # This asks whether every slug the site SERVES today still exists in
+          # the build about to overwrite assets/. Before the rsync, because
+          # after it there is nothing left to compare against.
+          if ! python3 check-deploy-loses-nothing.py .src/apps/website/dist >/tmp/loss.txt 2>&1; then
+            say "- **FAIL** this build drops posts the site currently serves"
+            sed 's/^/    /' /tmp/loss.txt >> "$GITHUB_STEP_SUMMARY"
+            cat /tmp/loss.txt
+            exit 1
+          fi
+          say "- $(head -1 /tmp/loss.txt)"
+
           # Additive on purpose. The generated pages (cases/, gft/, about/ …),
           # the OG images and CNAME are not in dist/ and must survive.
           rsync -a .src/apps/website/dist/ ./
