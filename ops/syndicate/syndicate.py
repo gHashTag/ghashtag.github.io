@@ -138,17 +138,33 @@ def cover_url(post):
 
 # --- channels ---------------------------------------------------------------
 
+def tg_escape(text):
+    """Escape legacy-Markdown specials so a stray * _ ` [ in a post cannot
+    break the whole sendPhoto request."""
+    return re.sub(r"([_*`\[])", r"\\\1", text)
+
+
 def post_telegram(post, ch, dry):
     token, chat = ch["bot_token"], ch["chat_id"]
     if dry:
         return {"ok": True, "dry": True, "id": None}
+    title = tg_escape(post["title"])
+    summary = tg_escape(post["summary"])
+    link = utm(f"{SITE}/blog/{post['slug']}/", "telegram")
+    # the URL must sit inside (...): the utm params contain _, which legacy
+    # Markdown would otherwise read as an italic entity and fail the send
+    caption = (f"*{title}*\n\n{summary}\n\n"
+               f"[Read the post]({link})\n"
+               f"Measured results on the ternary datapath — every post names "
+               f"what is not proven.")[:1024]
     r = http_post(
         f"https://api.telegram.org/bot{token}/sendPhoto",
         json={"chat_id": chat, "photo": cover_url(post),
-              "caption": canonical_block(post, "telegram")[:1024],
-              "parse_mode": "Markdown"},
+              "caption": caption, "parse_mode": "Markdown"},
     )
-    r.raise_for_status()
+    if not r.ok:
+        raise RuntimeError(f"telegram HTTP {r.status_code}: "
+                           f"{r.json().get('description', r.text[:150])}")
     return {"ok": True, "id": r.json()["result"]["message_id"]}
 
 
@@ -356,7 +372,8 @@ def main():
                     "dry-run" if res.get("dry") else str(res.get("id") or res.get("url") or "ok"))
                 print(f"[{slug}] {name}: {'dry-run ok' if res.get('dry') else res}")
             except Exception as e:  # noqa: BLE001 — one channel failing must not stop others
-                print(f"[{slug}] {name}: FAILED {e}")
+                msg = re.sub(r"bot\d+:[\w-]+", "bot***", str(e))  # never leak tokens
+                print(f"[{slug}] {name}: FAILED {msg}")
         print()
 
     if not args.dry_run:
