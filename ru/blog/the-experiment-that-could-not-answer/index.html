@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Две теоремы, осуждающие эксперимент до его запуска · TRINITY</title>
+<meta name="description" content="Порог обнаружимости n ≈ 3.92/Δ² сказал, что свип не разрешит эффект ни при каком исходе, а показание через sticky-OR несло ровно ноль бит. Оба известны заранее." />
+<link rel="canonical" href="https://t27.ai/ru/blog/the-experiment-that-could-not-answer/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-experiment-that-could-not-answer/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-experiment-that-could-not-answer/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-experiment-that-could-not-answer/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/the-experiment-that-could-not-answer/" />
+<meta property="og:title" content="Две теоремы, осуждающие эксперимент до его запуска" />
+<meta property="og:description" content="Порог обнаружимости n ≈ 3.92/Δ² сказал, что свип не разрешит эффект ни при каком исходе, а показание через sticky-OR несло ровно ноль бит. Оба известны заранее." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-experiment-that-could-not-answer-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Две теоремы, осуждающие эксперимент до его запуска" />
+<meta name="twitter:description" content="Порог обнаружимости n ≈ 3.92/Δ² сказал, что свип не разрешит эффект ни при каком исходе, а показание через sticky-OR несло ровно ноль бит. Оба известны заранее." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Две теоремы, осуждающие эксперимент до его запуска","description":"Порог обнаружимости n ≈ 3.92/Δ² сказал, что свип не разрешит эффект ни при каком исходе, а показание через sticky-OR несло ровно ноль бит. Оба известны заранее.","url":"https://t27.ai/ru/blog/the-experiment-that-could-not-answer/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/the-experiment-that-could-not-answer/"},"image":"https://t27.ai/og-blog-the-experiment-that-could-not-answer-ru.png","datePublished":"2026-08-11","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Statistics, Measurement, FPGA, Methodology"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Две теоремы, осуждающие эксперимент до его запуска</h1>
+<p class="meta">2026-08-11 · 6 мин чтения</p>
+<p class="lede">Порог обнаружимости n ≈ 3.92/Δ² сказал, что свип не разрешит эффект ни при каком исходе, а показание через sticky-OR несло ровно ноль бит. Оба известны заранее.</p>
+<div class="tags"><span class="tag">Statistics</span><span class="tag">Measurement</span><span class="tag">FPGA</span><span class="tag">Methodology</span></div>
+<p>Два результата из наладки железа, оба доказуемы на бумаге, и оба сэкономили бы неделю, будь они применены до прогонов, а не после.</p>
+<h2>1. Порог обнаружимости</h2>
+<p>Для разницы между двумя долями при α = 0.05 и мощности 0.8 нужный объём выборки примерно таков:</p>
+<pre><code>n ≈ 3.92 / Δ²        значит        Δ_min ≈ √( 3.92 / n )</code></pre>
+<p>Свипы использовали от 4 до 6 образцов на плечо. При n = 6 это ставит наименьшую разрешимую разницу на 81 пункт — тогда как весь искомый правдоподобный эффект был меньше 30.</p>
+<blockquote>Эксперимент не мог дать верного ответа ни при каком исходе, и это было известно до того, как взяли первые данные.</blockquote>
+<p>Это и есть полезная форма результата. Он не говорит, что ответ неверен — он говорит, что ответа не было в наличии, и всё вышедшее было шумом в одежде вывода. Два числа, корень, и проверка стоит нисколько, пока стенд ещё на столе.</p>
+<h2>2. Насыщающийся агрегатор несёт ноль бит</h2>
+<p>Sticky-OR по окну — поднять бит, если хоть один отсчёт был высоким, прочитать в конце — естественный способ поймать переходный процесс. Если окно достаточно длинное, чтобы содержать хотя бы один высокий отсчёт при любой из гипотез:</p>
+<pre><code>P(T=1 | H₁) = P(T=1 | H₂) = 1
+Λ ≡ 1        I(T;H) = 0</code></pre>
+<p>Отношение правдоподобия тождественно единице, значит взаимная информация между показанием и гипотезой ровно нулевая. Не малая. Нулевая. И повторение не помогает: усреднение N независимых чтений переменной, не несущей информации, информации не даёт.</p>
+<h2>Средство стоит одного регистра</h2>
+<p>Считайте AND вместе с OR по тому же окну. Инициализируйте AND единицей, OR нулём. Тогда AND, оставшийся единицей, вдобавок доказывает, что такт шёл, — а этого OR показать не может.</p>
+<div class="tw"><table><thead><tr><th>OR</th><th>AND</th><th>состояние</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>залипло в нуле</td></tr><tr><td>1</td><td>0</td><td>переключается</td></tr><tr><td>1</td><td>1</td><td>залипло в единице</td></tr><tr><td>0</td><td>1</td><td>невозможно — проверка самого прибора</td></tr></tbody></table></div>
+<p>Последняя строка не может случиться. Если случилась — сломан прибор, а не дизайн.</p>
+<h2>Почему они вместе</h2>
+<p>Первая говорит, что эксперимент не разрешит эффект. Вторая — что показание не донесёт ответ, даже если бы разрешил. Обе суть свойства постановки, а не результата, обе доказуемы до любого прогона, и обе были обнаружены после, что и есть дорогой способ узнать любую из них.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Обе теоремы взяты из наладки AX7203 от 2026-07-30 и записаны там как доказанные. Опубликовано 2026-08-11.</li><li>Константа 3.92 — для двух долей при α = 0.05 и мощности 0.8. Другой критерий и другая мощность дают другую константу; переносится форма — n растёт как 1/Δ² — а не число.</li><li>Результат про ноль информации точен для насыщающегося агрегатора по окну, заведомо содержащему высокий отсчёт. Где насыщение не гарантировано, взаимная информация мала, а не равна нулю, и насколько мала — зависит от частоты.</li><li>Обе теоремы говорят, что эксперимент не может ответить. Ни одна не говорит, какой эксперимент смог бы, и спроектировать его — половина потруднее.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/blob/main/docs/HW_CAMPAIGN_AX7203_2026_07_30.md">The bring-up campaign these came out of</a></li><li><a href="https://t27.ai/#/blog/readout-that-cannot-be-misread">The four bench rules that follow from them</a></li></ul></div>
+<div class="cta"><p>Каждая цифра выше измерена, и рядом с ней названы её пределы.</p><div class="btns"><a class="btn" href="/?lang=ru#/blog/the-experiment-that-could-not-answer">Открыть интерактивную версию</a><a class="btn sec" href="/blog/the-experiment-that-could-not-answer/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Две теоремы, осуждающие эксперимент до его запуска">admin@t27.ai</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

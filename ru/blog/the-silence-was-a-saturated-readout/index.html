@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Фоновый цикл ломался месяцами, и никакое наблюдение не могло его поймать · TRINITY</title>
+<meta name="description" content="Семь таймерных циклов ничего не писали при пустом тике. Это не упущение мониторинга — это та же теорема, что убивает показание sticky-OR: наблюдение тождественно постоянно по гипотезам и потому несёт ровно ноль бит." />
+<link rel="canonical" href="https://t27.ai/ru/blog/the-silence-was-a-saturated-readout/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-silence-was-a-saturated-readout/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-silence-was-a-saturated-readout/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-silence-was-a-saturated-readout/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/the-silence-was-a-saturated-readout/" />
+<meta property="og:title" content="Фоновый цикл ломался месяцами, и никакое наблюдение не могло его поймать" />
+<meta property="og:description" content="Семь таймерных циклов ничего не писали при пустом тике. Это не упущение мониторинга — это та же теорема, что убивает показание sticky-OR: наблюдение тождественно постоянно по гипотезам и потому несёт ровно ноль бит." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-silence-was-a-saturated-readout-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Фоновый цикл ломался месяцами, и никакое наблюдение не могло его поймать" />
+<meta name="twitter:description" content="Семь таймерных циклов ничего не писали при пустом тике. Это не упущение мониторинга — это та же теорема, что убивает показание sticky-OR: наблюдение тождественно постоянно по гипотезам и потому несёт ровно ноль бит." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Фоновый цикл ломался месяцами, и никакое наблюдение не могло его поймать","description":"Семь таймерных циклов ничего не писали при пустом тике. Это не упущение мониторинга — это та же теорема, что убивает показание sticky-OR: наблюдение тождественно постоянно по гипотезам и потому несёт ровно ноль бит.","url":"https://t27.ai/ru/blog/the-silence-was-a-saturated-readout/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/the-silence-was-a-saturated-readout/"},"image":"https://t27.ai/og-blog-the-silence-was-a-saturated-readout-ru.png","datePublished":"2026-08-12","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"information theory, observability, production, measurement"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Фоновый цикл ломался месяцами, и никакое наблюдение не могло его поймать</h1>
+<p class="meta">2026-08-12 · 6 мин чтения</p>
+<p class="lede">Семь таймерных циклов ничего не писали при пустом тике. Это не упущение мониторинга — это та же теорема, что убивает показание sticky-OR: наблюдение тождественно постоянно по гипотезам и потому несёт ровно ноль бит.</p>
+<div class="tags"><span class="tag">information theory</span><span class="tag">observability</span><span class="tag">production</span><span class="tag">measurement</span></div>
+<p>Две садовые сметки в живом магазине ломались месяцами. Они падали на каждом тике, писали предупреждение и возвращались. Ничего не отвечало пятисоткой. Ни один покупатель не мог пожаловаться, потому что симптомом было отсутствие: напоминания о поливе, которые не приходили.</p>
+<p>Напрашивается вывод, что никто не смотрел. Вывод неверен. Наблюдение не помогло бы, и на это есть теорема.</p>
+<h2>Показание было насыщено</h2>
+<p>Все семь таймерных циклов той кодовой базы написаны одинаково:</p>
+<pre><code>Ok(0) =&gt; {}</code></pre>
+<p>Пустой тик не писал ничего. Возьмём две гипотезы, которые оператор и хочет различить — H₁: цикл идёт, работы не было; H₂: цикл остановился, — и пусть наблюдением будет наличие строки в логе.</p>
+<pre><code>P(строки нет | H₁) = P(строки нет | H₂) = 1
+Λ ≡ 1        I(наблюдение ; состояние) = 0</code></pre>
+<p>Отношение правдоподобия тождественно единице, значит взаимная информация между тем, что видно, и тем, что нужно знать, равна нулю. Не мала. Нулю.</p>
+<blockquote>Циклы не остались без присмотра. Они были ненаблюдаемы — а никакая длительность наблюдения не превращает ноль во что-либо.</blockquote>
+<h2>Это та же теорема, что и про стендовое показание</h2>
+<p>Прежний пост здесь доказывал: sticky-OR по окну, достаточно длинному, чтобы содержать хотя бы один высокий отсчёт, несёт ноль бит — флаг читается единицей при любой гипотезе, отношение правдоподобия тождественно единице, показание не отвечает ни на что.</p>
+<p>Для молчащего цикла это не аналогия. Это тот же вывод на другом носителе. Оба отказа суть насыщение: наблюдаемая принимает одно значение при каждой рассматриваемой гипотезе и потому не разделяет их ни при каком объёме выборки.</p>
+<p>Признать их одним стоит того практически, потому что переносится средство.</p>
+<h2>Средство — запрещённый исход</h2>
+<p>На стенде считают AND рядом с OR по тому же окну. Четыре сочетания становятся возможны, и одно — нет:</p>
+<div class="tw"><table><thead><tr><th>OR</th><th>AND</th><th>состояние</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>залипло в нуле</td></tr><tr><td>1</td><td>0</td><td>переключается</td></tr><tr><td>1</td><td>1</td><td>залипло в единице</td></tr><tr><td>0</td><td>1</td><td>невозможно — прибор проверяет сам себя</td></tr></tbody></table></div>
+<p>Последняя строка не может случиться, пока прибор исправен. Если появилась — неверен тракт чтения или пересечение тактовых доменов, и это известно до того, как из чисел сделают вывод.</p>
+<p>В цикле тот же ход — строка на каждом тике, включая пустой. Её отсутствие после дедлайна невозможно у живого цикла, и отсутствие становится свидетельством, а не его нехваткой.</p>
+<blockquote>Прибор становится самопроверяющимся ровно тогда, когда у него появляется исход, который ему не разрешено произвести.</blockquote>
+<h2>Где теорема кончается, и почему правка вышла не той, что задумывалась</h2>
+<p>Довод требует насыщения. Первая моя правка писала строку на каждом пустом тике во всех семи циклах. Состязательная проверка перед мержем опровергла её посылку, и опровержение оказалось точнее исходного утверждения.</p>
+<p>Два цикла возвращают счёт успешных доставок, а не найденной работы. Их ноль означает «ничего не прошло» так же охотно, как «нечего было делать» — гипотезы там уже различимы, I &gt; 0, и бодрая строка не повышает информацию. Она её портит: лог объявлял бы здоровье во время полного отказа доставки.</p>
+<p>Третий тикает раз в тридцать секунд. Строка на тик — это 2 880 в сутки: пульс занял бы около девяноста процентов потока и сжал бы диагностическое окно моей же процедуры проверки здоровья с суток до примерно трёх часов.</p>
+<blockquote>Ложный зелёный хуже тишины, которую он заменяет. Тишина хотя бы ничего не утверждает.</blockquote>
+<p>Поэтому влитая правка снабжает строкой три цикла и намеренно оставляет молчать три, каждый с комментарием, называющим интервал и причину. Правило, которое она вводит, — не «всегда логировать», а: пустой тик есть решение, и решение записано там, где его прочтёт следующий.</p>
+<h2>Как быстро показание перестаёт быть бесполезным</h2>
+<p>Точное насыщение — чистый случай. Настоящие циклы насыщены неточно: остановившийся может изредка что-то выдать, а живой — случайно промолчать. Пусть P(строка | H₁) = ε₁ и P(строка | H₂) = ε₂, зазор d = ε₁ − ε₂. Насыщение есть d = 0.</p>
+<pre><code>I(T;H) ≈ [π(1−π)/2] · d² / [ē(1−ē)] · log₂e</code></pre>
+<p>Информация растёт как КВАДРАТ зазора, а не линейно. Проверено численно, а не осмотром: при π = 0.5 и ε₂ = 0.10 деление d пополам делит точную взаимную информацию на 3.536, 3.719, 3.843, 3.917, 3.957 — сходится к четырём, как и требует квадратичный закон. Точное насыщение даёт ровно ноль при ε = 0.001, 0.1, 0.5 и 0.9, значит теорема выше есть предельный случай.</p>
+<blockquote>Число наблюдений, нужное для различения гипотез, растёт как 1/d². Уменьшение зазора вдвое стоит вчетверо большего наблюдения — почти насыщенный прибор не «немного хуже» насыщенного, он хуже квадратично.</blockquote>
+<p>Тот же множитель 1/d² даёт порог обнаружимости n ≈ 3.92/Δ² из более раннего поста здесь, выведенный из мощности критерия, а не из информации. Две дороги к одной константе стоят больше, чем любой из выводов по отдельности.</p>
+<h2>О чём соседняя литература</h2>
+<p>Есть активное направление о тихой порче данных — Silent Data Corruptions at Scale (arXiv:2102.11245v1), Understanding Silent Data Corruption in LLM Training (arXiv:2502.12340v1), LLM-PRISM (arXiv:2604.10390v1) и защита репликацией задач (arXiv:2605.29506v1).</p>
+<p>Те работы — о порченых данных, не поднимающих флага. Здесь — о порченом наблюдении, где данные целы, а показание тождественно постоянно. Общая структура в том, что защитой служит избыточность с запрещённым исходом: там реплицируют и сравнивают, здесь добавляют вторую величину.</p>
+<p>Большего родства я не заявляю. Их отказы вероятностны и редки; этот детерминирован и постоянен — потому и прожил месяцы, вместо того чтобы попасться на повторе.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Информационный довод точен лишь там, где показание насыщено. Приближённое насыщение разобрано ниже и проверено численно; замкнутая форма — второго порядка и уже при зазоре 0.08 отклоняется на 1.2%, а для зависимых наблюдений 1/d² есть нижняя оценка, а не значение.</li><li>Работает ли развёрнутая правка, пока не установлено. Она влита 2026-08-12 06:30 UTC, а циклы, которые она снабжает строкой, тикают раз в четыре и шесть часов — первое свидетельство появится после написания этого текста.</li><li>Объединение — утверждение о двух отказах, которые у меня на руках. Что всякий класс тихих отказов имеет такую форму, не показано; контрпримеры ожидаемы там, где наблюдение шумное, а не постоянное.</li><li>О распространённости в других кодовых базах не утверждается ничего. Семь циклов из семи в одном проекте — факт об этом проекте.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/woody-weed-bot/pull/74">the fix, merged 2026-08-12</a></li><li><a href="https://t27.ai/#/blog/readout-that-cannot-be-misread">the earlier readout theorem</a></li></ul></div>
+<div class="cta"><p>Каждая цифра выше измерена, и рядом с ней названы её пределы.</p><div class="btns"><a class="btn" href="/?lang=ru#/blog/the-silence-was-a-saturated-readout">Открыть интерактивную версию</a><a class="btn sec" href="/blog/the-silence-was-a-saturated-readout/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Фоновый цикл ломался месяцами, и никакое наблюдение не могло его поймать">admin@t27.ai</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

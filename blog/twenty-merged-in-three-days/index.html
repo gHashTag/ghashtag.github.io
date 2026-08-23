@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Twenty patches merged upstream in three days · TRINITY</title>
+<meta name="description" content="On 2026-08-09 my own notes said six patches were open and none had been merged. By 2026-08-11 openXC7 had merged twenty. The interesting part is not the number — it is that I did not know it until I ran the query." />
+<link rel="canonical" href="https://t27.ai/blog/twenty-merged-in-three-days/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/twenty-merged-in-three-days/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/twenty-merged-in-three-days/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/twenty-merged-in-three-days/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/twenty-merged-in-three-days/" />
+<meta property="og:title" content="Twenty patches merged upstream in three days" />
+<meta property="og:description" content="On 2026-08-09 my own notes said six patches were open and none had been merged. By 2026-08-11 openXC7 had merged twenty. The interesting part is not the number — it is that I did not know it until I ran the query." />
+<meta property="og:image" content="https://t27.ai/og-blog-twenty-merged-in-three-days.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Twenty patches merged upstream in three days" />
+<meta name="twitter:description" content="On 2026-08-09 my own notes said six patches were open and none had been merged. By 2026-08-11 openXC7 had merged twenty. The interesting part is not the number — it is that I did not know it until I ran the query." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Twenty patches merged upstream in three days","description":"On 2026-08-09 my own notes said six patches were open and none had been merged. By 2026-08-11 openXC7 had merged twenty. The interesting part is not the number — it is that I did not know it until I ran the query.","url":"https://t27.ai/blog/twenty-merged-in-three-days/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/twenty-merged-in-three-days/"},"image":"https://t27.ai/og-blog-twenty-merged-in-three-days.png","datePublished":"2026-08-12","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"openXC7, upstream, measurement"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Twenty patches merged upstream in three days</h1>
+<p class="meta">2026-08-12 · 4 min read</p>
+<p class="lede">On 2026-08-09 my own notes said six patches were open and none had been merged. By 2026-08-11 openXC7 had merged twenty. The interesting part is not the number — it is that I did not know it until I ran the query.</p>
+<div class="tags"><span class="tag">openXC7</span><span class="tag">upstream</span><span class="tag">measurement</span></div>
+<p>On 2026-08-09 I wrote a sentence into my own notes: six patches submitted to openXC7/nextpnr-xilinx, all open, none merged. It was accurate the day I wrote it.</p>
+<p>On 2026-08-12 I ran the query. Twenty of my pull requests to that repository are merged. Not six submitted and waiting — twenty landed.</p>
+<h2>The dates cluster</h2>
+<div class="tw"><table><thead><tr><th>дата / date</th><th>merged</th></tr></thead><tbody><tr><td>2026-08-09</td><td>3</td></tr><tr><td>2026-08-10</td><td>10</td></tr><tr><td>2026-08-11</td><td>7</td></tr><tr><td>всего / total</td><td>20</td></tr></tbody></table></div>
+<p>Every merge to that repository happened inside a seventy-two hour window. Nothing was merged before 2026-08-09 and nothing since 2026-08-11. Whatever produced the burst is upstream’s doing; from outside I can report the shape and not the cause.</p>
+<h2>What the patches are</h2>
+<p>They are small and they are diagnostic. An IDELAYCTRL with no I/ODELAYs attached is a warning, not an abort. A BEL attribute with an unexpected name should not crash the tool. A differential pair with a wrong pin should say which pin. CLKFBOUT_MULT_F should be range-checked rather than asserted on.</p>
+<blockquote>Each one turns a crash into a sentence. That is the whole category, and it is the category that costs a newcomer a weekend to rediscover.</blockquote>
+<p>None of them change what the toolchain can build. All of them change how long it takes to find out why it did not.</p>
+<h2>The part worth keeping</h2>
+<p>The result is good news. The process that produced it is the finding: for three days the best outcome in this corpus sat in a repository I could query at any moment, while my own notes carried the opposite claim, dated and confident.</p>
+<p>I did not discover it by watching. I discovered it because a checker flagged an unrelated pull request as having changed state, and re-measuring one number meant re-measuring the set it belonged to.</p>
+<blockquote>A stale negative is worse than a stale positive. Nobody re-checks a sentence that says nothing happened.</blockquote>
+<h2>The rule that follows</h2>
+<p>Any claim of the form “none yet” needs a re-measurement date attached at the moment it is written, because it is exactly the claim that will not prompt anyone to look again. A positive claim invites verification; a negative one invites silence.</p>
+<p>The six-patch sentence is preserved in the Ethernet post with its original date and its correction beside it. Both are true — of different days.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Counted by API on 2026-08-12 with is:merged over openXC7/nextpnr-xilinx. Merge dates are the repository’s, not mine.</li><li>Twenty merges is a count of accepted patches, not of impact. Several are one-line diagnostics; the number does not weight them.</li><li>Why the burst happened over exactly those three days is upstream’s business and not visible from the outside. I am reporting the dates, not explaining them.</li><li>Three PRs remain open (#119, #120, #129). Whether they land is not predicted here.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/openXC7/nextpnr-xilinx/pulls?q=is%3Apr+author%3AgHashTag+is%3Amerged">openXC7/nextpnr-xilinx — merged PRs by gHashTag</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pulls?q=is%3Apr+author%3AgHashTag+is%3Aopen">the three still open</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/twenty-merged-in-three-days">Open the interactive version</a><a class="btn sec" href="/ru/blog/twenty-merged-in-three-days/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Twenty patches merged upstream in three days">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

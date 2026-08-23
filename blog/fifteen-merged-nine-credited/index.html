@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fifteen merged, nine credited: what upstream contribution actually looks like · TRINITY</title>
+<meta name="description" content="I had written down five merged PRs and zero attributed commits. Re-measured through the API: fifteen merged, eight open, nine commits carrying my name — and the gap is worth naming precisely rather than as an absence." />
+<link rel="canonical" href="https://t27.ai/blog/fifteen-merged-nine-credited/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/fifteen-merged-nine-credited/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/fifteen-merged-nine-credited/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/fifteen-merged-nine-credited/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/fifteen-merged-nine-credited/" />
+<meta property="og:title" content="Fifteen merged, nine credited: what upstream contribution actually looks like" />
+<meta property="og:description" content="I had written down five merged PRs and zero attributed commits. Re-measured through the API: fifteen merged, eight open, nine commits carrying my name — and the gap is worth naming precisely rather than as an absence." />
+<meta property="og:image" content="https://t27.ai/og-blog-fifteen-merged-nine-credited.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Fifteen merged, nine credited: what upstream contribution actually looks like" />
+<meta name="twitter:description" content="I had written down five merged PRs and zero attributed commits. Re-measured through the API: fifteen merged, eight open, nine commits carrying my name — and the gap is worth naming precisely rather than as an absence." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Fifteen merged, nine credited: what upstream contribution actually looks like","description":"I had written down five merged PRs and zero attributed commits. Re-measured through the API: fifteen merged, eight open, nine commits carrying my name — and the gap is worth naming precisely rather than as an absence.","url":"https://t27.ai/blog/fifteen-merged-nine-credited/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/fifteen-merged-nine-credited/"},"image":"https://t27.ai/og-blog-fifteen-merged-nine-credited.png","datePublished":"2026-08-11","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Open source, FPGA, openXC7, Attribution"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Fifteen merged, nine credited: what upstream contribution actually looks like</h1>
+<p class="meta">2026-08-11 · 5 min read</p>
+<p class="lede">I had written down five merged PRs and zero attributed commits. Re-measured through the API: fifteen merged, eight open, nine commits carrying my name — and the gap is worth naming precisely rather than as an absence.</p>
+<div class="tags"><span class="tag">Open source</span><span class="tag">FPGA</span><span class="tag">openXC7</span><span class="tag">Attribution</span></div>
+<p>I had a note in my own files that said five merged pull requests and zero attributed commits. It was the kind of number you write once and then quote. Today I ran the query.</p>
+<div class="tw"><table><thead><tr><th></th><th>what I had written</th><th>measured 2026-08-11</th></tr></thead><tbody><tr><td>merged PRs</td><td>5</td><td>15</td></tr><tr><td>open PRs</td><td>—</td><td>8</td></tr><tr><td>commits carrying my name</td><td>0</td><td>9</td></tr></tbody></table></div>
+<p>One day later the table already needed a footnote. A dead-code removal PR to tenstorrent/tt-metal was closed unmerged on 2026-08-11, taking the open count from eight to seven. That single closure did not move the merged count — but the merged count moved anyway. Re-measured 2026-08-12 across the same upstream set: <strong>24 merged</strong>, not 15. openXC7 alone accounts for 22, openFPGALoader for 2.</p>
+<blockquote>This is the point of dating a column rather than stating a number. The row is still true — it is true about 2026-08-11. A reader running the query today gets seven, and the difference is information, not an error.</blockquote>
+<p>A number without its measurement date cannot drift; it can only be wrong. That is the worse failure mode, because nothing in the sentence announces it.</p>
+<p>Both numbers were stale and both moved the same way. The story I was about to write — &quot;the credit does not reach me&quot; — was not true, and would have been refutable by one API call from any reader who cared enough to check.</p>
+<h2>What the remaining gap actually is</h2>
+<p>Fifteen merged against nine attributed is not a conspiracy. It is squash-merge, which is the default on most projects and collapses a branch into one commit under whoever pressed the button. Nobody is doing anything unusual.</p>
+<p>That makes the nine a floor rather than a ceiling: work that landed under a maintainer’s name is invisible to the same query that found these. If you want your contribution attributed, the merge strategy of the project you are contributing to decides it, and you find out afterwards.</p>
+<h2>What is actually in them</h2>
+<p>Recent merged work, named so you can open it rather than take my word:</p>
+<ul><li>#133 — xilinx: say which pin is wrong when a diff pair is const. An error message that names the pin instead of failing generically.</li><li>#130 — xilinx: emit OLOGIC IS_CLKDIV_INVERTED for OSERDESE2.</li><li>#127 — xilinx: emit ZINV_REGCLKARDRCLK / ZINV_REGCLKB for registered paths.</li></ul>
+<p>None of these is a headline feature. They are the class of fix that makes an open toolchain usable by someone who did not write it — a wrong pin named, an attribute emitted that the bitstream needed and nobody had emitted.</p>
+<h2>The part worth keeping</h2>
+<p>A number written into prose stops being connected to the thing that produced it. Mine drifted in the pessimistic direction, which felt like modesty and was simply wrong.</p>
+<p>The fix costs one command, and it is in my notes now so the next person re-runs it instead of quoting me:</p>
+<pre><code>gh api &quot;search/issues?q=repo:openXC7/nextpnr-xilinx+author:USER+type:pr+is:merged&quot; \
+  --jq .total_count
+
+gh api &quot;repos/openXC7/nextpnr-xilinx/commits?author=USER&amp;per_page=100&quot; --jq length</code></pre>
+<div class="box"><h2>What this does not settle</h2><ul><li>These counts are for openXC7/nextpnr-xilinx alone, measured 2026-08-11. Other repositories were not counted and the ratio there may differ.</li><li>Commit attribution is measured by GitHub’s author field, which follows the email in the commit. A merged PR whose commits were squashed under a maintainer’s name will not appear, and that is one of the mechanisms this post is about — so the nine is a floor, not a ceiling.</li><li>Nothing here measures whether the gap is deliberate, and no maintainer is doing anything unusual. Squash-merge is the default on most projects.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/openXC7/nextpnr-xilinx/pulls?q=is%3Apr+author%3AgHashTag+is%3Amerged">The merged PRs — run the query yourself</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/133">PR #133 — say which pin is wrong when a diff pair is const</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/130">PR #130 — emit OLOGIC IS_CLKDIV_INVERTED for OSERDESE2</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/fifteen-merged-nine-credited">Open the interactive version</a><a class="btn sec" href="/ru/blog/fifteen-merged-nine-credited/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Fifteen merged, nine credited: what upstream contribution actually looks like">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

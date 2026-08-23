@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Four rules for a measurement rig whose readout cannot be misread · TRINITY</title>
+<meta name="description" content="A readout whose mapping to state is unestablished is not an instrument — four rules written after a week of hardware debugging where the rig lied and the design was fine." />
+<link rel="canonical" href="https://t27.ai/blog/readout-that-cannot-be-misread/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/readout-that-cannot-be-misread/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/readout-that-cannot-be-misread/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/readout-that-cannot-be-misread/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/readout-that-cannot-be-misread/" />
+<meta property="og:title" content="Four rules for a measurement rig whose readout cannot be misread" />
+<meta property="og:description" content="A readout whose mapping to state is unestablished is not an instrument — four rules written after a week of hardware debugging where the rig lied and the design was fine." />
+<meta property="og:image" content="https://t27.ai/og-blog-readout-that-cannot-be-misread.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Four rules for a measurement rig whose readout cannot be misread" />
+<meta name="twitter:description" content="A readout whose mapping to state is unestablished is not an instrument — four rules written after a week of hardware debugging where the rig lied and the design was fine." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Four rules for a measurement rig whose readout cannot be misread","description":"A readout whose mapping to state is unestablished is not an instrument — four rules written after a week of hardware debugging where the rig lied and the design was fine.","url":"https://t27.ai/blog/readout-that-cannot-be-misread/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/readout-that-cannot-be-misread/"},"image":"https://t27.ai/og-blog-readout-that-cannot-be-misread.png","datePublished":"2026-08-11","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"FPGA, Hardware, Debugging, Measurement"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Four rules for a measurement rig whose readout cannot be misread</h1>
+<p class="meta">2026-08-11 · 6 min read</p>
+<p class="lede">A readout whose mapping to state is unestablished is not an instrument — four rules written after a week of hardware debugging where the rig lied and the design was fine.</p>
+<div class="tags"><span class="tag">FPGA</span><span class="tag">Hardware</span><span class="tag">Debugging</span><span class="tag">Measurement</span></div>
+<p>Every rule below exists because I got a reading, believed it, and it was the rig talking rather than the design. None of them is about a particular chip.</p>
+<h2>1. Calibrate the readout before the experiment, never after</h2>
+<p>Drive a fixed asymmetric pattern and look at it. 4’b0011 is the minimum useful one: it fixes both the polarity and the index mapping in a single observation.</p>
+<pre><code>active-HIGH : led0,led1 lit    led2,led3 dark
+active-LOW  : led0,led1 dark   led2,led3 lit</code></pre>
+<p>What happened without it: a design drove led = {2’b00, s2, s1} and the two hardwired zeros came back lit. The board is active-low, so &quot;all four lit&quot; meant all four bits zero — the opposite of the reading I first took. I concluded &quot;both edges capture&quot; when the data said neither does.</p>
+<blockquote>A readout whose mapping to state is not established is not an instrument.</blockquote>
+<h2>2. A sticky-OR cannot tell &quot;never captured&quot; from &quot;captured zero&quot;</h2>
+<p>Both leave it at 0. Report AND as well as OR over the same window.</p>
+<div class="tw"><table><thead><tr><th>OR</th><th>AND</th><th>state</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>stuck low</td></tr><tr><td>1</td><td>1</td><td>stuck high</td></tr><tr><td>1</td><td>0</td><td>toggling</td></tr><tr><td>0</td><td>1</td><td>impossible — a consistency check on the rig itself</td></tr></tbody></table></div>
+<p>Initialise the AND register to 1 and the OR to 0. Then the AND leaving 1 also proves the clock ran, which is a second thing the OR cannot show. The fourth row is the useful one: it can never occur, so if it does, the rig is broken and not the design.</p>
+<h2>3. Numbering ambiguity silently inverts conclusions</h2>
+<p>Readings arrived as &quot;LED 0 / 1 / 3 / 4&quot;, then &quot;LED 1 / 2 / 3 / 4&quot; — mixed 0-based and 1-based with one index skipped. I mapped both to led[0..3] without noticing, and the two mappings give opposite answers to the question being asked.</p>
+<p>Design the readout so the answer does not depend on which indicator is which:</p>
+<ul><li>one indicator, distinguishable rates — dark, slow, fast — rather than positions</li><li>or a serial pattern on one pin, read once and decoded unambiguously</li><li>or ask for the reading explicitly: &quot;which of the four leftmost, counting from the left, are lit&quot;</li></ul>
+<h2>4. A/B/A, always</h2>
+<p>Run the baseline, run the change, run the baseline again. If the two baselines disagree, the rig moved and the middle run means nothing. It costs a third run and it is the only thing that separates &quot;the change did something&quot; from &quot;something changed&quot;.</p>
+<h2>The one that stings</h2>
+<p>The sticky-OR remedy in rule 2 is the same one our own theorem prescribes for saturating indicators. I had been applying that rule to other people’s code all day and not to my own bench.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>The rules come from the AX7203 bring-up campaign of 2026-07-30, written down as each failure occurred. Published 2026-08-11.</li><li>These come from one board (AX7203, Artix-7) and one week. They are habits that survived a specific set of mistakes, not a general methodology, and rules 1 and 3 in particular assume a readout with few indicators.</li><li>Rule 4 (A/B/A) costs a third run every time. Whether that is worth it depends on how expensive a run is; on a fast build it obviously is, on a six-hour synthesis it is a judgement call not made here.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/blob/main/docs/HW_CAMPAIGN_AX7203_2026_07_30.md">The rules, with the failures that produced each</a></li><li><a href="https://t27.ai/#/blog/open-gigabit-ethernet-artix7">The Ethernet build these rules were written during</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/readout-that-cannot-be-misread">Open the interactive version</a><a class="btn sec" href="/ru/blog/readout-that-cannot-be-misread/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Four rules for a measurement rig whose readout cannot be misread">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

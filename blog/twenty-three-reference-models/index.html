@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Twenty-three reference models, because implementing a competitor from memory always flatters you · TRINITY</title>
+<meta name="description" content="Every format we compare against has its own reference implementation, written from its specification — after five bugs that all weakened the competitor and all pointed the same way." />
+<link rel="canonical" href="https://t27.ai/blog/twenty-three-reference-models/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/twenty-three-reference-models/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/twenty-three-reference-models/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/twenty-three-reference-models/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/twenty-three-reference-models/" />
+<meta property="og:title" content="Twenty-three reference models, because implementing a competitor from memory always flatters you" />
+<meta property="og:description" content="Every format we compare against has its own reference implementation, written from its specification — after five bugs that all weakened the competitor and all pointed the same way." />
+<meta property="og:image" content="https://t27.ai/og-blog-twenty-three-reference-models.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Twenty-three reference models, because implementing a competitor from memory always flatters you" />
+<meta name="twitter:description" content="Every format we compare against has its own reference implementation, written from its specification — after five bugs that all weakened the competitor and all pointed the same way." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Twenty-three reference models, because implementing a competitor from memory always flatters you","description":"Every format we compare against has its own reference implementation, written from its specification — after five bugs that all weakened the competitor and all pointed the same way.","url":"https://t27.ai/blog/twenty-three-reference-models/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/twenty-three-reference-models/"},"image":"https://t27.ai/og-blog-twenty-three-reference-models.png","datePublished":"2026-08-11","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Numeric formats, Benchmarking, Methodology, Open source"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Twenty-three reference models, because implementing a competitor from memory always flatters you</h1>
+<p class="meta">2026-08-11 · 6 min read</p>
+<p class="lede">Every format we compare against has its own reference implementation, written from its specification — after five bugs that all weakened the competitor and all pointed the same way.</p>
+<div class="tags"><span class="tag">Numeric formats</span><span class="tag">Benchmarking</span><span class="tag">Methodology</span><span class="tag">Open source</span></div>
+<p>If you compare your numeric format against others, you have to implement the others. That sounds like a chore and it is where the result is decided.</p>
+<h2>Five bugs, all in the same direction</h2>
+<p>I implemented five competitor formats from memory. Every one had a bug, and every bug weakened the competitor:</p>
+<div class="tw"><table><thead><tr><th>#</th><th>format</th><th>the error</th></tr></thead><tbody><tr><td>1</td><td>MX shared scale</td><td>ceiling instead of floor(log2 max) − emax</td></tr><tr><td>2</td><td>E2M1</td><td>missing its subnormal — 7 magnitudes, not 8</td></tr><tr><td>3</td><td>NF4</td><td>a symmetric reconstruction instead of the real 16-value table</td></tr><tr><td>4</td><td>E4M3</td><td>reserved NaN encoding ignored — max 480 instead of 448</td></tr><tr><td>5</td><td>E5M2</td><td>reserved exponent ignored — max 114688 instead of 57344</td></tr></tbody></table></div>
+<p>Five for five, one direction. That is not luck and it is not dishonesty — it is structural.</p>
+<h2>Why the direction is not random</h2>
+<p>Every one of those five is a simplification. A subnormal, a reserved encoding, an asymmetric table — these are exactly the details a format adds to work better at the edges of its range.</p>
+<blockquote>Implementing from memory implements the IDEA of the format, and the idea is always simpler than the specification.</blockquote>
+<p>So implementing from memory hands your competitor a worse version of itself, every time, in the direction that favours you. You do not choose the bugs. You choose not to open the spec.</p>
+<h2>What we do instead</h2>
+<p>Twenty-three reference models, one per format family we compare against, each written from the format’s own specification or its published reference implementation:</p>
+<ul><li>IEEE and friends — ieee, bf16, fp8, extended, decimal</li><li>MX — mxfp, e8m0, gf_mx</li><li>posit and takum — posit, takum, takum_log, tekum</li><li>others — lns, nf4, int, legacy</li><li>ours — gf, gf16_plus, gfternary, tnf, tnf16, tnf_spec, bnf</li></ul>
+<h2>The check you can run on someone else’s paper</h2>
+<p>When a paper reports beating E4M3 or NF4, the question is not what the numbers are. It is where the competitor’s implementation came from. Three answers:</p>
+<ul><li>from the specification — the numbers are worth discussing</li><li>from a published reference implementation — the same</li><li>from the paper describing the format — this is where my table starts</li></ul>
+<p>The third looks conscientious and is not. A paper describing a format gives you the idea, not the specification, and the gap between them is where all five of my bugs lived.</p>
+<p>One concrete check costs nothing: E4M3 maxes at 448 and E5M2 at 57344. If a comparison implies 480 or 114688, the reserved encodings were skipped and the competitor was handed extra range it does not have.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>The 23 models were counted 2026-08-11 through the GitHub API. The five bugs are from the block-quantisation campaign recorded in FINDINGS.md, earlier.</li><li>Twenty-three models is not twenty-three formats: several cover multiple widths (posit8/16/32, fp8 as both E4M3 and E5M2), so the format count is higher and is not stated here because it has not been counted.</li><li>A reference model written from a specification can still misread the specification. These are checked against published test vectors where those exist, and where they do not the model is only as good as the reading.</li><li>Nothing here measures how the models perform — only that they exist and where they came from. A correct competitor implementation is a precondition for a fair comparison, not a result.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/tree/main/conformance">The reference models — all twenty-three</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/main/research/block/FINDINGS.md">The five bugs, section 1.1</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/twenty-three-reference-models">Open the interactive version</a><a class="btn sec" href="/ru/blog/twenty-three-reference-models/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Twenty-three reference models, because implementing a competitor from memory always flatters you">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
