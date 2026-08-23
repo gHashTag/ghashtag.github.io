@@ -88,15 +88,15 @@
   <circle cx="23.2" cy="472.9" r="1.23" fill="#ffffff" opacity="0.381"/>
   <circle cx="45.6" cy="597.4" r="1.15" fill="#ffffff" opacity="0.399"/>
   <circle cx="12.6" cy="79.5" r="1.13" fill="#ffffff" opacity="0.229"/>
-  <text x="1112" y="250" font-family="Inter,Helvetica,Arial,sans-serif" font-size="86" font-weight="700" fill="#00ff88" opacity="0.13">−</text>
-  <text x="1112" y="350" font-family="Inter,Helvetica,Arial,sans-serif" font-size="86" font-weight="700" fill="#00ff88" opacity="0.13">0</text>
-  <text x="1112" y="450" font-family="Inter,Helvetica,Arial,sans-serif" font-size="86" font-weight="700" fill="#00ff88" opacity="0.13">+</text>
+  <text x="1112" y="250" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="86" font-weight="700" fill="#00ff88" opacity="0.13">−</text>
+  <text x="1112" y="350" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="86" font-weight="700" fill="#00ff88" opacity="0.13">0</text>
+  <text x="1112" y="450" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="86" font-weight="700" fill="#00ff88" opacity="0.13">+</text>
   <rect x="0" y="0" width="1200" height="4" fill="#00ff88"/>
   <rect x="80" y="106" width="12" height="12" fill="#00ff88"/>
-  <text x="108" y="120" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21" letter-spacing="6" fill="#00ff88">T27.AI · БЛОГ</text>
-  <text x="80" y="360" font-family="Inter,Helvetica,Arial,sans-serif" font-size="96" font-weight="900" fill="#ffffff">Контроль, который</text>
-  <text x="80" y="466" font-family="Inter,Helvetica,Arial,sans-serif" font-size="96" font-weight="900" fill="#ffffff">не мог упасть</text>
+  <text x="108" y="120" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="21" letter-spacing="6" fill="#00ff88">T27.AI · БЛОГ</text>
+  <text x="80" y="360" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="96" font-weight="900" fill="#ffffff">Контроль, который</text>
+  <text x="80" y="466" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="96" font-weight="900" fill="#ffffff">не мог упасть</text>
   <line x1="80" y1="524" x2="1120" y2="524" stroke="#18292b" stroke-width="2"/>
-  <text x="80" y="574" font-family="Inter,Helvetica,Arial,sans-serif" font-size="23" fill="#93aaa2">9 мин чтения  ·  3 пруфов со ссылкой  ·  4 открытых вопросов</text>
-  <text x="1120" y="574" text-anchor="end" font-family="Inter,Helvetica,Arial,sans-serif" font-size="21"  fill="#6f8580">Dmitrii Vasilev · t27.ai</text>
+  <text x="80" y="574" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="23" fill="#93aaa2">9 мин чтения  ·  3 пруфов со ссылкой  ·  4 открытых вопросов</text>
+  <text x="1120" y="574" text-anchor="end" font-family="Inter,DejaVu Sans,Helvetica,Arial,sans-serif" font-size="21"  fill="#6f8580">Dmitrii Vasilev · t27.ai</text>
 </svg>
