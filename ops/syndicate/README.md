@@ -14,6 +14,8 @@ Run:
     .venv/bin/python syndicate.py --dry-run   # preview
     .venv/bin/python syndicate.py             # post
     .venv/bin/python syndicate.py --status    # what went where
+    .venv/bin/python syndicate.py --update-profile  # refresh Latest posts
+                                                 # in gHashTag/gHashTag README
 
 The repo checkout must be current (`git pull`) before running — posts are read
 from `blog/` on disk. dev.to / Hashnode / Medium receive **drafts** by default
