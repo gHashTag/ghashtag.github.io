@@ -96,6 +96,17 @@
       <category>Measurement</category>
     </item>
     <item>
+      <title>Physical width changed the question</title>
+      <link>https://t27.ai/#/blog/physical-width-changed-the-question</link>
+      <guid isPermaLink="false">physical-width-changed-the-question</guid>
+      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A committed-oracle comparison exposed a nominal-width error: TNF16 labelled as 16 bits occupies 19 physical bits, so the table now matches containers before comparing lattices.</description>
+      <category>Number formats</category>
+      <category>Conformance</category>
+      <category>Measurement</category>
+      <category>Self-critique</category>
+    </item>
+    <item>
       <title>Four hundred and twelve tests that were sentences</title>
       <link>https://t27.ai/#/blog/four-hundred-and-twelve-tests-that-were-sentences</link>
       <guid isPermaLink="false">four-hundred-and-twelve-tests-that-were-sentences</guid>

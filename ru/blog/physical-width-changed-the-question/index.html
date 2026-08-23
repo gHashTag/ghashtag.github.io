@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Физическая ширина изменила вопрос · TRINITY</title>
+<meta name="description" content="Сравнение по зафиксированным оракулам обнаружило ошибку номинальной ширины: TNF16, помеченный как 16-битный, занимает 19 физических бит, поэтому сначала сопоставляются контейнеры, а потом решётки значений." />
+<link rel="canonical" href="https://t27.ai/ru/blog/physical-width-changed-the-question/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/physical-width-changed-the-question/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/physical-width-changed-the-question/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/physical-width-changed-the-question/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/physical-width-changed-the-question/" />
+<meta property="og:title" content="Физическая ширина изменила вопрос" />
+<meta property="og:description" content="Сравнение по зафиксированным оракулам обнаружило ошибку номинальной ширины: TNF16, помеченный как 16-битный, занимает 19 физических бит, поэтому сначала сопоставляются контейнеры, а потом решётки значений." />
+<meta property="og:image" content="https://t27.ai/og-blog-physical-width-changed-the-question-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Физическая ширина изменила вопрос" />
+<meta name="twitter:description" content="Сравнение по зафиксированным оракулам обнаружило ошибку номинальной ширины: TNF16, помеченный как 16-битный, занимает 19 физических бит, поэтому сначала сопоставляются контейнеры, а потом решётки значений." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Физическая ширина изменила вопрос","description":"Сравнение по зафиксированным оракулам обнаружило ошибку номинальной ширины: TNF16, помеченный как 16-битный, занимает 19 физических бит, поэтому сначала сопоставляются контейнеры, а потом решётки значений.","url":"https://t27.ai/ru/blog/physical-width-changed-the-question/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/physical-width-changed-the-question/"},"image":"https://t27.ai/og-blog-physical-width-changed-the-question-ru.png","datePublished":"2026-08-23","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Number formats, Conformance, Measurement, Self-critique"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Физическая ширина изменила вопрос</h1>
+<p class="meta">2026-08-23 · 7 мин чтения</p>
+<p class="lede">Сравнение по зафиксированным оракулам обнаружило ошибку номинальной ширины: TNF16, помеченный как 16-битный, занимает 19 физических бит, поэтому сначала сопоставляются контейнеры, а потом решётки значений.</p>
+<div class="tags"><span class="tag">Number formats</span><span class="tag">Conformance</span><span class="tag">Measurement</span><span class="tag">Self-critique</span></div>
+<p>[измерено — зафиксированный оракул, не плата] В работе W991 таблица конкурирующих форматов была пересчитана по зафиксированным в репозитории оракулам. Полезная поправка появилась до сравнения: TNF16, помеченный как 16-битный, выдавал 516 096 значений — это больше 2^16. Четыре трита экспоненты занимают семь двоичных ячеек, поэтому эта ступень физически имеет 19 бит.</p>
+<h2>Таблица теперь задаёт физический вопрос</h2>
+<p>После исправления сравнение индексируется физической шириной и отказывается от ширины, которой нет ни на одной ступени. Это отделяет номинальную этикетку от контейнера, где действительно лежат знак, поле экспоненты и мантисса. Поправка выглядит бухгалтерской, но её след измерим: прежний запрос мог сопоставить разные контейнеры, сохраняя вид точного расчёта.</p>
+<div class="tw"><table><thead><tr><th>физическая ширина</th><th>ступень TNF</th><th>значения TNF</th><th>значения posit es=1</th><th>шаг TNF при 1.0</th><th>шаг posit при 1.0</th></tr></thead><tbody><tr><td>6 бит</td><td>TNF4 (2 трита, 1 бит мантиссы)</td><td>56</td><td>62</td><td>25%</td><td>12.5%</td></tr><tr><td>10 бит</td><td>TNF8 (3 трита, 4 бита мантиссы)</td><td>960</td><td>1022</td><td>3.125%</td><td>0.781%</td></tr><tr><td>19 бит</td><td>TNF16 (4 трита, 11 бит мантиссы)</td><td>516 096</td><td>524 286</td><td>0.024%</td><td>0.002%</td></tr></tbody></table></div>
+<p>На каждой сопоставленной ширине этой лестницы у TNF меньше достижимых значений и крупнее локальный шаг около 1.0, чем у posit с es=1. Причина структурная: четыре трита используют 81 из 128 кодов семибитового двоичного поля, поэтому 8 190 кодов недостижимы. Это утверждение о решётке представления, а не об оценке точности и не о стоимости железа.</p>
+<h2>Сравнение не является выводом о выборе</h2>
+<blockquote>Таблица может быть внутренне точной и всё равно задавать неправильный вопрос о ширине.</blockquote>
+<p>Исправленная таблица не устанавливает, что один формат предпочтительнее для какой-либо нагрузки. Она не измеряет LUT, тайминг, энергию, качество модели после квантования или прогон на плате. В репозитории это отдельные вопросы; W991 делает проверяемыми только ширину и решётку значений.</p>
+<h2>Что поправка оставляет открытым</h2>
+<ul><li>Изменит ли физическое сопоставление ширин выбор для реальной нагрузки — не измерено.</li><li>Таблица не является моделью стоимости: площадь, тайминг и энергия требуют отдельных замеров.</li><li>Показанный локальный шаг описывает окрестность 1.0 и не суммирует все крайние зоны tapered-формата.</li><li>Лестница TNF и оракул posit сопоставлены по ширине контейнера; утверждения о точности takum здесь нет.</li></ul>
+<p>Практический урок небольшой и переносимый: перед сравнением числовых форматов вывести хранимую ширину из кодировки и заставить инструмент отвергать невозможные ширины. Поправка смержена в PR #727 репозитория gHashTag/trinity-fpga; зафиксированный JSON — проверяемый receipt.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Изменит ли сопоставление по физической ширине выбор для реальной нагрузки — не измерено. W991 сравнивает только решётку представления.</li><li>Из этой таблицы не следуют замеры LUT, тайминга, энергии или платы. Это отдельные артефакты, и вопрос остаётся открытым.</li><li>Локальный шаг при 1.0 не описывает крайние зоны tapered-формата, поэтому его нельзя читать как утверждение о точности на всём диапазоне.</li><li>В таблице решётка сопоставлена с posit; сравнение точности с takum здесь не проводится, и предпочтительный формат не выбирается.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/pull/727">gHashTag/trinity-fpga PR #727 — W991/W992 merged</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/main/research/arxiv_tnf/measurements/compare_w991.json">W991 committed measurement table</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/commit/78987a4e0757de47b4ab6e9a2a9d486180e688f4">Merge commit 78987a4</a></li></ul></div>
+<div class="cta"><p>Каждая цифра выше измерена, и рядом с ней названы её пределы.</p><div class="btns"><a class="btn" href="/?lang=ru#/blog/physical-width-changed-the-question">Открыть интерактивную версию</a><a class="btn sec" href="/blog/physical-width-changed-the-question/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Физическая ширина изменила вопрос">admin@t27.ai</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

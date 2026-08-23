@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Physical width changed the question · TRINITY</title>
+<meta name="description" content="A committed-oracle comparison exposed a nominal-width error: TNF16 labelled as 16 bits occupies 19 physical bits, so the table now matches containers before comparing lattices." />
+<link rel="canonical" href="https://t27.ai/blog/physical-width-changed-the-question/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/physical-width-changed-the-question/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/physical-width-changed-the-question/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/physical-width-changed-the-question/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/physical-width-changed-the-question/" />
+<meta property="og:title" content="Physical width changed the question" />
+<meta property="og:description" content="A committed-oracle comparison exposed a nominal-width error: TNF16 labelled as 16 bits occupies 19 physical bits, so the table now matches containers before comparing lattices." />
+<meta property="og:image" content="https://t27.ai/og-blog-physical-width-changed-the-question.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Physical width changed the question" />
+<meta name="twitter:description" content="A committed-oracle comparison exposed a nominal-width error: TNF16 labelled as 16 bits occupies 19 physical bits, so the table now matches containers before comparing lattices." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Physical width changed the question","description":"A committed-oracle comparison exposed a nominal-width error: TNF16 labelled as 16 bits occupies 19 physical bits, so the table now matches containers before comparing lattices.","url":"https://t27.ai/blog/physical-width-changed-the-question/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/physical-width-changed-the-question/"},"image":"https://t27.ai/og-blog-physical-width-changed-the-question.png","datePublished":"2026-08-23","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Number formats, Conformance, Measurement, Self-critique"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Physical width changed the question</h1>
+<p class="meta">2026-08-23 · 7 min read</p>
+<p class="lede">A committed-oracle comparison exposed a nominal-width error: TNF16 labelled as 16 bits occupies 19 physical bits, so the table now matches containers before comparing lattices.</p>
+<div class="tags"><span class="tag">Number formats</span><span class="tag">Conformance</span><span class="tag">Measurement</span><span class="tag">Self-critique</span></div>
+<p>[measured — committed oracle, not board hardware] W991 reran the competitor table from the repository’s committed oracles. The useful correction came before any comparison: TNF16 labelled as 16 bits had 516,096 values, which is more than 2^16. Four exponent trits occupy seven binary storage bits, so that ladder rung is physically 19 bits.</p>
+<h2>The table now asks the physical question</h2>
+<p>The repair keys the comparison by physical width and refuses a width that no rung occupies. This separates a nominal label from the container that actually holds the sign, exponent field, and mantissa. It is a bookkeeping correction with a measurable consequence: the old query could compare unlike containers while looking precise.</p>
+<div class="tw"><table><thead><tr><th>physical width</th><th>TNF rung</th><th>TNF values</th><th>posit es=1 values</th><th>TNF step at 1.0</th><th>posit step at 1.0</th></tr></thead><tbody><tr><td>6 bits</td><td>TNF4 (2 trits, 1 mantissa bit)</td><td>56</td><td>62</td><td>25%</td><td>12.5%</td></tr><tr><td>10 bits</td><td>TNF8 (3 trits, 4 mantissa bits)</td><td>960</td><td>1022</td><td>3.125%</td><td>0.781%</td></tr><tr><td>19 bits</td><td>TNF16 (4 trits, 11 mantissa bits)</td><td>516,096</td><td>524,286</td><td>0.024%</td><td>0.002%</td></tr></tbody></table></div>
+<p>At every matched width in this ladder, TNF has fewer reachable values and a coarser local step at 1.0 than posit with es=1. The gap is structural: four trits use 81 of the 128 codes available in their seven-bit binary field, leaving 8,190 codes unreachable. This is a statement about the representation lattice, not an accuracy score and not a hardware-cost result.</p>
+<h2>The comparison is not the conclusion</h2>
+<blockquote>A table can be internally exact and still answer the wrong width question.</blockquote>
+<p>The corrected table does not establish that one format is preferable for a workload. It does not measure LUTs, timing, energy, downstream model quality, or a board run. The repository records those as separate questions; W991 only makes the width and lattice comparison auditable.</p>
+<h2>What the patch leaves open</h2>
+<ul><li>Whether the physical-width comparison changes a workload-level choice is not measured.</li><li>The table does not provide a cost model; area, timing, and energy remain separate measurements.</li><li>The displayed local step describes the neighbourhood of 1.0 and is not a summary of every extreme of a tapered format.</li><li>The TNF ladder and the posit oracle are compared at matched container widths; no claim about takum accuracy is made here.</li></ul>
+<p>The practical lesson is small and reusable: before comparing numeric formats, derive the stored width from the encoding and make the tool reject impossible widths. The correction is merged in gHashTag/trinity-fpga PR #727; the committed JSON is the receipt.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Whether matching physical width changes a workload-level choice is not measured. W991 compares the representation lattice only.</li><li>No LUT, timing, energy, or board measurement follows from this table. Those are separate artifacts and remain open.</li><li>The local step at 1.0 does not summarize the extreme behaviour of a tapered format, so it must not be read as a whole-range accuracy claim.</li><li>The comparison is with posit for the committed lattice table; no accuracy comparison with takum is made here, and no claim about a preferred format is supported.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/pull/727">gHashTag/trinity-fpga PR #727 — W991/W992 merged</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/main/research/arxiv_tnf/measurements/compare_w991.json">W991 committed measurement table</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/commit/78987a4e0757de47b4ab6e9a2a9d486180e688f4">Merge commit 78987a4</a></li></ul></div>
+<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/physical-width-changed-the-question">Open the interactive version</a><a class="btn sec" href="/ru/blog/physical-width-changed-the-question/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Physical width changed the question">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
