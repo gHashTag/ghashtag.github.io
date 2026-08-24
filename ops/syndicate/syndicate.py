@@ -375,8 +375,15 @@ def main():
     todo = [p for p in posts
             if p["date"] <= time.strftime("%Y-%m-%d")
             and set(state.get(p["slug"], {})) != set(POSTERS)]
+    # drip order: posts not yet in the Telegram channel come first (newest of
+    # them first), so --limit advances the backlog instead of re-picking posts
+    # that only lack optional token channels
+    fresh = sorted((p for p in todo if "telegram" not in state.get(p["slug"], {})),
+                   key=lambda p: p["date"], reverse=True)
+    rest = [p for p in todo if p not in fresh]
+    todo = fresh + rest
     if args.limit:
-        todo = todo[-args.limit:]
+        todo = todo[:args.limit]
 
     if not todo:
         print("nothing to syndicate")
