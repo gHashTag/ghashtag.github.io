@@ -10,7 +10,7 @@ Best practices baked in (SEO / traffic):
   - canonical link + "originally published at" line at the top of every
     cross-post, so t27.ai stays the canonical source in search engines;
   - UTM-tagged links to attribute traffic and conversions per channel;
-  - the site's existing OG cover image (og-blog-<slug>.png, one visual style
+  - the site's original generated article art (og-art/<slug>.jpg, one visual style
     for the whole blog) is reused as the channel cover where the API allows;
   - tags are mapped per channel (dev.to: max 4 tags, lowercase).
 
@@ -133,7 +133,7 @@ def extract_markdown(post):
 
 
 def cover_url(post):
-    return f"{SITE}/og-blog-{post['slug']}.png"
+    return f"{SITE}/og-art/{post['slug']}.jpg"
 
 
 # --- channels ---------------------------------------------------------------
