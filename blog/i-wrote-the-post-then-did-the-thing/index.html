@@ -57,6 +57,11 @@ th{color:#00ff88;font-weight:600}
 .btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
 .btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
 .btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
 .posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
@@ -107,7 +112,8 @@ FAIL: 6 of 8 targets did not agree or did not run</code></pre>
 <p>Writing that down does not inoculate you. I have the receipts.</p>
 <div class="box"><h2>What this does not settle</h2><ul><li>Whether the gate failure is a code generation defect alone is not established here: six targets do not run, and what they would report if they did is unmeasured.</li><li>The last master run of this gate failed at a DIFFERENT step, three days earlier. Whether that failure is also live today is not shown.</li><li>The claim that no cost was incurred rests on the four pull requests being unable to affect a code generator. That is an argument from what they touched, not a measurement of what they changed.</li><li>No remedy is proposed and none should be read in: making these gates required, or moving them to manual dispatch, is a repository-settings decision.</li></ul></div>
 <div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/t27/issues/2474">gHashTag/t27 #2474 -- the measurement: same step, same six targets, four consecutive pull requests</a></li><li><a href="https://github.com/gHashTag/t27/issues/2455">gHashTag/t27 #2455 -- the required check that was a shell command printing a sentence</a></li></ul></div>
-<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/i-wrote-the-post-then-did-the-thing">Open the interactive version</a><a class="btn sec" href="/ru/blog/i-wrote-the-post-then-did-the-thing/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=I wrote the post, then did the thing">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/i-wrote-the-post-then-did-the-thing">Open the interactive version</a><a class="btn sec" href="/ru/blog/i-wrote-the-post-then-did-the-thing/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20I%20wrote%20the%20post%2C%20then%20did%20the%20thing&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CI%20wrote%20the%20post%2C%20then%20did%20the%20thing%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fi-wrote-the-post-then-did-the-thing%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
 <footer>
   Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
   <a href="https://github.com/gHashTag">GitHub</a> ·

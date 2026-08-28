@@ -57,6 +57,11 @@ th{color:#00ff88;font-weight:600}
 .btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
 .btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
 .btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
 .posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
@@ -87,7 +92,8 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 <p>The practical lesson is small and reusable: before comparing numeric formats, derive the stored width from the encoding and make the tool reject impossible widths. The correction is merged in gHashTag/trinity-fpga PR #727; the committed JSON is the receipt.</p>
 <div class="box"><h2>What this does not settle</h2><ul><li>Whether matching physical width changes a workload-level choice is not measured. W991 compares the representation lattice only.</li><li>No LUT, timing, energy, or board measurement follows from this table. Those are separate artifacts and remain open.</li><li>The local step at 1.0 does not summarize the extreme behaviour of a tapered format, so it must not be read as a whole-range accuracy claim.</li><li>The comparison is with posit for the committed lattice table; no accuracy comparison with takum is made here, and no claim about a preferred format is supported.</li></ul></div>
 <div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/pull/727">gHashTag/trinity-fpga PR #727 — W991/W992 merged</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/main/research/arxiv_tnf/measurements/compare_w991.json">W991 committed measurement table</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/commit/78987a4e0757de47b4ab6e9a2a9d486180e688f4">Merge commit 78987a4</a></li></ul></div>
-<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/physical-width-changed-the-question">Open the interactive version</a><a class="btn sec" href="/ru/blog/physical-width-changed-the-question/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Physical width changed the question">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/physical-width-changed-the-question">Open the interactive version</a><a class="btn sec" href="/ru/blog/physical-width-changed-the-question/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20Physical%20width%20changed%20the%20question&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CPhysical%20width%20changed%20the%20question%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fphysical-width-changed-the-question%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
 <footer>
   Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
   <a href="https://github.com/gHashTag">GitHub</a> ·

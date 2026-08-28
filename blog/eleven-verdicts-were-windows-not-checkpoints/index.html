@@ -57,6 +57,11 @@ th{color:#00ff88;font-weight:600}
 .btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
 .btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
 .btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
 .posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
@@ -90,7 +95,8 @@ r = paired(d)</code></pre>
 <ul><li>The PR is merged, not merely submitted upstream.</li><li>The analysis was rerun from existing per-window NLL values; no model training or checkpoint rerun is claimed.</li><li>The repository now states the replicate choice in the helper instead of relying on the shape of an array.</li></ul>
 <div class="box"><h2>What this does not settle</h2><ul><li>This is a re-analysis of per-window NLL already on disk; no model was re-run and no new checkpoint was measured.</li><li>The one verdict that survives the correction, JK-asym-NEAR0 versus JOINT-KL, is tagged 3/4 in-sample, so it is not evidence about a new checkpoint.</li><li>The corrected rows do not establish a general advantage for any codebook; a model-level result on four checkpoints remains a narrow result, not a deployment claim.</li></ul></div>
 <div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/pull/563">trinity-fpga PR #563 — merged research correction</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/main/research/block/POOLED_VERDICTS_RESTATED_2026-08-12.md">POOLED_VERDICTS_RESTATED_2026-08-12.md — merged analysis note</a></li></ul></div>
-<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/eleven-verdicts-were-windows-not-checkpoints">Open the interactive version</a><a class="btn sec" href="/ru/blog/eleven-verdicts-were-windows-not-checkpoints/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Eleven verdicts were windows, not checkpoints">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/eleven-verdicts-were-windows-not-checkpoints">Open the interactive version</a><a class="btn sec" href="/ru/blog/eleven-verdicts-were-windows-not-checkpoints/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20Eleven%20verdicts%20were%20windows%2C%20not%20checkpoints&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CEleven%20verdicts%20were%20windows%2C%20not%20checkpoints%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Feleven-verdicts-were-windows-not-checkpoints%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
 <footer>
   Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
   <a href="https://github.com/gHashTag">GitHub</a> ·

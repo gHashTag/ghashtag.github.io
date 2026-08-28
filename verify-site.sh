@@ -228,6 +228,46 @@ PYCHK
         || red "sitemap.xml does not list /ru/blog/$slug/"
     fi
   done
+
+  # A reader who reaches the end of an article has supplied enough context for
+  # a useful next step. Every locale therefore needs exactly one work offer,
+  # an email action that carries the article context, and links to the four
+  # services the site actually sells. Checking the generated pages (not just
+  # build-blog.py) catches both a dropped component and a stale regeneration.
+  if python3 - <<'PYCTA'
+from pathlib import Path
+import sys
+
+problems = []
+roots = {
+    "blog": ["/verification/", "/ip/", "/course/", "/about/"],
+    "ru/blog": ["/ru/verification/", "/ru/ip/", "/ru/course/", "/ru/about/"],
+}
+checked = 0
+for root, services in roots.items():
+    for page in sorted(Path(root).glob("*/index.html")):
+        checked += 1
+        text = page.read_text(encoding="utf-8")
+        if text.count('class="work-cta"') != 1:
+            problems.append(f"{page}: expected exactly one work offer")
+        if 'href="mailto:admin@t27.ai?subject=' not in text:
+            problems.append(f"{page}: work offer has no contextual email action")
+        for href in services:
+            if f'href="{href}"' not in text:
+                problems.append(f"{page}: work offer does not expose {href}")
+if checked == 0:
+    problems.append("no blog pages were checked")
+if problems:
+    print("\n".join("  " + problem for problem in problems))
+    sys.exit(1)
+print(checked)
+PYCTA
+  then
+    green "every static article carries one contextual work offer in both languages"
+  else
+    red "static blog work-offer check failed"
+  fi
+
   grep -q "<loc>$SITE/blog/</loc>" sitemap.xml 2>/dev/null \
     || red "sitemap.xml does not list the blog index"
 

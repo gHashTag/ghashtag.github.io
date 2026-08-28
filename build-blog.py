@@ -24,6 +24,7 @@ import html
 import json
 import os
 import re
+from urllib.parse import quote
 
 SITE = "https://t27.ai"
 EMAIL = "admin@t27.ai"
@@ -69,6 +70,11 @@ th{color:#00ff88;font-weight:600}
 .btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
 .btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
 .btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
 .posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
@@ -88,9 +94,36 @@ UI = {
                      "with its receipts and with what it does not settle stated in the text.",
         "indexDesc": "Measured results from ternary hardware and low-precision numeric formats, "
                      "published here first with receipts and open questions.",
-        "cta": "Every figure above is measured, and the limits are named with it.",
         "openApp": "Open the interactive version", "all": "All posts",
         "other": "Читать по-русски", "otherLang": "ru",
+        "workEyebrow": "Work with me", "workPrimary": "Discuss your project",
+        "servicesLabel": "Services",
+        "services": [
+            ("Verification", "/verification/"), ("IP licensing", "/ip/"),
+            ("Courses and workshops", "/course/"), ("Contract work", "/about/"),
+        ],
+        "workTracks": {
+            "verification": (
+                "Want this kind of check on your own design?",
+                "I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.",
+                "See the verification service", "/verification/",
+            ),
+            "arithmetic": (
+                "Need arithmetic built for your constraints?",
+                "I design low-precision and ternary formats, synthesizable RTL, independent reference models and bit-exact vectors. Existing measured cores can also be licensed.",
+                "See IP and custom arithmetic", "/ip/",
+            ),
+            "engineering": (
+                "Need an FPGA/RTL problem taken to measured hardware?",
+                "I work contract and part-time on hardware-AI, FPGA/RTL and ML systems — from specification and open toolchains to reproducible measurements.",
+                "See how I work", "/about/",
+            ),
+            "training": (
+                "Want your team to build and verify this themselves?",
+                "I run a self-paced FPGA course, a four-week cohort and two-day team workshops built around a problem your engineers actually have.",
+                "See courses and workshops", "/course/",
+            ),
+        },
     },
     "ru": {
         "eyebrow": "Блог", "read": "мин чтения",
@@ -100,9 +133,36 @@ UI = {
                      "вместе с пруфами и с прямо названным в тексте тем, чего она не решает.",
         "indexDesc": "Измеренные результаты по тернарному железу и форматам низкой разрядности — "
                      "публикуются здесь первыми, с пруфами и открытыми вопросами.",
-        "cta": "Каждая цифра выше измерена, и рядом с ней названы её пределы.",
         "openApp": "Открыть интерактивную версию", "all": "Все статьи",
         "other": "Read in English", "otherLang": "en",
+        "workEyebrow": "Поработаем вместе", "workPrimary": "Обсудить задачу",
+        "servicesLabel": "Услуги",
+        "services": [
+            ("Верификация", "/ru/verification/"), ("Лицензирование IP", "/ru/ip/"),
+            ("Курсы и воркшопы", "/ru/course/"), ("Контрактная работа", "/ru/about/"),
+        ],
+        "workTracks": {
+            "verification": (
+                "Хотите так же проверить собственный дизайн?",
+                "Я аудирую RTL и строю независимые побитово точные модели, затем провожу результат через синтез и, когда это полезно, проверяю на плате Artix-7. Первый модуль проверки — бесплатно.",
+                "Услуга верификации", "/ru/verification/",
+            ),
+            "arithmetic": (
+                "Нужна арифметика под ваши ограничения?",
+                "Я проектирую форматы низкой разрядности и троичную арифметику, синтезируемый RTL, независимые референсные модели и побитовые тест-векторы. Готовые измеренные ядра можно лицензировать.",
+                "IP и заказная арифметика", "/ru/ip/",
+            ),
+            "engineering": (
+                "Нужно довести FPGA/RTL-задачу до замеров на железе?",
+                "Работаю по контракту и part-time с hardware-AI, FPGA/RTL и ML-системами — от спецификации и открытого тулчейна до воспроизводимых измерений.",
+                "Как я работаю", "/ru/about/",
+            ),
+            "training": (
+                "Хотите, чтобы команда умела строить и проверять это сама?",
+                "Провожу самостоятельный FPGA-курс, четырёхнедельный поток и двухдневные воркшопы вокруг реальной задачи вашей команды.",
+                "Курсы и воркшопы", "/ru/course/",
+            ),
+        },
     },
 }
 
@@ -291,6 +351,71 @@ def shell(*, url, title, desc, og, body, lang="en", alt=None, ld=""):
 """
 
 
+VERIFICATION_TAGS = {
+    "audit", "ci", "conformance", "formal", "methodology", "mutation testing",
+    "reproducibility", "static analysis", "test design", "testing", "verification",
+}
+ARITHMETIC_TAGS = {
+    "4-bit", "accuracy", "arithmetic", "attention", "golden ratio", "mxfp4",
+    "number formats", "numeric formats", "quantisation", "quantization", "scaling",
+    "ternary", "transformers",
+}
+ENGINEERING_TAGS = {
+    "artix-7", "ethernet", "fpga", "hardware", "litex", "nextpnr", "open source",
+    "openxc7", "place and route", "rgmii", "timing", "tooling", "yosys", "zynq",
+}
+
+
+def work_track(p):
+    tags = {str(tag).lower() for tag in p.get("tags", [])}
+    if "training" in tags:
+        return "training"
+    if tags & VERIFICATION_TAGS:
+        return "verification"
+    if tags & ARITHMETIC_TAGS:
+        return "arithmetic"
+    if tags & ENGINEERING_TAGS:
+        return "engineering"
+    return "engineering"
+
+
+def work_offer(p, d, lang):
+    """One contextual commercial action after the article, with honest scope.
+
+    The button is deliberately email, not a generic service landing: a reader
+    who reached the end has already supplied the context. The article URL and
+    title travel in the draft, while the relevant service page explains terms
+    before the reader sends anything. The other services remain small links so
+    four equal calls to action do not compete with the one useful next step.
+    """
+    u = UI[lang]
+    title, body, detail, href = u["workTracks"][work_track(p)]
+    article_url = f"{SITE}{base(lang)}/{p['slug']}/"
+    if lang == "ru":
+        subject = f"Задача для T27 — {d['title']}"
+        message = (f"Здравствуйте, Дмитрий! Я прочитал(а) статью «{d['title']}»: "
+                   f"{article_url}\n\nНаша задача:")
+    else:
+        subject = f"Project for T27 — {d['title']}"
+        message = f"Hi Dmitrii, I read “{d['title']}”: {article_url}\n\nOur project:"
+    mailto = (f"mailto:{EMAIL}?subject={quote(subject, safe='')}"
+              f"&body={quote(message, safe='')}")
+    services = "".join(
+        f'<a href="{esc(service_href)}">{esc(label)}</a>'
+        for label, service_href in u["services"]
+    )
+    return (
+        f'<section class="work-cta" aria-labelledby="blog-work-offer-title">'
+        f'<p class="eyebrow">{esc(u["workEyebrow"])}</p>'
+        f'<h2 id="blog-work-offer-title">{esc(title)}</h2>'
+        f'<p>{esc(body)}</p>'
+        f'<div class="btns"><a class="btn" href="{esc(mailto)}">{esc(u["workPrimary"])}</a>'
+        f'<a class="btn sec" href="{esc(href)}">{esc(detail)}</a></div>'
+        f'<nav class="work-links" aria-label="{esc(u["servicesLabel"])}">'
+        f'<span>{esc(u["servicesLabel"])}:</span>{services}</nav></section>'
+    )
+
+
 def post_page(p, lang="en"):
     u = UI[lang]
     slug = p["slug"]
@@ -327,12 +452,12 @@ def post_page(p, lang="en"):
                  f'{esc(u["other"])}</a>')
     app = f"/#/blog/{slug}" if lang == "en" else f"/?lang=ru#/blog/{slug}"
     parts.append(
-        f'<div class="cta"><p>{esc(u["cta"])}</p>'
-        f'<div class="btns"><a class="btn" href="{app}">{esc(u["openApp"])}</a>'
+        f'<div class="cta"><div class="btns">'
+        f'<a class="btn sec" href="{app}">{esc(u["openApp"])}</a>'
         f'{other}'
-        f'<a class="btn sec" href="mailto:{EMAIL}?subject={esc(d["title"])}">{EMAIL}</a>'
         f'<a class="btn sec" href="{base(lang)}/">{esc(u["all"])}</a></div></div>'
     )
+    parts.append(work_offer(p, d, lang))
     og = f"og-blog-{slug}.png" if lang == "en" else f"og-blog-{slug}-ru.png"
     ld = article_ld(url=url, title=d["title"], desc=d["summary"], og=og,
                     date=p["date"], lang=lang, tags=p.get("tags"))

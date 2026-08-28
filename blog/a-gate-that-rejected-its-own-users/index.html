@@ -57,6 +57,11 @@ th{color:#00ff88;font-weight:600}
 .btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
 .btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
 .btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
 .posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
@@ -101,7 +106,8 @@ if [ &quot;${checks_run:-0}&quot; -ne 5 ]; then exit 1; fi</code></pre>
 <p>A rule and its precondition are separate claims. Writing the rule feels like doing both, and it is not.</p>
 <div class="box"><h2>What this does not settle</h2><ul><li>How long the missing label had been breaking the request path is not bounded: nothing recorded an attempt, so the cost is unknown rather than small.</li><li>The four fixtures cover the shapes I could think of. The failure this post describes is precisely that the author is badly placed to enumerate valid forms, so a fifth shape may still be rejected.</li><li>The new floor counts checks, and a check that runs but measures nothing would still increment it. It removes one way to be wrong, not the class.</li><li>No end-to-end request has yet been driven through the repaired issue path from a stranger’s repository.</li></ul></div>
 <div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity/pull/792">gHashTag/trinity PR #792 — count the checks that ran, not the lines that matched</a></li><li><a href="https://github.com/gHashTag/trinity/pull/791">gHashTag/trinity PR #791 — the floor this corrects</a></li><li><a href="https://github.com/gHashTag/t27/issues/2176">gHashTag/t27 issue #2176 — the CLI nothing built</a></li></ul></div>
-<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/a-gate-that-rejected-its-own-users">Open the interactive version</a><a class="btn sec" href="/ru/blog/a-gate-that-rejected-its-own-users/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=A gate that rejected its own users">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/a-gate-that-rejected-its-own-users">Open the interactive version</a><a class="btn sec" href="/ru/blog/a-gate-that-rejected-its-own-users/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20A%20gate%20that%20rejected%20its%20own%20users&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CA%20gate%20that%20rejected%20its%20own%20users%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fa-gate-that-rejected-its-own-users%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
 <footer>
   Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
   <a href="https://github.com/gHashTag">GitHub</a> ·

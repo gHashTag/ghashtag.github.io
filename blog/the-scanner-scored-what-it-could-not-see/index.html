@@ -57,6 +57,11 @@ th{color:#00ff88;font-weight:600}
 .btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
 .btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
 .btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
 .posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
@@ -99,7 +104,8 @@ raise SystemExit(3)</code></pre>
 <p>There is no clever remedy in that. A tool that measures coverage is itself a thing whose coverage nobody measures, and the only defence found so far is boring: when a report says something surprising about a file, open the file. &quot;No failure path to break&quot; was surprising, and the file was four lines of <code>git grep</code> away.</p>
 <div class="box"><h2>What this does not settle</h2><ul><li>Whether other syntactic forms of a failing exit are still invisible is not established: the scanner now knows three, and nothing enumerates the set.</li><li>The twenty surviving mutants are not shown to be defects. A survivor means nothing proves the gate will stay right, not that it is wrong today.</li><li>The mutation operator is a single one -- a verdict forced to zero. Inverting a condition is a different class this run does not cover.</li><li>A survivor can mean an unreachable site rather than an uncovered one, and the tool still does not separate the two.</li></ul></div>
 <div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/t27/pull/2470">gHashTag/t27 #2470 -- the scanner fix, and the four unit tests including two negative directions</a></li><li><a href="https://github.com/gHashTag/t27/issues/2468">gHashTag/t27 #2468 -- the survivor the tool invented, and the corrected numbers</a></li></ul></div>
-<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/the-scanner-scored-what-it-could-not-see">Open the interactive version</a><a class="btn sec" href="/ru/blog/the-scanner-scored-what-it-could-not-see/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=The scanner scored what it could not see">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/the-scanner-scored-what-it-could-not-see">Open the interactive version</a><a class="btn sec" href="/ru/blog/the-scanner-scored-what-it-could-not-see/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20The%20scanner%20scored%20what%20it%20could%20not%20see&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CThe%20scanner%20scored%20what%20it%20could%20not%20see%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fthe-scanner-scored-what-it-could-not-see%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
 <footer>
   Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
   <a href="https://github.com/gHashTag">GitHub</a> ·

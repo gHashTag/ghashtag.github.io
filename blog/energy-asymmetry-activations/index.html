@@ -57,6 +57,11 @@ th{color:#00ff88;font-weight:600}
 .btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
 .btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
 .btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
 .posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
@@ -92,7 +97,8 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 <p>If the second number is much smaller than the first, you have the same asymmetry and your quantiser does not know about it. If they are equal — as they will be for weights — an asymmetric alphabet has nothing to offer you, and that is visible before you build one.</p>
 <div class="box"><h2>What this does not settle</h2><ul><li>Measured on SmolLM2-135M and Qwen2.5-0.5B only. Two small models is not a general result, and nothing here shows the ratio holds at 7B or beyond.</li><li>The energy share is reported for GELU and SiLU/SwiGLU. Other activations were not measured, and ReLU is trivially 0% because it has no negative outputs at all.</li><li>The advantage on activations (1.17×–1.46×) comes with a loss on weights (0.94×). Whether a mixed alphabet — asymmetric for activations, symmetric for weights — is worth its control cost in hardware has not been measured.</li></ul></div>
 <div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/blob/main/research/block/ENERGY_ASYMMETRY_2026-08-09.md">The measurement, with the table</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/main/research/block/ASYM_VS_BLOCKDIALECT_2026-08-09.md">The comparison it predicts (BlockDialect, DialectFP4)</a></li><li><a href="https://arxiv.org/abs/2501.01144">DialectFP4, the competitor — arXiv:2501.01144</a></li></ul></div>
-<div class="cta"><p>Every figure above is measured, and the limits are named with it.</p><div class="btns"><a class="btn" href="/#/blog/energy-asymmetry-activations">Open the interactive version</a><a class="btn sec" href="/ru/blog/energy-asymmetry-activations/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="mailto:admin@t27.ai?subject=Half of your activations are negative. They carry 1.8% of the energy">admin@t27.ai</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/energy-asymmetry-activations">Open the interactive version</a><a class="btn sec" href="/ru/blog/energy-asymmetry-activations/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Need arithmetic built for your constraints?</h2><p>I design low-precision and ternary formats, synthesizable RTL, independent reference models and bit-exact vectors. Existing measured cores can also be licensed.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20Half%20of%20your%20activations%20are%20negative.%20They%20carry%201.8%25%20of%20the%20energy&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CHalf%20of%20your%20activations%20are%20negative.%20They%20carry%201.8%25%20of%20the%20energy%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fenergy-asymmetry-activations%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/ip/">See IP and custom arithmetic</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
 <footer>
   Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
   <a href="https://github.com/gHashTag">GitHub</a> ·
