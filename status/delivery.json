@@ -1,304 +1,304 @@
 {
   "entries": [
     {
-      "source_commit": "1be2dc63d9b310dc8889ce1dbe175ddd8ac3d37d",
-      "source_committed_at": "2026-08-22T19:30:57Z",
-      "published_at": "2026-08-22T20:53:12.878477Z",
-      "delay_minutes": 82.3
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T07:01:39.228171Z",
+      "delay_minutes": 124.4
     },
     {
-      "source_commit": "a0664ad775a87ebc0309298dd94847d42d17db0a",
-      "source_committed_at": "2026-08-22T20:57:37Z",
-      "published_at": "2026-08-22T21:23:22.843690Z",
-      "delay_minutes": 25.8
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T07:53:44.699546Z",
+      "delay_minutes": 176.5
     },
     {
-      "source_commit": "3a7f7e013ac034df354b6c99a1525cd98de2db2b",
-      "source_committed_at": "2026-08-22T21:41:14Z",
-      "published_at": "2026-08-22T21:48:40.150974Z",
-      "delay_minutes": 7.4
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T08:44:05.326395Z",
+      "delay_minutes": 226.8
     },
     {
-      "source_commit": "4fe1dea264d0857c51db25e6b6db2a5be26efe81",
-      "source_committed_at": "2026-08-22T22:19:50Z",
-      "published_at": "2026-08-22T22:23:52.830178Z",
-      "delay_minutes": 4.0
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T09:22:30.787796Z",
+      "delay_minutes": 265.3
     },
     {
-      "source_commit": "4fe1dea264d0857c51db25e6b6db2a5be26efe81",
-      "source_committed_at": "2026-08-22T22:19:50Z",
-      "published_at": "2026-08-22T22:50:28.790076Z",
-      "delay_minutes": 30.6
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T10:03:51.815843Z",
+      "delay_minutes": 306.6
     },
     {
-      "source_commit": "4fe1dea264d0857c51db25e6b6db2a5be26efe81",
-      "source_committed_at": "2026-08-22T22:19:50Z",
-      "published_at": "2026-08-22T23:22:37.428005Z",
-      "delay_minutes": 62.8
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T10:51:52.198690Z",
+      "delay_minutes": 354.6
     },
     {
-      "source_commit": "11dc92710e29143a0fa0b5e59df3b6486ff6c840",
-      "source_committed_at": "2026-08-22T23:39:23Z",
-      "published_at": "2026-08-22T23:47:58.702641Z",
-      "delay_minutes": 8.6
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T11:29:46.583057Z",
+      "delay_minutes": 392.5
     },
     {
-      "source_commit": "11dc92710e29143a0fa0b5e59df3b6486ff6c840",
-      "source_committed_at": "2026-08-22T23:39:23Z",
-      "published_at": "2026-08-23T01:22:01.785173Z",
-      "delay_minutes": 102.6
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T11:58:36.439165Z",
+      "delay_minutes": 421.4
     },
     {
-      "source_commit": "11dc92710e29143a0fa0b5e59df3b6486ff6c840",
-      "source_committed_at": "2026-08-22T23:39:23Z",
-      "published_at": "2026-08-23T02:47:09.590014Z",
-      "delay_minutes": 187.8
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T12:54:56.433178Z",
+      "delay_minutes": 477.7
     },
     {
-      "source_commit": "11dc92710e29143a0fa0b5e59df3b6486ff6c840",
-      "source_committed_at": "2026-08-22T23:39:23Z",
-      "published_at": "2026-08-23T03:39:06.326634Z",
-      "delay_minutes": 239.7
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T13:56:26.282426Z",
+      "delay_minutes": 539.2
     },
     {
-      "source_commit": "11dc92710e29143a0fa0b5e59df3b6486ff6c840",
-      "source_committed_at": "2026-08-22T23:39:23Z",
-      "published_at": "2026-08-23T04:25:09.006529Z",
-      "delay_minutes": 285.8
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T14:47:05.345418Z",
+      "delay_minutes": 589.8
     },
     {
-      "source_commit": "ce113c6ffd499f98c19bf468032b63c60900adba",
-      "source_committed_at": "2026-08-23T04:54:34Z",
-      "published_at": "2026-08-23T05:04:02.388331Z",
-      "delay_minutes": 9.5
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T15:31:46.177200Z",
+      "delay_minutes": 634.5
     },
     {
-      "source_commit": "ce113c6ffd499f98c19bf468032b63c60900adba",
-      "source_committed_at": "2026-08-23T04:54:34Z",
-      "published_at": "2026-08-23T05:47:05.123752Z",
-      "delay_minutes": 52.5
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T16:12:32.502149Z",
+      "delay_minutes": 675.3
     },
     {
-      "source_commit": "c5556595ac8497b222d4a159184230ca88ee4148",
-      "source_committed_at": "2026-08-23T06:09:04Z",
-      "published_at": "2026-08-23T06:18:05.537531Z",
-      "delay_minutes": 9.0
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T16:58:10.425343Z",
+      "delay_minutes": 720.9
     },
     {
-      "source_commit": "c5556595ac8497b222d4a159184230ca88ee4148",
-      "source_committed_at": "2026-08-23T06:09:04Z",
-      "published_at": "2026-08-23T06:27:38.562265Z",
-      "delay_minutes": 18.6
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T17:35:27.412865Z",
+      "delay_minutes": 758.2
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T07:13:13.928676Z",
-      "delay_minutes": 19.7
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T18:06:49.569879Z",
+      "delay_minutes": 789.6
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T07:49:57.518114Z",
-      "delay_minutes": 56.4
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T18:59:26.712095Z",
+      "delay_minutes": 842.2
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T08:32:26.672593Z",
-      "delay_minutes": 98.9
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T19:40:09.848859Z",
+      "delay_minutes": 882.9
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T09:02:37.124816Z",
-      "delay_minutes": 129.1
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T20:04:08.135859Z",
+      "delay_minutes": 906.9
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T09:45:00.893087Z",
-      "delay_minutes": 171.4
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T20:48:31.252100Z",
+      "delay_minutes": 951.3
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T10:04:09.484968Z",
-      "delay_minutes": 190.6
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T21:30:17.179087Z",
+      "delay_minutes": 993.0
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T10:43:22.352886Z",
-      "delay_minutes": 229.8
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T21:57:24.365375Z",
+      "delay_minutes": 1020.2
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T11:02:22.929649Z",
-      "delay_minutes": 248.8
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T22:29:13.590340Z",
+      "delay_minutes": 1052.0
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T11:37:05.020508Z",
-      "delay_minutes": 283.5
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T23:00:35.300465Z",
+      "delay_minutes": 1083.3
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T11:59:58.506833Z",
-      "delay_minutes": 306.4
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T23:30:58.224385Z",
+      "delay_minutes": 1113.7
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T12:56:27.981190Z",
-      "delay_minutes": 362.9
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-25T23:53:32.652665Z",
+      "delay_minutes": 1136.3
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T13:34:17.306516Z",
-      "delay_minutes": 400.7
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T01:20:07.355427Z",
+      "delay_minutes": 1222.9
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T14:02:37.177483Z",
-      "delay_minutes": 429.1
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T02:49:48.416681Z",
+      "delay_minutes": 1312.6
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T14:34:57.261632Z",
-      "delay_minutes": 461.4
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T03:55:34.888092Z",
+      "delay_minutes": 1378.3
     },
     {
-      "source_commit": "9ae12c0b075a99ec326af8465a93c13d394894df",
-      "source_committed_at": "2026-08-23T06:53:34Z",
-      "published_at": "2026-08-23T15:02:35.979155Z",
-      "delay_minutes": 489.0
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T04:41:34.148006Z",
+      "delay_minutes": 1424.3
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T15:38:59.748870Z",
-      "delay_minutes": 27.3
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T05:19:05.286189Z",
+      "delay_minutes": 1461.8
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T16:00:06.927189Z",
-      "delay_minutes": 48.4
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T06:01:58.947105Z",
+      "delay_minutes": 1504.7
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T16:37:33.336245Z",
-      "delay_minutes": 85.9
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T07:04:31.749544Z",
+      "delay_minutes": 1567.3
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T17:03:35.598374Z",
-      "delay_minutes": 111.9
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T08:02:12.245437Z",
+      "delay_minutes": 1625.0
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T17:37:00.365565Z",
-      "delay_minutes": 145.3
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T08:57:46.741503Z",
+      "delay_minutes": 1680.5
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T17:58:49.231071Z",
-      "delay_minutes": 167.1
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T09:44:04.574992Z",
+      "delay_minutes": 1726.8
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T18:36:48.984623Z",
-      "delay_minutes": 205.1
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T10:20:45.153081Z",
+      "delay_minutes": 1763.5
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T19:06:28.602491Z",
-      "delay_minutes": 234.8
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T11:03:47.752272Z",
+      "delay_minutes": 1806.5
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T19:36:52.354502Z",
-      "delay_minutes": 265.2
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T11:47:22.880296Z",
+      "delay_minutes": 1850.1
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T19:58:42.658121Z",
-      "delay_minutes": 287.0
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T12:20:47.274227Z",
+      "delay_minutes": 1883.5
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T20:29:12.933695Z",
-      "delay_minutes": 317.5
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T13:37:03.160812Z",
+      "delay_minutes": 1959.8
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T20:52:48.462279Z",
-      "delay_minutes": 341.1
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T14:29:32.441247Z",
+      "delay_minutes": 2012.3
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T21:23:43.686535Z",
-      "delay_minutes": 372.0
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T16:03:25.889408Z",
+      "delay_minutes": 2106.2
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T21:48:44.774026Z",
-      "delay_minutes": 397.0
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T17:06:14.097440Z",
+      "delay_minutes": 2169.0
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T22:23:11.119865Z",
-      "delay_minutes": 431.5
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T19:15:45.604019Z",
+      "delay_minutes": 2298.5
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T22:50:22.587956Z",
-      "delay_minutes": 458.7
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-26T22:17:58.131241Z",
+      "delay_minutes": 2480.7
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T23:22:57.138950Z",
-      "delay_minutes": 491.3
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-27T03:21:44.136753Z",
+      "delay_minutes": 2784.5
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-23T23:48:16.211503Z",
-      "delay_minutes": 516.6
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-27T14:30:45.789662Z",
+      "delay_minutes": 3453.5
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-24T01:19:32.307530Z",
-      "delay_minutes": 607.8
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-27T23:56:33.220287Z",
+      "delay_minutes": 4019.3
     },
     {
-      "source_commit": "bd7fc979d288b0ef42db8c89ae4c604554dc3433",
-      "source_committed_at": "2026-08-23T15:11:42Z",
-      "published_at": "2026-08-24T02:48:01.203003Z",
-      "delay_minutes": 696.3
+      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
+      "source_committed_at": "2026-08-25T04:57:15Z",
+      "published_at": "2026-08-28T09:58:13.335121Z",
+      "delay_minutes": 4621.0
     }
   ]
 }
