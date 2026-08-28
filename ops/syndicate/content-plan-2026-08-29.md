@@ -2,6 +2,13 @@
 
 Timezone: Asia/Bangkok (UTC+7). Backlog cadence: 10:00 and 18:00 daily. Canonical English URLs only. Every image is the original 1200×630 asset from `og-art/<slug>.jpg`; ALT text is required. X and LinkedIn copy are intentionally different. No topic or canonical URL below duplicates the current X scheduled queue, the five latest X posts, or the four recent T27 LinkedIn posts audited on 2026-08-28.
 
+Execution status at 2026-08-28 22:30 UTC+7:
+
+- X: first slot confirmed for 2026-08-29 10:00.
+- LinkedIn personal profile: first slot confirmed for 2026-08-29 10:00.
+- Telegram: `the-auditor-made-the-mistake-it-audits` published immediately as message 78.
+- Remaining slots are handled by the active `T27 social publishing` automation with native-queue and canonical-URL deduplication.
+
 ## 2026-08-29 · 10:00
 
 **Article:** [The scanner scored what it could not see](https://t27.ai/blog/the-scanner-scored-what-it-could-not-see/)
