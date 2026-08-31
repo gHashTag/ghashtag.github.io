@@ -1,4 +1,4 @@
-import{r as u,j as e}from"./react-BikoVsHo.js";import{u as m}from"./index-CoFBYvnU.js";const l=`# .github/workflows/rtl-check.yml
+import{r as u,j as e}from"./react-BikoVsHo.js";import{u as m}from"./index-BBdywxUC.js";const l=`# .github/workflows/rtl-check.yml
 name: RTL check
 on: [push, pull_request]
 
