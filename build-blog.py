@@ -38,10 +38,10 @@ NAV = [
 CSS = """
 *{box-sizing:border-box}
 body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
-a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
 .wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
 header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
-.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
 nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
 nav.top a{color:#9fb3ab}
 .eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
@@ -65,10 +65,10 @@ th{color:#00ff88;font-weight:600}
 .box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
 .box h2{margin-top:0;font-size:1.1rem}
 .tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
-.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
 .cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
 .btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
-.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
 .btn.sec{border-color:#1d2b2a;color:#c7d6d0}
 .work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
 .work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
@@ -190,6 +190,19 @@ def localise(p, lang):
 
 def esc(s):
     return html.escape(str(s))
+
+
+def hashtag(tag):
+    """Render taxonomy labels as compact social hashtags."""
+    words = re.findall(r"[^\W_]+", str(tag).lstrip("#"), flags=re.UNICODE)
+    if not words:
+        raise SystemExit(f"build-blog: invalid empty tag {tag!r}")
+    if len(words) == 1:
+        return f"#{words[0]}"
+    return "#" + "".join(
+        word if word.isupper() else word[:1].upper() + word[1:]
+        for word in words
+    )
 
 
 INLINE = re.compile(r"\*\*([^*]+)\*\*|`([^`]+)`")
@@ -428,8 +441,9 @@ def post_page(p, lang="en"):
         f'<p class="meta">{esc(p["date"])} · {esc(p["readingMinutes"])} {esc(u["read"])}</p>',
         f'<p class="lede">{esc(d["summary"])}</p>',
     ]
-    if p.get("tags"):
-        parts.append('<div class="tags">' + "".join(f'<span class="tag">{esc(t)}</span>' for t in p["tags"]) + "</div>")
+    if not p.get("tags"):
+        raise SystemExit(f"build-blog: post {slug} has no mandatory tags")
+    parts.append('<div class="tags">' + "".join(f'<span class="tag">{esc(hashtag(t))}</span>' for t in p["tags"]) + "</div>")
     parts += [block_html(b) for b in d["body"]]
 
     if d.get("openQuestions"):

@@ -2,6 +2,8 @@
 
 Timezone: Asia/Bangkok (UTC+7). Backlog cadence: 10:00 and 18:00 daily. Canonical English URLs only. Every image is the original 1200×630 asset from `og-art/<slug>.jpg`; ALT text is required. X and LinkedIn copy are intentionally different. No topic or canonical URL below duplicates the current X scheduled queue, the five latest X posts, or the four recent T27 LinkedIn posts audited on 2026-08-28.
 
+Mandatory hashtag policy: the publisher derives hashtags from the article's `tags` field on every run. Append exactly one primary hashtag to X and 2–3 relevant hashtags to LinkedIn and Telegram. Hashtags are required even when the draft copy below omits the suffix; never publish an empty hashtag set and never add hashtag stuffing.
+
 Execution status at 2026-08-28 22:30 UTC+7:
 
 - X: first slot confirmed for 2026-08-29 10:00.

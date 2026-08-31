@@ -120,6 +120,26 @@ def canonical_block(post, channel):
     )
 
 
+def hashtag(tag):
+    """Convert a taxonomy label to the same hashtag shown on t27.ai."""
+    words = re.findall(r"[^\W_]+", str(tag).lstrip("#"), flags=re.UNICODE)
+    if not words:
+        raise ValueError(f"invalid empty tag: {tag!r}")
+    if len(words) == 1:
+        return f"#{words[0]}"
+    return "#" + "".join(
+        word if word.isupper() else word[:1].upper() + word[1:]
+        for word in words
+    )
+
+
+def social_hashtags(post, limit=3):
+    tags = post.get("tags") or []
+    if not tags:
+        raise ValueError(f"post {post.get('slug', '?')} has no mandatory tags")
+    return " ".join(hashtag(tag) for tag in tags[:limit])
+
+
 def extract_markdown(post):
     """Article body HTML -> markdown, using the page the site actually serves."""
     html = (REPO / "blog" / post["slug"] / "index.html").read_text()
@@ -171,9 +191,11 @@ def post_telegram(post, ch, dry):
         link = utm(f"{SITE}/ru/blog/{post['slug']}/", "telegram")
     else:
         link = utm(f"{SITE}/blog/{post['slug']}/", "telegram")
+    tag_suffix = f"\n\n{social_hashtags(post)}"
     if dry:
         return {"ok": True, "dry": True, "id": None, "lang": "ru" if ru else "en"}
-    caption = (f"*[измерено] {title}*\n\n{summary}\n\n[Читать]({link}){tail}")[:1024]
+    body = f"*[измерено] {title}*\n\n{summary}\n\n[Читать]({link}){tail}"
+    caption = body[:1024 - len(tag_suffix)].rstrip() + tag_suffix
     r = http_post(
         f"https://api.telegram.org/bot{token}/sendPhoto",
         json={"chat_id": chat, "photo": cover_url(post),

@@ -112,6 +112,10 @@ def extract(site: Path) -> list:
         for k in ("slug", "title", "summary", "date", "body"):
             if not p.get(k):
                 raise SystemExit(f"regen-blog: post {p.get('slug','?')} has no {k}")
+        if not isinstance(p.get("tags"), list) or not p["tags"]:
+            raise SystemExit(f"regen-blog: post {p.get('slug','?')} has no mandatory tags")
+        if any(not str(tag).strip().lstrip("#") for tag in p["tags"]):
+            raise SystemExit(f"regen-blog: post {p.get('slug','?')} has an empty tag")
     return posts
 
 

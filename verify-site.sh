@@ -341,6 +341,15 @@ for post in posts:
         if not page.is_file():
             problems.append(f"{page} is missing")
             continue
+        raw = page.read_text(encoding="utf-8")
+        rendered_tags = re.findall(r'<span class="tag">([^<]+)</span>', raw)
+        source_tags = post.get("tags") or []
+        if not source_tags:
+            problems.append(f"{slug} has no mandatory source tags")
+        if len(rendered_tags) != len(source_tags) or any(not tag.startswith("#") for tag in rendered_tags):
+            problems.append(
+                f"{page} renders {rendered_tags!r}, expected {len(source_tags)} hashtag(s) beginning with #"
+            )
         text = visible(page)
         words = len(re.findall(r"\S+", text))
         if title not in text:

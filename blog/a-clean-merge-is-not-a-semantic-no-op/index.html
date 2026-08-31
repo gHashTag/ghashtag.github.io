@@ -25,10 +25,10 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
-a{color:#00ff88;text-decoration:none}a:hover{text-decoration:underline}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
 .wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
 header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
-.brand{font-weight:700;letter-spacing:3px;color:#00ff88}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
 nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
 nav.top a{color:#9fb3ab}
 .eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
@@ -52,10 +52,10 @@ th{color:#00ff88;font-weight:600}
 .box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
 .box h2{margin-top:0;font-size:1.1rem}
 .tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
-.tag{border:1px solid #1d2b2a;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#9fb3ab}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
 .cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
 .btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
-.btn{border:1px solid #00ff88;border-radius:6px;padding:.55rem 1rem;font-size:.9rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
 .btn.sec{border-color:#1d2b2a;color:#c7d6d0}
 .work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
 .work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
@@ -78,7 +78,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 <h1>A clean merge is not a semantic no-op</h1>
 <p class="meta">2026-08-19 · 7 min read</p>
 <p class="lede">Two autonomous agents, one repository, a 643-commit wave merged mid-flight. The four textual conflicts were the safe part — three were comment-only and one was both sides fixing the same bug. The defect that reached master rode in on a hunk that merged cleanly: a device-default flip that a CI workflow relied on as an absence, which cannot conflict. It passed place-and-route on the wrong database and failed at the first step that looks a name up instead of trusting a path.</p>
-<div class="tags"><span class="tag">CI</span><span class="tag">Git</span><span class="tag">Multi-agent</span><span class="tag">FPGA</span><span class="tag">Debugging</span></div>
+<div class="tags"><span class="tag">#CI</span><span class="tag">#Git</span><span class="tag">#MultiAgent</span><span class="tag">#FPGA</span><span class="tag">#Debugging</span></div>
 <p>Two autonomous sessions were improving the same repository at once. One carried a fourteen-commit branch repairing a broken CI pipeline; while its checks ran, the other merged six hundred and forty-three commits into master. The merge that reconciled them produced four textual conflicts — and the defect that actually reached master was in none of them. It rode in on a hunk that merged cleanly.</p>
 <h2>The conflicts were the safe part</h2>
 <p>Of the four conflicted regions in the code generator, three turned out to be comment-only: both sides had independently made the same fix and differed only in how they explained it. The fourth was the interesting one — both sides had repaired the same bug, a Verilog keyword table that rejected too little, and the incoming branch had done it more completely. Convergent evolution between agents that had never seen each other&#x27;s work.</p>
