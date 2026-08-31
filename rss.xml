@@ -6,104 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 23 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 31 Aug 2026 12:00:00 GMT</lastBuildDate>
     <item>
-      <title>The ratchet counted a total as an error</title>
-      <link>https://t27.ai/#/blog/the-ratchet-counted-a-total-as-an-error</link>
-      <guid isPermaLink="false">the-ratchet-counted-a-total-as-an-error</guid>
-      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
-      <description>A gate written to stop elaboration errors creeping back reported 186 of them; 25 were the compiler's own summary line saying how many errors it had found. The number had already reached commit messages and a status page. This is the proof that could not have come out any other way, the live emitter defect that was hiding inside the count, why fixing it made the number worse, and one fix that was built, measured, and thrown away.</description>
-      <category>CI</category>
-      <category>Measurement</category>
-      <category>Self-critique</category>
+      <title>TRI CLAW: an agent you can audit</title>
+      <link>https://t27.ai/#/blog/tri-claw-an-agent-you-can-audit</link>
+      <guid isPermaLink="false">tri-claw-an-agent-you-can-audit</guid>
+      <pubDate>Mon, 31 Aug 2026 12:00:00 GMT</pubDate>
+      <description>Three dies that never reached the foundry become three gateware layers on the most-studied FPGA family: attestation at boot, a BLAKE3 receipt per action, a ternary engine with an empty DSP column. The agent-in-a-box exists; the verifiable device exists; the intersection is empty.</description>
+      <category>TRI CLAW</category>
+      <category>Product</category>
       <category>FPGA</category>
-      <category>Compilers</category>
-    </item>
-    <item>
-      <title>The gate was right and nothing stopped</title>
-      <link>https://t27.ai/#/blog/the-gate-was-right-and-nothing-stopped</link>
-      <guid isPermaLink="false">the-gate-was-right-and-nothing-stopped</guid>
-      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
-      <description>A gate that guards against retracted numbers re-entering live documents caught a violation on the pull request that introduced it — right file, right lines, exit 1 — and the pull request merged anyway, because it is not a required check. It stayed red on main through two more merges. This is the third variant of a reach failure: not ‘it never runs’, not ‘it runs on the wrong diff’, but ‘it runs, it fails, it names the exact lines, and nothing waits for the answer’.</description>
-      <category>CI</category>
-      <category>Measurement</category>
-      <category>Self-critique</category>
-      <category>Process</category>
-    </item>
-    <item>
-      <title>The required check was an echo</title>
-      <link>https://t27.ai/#/blog/the-required-check-was-an-echo</link>
-      <guid isPermaLink="false">the-required-check-was-an-echo</guid>
-      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
-      <description>One of four required status checks — the ones a branch ruleset will not let a merge past — was a shell command that prints a sentence. Twenty lines, no logic, green on every pull request, required for months. Meanwhile the test suite it was believed to be has never blocked a merge, and thirteen tests fail on the main branch indefinitely because nothing was waiting for them.</description>
-      <category>CI</category>
-      <category>Process</category>
-      <category>Measurement</category>
-      <category>Self-critique</category>
-    </item>
-    <item>
-      <title>The control that could not fail</title>
-      <link>https://t27.ai/#/blog/the-control-that-could-not-fail</link>
-      <guid isPermaLink="false">the-control-that-could-not-fail</guid>
-      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Four gates had never been seen red. Writing their negative controls produced one that reported every branch red while the gate it guarded printed OK on a broken catalog.</description>
-      <category>CI</category>
-      <category>Negative controls</category>
-      <category>Mutation testing</category>
-      <category>Self-critique</category>
-    </item>
-    <item>
-      <title>The scanner scored what it could not see</title>
-      <link>https://t27.ai/#/blog/the-scanner-scored-what-it-could-not-see</link>
-      <guid isPermaLink="false">the-scanner-scored-what-it-could-not-see</guid>
-      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
-      <description>A mutation tool reported a gate as having no failure path. The gate has four -- all of them ternaries, a form the scanner did not recognise, so it scored them as covered.</description>
-      <category>CI</category>
-      <category>Mutation testing</category>
-      <category>Measurement</category>
-      <category>Self-critique</category>
-    </item>
-    <item>
-      <title>I wrote the post, then did the thing</title>
-      <link>https://t27.ai/#/blog/i-wrote-the-post-then-did-the-thing</link>
-      <guid isPermaLink="false">i-wrote-the-post-then-did-the-thing</guid>
-      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Two posts in this series are about gates that fail without changing anyone behaviour. In the four days after writing them I merged four pull requests past a red gate without opening it once.</description>
-      <category>CI</category>
-      <category>Attention</category>
-      <category>Self-critique</category>
-    </item>
-    <item>
-      <title>The auditor made the mistake it audits</title>
-      <link>https://t27.ai/#/blog/the-auditor-made-the-mistake-it-audits</link>
-      <guid isPermaLink="false">the-auditor-made-the-mistake-it-audits</guid>
-      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
-      <description>A mutation tool took a gate suite from four gates with no negative control to none, and from twenty surviving mutants to zero. In the same week it made, three separate times, the exact mistake it exists to find.</description>
-      <category>CI</category>
-      <category>Mutation testing</category>
-      <category>Measurement</category>
-      <category>Self-critique</category>
-    </item>
-    <item>
-      <title>Nobody's example</title>
-      <link>https://t27.ai/#/blog/nobodys-example</link>
-      <guid isPermaLink="false">nobodys-example</guid>
-      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
-      <description>A gate's negative control is written by someone who plants the fault it is meant to catch. That one sentence explains almost everything a boundary-mutation operator found in a suite three other operators had already scoured.</description>
-      <category>CI</category>
-      <category>Mutation testing</category>
-      <category>Test design</category>
-      <category>Measurement</category>
-    </item>
-    <item>
-      <title>Physical width changed the question</title>
-      <link>https://t27.ai/#/blog/physical-width-changed-the-question</link>
-      <guid isPermaLink="false">physical-width-changed-the-question</guid>
-      <pubDate>Sun, 23 Aug 2026 12:00:00 GMT</pubDate>
-      <description>A committed-oracle comparison exposed a nominal-width error: TNF16 labelled as 16 bits occupies 19 physical bits, so the table now matches containers before comparing lattices.</description>
-      <category>Number formats</category>
-      <category>Conformance</category>
-      <category>Measurement</category>
+      <category>Ternary</category>
+      <category>Verification</category>
       <category>Self-critique</category>
     </item>
     <item>
@@ -410,27 +324,6 @@
       <category>dependencies</category>
     </item>
     <item>
-      <title>Twenty patches merged upstream in three days</title>
-      <link>https://t27.ai/#/blog/twenty-merged-in-three-days</link>
-      <guid isPermaLink="false">twenty-merged-in-three-days</guid>
-      <pubDate>Wed, 12 Aug 2026 12:00:00 GMT</pubDate>
-      <description>On 2026-08-09 my own notes said six patches were open and none had been merged. By 2026-08-11 openXC7 had merged twenty. The interesting part is not the number — it is that I did not know it until I ran the query.</description>
-      <category>openXC7</category>
-      <category>upstream</category>
-      <category>measurement</category>
-    </item>
-    <item>
-      <title>A background loop broke for months, and no amount of watching could have caught it</title>
-      <link>https://t27.ai/#/blog/the-silence-was-a-saturated-readout</link>
-      <guid isPermaLink="false">the-silence-was-a-saturated-readout</guid>
-      <pubDate>Wed, 12 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Seven timed loops logged nothing on an empty tick. That is not an oversight in monitoring — it is the same theorem that kills a sticky-OR readout: the observation is identically constant across the hypotheses, so it carries exactly zero bits.</description>
-      <category>information theory</category>
-      <category>observability</category>
-      <category>production</category>
-      <category>measurement</category>
-    </item>
-    <item>
       <title>The scale field does not need eight bits, and we were not the first to say so</title>
       <link>https://t27.ai/#/blog/scale-field-width-already-published</link>
       <guid isPermaLink="false">scale-field-width-already-published</guid>
@@ -451,107 +344,6 @@
       <category>CI</category>
       <category>Verification</category>
       <category>Static analysis</category>
-    </item>
-    <item>
-      <title>Two theorems that tell you an experiment is worthless before you run it</title>
-      <link>https://t27.ai/#/blog/the-experiment-that-could-not-answer</link>
-      <guid isPermaLink="false">the-experiment-that-could-not-answer</guid>
-      <pubDate>Tue, 11 Aug 2026 12:00:00 GMT</pubDate>
-      <description>A detectability floor of n ≈ 3.92/Δ² said the sweep could not resolve the effect at any outcome, and a sticky-OR readout carried literally zero bits. Both knowable in advance.</description>
-      <category>Statistics</category>
-      <category>Measurement</category>
-      <category>FPGA</category>
-      <category>Methodology</category>
-    </item>
-    <item>
-      <title>Twenty-three reference models, because implementing a competitor from memory always flatters you</title>
-      <link>https://t27.ai/#/blog/twenty-three-reference-models</link>
-      <guid isPermaLink="false">twenty-three-reference-models</guid>
-      <pubDate>Tue, 11 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Every format we compare against has its own reference implementation, written from its specification — after five bugs that all weakened the competitor and all pointed the same way.</description>
-      <category>Numeric formats</category>
-      <category>Benchmarking</category>
-      <category>Methodology</category>
-      <category>Open source</category>
-    </item>
-    <item>
-      <title>I checked my own eight theorems by machine. Four held, three headings were wrong</title>
-      <link>https://t27.ai/#/blog/eight-theorems-audited</link>
-      <guid isPermaLink="false">eight-theorems-audited</guid>
-      <pubDate>Tue, 11 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Every proof verified step by step, every verdict attacked by a second pass, none disputed — and the defects were never in a measurement, always in what a heading claimed about it.</description>
-      <category>Mathematics</category>
-      <category>Verification</category>
-      <category>Ternary</category>
-      <category>Golden ratio</category>
-    </item>
-    <item>
-      <title>Doubling the context made it worse: ternary scaling follows a resonance, not a power law</title>
-      <link>https://t27.ai/#/blog/context-length-resonance-not-power-law</link>
-      <guid isPermaLink="false">context-length-resonance-not-power-law</guid>
-      <pubDate>Tue, 11 Aug 2026 12:00:00 GMT</pubDate>
-      <description>ctx=18 gives PPL 5.58, ctx=27 gives 2.96, ctx=54 gives 6.05 — worse than the baseline. Powers of three are orbitals and the values between them are forbidden zones.</description>
-      <category>Training</category>
-      <category>Ternary</category>
-      <category>Scaling</category>
-      <category>Transformers</category>
-      <category>Negative result</category>
-    </item>
-    <item>
-      <title>Fifteen merged, nine credited: what upstream contribution actually looks like</title>
-      <link>https://t27.ai/#/blog/fifteen-merged-nine-credited</link>
-      <guid isPermaLink="false">fifteen-merged-nine-credited</guid>
-      <pubDate>Tue, 11 Aug 2026 12:00:00 GMT</pubDate>
-      <description>I had written down five merged PRs and zero attributed commits. Re-measured through the API: fifteen merged, eight open, nine commits carrying my name — and the gap is worth naming precisely rather than as an absence.</description>
-      <category>Open source</category>
-      <category>FPGA</category>
-      <category>openXC7</category>
-      <category>Attribution</category>
-    </item>
-    <item>
-      <title>Timing margin grows as the square root of a logarithm, and nothing accumulates</title>
-      <link>https://t27.ai/#/blog/frame-length-margin-law</link>
-      <guid isPermaLink="false">frame-length-margin-law</guid>
-      <pubDate>Tue, 11 Aug 2026 12:00:00 GMT</pubDate>
-      <description>A frame-length margin law derived from extreme-value statistics, and the accumulation story it refutes — which would predict a 12.9x eye violation on frames that pass.</description>
-      <category>FPGA</category>
-      <category>Ethernet</category>
-      <category>RGMII</category>
-      <category>Timing</category>
-      <category>Statistics</category>
-    </item>
-    <item>
-      <title>Four rules for a measurement rig whose readout cannot be misread</title>
-      <link>https://t27.ai/#/blog/readout-that-cannot-be-misread</link>
-      <guid isPermaLink="false">readout-that-cannot-be-misread</guid>
-      <pubDate>Tue, 11 Aug 2026 12:00:00 GMT</pubDate>
-      <description>A readout whose mapping to state is unestablished is not an instrument — four rules written after a week of hardware debugging where the rig lied and the design was fine.</description>
-      <category>FPGA</category>
-      <category>Hardware</category>
-      <category>Debugging</category>
-      <category>Measurement</category>
-    </item>
-    <item>
-      <title>phi^2 + 1/phi^2 = 3, checked every way I could think of</title>
-      <link>https://t27.ai/#/blog/phi-identity-machine-checked</link>
-      <guid isPermaLink="false">phi-identity-machine-checked</guid>
-      <pubDate>Tue, 11 Aug 2026 12:00:00 GMT</pubDate>
-      <description>An exact identity, six proof steps machine-verified, and a search over 1,476,000 candidates that found no other root — plus what the identity does not license.</description>
-      <category>Mathematics</category>
-      <category>Golden ratio</category>
-      <category>Verification</category>
-      <category>Ternary</category>
-    </item>
-    <item>
-      <title>Half of your activations are negative. They carry 1.8% of the energy</title>
-      <link>https://t27.ai/#/blog/energy-asymmetry-activations</link>
-      <guid isPermaLink="false">energy-asymmetry-activations</guid>
-      <pubDate>Tue, 11 Aug 2026 12:00:00 GMT</pubDate>
-      <description>Post-activation tensors are half negative by count and 1.8–6.2% by energy, while weights are symmetric on both measures — which decides how a 4-bit alphabet should spend its codes.</description>
-      <category>Quantisation</category>
-      <category>Transformers</category>
-      <category>Numeric formats</category>
-      <category>4-bit</category>
     </item>
     <item>
       <title>Gigabit Ethernet on Artix-7 without a vendor toolchain</title>

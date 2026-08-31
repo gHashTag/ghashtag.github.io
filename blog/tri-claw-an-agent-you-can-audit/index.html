@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TRI CLAW: an agent you can audit · TRINITY</title>
+<meta name="description" content="Three dies that never reached the foundry become three gateware layers on the most-studied FPGA family: attestation at boot, a BLAKE3 receipt per action, a ternary engine with an empty DSP column. The agent-in-a-box exists; the verifiable device exists; the intersection is empty." />
+<link rel="canonical" href="https://t27.ai/blog/tri-claw-an-agent-you-can-audit/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/tri-claw-an-agent-you-can-audit/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/tri-claw-an-agent-you-can-audit/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/tri-claw-an-agent-you-can-audit/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/tri-claw-an-agent-you-can-audit/" />
+<meta property="og:title" content="TRI CLAW: an agent you can audit" />
+<meta property="og:description" content="Three dies that never reached the foundry become three gateware layers on the most-studied FPGA family: attestation at boot, a BLAKE3 receipt per action, a ternary engine with an empty DSP column. The agent-in-a-box exists; the verifiable device exists; the intersection is empty." />
+<meta property="og:image" content="https://t27.ai/og-blog-tri-claw-an-agent-you-can-audit.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="TRI CLAW: an agent you can audit" />
+<meta name="twitter:description" content="Three dies that never reached the foundry become three gateware layers on the most-studied FPGA family: attestation at boot, a BLAKE3 receipt per action, a ternary engine with an empty DSP column. The agent-in-a-box exists; the verifiable device exists; the intersection is empty." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"TRI CLAW: an agent you can audit","description":"Three dies that never reached the foundry become three gateware layers on the most-studied FPGA family: attestation at boot, a BLAKE3 receipt per action, a ternary engine with an empty DSP column. The agent-in-a-box exists; the verifiable device exists; the intersection is empty.","url":"https://t27.ai/blog/tri-claw-an-agent-you-can-audit/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/tri-claw-an-agent-you-can-audit/"},"image":"https://t27.ai/og-blog-tri-claw-an-agent-you-can-audit.png","datePublished":"2026-08-31","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"TRI CLAW, Product, FPGA, Ternary, Verification, Self-critique"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>TRI CLAW: an agent you can audit</h1>
+<p class="meta">2026-08-31 · 8 min read</p>
+<p class="lede">Three dies that never reached the foundry become three gateware layers on the most-studied FPGA family: attestation at boot, a BLAKE3 receipt per action, a ternary engine with an empty DSP column. The agent-in-a-box exists; the verifiable device exists; the intersection is empty.</p>
+<div class="tags"><span class="tag">#TRICLAW</span><span class="tag">#Product</span><span class="tag">#FPGA</span><span class="tag">#Ternary</span><span class="tag">#Verification</span><span class="tag">#SelfCritique</span></div>
+<p>Three chips did not reach the foundry. TRI-1 Phi, Euler and Gamma — an attestation die, an audit die and a 32-PE ternary mesh — were submitted to the TTSKY26b shuttle in May, the submission was withdrawn, and the next shuttle showed zero tiles free. What survives is everything except the silicon: CI-green RTL, reproducible GDS builds, conformance vectors, an Apache-2.0 license and a DOI. This post is about the product turn: shipping those three dies as gateware on the most-studied FPGA family in the world, under a name that states the claim — TRI CLAW, an agent you can audit.</p>
+<h2>The gap nobody occupies</h2>
+<p>The agent-in-a-box already exists: a Jetson Orin Nano appliance with an agent stack preinstalled sells for 549 euro. It runs on closed silicon and offers no way to verify what it did. The verifiable device already exists too: Precursor raised over 220,000 dollars on Crowd Supply for a pocket computer whose processor is instantiated on a Spartan-7 FPGA precisely so the owner can inspect it — and its author chose the 7-series because it is the most-studied silicon available. And ternary LLM inference on FPGAs is the hottest corner of the academic edge-AI literature — TeLLMe reports 9 tokens per second at 7 watts with 1.58-bit weights, TerEffic reports 16,300 tokens per second on a 370M model held fully on-chip — yet none of it ships as a product, and none of it sells verification.</p>
+<div class="tw"><table><thead><tr><th>Who</th><th>What</th><th>What is missing</th></tr></thead><tbody><tr><td>Jetson agent boxes</td><td>agent appliance, closed silicon</td><td>no attestation, no receipts, no open bitstream</td></tr><tr><td>Precursor</td><td>verifiable pocket computer on FPGA</td><td>no AI</td></tr><tr><td>TeLLMe / TerEffic / LUT-LLM / Hummingbird+</td><td>ternary LLM engines on FPGA</td><td>papers, not products; verification is not the point</td></tr><tr><td>TRI CLAW</td><td>the intersection</td><td>exists as a concept and three gateware layers; see the open questions</td></tr></tbody></table></div>
+<h2>What the three dies become</h2>
+<ul><li>Phi becomes the boot layer: a power-on self-test that checks the identity phi^2 + phi^-2 = 3 in hardware and a die-unique nonce, so the node proves at boot that it is what it claims to be.</li><li>Euler becomes the conscience: a BLAKE3 receipt path, so every action the agent takes leaves a hash the owner can recompute on another machine.</li><li>Gamma becomes the engine: a 32-PE ternary mesh with a native BitNet b1.58 encoder, where a weight is a two-bit code, applying it is a sign-select, and the DSP column stays empty.</li></ul>
+<p>The toolchain underneath is the open one: yosys and nextpnr-xilinx, the place-and-route layer that carries twenty-seven of my merged changes. The arithmetic underneath is the proven one: the closure argument behind the ternary path is machine-checked in Coq, twenty-two theorems with no admitted lemmas. The LUT economics underneath are the measured ones: a ternary dot-product node costs 1.4-1.9x fewer LUTs than int4 and 3.2-4.1x fewer than int8 across fan-in 8 to 64, post-synthesis, on an unfolded node, with the non-monotonic per-weight series (56.2, 75.4, 66.8, 68.1) stated rather than smoothed. The academic field converged on table-lookup matmul for exactly this weight family, which reads to me as independent confirmation that ternary belongs in LUTs.</p>
+<h2>Why the 7-series limit is a feature here</h2>
+<p>The open flow ends at the Xilinx 7-series, and I have said plainly elsewhere that no open flow reaches UltraScale+ today. For an agent that sells trust, the limit inverts: the 7-series is the family that has been reverse-engineered, documented and studied for a decade — the same reasoning Precursor used when it picked a Spartan-7 for a security device. TRI CLAW targets the silicon you can distrust productively.</p>
+<h2>Not proven / open</h2>
+<ul><li>No tokens-per-second number exists for TRI CLAW on its target part. TeLLMe’s 9 tok/s is on a KV260 — a Zynq UltraScale+ part outside the open flow — and transfers to nothing.</li><li>A 2B-parameter ternary model needs roughly 475 MB of weights and does not fit on-chip on an Artix-7 200T; v1 targets 0.1-0.7B models and the decode path will lean on DDR. Measurement comes before any promise.</li><li>The agent loop needs a host core beside the fabric, as Precursor’s softcore SoC does.</li><li>The three dies remain unfabricated; TRI CLAW ships gateware on a stock board, not &quot;our chip&quot;.</li><li>The name space is crowded — agent boxes with &quot;claw&quot; in the name exist — and the trademark question is unchecked.</li></ul>
+<h2>The next three steps</h2>
+<ol><li>Port a small ternary model through table-lookup matmul onto an Artix-7 200T and publish the measured tokens-per-second, whatever it turns out to be.</li><li>Put the agent loop on top and record a 90-second demo: boot, attestation, one task, one receipt, and the receipt verified on a different computer.</li><li>Take the result to Crowd Supply, where the shelf neighbour is Precursor: under 500 units at 512-768 dollars proved that verifiability alone can carry a campaign.</li></ol>
+<div class="box"><h2>What this does not settle</h2><ul><li>No measured tokens-per-second on the target Artix-7 200T yet; every published edge number is from other parts and transfers to nothing.</li><li>A 2B ternary model does not fit on-chip (~475 MB of weights); v1 targets 0.1-0.7B and the DDR-bound decode path is unmeasured.</li><li>The agent loop needs a host core; its shape (softcore vs companion) is undecided.</li><li>The triad silicon does not exist; the product is gateware on a stock board.</li><li>The &quot;claw&quot; name space is crowded and the trademark question is unchecked.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://arxiv.org/abs/2504.16266">TeLLMe — ternary LLM accelerator on edge FPGAs (arXiv:2504.16266)</a></li><li><a href="https://arxiv.org/abs/2502.16473">TerEffic — highly efficient ternary LLM inference on FPGA (arXiv:2502.16473)</a></li><li><a href="https://dl.acm.org/doi/10.1145/3748173.3779189">Hummingbird+ — FPGA 2026, from research prototype to edge product</a></li><li><a href="https://arxiv.org/abs/2504.12285">BitNet b1.58 2B4T technical report (arXiv:2504.12285)</a></li><li><a href="https://www.crowdsupply.com/sutajio-kosagi/precursor">Precursor on Crowd Supply — the verifiable-device precedent</a></li><li><a href="https://github.com/gHashTag/tt-trinity-phi">tt-trinity-phi / euler / gamma — the three dies, RTL and GDS CI</a></li><li><a href="https://doi.org/10.5281/zenodo.19227877">TRI-NET triad deposition — DOI 10.5281/zenodo.19227877</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/tri-claw-an-agent-you-can-audit">Open the interactive version</a><a class="btn sec" href="/ru/blog/tri-claw-an-agent-you-can-audit/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20TRI%20CLAW%3A%20an%20agent%20you%20can%20audit&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CTRI%20CLAW%3A%20an%20agent%20you%20can%20audit%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Ftri-claw-an-agent-you-can-audit%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
