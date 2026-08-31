@@ -409,24 +409,7 @@ NAV = [
     ("resources", "Resources"),
     ("about", "About"),
     ("agents/vibee", "VIBEE"),
-    ("leela", "Leela"),
 ]
-
-# Slugs whose page is not in this repository and has no /ru/ twin.
-#
-# `leela/` is gHashTag/leela's project Pages site, served under this domain
-# because this repository owns the CNAME. Every other nav href is written
-# `{prefix}/{slug}/`, and on a Russian page the prefix is `/ru` — which for this
-# one would have produced `/ru/leela/` on all twenty-four Russian pages. That
-# path does not exist. **A dead link is worse than no link**, and it would have
-# been dead only in Russian, on the half of the site its Russian-speaking owner
-# reads least.
-#
-# There is no /ru/ twin to point at and none is wanted: the board carries all
-# twenty-two of its languages in one bundle and chooses by the visitor's
-# Telegram or browser locale, so a single prefix-free URL is the correct link
-# rather than a concession. A Russian visitor clicking this gets a Russian board.
-ONE_URL_FOR_EVERY_LANGUAGE = {"leela"}
 
 CSS = """*,*::before,*::after{box-sizing:border-box}
 :root{--bg:#05070a;--card:#0b1014;--ink:#e9f1ee;--muted:#8fa79f;--accent:#00ff88;--rule:#1b2724}
@@ -470,7 +453,6 @@ RU_NAV = {
     "ip": "Лицензии", "course": "Курс", "cases": "Кейсы",
     "resources": "Реестр", "about": "Обо мне",
     "agents/vibee": "VIBEE",
-    "leela": "Лила",
 }
 RU_UI = {
     "run": "Запустить проверку своего репозитория",
@@ -702,8 +684,7 @@ def render(slug, p, lang="en"):
         href, label_en, label_ru = EXTERNAL[slug]
         ext_btn = f'<a class="btn" href="{href}">{label_ru if ru else label_en}</a>\n    '
     nav = "".join(
-        f'<a href="{"" if s in ONE_URL_FOR_EVERY_LANGUAGE else prefix}/{s}/"'
-        f'{" aria-current=\"page\"" if s == slug else ""}>'
+        f'<a href="{prefix}/{s}/"{" aria-current=\"page\"" if s == slug else ""}>'
         f'{html.escape(RU_NAV.get(s, label) if ru else label)}</a>'
         for s, label in NAV
     )
