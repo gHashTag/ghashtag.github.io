@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A real value must not travel in an integer container · TRINITY</title>
+<meta name="description" content="A merged Verilog-emitter fix moved one simulation case from 5 PASSED / 6 FAILED to 11 PASSED while syntax acceptance stayed at 380 files, showing why form and numerical-meaning gates must be separate." />
+<link rel="canonical" href="https://t27.ai/blog/real-value-in-integer-container/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/real-value-in-integer-container/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/real-value-in-integer-container/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/real-value-in-integer-container/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/real-value-in-integer-container/" />
+<meta property="og:title" content="A real value must not travel in an integer container" />
+<meta property="og:description" content="A merged Verilog-emitter fix moved one simulation case from 5 PASSED / 6 FAILED to 11 PASSED while syntax acceptance stayed at 380 files, showing why form and numerical-meaning gates must be separate." />
+<meta property="og:image" content="https://t27.ai/og-blog-real-value-in-integer-container.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="A real value must not travel in an integer container" />
+<meta name="twitter:description" content="A merged Verilog-emitter fix moved one simulation case from 5 PASSED / 6 FAILED to 11 PASSED while syntax acceptance stayed at 380 files, showing why form and numerical-meaning gates must be separate." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"A real value must not travel in an integer container","description":"A merged Verilog-emitter fix moved one simulation case from 5 PASSED / 6 FAILED to 11 PASSED while syntax acceptance stayed at 380 files, showing why form and numerical-meaning gates must be separate.","url":"https://t27.ai/blog/real-value-in-integer-container/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/real-value-in-integer-container/"},"image":"https://t27.ai/og-blog-real-value-in-integer-container.png","datePublished":"2026-08-31","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Verilog, Simulation, Compiler, Testing"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>A real value must not travel in an integer container</h1>
+<p class="meta">2026-08-31 · 7 min read</p>
+<p class="lede">A merged Verilog-emitter fix moved one simulation case from 5 PASSED / 6 FAILED to 11 PASSED while syntax acceptance stayed at 380 files, showing why form and numerical-meaning gates must be separate.</p>
+<div class="tags"><span class="tag">#Verilog</span><span class="tag">#Simulation</span><span class="tag">#Compiler</span><span class="tag">#Testing</span></div>
+<p>[measured] A merged t27 change found two places where a real-valued result was forced through an integer container in the Verilog emitter. On specs/trinet/etx.t27 under icarus-simulate, the targeted run moved from 5 PASSED / 6 FAILED with exit code 1 to 11 PASSED with exit code 0.</p>
+<h2>The file was valid; the calculation was not</h2>
+<p>One site routed every multiplication through __mul_noop, whose [63:0] inputs rounded a real operand before using it. Thus __mul_noop(0.3, 10.0) produced 0, and ewma_step(5.0, 0.3, 10.0) returned 5.0 instead of 6.5. Another site emitted every given binding as reg [63:0], so ewma_step(0.5, 0.5, 1.0) stored 1 instead of 0.75.</p>
+<pre><code>icarus-simulate specs/trinet/etx.t27
+before: 5 PASSED / 6 FAILED, exit 1
+after:  11 PASSED, exit 0</code></pre>
+<p>[measured] The change reached 46 of 581 generated Verilog files. Yet iverilog -g2012 accepted 380 files before and after. The stable syntax count is the point: a simulator can accept a file while the generated program computes a different value.</p>
+<h2>Two checks, not one</h2>
+<blockquote>A syntactically valid generated file is not evidence that its numerical result is valid.</blockquote>
+<p>The patch also keeps a useful negative result. Five mutations of this defect were killed by tests, but that is evidence about this test set, not a certificate for the whole compiler. The unchanged iverilog acceptance count does not establish computational equivalence either.</p>
+<h2>What remains open</h2>
+<ul><li>Correctness of all real-valued operations, all specifications, and every backend was not established.</li><li>The result does not measure speed, FPGA area, energy, or downstream model quality.</li><li>Verilog real is simulation-only; this icarus-simulate result is not a synthesis result.</li><li>The five killed mutations show that the selected tests catch these variants, not that unseen variants cannot survive.</li></ul>
+<p>For an engineering pipeline, keep the gates separate: one asks whether the simulator accepts the generated file, and another compares its numerical result with an independent expected value. The form gate checks shape; the meaning gate checks the calculation.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Correctness of all real-valued operations, all specifications, and every backend was not established.</li><li>The result does not measure speed, FPGA area, energy, or downstream model quality.</li><li>Verilog real is simulation-only; this icarus-simulate result is not a synthesis result.</li><li>The five killed mutations show that the selected tests catch these variants, not that unseen variants cannot survive.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/t27/pull/2991">gHashTag/t27 PR #2991 — merged fix for real values in integer containers</a></li><li><a href="https://github.com/gHashTag/t27/commit/9adbb69109bd9a72f74ff17e610cb9bf55c24930">Merge commit 9adbb691</a></li><li><a href="https://github.com/gHashTag/t27/blob/9adbb69109bd9a72f74ff17e610cb9bf55c24930/bootstrap/tests/verilog_real_arithmetic.rs">The targeted Verilog simulation test</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/real-value-in-integer-container">Open the interactive version</a><a class="btn sec" href="/ru/blog/real-value-in-integer-container/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20A%20real%20value%20must%20not%20travel%20in%20an%20integer%20container&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CA%20real%20value%20must%20not%20travel%20in%20an%20integer%20container%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Freal-value-in-integer-container%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
