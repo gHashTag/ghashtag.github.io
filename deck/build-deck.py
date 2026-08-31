@@ -16,17 +16,20 @@ from reportlab.lib.colors import HexColor
 HERE = os.path.dirname(os.path.realpath(__file__))
 FONT = os.path.join(HERE, '..', 'fonts', 'Inter-Variable.ttf')
 pdfmetrics.registerFont(TTFont('Inter', FONT))
+pdfmetrics.registerFont(TTFont('DIN', '/System/Library/Fonts/Supplemental/DIN Condensed Bold.ttf'))
+from reportlab.lib.colors import Color
+GHOST = Color(1, 0.84, 0, 0.07)   # призрачное золото для фолио
 
 W, H = 960, 540
 BG, TEXT = HexColor('#05070a'), HexColor('#e8efec')
 MUTED, ACCENT, GOLD = HexColor('#8fa39b'), HexColor('#00FF88'), HexColor('#FFD700')
 BORDER = HexColor('#22302a')
 
-def wrap(c, text, size, maxw):
+def wrap(c, text, size, maxw, font='Inter'):
     out, line = [], ''
     for w in text.split():
         t = (line + ' ' + w).strip()
-        if c.stringWidth(t, 'Inter', size) <= maxw: line = t
+        if c.stringWidth(t, font, size) <= maxw: line = t
         else: out.append(line); line = w
     if line: out.append(line)
     return out
@@ -42,31 +45,41 @@ class Deck:
         self.c.setFillColor(MUTED); self.c.setFont('Inter', 8)
         self.c.drawString(40, 20, 'TRINITY S³AI · t27.ai · admin@t27.ai')
         self.c.drawRightString(W-40, 20, str(self.page))
-    def text(self, x, y, s, size, color=TEXT, maxw=None, leading=None):
-        self.c.setFillColor(color); self.c.setFont('Inter', size)
+    def text(self, x, y, s, size, color=TEXT, maxw=None, leading=None, font='Inter'):
+        self.c.setFillColor(color); self.c.setFont(font, size)
         if maxw is None:
             self.c.drawString(x, y, s); return y - (leading or size*1.4)
-        for ln in wrap(self.c, s, size, maxw):
+        for ln in wrap(self.c, s, size, maxw, font):
             self.c.drawString(x, y, ln); y -= (leading or size*1.38)
         return y
+    def folio(self, n):
+        # призрачный номер-фолио, как в глянце: огромная цифра у правого края
+        self.c.setFillColor(GHOST); self.c.setFont('DIN', 340)
+        self.c.drawRightString(W-24, 70, f'{n:02d}')
+    def rule(self, y, color=GOLD, w=1.2, x0=40, x1=None):
+        self.c.setStrokeColor(color); self.c.setLineWidth(w)
+        self.c.line(x0, y, x1 or W-40, y)
     def kicker(self, s):
-        self.c.setFillColor(ACCENT); self.c.setFont('Inter', 10)
-        self.c.drawString(40, H-52, s.upper())
+        self.c.setFillColor(ACCENT); self.c.setFont('Inter', 10.5)
+        self.c.drawString(40, H-46, s.upper())
+        self.rule(H-54, ACCENT, 0.8, 40, 40 + self.c.stringWidth(s.upper(), 'Inter', 10.5))
     def h(self, s, y=None):
-        return self.text(40, y or H-84, s, 24, TEXT, maxw=W-80, leading=30)
+        yy = self.text(40, y or H-112, s.upper(), 52, TEXT, maxw=W-90, leading=54, font='DIN')
+        self.rule(yy + 38, GOLD, 1.4)
+        return yy + 20
 
 def slide(d, lang, kicker, title, blocks):
-    d.bg(); d.kicker(kicker); y = d.h(title) - 8
+    d.bg(); d.folio(d.page + 1); d.kicker(kicker); y = d.h(title) - 8
     for b in blocks:
         kind = b[0]
         if kind == 'lede':
             y = d.text(40, y, b[1], 11.5, MUTED, maxw=W-80) - 6
         elif kind == 'point':   # (point, головка, тело)
-            y = d.text(40, y, b[1], 12.5, ACCENT, maxw=W-80) - 1
-            y = d.text(40, y, b[2], 10.5, TEXT, maxw=W-80) - 8
+            y = d.text(40, y, b[1].upper(), 19, ACCENT, maxw=W-120, leading=21, font='DIN') - 1
+            y = d.text(40, y, b[2], 10.5, TEXT, maxw=W-150, leading=15) - 12
         elif kind == 'gold':
-            y = d.text(40, y, b[1], 12.5, GOLD, maxw=W-80) - 1
-            y = d.text(40, y, b[2], 10.5, TEXT, maxw=W-80) - 8
+            y = d.text(40, y, b[1].upper(), 19, GOLD, maxw=W-120, leading=21, font='DIN') - 1
+            y = d.text(40, y, b[2], 10.5, TEXT, maxw=W-150, leading=15) - 12
         elif kind == 'table':   # (table, [головки], [строки], [ширины])
             heads, rows, widths = b[1], b[2], b[3]
             x = 40
@@ -86,28 +99,38 @@ def slide(d, lang, kicker, title, blocks):
     d.footer(lang); d.c.showPage()
 
 def metrics_slide(d, lang, kicker, title, lede, cells, boundary_head, boundary):
-    d.bg(); d.kicker(kicker); y = d.h(title) - 6
-    y = d.text(40, y, lede, 10.5, MUTED, maxw=W-80) - 10
+    d.bg(); d.folio(d.page + 1); d.kicker(kicker); y = d.h(title) - 6
+    y = d.text(40, y, lede, 10.5, MUTED, maxw=W-160) - 14
     colw, x0, top = (W-80)/4, 40, y
-    rowh = 108
+    rowh = 112
     for i, (value, tag, note) in enumerate(cells):
         cx = x0 + (i % 4) * colw; cy = top - (i // 4) * rowh
-        d.text(cx, cy, value, 21, TEXT)
-        d.text(cx, cy-16, tag, 7.5, ACCENT if 'ИЗМЕР' in tag or 'MEASURED' in tag else GOLD)
-        d.text(cx, cy-30, note, 8.6, MUTED, maxw=colw-16, leading=10.5)
-    y = top - ((len(cells)+3)//4) * rowh - 4
-    y = d.text(40, y, boundary_head, 11, GOLD, maxw=W-80) - 2
-    d.text(40, y, boundary, 9, MUTED, maxw=W-80, leading=11.5)
+        vsize = 34
+        while vsize > 14 and d.c.stringWidth(value, 'DIN', vsize) > colw - 22:
+            vsize -= 1
+        d.text(cx, cy, value, vsize, TEXT, font='DIN')
+        d.text(cx, cy-15, tag, 7.5, ACCENT if 'ИЗМЕР' in tag or 'MEASURED' in tag else GOLD)
+        d.text(cx, cy-29, note, 8.6, MUTED, maxw=colw-18, leading=10.5)
+    y = top - ((len(cells)+3)//4) * rowh - 2
+    d.rule(y+18, GOLD, 1.0)
+    y = d.text(40, y, boundary_head.upper(), 15, GOLD, maxw=W-80, font='DIN') - 2
+    d.text(40, y, boundary, 9, MUTED, maxw=W-160, leading=11.5)
     d.footer(lang); d.c.showPage()
 
 def title_slide(d, lang, t):
     d.bg()
-    d.text(40, H-70, 'TRINITY S³AI', 13, MUTED)
-    d.text(40, H-135, t['title'], 34, TEXT, maxw=W-80, leading=40)
-    d.text(40, H-215, 'φ² + 1/φ² = 3', 26, GOLD)
-    y = d.text(40, H-260, t['sub'], 12, TEXT, maxw=W-160, leading=16) - 4
-    d.text(40, y, t['line'], 11, ACCENT, maxw=W-160, leading=15)
-    d.text(40, 64, t['author'], 9.5, MUTED, maxw=W-80)
+    d.c.setFillColor(GHOST); d.c.setFont('DIN', 420)
+    d.c.drawRightString(W-10, 40, 'Φ')
+    d.text(40, H-56, 'TRINITY S³AI', 12, MUTED)
+    d.rule(H-66, ACCENT, 0.8, 40, 150)
+    d.text(40, H-190, 'TRI PHONE', 128, TEXT, font='DIN')
+    sub_head = 'ПРОВЕРЯЕМЫЙ КАРМАННЫЙ КОМПЬЮТЕР' if lang=='ru' else 'A POCKET COMPUTER YOU CAN AUDIT'
+    d.text(40, H-232, sub_head, 30, GOLD, maxw=W-90, font='DIN')
+    d.rule(H-252, GOLD, 1.4)
+    y = d.text(40, H-286, t['sub'], 11.5, TEXT, maxw=W-320, leading=15.5) - 4
+    y = d.text(40, y, t['line'], 10.5, ACCENT, maxw=W-320, leading=14)
+    d.text(W-40-d.c.stringWidth('φ² + 1/φ² = 3','Inter',22), H-300, 'φ² + 1/φ² = 3', 22, GOLD)
+    d.text(40, 58, t['author'], 9, MUTED, maxw=W-80)
     d.footer(lang); d.c.showPage()
 
 def build(lang, path):
