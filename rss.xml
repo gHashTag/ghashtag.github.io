@@ -19,6 +19,17 @@
       <category>Self-critique</category>
     </item>
     <item>
+      <title>Two bitstreams, one bit apart</title>
+      <link>https://t27.ai/#/blog/two-bitstreams-one-bit-apart</link>
+      <guid isPermaLink="false">two-bitstreams-one-bit-apart</guid>
+      <pubDate>Tue, 01 Sep 2026 12:00:00 GMT</pubDate>
+      <description>A proposed row in the Xilinx bitstream database had been unverifiable for eighteen months. Two 22.7 MB bitstreams differing in a single bit settle it on silicon: with the bit an LED blinks, without it the counter is frozen.</description>
+      <category>FPGA</category>
+      <category>openXC7</category>
+      <category>Project X-Ray</category>
+      <category>Hardware</category>
+    </item>
+    <item>
       <title>A real value must not travel in an integer container</title>
       <link>https://t27.ai/#/blog/real-value-in-integer-container</link>
       <guid isPermaLink="false">real-value-in-integer-container</guid>
