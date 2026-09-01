@@ -369,10 +369,38 @@ fi
 python3 - <<'PYLM' || red "sitemap lastmod check failed"
 import datetime, os, re, sys
 t = open("sitemap.xml", encoding="utf-8").read()
-locs = re.findall(r"<loc>([^<]*)</loc>", t)
-lms = re.findall(r"<lastmod>([^<]*)</lastmod>", t)
-if len(lms) != len(locs):
-    print(f"  {len(lms)} lastmod for {len(locs)} URLs"); sys.exit(1)
+blocks = re.findall(r"<url>(.*?)</url>", t, re.S)
+entries = []
+for block in blocks:
+    loc = re.search(r"<loc>([^<]*)</loc>", block)
+    lm = re.search(r"<lastmod>([^<]*)</lastmod>", block)
+    if loc:
+        entries.append((loc.group(1), lm.group(1) if lm else None))
+
+# These three URLs are served by the separate gHashTag/leela Pages project.
+# This checkout cannot ask that repository when its files changed, and stamping
+# them with this repository's date would turn lastmod into a fabricated claim.
+# Every URL this repository actually owns must still carry a derived date.
+external_without_lastmod = {
+    "https://t27.ai/leela/",
+    "https://t27.ai/leela/classic/",
+    "https://t27.ai/leela/docs/",
+}
+unexpected_missing = [
+    loc for loc, lm in entries if lm is None and loc not in external_without_lastmod
+]
+unexpected_external_dates = [
+    loc for loc, lm in entries if lm is not None and loc in external_without_lastmod
+]
+if unexpected_missing or unexpected_external_dates:
+    print(f"  missing lastmod for owned URLs: {unexpected_missing}")
+    print(f"  fabricated lastmod for external URLs: {unexpected_external_dates}")
+    sys.exit(1)
+locs = [loc for loc, lm in entries if lm is not None]
+lms = [lm for loc, lm in entries if lm is not None]
+if len(locs) + len(external_without_lastmod) != len(entries):
+    print(f"  {len(lms)} derived lastmod plus {len(external_without_lastmod)} external URLs for {len(entries)} URLs")
+    sys.exit(1)
 today = datetime.date.today()
 for d in lms:
     try:
