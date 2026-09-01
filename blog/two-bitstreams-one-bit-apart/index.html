@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Two bitstreams, one bit apart · TRINITY</title>
+<meta name="description" content="A proposed row in the Xilinx bitstream database had been unverifiable for eighteen months. Two 22.7 MB bitstreams differing in a single bit settle it on silicon: with the bit an LED blinks, without it the counter is frozen." />
+<link rel="canonical" href="https://t27.ai/blog/two-bitstreams-one-bit-apart/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/two-bitstreams-one-bit-apart/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/two-bitstreams-one-bit-apart/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/two-bitstreams-one-bit-apart/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/two-bitstreams-one-bit-apart/" />
+<meta property="og:title" content="Two bitstreams, one bit apart" />
+<meta property="og:description" content="A proposed row in the Xilinx bitstream database had been unverifiable for eighteen months. Two 22.7 MB bitstreams differing in a single bit settle it on silicon: with the bit an LED blinks, without it the counter is frozen." />
+<meta property="og:image" content="https://t27.ai/og-blog-two-bitstreams-one-bit-apart.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Two bitstreams, one bit apart" />
+<meta name="twitter:description" content="A proposed row in the Xilinx bitstream database had been unverifiable for eighteen months. Two 22.7 MB bitstreams differing in a single bit settle it on silicon: with the bit an LED blinks, without it the counter is frozen." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Two bitstreams, one bit apart","description":"A proposed row in the Xilinx bitstream database had been unverifiable for eighteen months. Two 22.7 MB bitstreams differing in a single bit settle it on silicon: with the bit an LED blinks, without it the counter is frozen.","url":"https://t27.ai/blog/two-bitstreams-one-bit-apart/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/two-bitstreams-one-bit-apart/"},"image":"https://t27.ai/og-blog-two-bitstreams-one-bit-apart.png","datePublished":"2026-09-01","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"FPGA, openXC7, Project X-Ray, Hardware"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Two bitstreams, one bit apart</h1>
+<p class="meta">2026-09-01 · 8 min read</p>
+<p class="lede">A proposed row in the Xilinx bitstream database had been unverifiable for eighteen months. Two 22.7 MB bitstreams differing in a single bit settle it on silicon: with the bit an LED blinks, without it the counter is frozen.</p>
+<div class="tags"><span class="tag">#FPGA</span><span class="tag">#openXC7</span><span class="tag">#ProjectXRay</span><span class="tag">#Hardware</span></div>
+<h2>What was measured</h2>
+<p>A row in Project X-Ray&#x27;s bitstream database says which bits in a bitstream correspond to which feature in the silicon. Most rows were minted by a fuzzer that compares thousands of Vivado outputs. Some rows exist only as proposals, and a proposal that nobody can check is where this starts: eight rows for the Artix-7 regional clock buffer were offered in December 2024 and the pull request was closed on 14 August 2026, pending a fuzzer that could make them verifiable.</p>
+<p>One of those eight is now verified — not by a fuzzer, by a board. Two bitstreams for an ALINX AX7203 (xc7a200tfbg484-2), 22.7 MB of frames each, differing by exactly one bit: frame 0x00401C00, word 50, bit 31. With that bit set an LED blinks at 0.75 Hz. With it cleared the same design sits frozen — an unclocked counter stuck at zero. The regional clock does not reach the fabric without it.</p>
+<p>That is what the row claimed, and it is the whole claim: HCLK_L.ENABLE_BUFFER.HCLK_CK_BUFRCLK2 = 00_31 is the enable for that buffer.</p>
+<h2>Why no design had ever asserted it</h2>
+<p>Every earlier probe in the upstream discussion sank the BUFR&#x27;s clock into an ISERDESE2 or an ODDR. Both live in the I/O column, so the regional clock never leaves it, and nothing in the horizontal clock spine is ever switched on. The maintainer working the other half of this said plainly that he had no design producing a single HCLK_L line.</p>
+<p>Sink the clock into ordinary CLB fabric instead — a plain counter — and it has to reach the leaves. The probe is thirty lines. That is the entire trick, and it produced the whole chain at once: the source pip, the leaf row, the missing enable, and the consumer in the clock-management tile.</p>
+<h2>Two placer defects had to be fixed first</h2>
+<p>On a small part the probe places by luck. On the xc7a200t it fails twice, at both ends of the buffer.</p>
+<p>The arc into the buffer fails because a pad-fed BUFR must sit on the one site its clock-capable pad can reach — its I pin has no fabric input at all — and nothing told the placer which. The arc out of it fails because a BUFR drives one clock region, the placer does not cost global nets, and so the flops it clocks drift toward whatever data pin they touch. On this board that is an LED half a die away, in the opposite half from the only clock-capable oscillator.</p>
+<p>Both patches are submitted upstream and both are open, not merged. CI is green on all three parts it tests. The second one has a trap worth repeating: the region has to be derived by asking the routing graph where the clock actually arrives, and the walk must collect only bel pins named CLK. Counting every pin it touches returns a rectangle covering the whole die, which is a constraint that constrains nothing.</p>
+<h2>The divide ladder, four points</h2>
+<p>A BUFR can divide its clock. The database has carried D1 through D8 for years; the flow hardcoded BYPASS until a patch in June 2026 made the rest reachable, and nothing since had driven a divided BUFR onto a board. Same probe, same counter, only the divide parameter changes:</p>
+<div class="tw"><table><thead><tr><th>BUFR_DIVIDE</th><th>predicted lit time</th><th>observed</th></tr></thead><tbody><tr><td>BYPASS</td><td>0.67 s</td><td>~0.65 s</td></tr><tr><td>2</td><td>1.34 s</td><td>~4x faster than D8</td></tr><tr><td>4</td><td>2.68 s</td><td>~3 s</td></tr><tr><td>8</td><td>5.37 s</td><td>~5 s</td></tr></tbody></table></div>
+<p>Predicted from 2^28 x divide / 200e6. The midpoint matters more than the endpoints: two readings can only show that something divides, while a third landing where the outer two predict shows the ratio tracks the parameter instead of the divider latching one value.</p>
+<h2>Three ways I got it wrong first</h2>
+<p>The first divide run was void. I had reverted the emitter patch to keep the pull requests clean, then built the divide probes on branches made after that, so the flashed bitstream carried zero enable lines and the clock never reached the fabric at all. The LED sat frozen and I was one step from reporting that the divide is ignored on silicon. What caught it was checking that the bitstream contained the feature the experiment was about, before interpreting the LED rather than after.</p>
+<p>That void run turned out to be worth more than it cost: it is a second, independent negative control for the enable bit — a bitstream built by a different route, for a different purpose, again showing a dead counter when the bit is absent.</p>
+<p>The same probe also tied the buffer&#x27;s CLR low. A BUFR in divide mode needs its divider released by a CLR pulse where BYPASS does not, so even with the enable present that build could not have separated &quot;divide ignored&quot; from &quot;divider never started&quot;.</p>
+<p>And a code search after the fact found prior art against my own patch: a fork has fixed the same placement bug since April 2025 with a single line, calling the existing preplace helper. I measured it — identical sites on both probes — and said so on the pull request, offering to close mine in favour of it. I should have run that search before sending, not after.</p>
+<h2>What is not mine</h2>
+<p>The flow. Yosys is YosysHQ. nextpnr is YosysHQ and David Shah. Project X-Ray and the xc7 database are SymbiFlow and F4PGA. The Xilinx port, the Artix-7 support, the BUFR packer and the BUFIO site fix are openXC7, funded by NLnet — and the mechanism my region patch borrows is the one a maintainer wrote for BUFIO weeks earlier. The eight candidate rows are AdamLee7&#x27;s, from a pull request I reviewed and agreed should be closed. What is mine is a thirty-line probe, two patches, and a board on a desk.</p>
+<h2>Why a board and not a fuzzer</h2>
+<p>They answer different questions. A fuzzer asks what the bits are, across a whole tile, from thousands of vendor bitstreams. A one-bit A/B asks whether one specific bit does the one thing it is claimed to do. The second is narrower and much cheaper — about thirty minutes per bit, most of it spent flashing — and it needs no vendor tool at all.</p>
+<p>It also cannot replace the fuzzer. It cannot find bits, only test them; it cannot separate a divide of 8 from a divide of 7; and its negative result is ambiguous in a way its positive result is not, because a bit that changes nothing may be a wrong bit or a default that was already set.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>One row of the eight is measured. BUFRCLK0 (00_23), BUFRCLK1 (01_23) and BUFRCLK3 (01_31) rest on a frame-pattern argument and nothing else. The index follows which BUFR site the clock pad maps to, and this board has exactly one clock-capable oscillator, so varying it is not possible here.</li><li>Both patches are OPEN, not merged. CI is green and no maintainer has reviewed them yet. Nothing in this post should be read as upstream acceptance.</li><li>#170 may be the wrong patch. A fork has fixed the same bug with one line since April 2025, and I measured identical placement from it. I disclosed that on the pull request and offered to close mine; the maintainers have not chosen.</li><li>An LED separates divide ratios of 2, 4 and 8. It would not separate 8 from 7. D1, D3, D5, D6 and D7 were never tested — the doubling steps were picked precisely because an eye can call them without argument.</li><li>MMCM-fed regional buffers still cannot be assembled at all: two mux legs have no segbits, and the cause is a specimen gap needing Vivado runs on someone else&#x27;s bench, not a fix I can make.</li><li>Nothing here is independently replicated. One board, one operator reading an LED, one evening. The method is cheap enough that a second party could check it in about half an hour per bit, and until someone does that is the standing of it.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/149#issuecomment-5494347759">nextpnr-xilinx #149 — the measurement, with the failed attempts · OPEN</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/149#issuecomment-5496565529">nextpnr-xilinx #149 — the divide ladder, four points · OPEN</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/170">nextpnr-xilinx #170 — pad-fed BUFR to its dedicated site · OPEN, submitted upstream, CI green 3/3</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/171">nextpnr-xilinx #171 — regional buffer sinks kept in their clock region · OPEN, submitted upstream, CI green 3/3</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/172">nextpnr-xilinx #172 — MMCM-fed buffers cannot be assembled: PERFCLK rows missing · OPEN</a></li><li><a href="https://github.com/openXC7/prjxray-db/pull/1">prjxray-db #1 — the eight candidate rows, by AdamLee7 · CLOSED 2026-08-14</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/two-bitstreams-one-bit-apart">Open the interactive version</a><a class="btn sec" href="/ru/blog/two-bitstreams-one-bit-apart/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Need an FPGA/RTL problem taken to measured hardware?</h2><p>I work contract and part-time on hardware-AI, FPGA/RTL and ML systems — from specification and open toolchains to reproducible measurements.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20Two%20bitstreams%2C%20one%20bit%20apart&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CTwo%20bitstreams%2C%20one%20bit%20apart%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Ftwo-bitstreams-one-bit-apart%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/about/">See how I work</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

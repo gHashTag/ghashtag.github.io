@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>One commit, nine workflow outcomes · TRINITY</title>
+<meta name="description" content="A public GitHub Actions snapshot for commit 442bcda8bc50fe555de9d463bfd34b247c5995a5 records 9 runs: 8 push-triggered runs split into 4 successes and 4 failures, plus 1 issue-triggered failure; job evidence shows distinct stopping points rather than a shared cause." />
+<link rel="canonical" href="https://t27.ai/blog/one-commit-nine-workflow-outcomes/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/one-commit-nine-workflow-outcomes/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/one-commit-nine-workflow-outcomes/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/one-commit-nine-workflow-outcomes/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/one-commit-nine-workflow-outcomes/" />
+<meta property="og:title" content="One commit, nine workflow outcomes" />
+<meta property="og:description" content="A public GitHub Actions snapshot for commit 442bcda8bc50fe555de9d463bfd34b247c5995a5 records 9 runs: 8 push-triggered runs split into 4 successes and 4 failures, plus 1 issue-triggered failure; job evidence shows distinct stopping points rather than a shared cause." />
+<meta property="og:image" content="https://t27.ai/og-blog-one-commit-nine-workflow-outcomes.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="One commit, nine workflow outcomes" />
+<meta name="twitter:description" content="A public GitHub Actions snapshot for commit 442bcda8bc50fe555de9d463bfd34b247c5995a5 records 9 runs: 8 push-triggered runs split into 4 successes and 4 failures, plus 1 issue-triggered failure; job evidence shows distinct stopping points rather than a shared cause." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"One commit, nine workflow outcomes","description":"A public GitHub Actions snapshot for commit 442bcda8bc50fe555de9d463bfd34b247c5995a5 records 9 runs: 8 push-triggered runs split into 4 successes and 4 failures, plus 1 issue-triggered failure; job evidence shows distinct stopping points rather than a shared cause.","url":"https://t27.ai/blog/one-commit-nine-workflow-outcomes/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/one-commit-nine-workflow-outcomes/"},"image":"https://t27.ai/og-blog-one-commit-nine-workflow-outcomes.png","datePublished":"2026-09-01","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"CI, GitHub Actions, Testing, Self-critique"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>One commit, nine workflow outcomes</h1>
+<p class="meta">2026-09-01 · 6 min read</p>
+<p class="lede">A public GitHub Actions snapshot for commit 442bcda8bc50fe555de9d463bfd34b247c5995a5 records 9 runs: 8 push-triggered runs split into 4 successes and 4 failures, plus 1 issue-triggered failure; job evidence shows distinct stopping points rather than a shared cause.</p>
+<div class="tags"><span class="tag">#CI</span><span class="tag">#GitHubActions</span><span class="tag">#Testing</span><span class="tag">#SelfCritique</span></div>
+<p>[Measured] A public GitHub Actions snapshot for gHashTag/trinity at commit 442bcda8bc50fe555de9d463bfd34b247c5995a5 records 9 workflow runs created together on 1 September 2026: 8 were triggered by push, and 1 by an issue event. The push-triggered runs split evenly between 4 success and 4 failure. This is a recorded slice, not the repository’s full history.</p>
+<h2>One head, different stopping points</h2>
+<p>[Proven] Website checks run 33514093916 completed checkout, dependency installation, ARIA references, the typecheck ratchet, the API contract, Build, and browser setup successfully. It then failed at Language audits; Render check and Is the live site this build? were skipped. A separate Site live gate run 33514093905 on the same commit succeeded.</p>
+<p>[Proven] KOSCHEI Production Deploy run 33514093804 failed in Build &amp; Test at Run all tests. Generate Report succeeded, while Staging Deploy and Production Deploy were skipped. S³AI Brain CI run 33514093881 completed its build, then failed at Run Brain Health Check; its health report also failed at Generate Health Report, while Export Brain Metrics succeeded.</p>
+<h2>Count the event, not just the colour</h2>
+<ul><li>The 8 push-triggered runs contain 4 success and 4 failure conclusions.</li><li>The ninth run, Auto-update Project Status 33514092995, was triggered by an issues event, not push; its issue-closed job failed at Move issue to Done.</li><li>The dev-enforcement run 33514092205 concluded failure, while its public Jobs API returned 0 jobs. There is no public step-level stopping point for that run in this snapshot.</li><li>Codegen Validation 33514093888, the main CI run 33514093991, and Deploy Website + Docs to GitHub Pages 33514093884 concluded success. A successful workflow is one receipt, not a verdict on every workflow.</li></ul>
+<h2>What the snapshot does not prove</h2>
+<ul><li>The 4 push failures and the issue-triggered failure do not have an established common cause. A shared head commit is not causal evidence.</li><li>A successful Site live gate does not prove that Website checks, the whole pipeline, or production is healthy.</li><li>Skipped is not a successful execution, and 0 jobs does not reveal an internal step that the public API did not expose.</li></ul>
+<h2>A useful debugging receipt</h2>
+<p>Read each event as commit → workflow → job → step → conclusion. Keep push and issue-triggered events separate, and preserve skipped and 0 jobs as distinct states. That small discipline prevents a mixed CI snapshot from being rewritten into an unsupported incident narrative.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>The 4 push failures and the issue-triggered failure do not have an established common cause; the shared head commit is not causal evidence.</li><li>A successful Site live gate does not prove that Website checks, the whole pipeline, or production is healthy.</li><li>Skipped is not a successful execution, and 0 jobs does not expose an internal stopping step.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://api.github.com/repos/gHashTag/trinity/actions/runs?per_page=20">Public GitHub Actions run list for gHashTag/trinity</a></li><li><a href="https://github.com/gHashTag/trinity/commit/442bcda8bc50fe555de9d463bfd34b247c5995a5">Shared head commit 442bcda8bc50fe555de9d463bfd34b247c5995a5</a></li><li><a href="https://github.com/gHashTag/trinity/actions/runs/33514093916">Website checks run 33514093916 and Jobs API</a></li><li><a href="https://github.com/gHashTag/trinity/actions/runs/33514093804">KOSCHEI Production Deploy run 33514093804 and Jobs API</a></li><li><a href="https://github.com/gHashTag/trinity/actions/runs/33514093881">S³AI Brain CI run 33514093881 and Jobs API</a></li><li><a href="https://github.com/gHashTag/trinity/actions/runs/33514092205">Dev-enforcement run 33514092205 and its public Jobs API</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/one-commit-nine-workflow-outcomes">Open the interactive version</a><a class="btn sec" href="/ru/blog/one-commit-nine-workflow-outcomes/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20One%20commit%2C%20nine%20workflow%20outcomes&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9COne%20commit%2C%20nine%20workflow%20outcomes%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fone-commit-nine-workflow-outcomes%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Две прошивки, различие в один бит · TRINITY</title>
+<meta name="description" content="Предложенная строка в базе прошивок Xilinx полтора года оставалась непроверяемой. Две прошивки по 22.7 МБ, различающиеся одним битом, закрывают вопрос на кремнии: с битом светодиод мигает, без него счётчик стоит." />
+<link rel="canonical" href="https://t27.ai/ru/blog/two-bitstreams-one-bit-apart/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/two-bitstreams-one-bit-apart/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/two-bitstreams-one-bit-apart/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/two-bitstreams-one-bit-apart/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/two-bitstreams-one-bit-apart/" />
+<meta property="og:title" content="Две прошивки, различие в один бит" />
+<meta property="og:description" content="Предложенная строка в базе прошивок Xilinx полтора года оставалась непроверяемой. Две прошивки по 22.7 МБ, различающиеся одним битом, закрывают вопрос на кремнии: с битом светодиод мигает, без него счётчик стоит." />
+<meta property="og:image" content="https://t27.ai/og-blog-two-bitstreams-one-bit-apart-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Две прошивки, различие в один бит" />
+<meta name="twitter:description" content="Предложенная строка в базе прошивок Xilinx полтора года оставалась непроверяемой. Две прошивки по 22.7 МБ, различающиеся одним битом, закрывают вопрос на кремнии: с битом светодиод мигает, без него счётчик стоит." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Две прошивки, различие в один бит","description":"Предложенная строка в базе прошивок Xilinx полтора года оставалась непроверяемой. Две прошивки по 22.7 МБ, различающиеся одним битом, закрывают вопрос на кремнии: с битом светодиод мигает, без него счётчик стоит.","url":"https://t27.ai/ru/blog/two-bitstreams-one-bit-apart/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/two-bitstreams-one-bit-apart/"},"image":"https://t27.ai/og-blog-two-bitstreams-one-bit-apart-ru.png","datePublished":"2026-09-01","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"FPGA, openXC7, Project X-Ray, Hardware"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Две прошивки, различие в один бит</h1>
+<p class="meta">2026-09-01 · 8 мин чтения</p>
+<p class="lede">Предложенная строка в базе прошивок Xilinx полтора года оставалась непроверяемой. Две прошивки по 22.7 МБ, различающиеся одним битом, закрывают вопрос на кремнии: с битом светодиод мигает, без него счётчик стоит.</p>
+<div class="tags"><span class="tag">#FPGA</span><span class="tag">#openXC7</span><span class="tag">#ProjectXRay</span><span class="tag">#Hardware</span></div>
+<h2>Что измерено</h2>
+<p>Строка в базе Project X-Ray говорит, каким битам в прошивке соответствует какой признак в кремнии. Большинство строк добыл фаззер, сравнивая тысячи выводов Vivado. Некоторые существуют только как предложение — и предложение, которое никто не может проверить, это и есть начало истории: восемь строк для регионального тактового буфера Artix-7 предложили в декабре 2024-го, а 14 августа 2026-го запрос закрыли до тех пор, пока не появится фаззер, способный сделать их проверяемыми.</p>
+<p>Одна из этих восьми теперь проверена — не фаззером, а платой. Две прошивки для ALINX AX7203 (xc7a200tfbg484-2), по 22.7 МБ кадров каждая, различающиеся ровно одним битом: кадр 0x00401C00, слово 50, бит 31. С этим битом светодиод мигает на 0.75 Гц. Без него тот же проект стоит намертво — счётчик не тактируется и остаётся в нуле. Региональный клок не доходит до фабрики.</p>
+<p>Это ровно то, что утверждала строка, и всё, что она утверждала: HCLK_L.ENABLE_BUFFER.HCLK_CK_BUFRCLK2 = 00_31 — разрешение того самого буфера.</p>
+<h2>Почему этот признак не включал ни один проект</h2>
+<p>Все прежние пробы в обсуждении сажали клок BUFR в ISERDESE2 или ODDR. И то и другое живёт в колонке ввода-вывода, поэтому региональный клок её не покидает, и на горизонтальной тактовой спине ничего не включается. Сопровождающий, работавший над другой половиной задачи, прямо написал, что проекта, дающего хоть одну строку HCLK_L, у него нет.</p>
+<p>Посадите клок в обычную фабрику CLB — в простой счётчик — и он обязан дойти до лучей. Проба занимает тридцать строк. В этом весь приём, и он выдал сразу всю цепь: источник, маршрут по лучу, недостающее разрешение и потребителя в тайле управления тактами.</p>
+<h2>Сначала пришлось починить два дефекта размещения</h2>
+<p>На малом кристалле проба встаёт по везению. На xc7a200t она падает дважды — с обеих сторон буфера.</p>
+<p>Входная дуга не строится, потому что BUFR, питаемый от вывода, обязан сесть на единственный site, до которого этот тактовый вывод дотягивается: у его входа нет связи с фабрикой вовсе, — а плейсеру об этом не сообщали. Выходная не строится, потому что BUFR обслуживает один тактовый регион, плейсер не учитывает глобальные цепи в стоимости, и триггеры уезжают к тому выводу данных, к которому подключены. На этой плате — к светодиоду за полкристалла, в половину, противоположную единственному тактовому генератору.</p>
+<p>Обе правки отправлены в проект и обе открыты, не слиты. CI зелёный на всех трёх проверяемых кристаллах. У второй есть ловушка, которую стоит повторить: область надо спрашивать у графа маршрутизации — куда клок реально доходит, — и собирать при этом только тактовые входы. Если считать все выводы подряд, получится прямоугольник во весь кристалл, то есть ограничение, которое ничего не ограничивает.</p>
+<h2>Лестница делителя, четыре точки</h2>
+<p>BUFR умеет делить свой клок. База несёт ступени D1..D8 годами; поток жёстко использовал BYPASS до июньской правки 2026-го, сделавшей остальные достижимыми, и с тех пор никто не выводил делённый BUFR на плату. Та же проба, тот же счётчик, меняется только параметр деления:</p>
+<div class="tw"><table><thead><tr><th>BUFR_DIVIDE</th><th>предсказано (горит)</th><th>измерено</th></tr></thead><tbody><tr><td>BYPASS</td><td>0.67 с</td><td>~0.65 с</td></tr><tr><td>2</td><td>1.34 с</td><td>вчетверо быстрее D8</td></tr><tr><td>4</td><td>2.68 с</td><td>~3 с</td></tr><tr><td>8</td><td>5.37 с</td><td>~5 с</td></tr></tbody></table></div>
+<p>Предсказание из 2^28 x деление / 200e6. Середина важнее краёв: два замера показывают лишь, что что-то делится, а третий, легший туда, куда указывали крайние, показывает, что отношение следует за параметром, а не залипает на первом заданном значении.</p>
+<h2>Три способа ошибиться, которыми я воспользовался</h2>
+<p>Первый прогон делителя был недействителен. Я откатил правку эмиттера, чтобы запросы вышли чистыми, а потом собрал пробы на ветках, созданных после отката, — и прошивка не содержала ни одной строки разрешения, так что клок вообще не доходил до фабрики. Светодиод стоял, и я был в шаге от вывода, что деление кремнием игнорируется. Спасла проверка того, что в прошивке есть признак, ради которого ставился опыт, — сделанная до толкования светодиода, а не после.</p>
+<p>Недействительный прогон оказался ценнее, чем стоил: это второй независимый отрицательный контроль для бита разрешения — прошивка, собранная другим маршрутом и по другому поводу, снова показала мёртвый счётчик при отсутствующем бите.</p>
+<p>В той же пробе вход CLR был завязан на ноль. Делителю BUFR нужен импульс сброса, режиму BYPASS — нет, поэтому даже при наличии разрешения та сборка не различила бы «деление игнорируется» и «делитель не запущен».</p>
+<p>А поиск по коду, сделанный задним числом, нашёл предшествующий опыт против моей же правки: форк чинит ту же ошибку размещения с апреля 2025 года одной строкой, вызовом уже существующего помощника. Я это измерил — размещение совпало на обеих пробах — и написал об этом в запросе, предложив закрыть свой в пользу той строки. Такой поиск следовало сделать до отправки, а не после.</p>
+<h2>Что здесь не моё</h2>
+<p>Сам поток. Yosys — это YosysHQ. nextpnr — YosysHQ и Дэвид Шах. Project X-Ray и база xc7 — SymbiFlow и F4PGA. Порт под Xilinx, поддержка Artix-7, пакер BUFR и привязка site для BUFIO — openXC7 при финансировании NLnet, и механизм, который заимствует моя правка региона, написан сопровождающим для BUFIO несколькими неделями раньше. Восемь строк-кандидатов принадлежат AdamLee7 — из запроса, который я рецензировал и с закрытием которого согласился. Моё здесь — проба в тридцать строк, две правки и плата на столе.</p>
+<h2>Почему плата, а не фаззер</h2>
+<p>Они отвечают на разные вопросы. Фаззер спрашивает, каковы биты, — по всему тайлу, из тысяч вендорских прошивок. Однобитовое сравнение спрашивает, делает ли один конкретный бит то единственное, что ему приписано. Второе уже и намного дешевле — около получаса на бит, почти целиком уходящих на прошивку, — и вендорский инструмент ему не нужен вовсе.</p>
+<p>И оно не заменяет фаззер. Оно не находит биты, а только проверяет их; оно не отличит деление на 8 от деления на 7; и его отрицательный результат неоднозначен так, как положительный — нет, потому что бит, ничего не меняющий, может быть и неверным битом, и значением по умолчанию, уже установленным.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Проверена одна строка из восьми. BUFRCLK0 (00_23), BUFRCLK1 (01_23) и BUFRCLK3 (01_31) держатся на узоре кадров и больше ни на чём. Индекс определяется тем, на какой site BUFR выводит тактовый пад, а тактовый генератор на этой плате ровно один, так что менять индекс здесь нечем.</li><li>Обе правки ОТКРЫТЫ, не слиты. CI зелёный, но ни один сопровождающий их пока не смотрел. Ничто в этом тексте не следует читать как принятие в проект.</li><li>Правка #170 может оказаться лишней. Форк чинит ту же ошибку одной строкой с апреля 2025 года, и я измерил, что размещение выходит то же. Я написал об этом в запросе и предложил закрыть свой; сопровождающие ещё не выбрали.</li><li>Светодиод различает деление на 2, 4 и 8. Деление на 8 от деления на 7 он бы не отличил. Ступени D1, D3, D5, D6 и D7 не проверялись — удваивающиеся выбраны именно потому, что их глаз называет без спора.</li><li>Региональные буферы, питаемые от MMCM, по-прежнему не собираются в прошивку вовсе: у двух ножек мультиплексора нет битов в базе, а причина — нехватка образцов, требующая прогонов Vivado на чужом стенде, а не правки, которую могу сделать я.</li><li>Ничто здесь не воспроизведено независимо. Одна плата, один человек, смотрящий на светодиод, один вечер. Метод достаточно дёшев, чтобы вторая сторона проверила его примерно за полчаса на бит, и до тех пор таково его положение.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/149#issuecomment-5494347759">nextpnr-xilinx #149 — the measurement, with the failed attempts · OPEN</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/149#issuecomment-5496565529">nextpnr-xilinx #149 — the divide ladder, four points · OPEN</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/170">nextpnr-xilinx #170 — pad-fed BUFR to its dedicated site · OPEN, submitted upstream, CI green 3/3</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/171">nextpnr-xilinx #171 — regional buffer sinks kept in their clock region · OPEN, submitted upstream, CI green 3/3</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/172">nextpnr-xilinx #172 — MMCM-fed buffers cannot be assembled: PERFCLK rows missing · OPEN</a></li><li><a href="https://github.com/openXC7/prjxray-db/pull/1">prjxray-db #1 — the eight candidate rows, by AdamLee7 · CLOSED 2026-08-14</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/?lang=ru#/blog/two-bitstreams-one-bit-apart">Открыть интерактивную версию</a><a class="btn sec" href="/blog/two-bitstreams-one-bit-apart/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Поработаем вместе</p><h2 id="blog-work-offer-title">Нужно довести FPGA/RTL-задачу до замеров на железе?</h2><p>Работаю по контракту и part-time с hardware-AI, FPGA/RTL и ML-системами — от спецификации и открытого тулчейна до воспроизводимых измерений.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%B4%D0%BB%D1%8F%20T27%20%E2%80%94%20%D0%94%D0%B2%D0%B5%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B8%2C%20%D1%80%D0%B0%D0%B7%D0%BB%D0%B8%D1%87%D0%B8%D0%B5%20%D0%B2%20%D0%BE%D0%B4%D0%B8%D0%BD%20%D0%B1%D0%B8%D1%82&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%21%20%D0%AF%20%D0%BF%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D0%BB%28%D0%B0%29%20%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8E%20%C2%AB%D0%94%D0%B2%D0%B5%20%D0%BF%D1%80%D0%BE%D1%88%D0%B8%D0%B2%D0%BA%D0%B8%2C%20%D1%80%D0%B0%D0%B7%D0%BB%D0%B8%D1%87%D0%B8%D0%B5%20%D0%B2%20%D0%BE%D0%B4%D0%B8%D0%BD%20%D0%B1%D0%B8%D1%82%C2%BB%3A%20https%3A%2F%2Ft27.ai%2Fru%2Fblog%2Ftwo-bitstreams-one-bit-apart%2F%0A%0A%D0%9D%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A">Обсудить задачу</a><a class="btn sec" href="/ru/about/">Как я работаю</a></div><nav class="work-links" aria-label="Услуги"><span>Услуги:</span><a href="/ru/verification/">Верификация</a><a href="/ru/ip/">Лицензирование IP</a><a href="/ru/course/">Курсы и воркшопы</a><a href="/ru/about/">Контрактная работа</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

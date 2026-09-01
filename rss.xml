@@ -6,7 +6,29 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 31 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 01 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>One commit, nine workflow outcomes</title>
+      <link>https://t27.ai/#/blog/one-commit-nine-workflow-outcomes</link>
+      <guid isPermaLink="false">one-commit-nine-workflow-outcomes</guid>
+      <pubDate>Tue, 01 Sep 2026 12:00:00 GMT</pubDate>
+      <description>A public GitHub Actions snapshot for commit 442bcda8bc50fe555de9d463bfd34b247c5995a5 records 9 runs: 8 push-triggered runs split into 4 successes and 4 failures, plus 1 issue-triggered failure; job evidence shows distinct stopping points rather than a shared cause.</description>
+      <category>CI</category>
+      <category>GitHub Actions</category>
+      <category>Testing</category>
+      <category>Self-critique</category>
+    </item>
+    <item>
+      <title>Two bitstreams, one bit apart</title>
+      <link>https://t27.ai/#/blog/two-bitstreams-one-bit-apart</link>
+      <guid isPermaLink="false">two-bitstreams-one-bit-apart</guid>
+      <pubDate>Tue, 01 Sep 2026 12:00:00 GMT</pubDate>
+      <description>A proposed row in the Xilinx bitstream database had been unverifiable for eighteen months. Two 22.7 MB bitstreams differing in a single bit settle it on silicon: with the bit an LED blinks, without it the counter is frozen.</description>
+      <category>FPGA</category>
+      <category>openXC7</category>
+      <category>Project X-Ray</category>
+      <category>Hardware</category>
+    </item>
     <item>
       <title>A real value must not travel in an integer container</title>
       <link>https://t27.ai/#/blog/real-value-in-integer-container</link>
