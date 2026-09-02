@@ -3,12 +3,6 @@
     {
       "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
       "source_committed_at": "2026-08-25T04:57:15Z",
-      "published_at": "2026-08-26T01:20:07.355427Z",
-      "delay_minutes": 1222.9
-    },
-    {
-      "source_commit": "39361cb55f5fcdfdaff00caf88183acfd4249888",
-      "source_committed_at": "2026-08-25T04:57:15Z",
       "published_at": "2026-08-26T02:49:48.416681Z",
       "delay_minutes": 1312.6
     },
@@ -299,6 +293,12 @@
       "source_committed_at": "2026-09-02T15:09:00Z",
       "published_at": "2026-09-02T18:37:58.988095Z",
       "delay_minutes": 209.0
+    },
+    {
+      "source_commit": "e75cd2e2b6bce51ae13cf26266f89ae3045b0630",
+      "source_committed_at": "2026-09-02T15:09:00Z",
+      "published_at": "2026-09-02T21:22:37.899480Z",
+      "delay_minutes": 373.6
     }
   ]
 }
