@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PR #888 made review ownership explicit · TRINITY</title>
+<meta name="description" content="Merged PR #888 adds four explicit review states in a 5-file diff, while separate CI receipts show that merge state and delivery status are different facts." />
+<link rel="canonical" href="https://t27.ai/blog/queen-review-lifecycle-queues/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/queen-review-lifecycle-queues/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/queen-review-lifecycle-queues/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/queen-review-lifecycle-queues/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/queen-review-lifecycle-queues/" />
+<meta property="og:title" content="PR #888 made review ownership explicit" />
+<meta property="og:description" content="Merged PR #888 adds four explicit review states in a 5-file diff, while separate CI receipts show that merge state and delivery status are different facts." />
+<meta property="og:image" content="https://t27.ai/og-blog-queen-review-lifecycle-queues.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="PR #888 made review ownership explicit" />
+<meta name="twitter:description" content="Merged PR #888 adds four explicit review states in a 5-file diff, while separate CI receipts show that merge state and delivery status are different facts." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"PR #888 made review ownership explicit","description":"Merged PR #888 adds four explicit review states in a 5-file diff, while separate CI receipts show that merge state and delivery status are different facts.","url":"https://t27.ai/blog/queen-review-lifecycle-queues/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/queen-review-lifecycle-queues/"},"image":"https://t27.ai/og-blog-queen-review-lifecycle-queues.png","datePublished":"2026-09-02","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Review, CI, GitHub Actions, Queen"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>PR #888 made review ownership explicit</h1>
+<p class="meta">2026-09-02 · 5 min read</p>
+<p class="lede">Merged PR #888 adds four explicit review states in a 5-file diff, while separate CI receipts show that merge state and delivery status are different facts.</p>
+<div class="tags"><span class="tag">#Review</span><span class="tag">#CI</span><span class="tag">#GitHubActions</span><span class="tag">#Queen</span></div>
+<p>[measured] Merged PR #888 adds an explicit review lifecycle to the Queen page. The change landed in merge commit 6a4d6fb07670f99f16e4ffb67a12dee42caac3df as a 5-file diff with 375 additions and 29 deletions.</p>
+<h2>A review column is not one queue</h2>
+<p>[proven] The executable model names four review states: queenReviewPending, changesRequested, humanEscalation, and reconciliationAnomaly. The Queen page consumes that model instead of treating every card in the review column as Queen debt.</p>
+<pre><code>queenReviewPending
+changesRequested
+humanEscalation
+reconciliationAnomaly</code></pre>
+<p>[proven] When the public ledger supplies reviewQueues, those counts remain authoritative. For a legacy review card without reviewState, the model returns reconciliationAnomaly; an unclassified card is therefore visible as an anomaly rather than silently added to a different queue.</p>
+<h2>Checks are separate receipts</h2>
+<p>[measured] On the same merge SHA, CI, Codegen Validation, and Website checks completed successfully. KOSCHEI Production Deploy stopped at Run all tests; S³AI Brain CI stopped at Run Brain Health Check; Site live gate stopped while comparing the build with the live site; and the manual deploy stopped at Checkout the deploy repo.</p>
+<div class="tw"><table><thead><tr><th>Receipt</th><th>Observed outcome</th></tr></thead><tbody><tr><td>PR #888</td><td>merged</td></tr><tr><td>CI / Codegen Validation / Website checks</td><td>success</td></tr><tr><td>KOSCHEI / S³AI Brain / Site live gate / manual deploy</td><td>stopped at named steps</td></tr></tbody></table></div>
+<blockquote>MERGED is a state of the change, not a verdict on delivery.</blockquote>
+<h2>What remains open</h2>
+<ul><li>Delivery of PR #888 to the live site is not proven: the Site live gate and manual deploy each stopped separately.</li><li>The causes of the KOSCHEI and S³AI Brain stops are not established beyond the named steps.</li><li>Correctness of every Queen route, the user-facing behavior of all queues, and the completeness of the public ledger are not established.</li><li>This is a repository and CI result, not a measurement of FPGA hardware, a crystal, speed, energy, or downstream model quality.</li></ul>
+<p>For an engineering change, keep four fields beside one another: PR state, merge SHA, diff size, and workflow → job → step → conclusion. That passport preserves mixed evidence instead of collapsing it into one green or red label.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Delivery of PR #888 to the live site is not proven: the Site live gate and manual deploy stopped separately.</li><li>The causes of the KOSCHEI and S³AI Brain stops are not established beyond the named steps.</li><li>Correctness of every Queen route, the user-facing behavior of all queues, and the completeness of the public ledger are not established.</li><li>This is a repository and CI result, not a measurement of FPGA hardware, a crystal, speed, energy, or downstream model quality.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity/pull/888">PR #888 — merged review lifecycle change</a></li><li><a href="https://github.com/gHashTag/trinity/commit/6a4d6fb07670f99f16e4ffb67a12dee42caac3df">Merge commit 6a4d6fb0</a></li><li><a href="https://github.com/gHashTag/trinity/blob/main/apps/website/src/pages/queenReviewLifecycle.ts">Executable review lifecycle model</a></li><li><a href="https://github.com/gHashTag/trinity/blob/main/apps/website/qa/queen-review-lifecycle-contract.mjs">Queen review lifecycle contract</a></li><li><a href="https://github.com/gHashTag/trinity/actions/runs/33596673499">CI on the merge SHA</a></li><li><a href="https://github.com/gHashTag/trinity/actions/runs/33596672649">Codegen Validation on the merge SHA</a></li><li><a href="https://github.com/gHashTag/trinity/actions/runs/33596670941">Website checks on the merge SHA</a></li><li><a href="https://github.com/gHashTag/trinity/actions/runs/33596669091">Site live gate on the merge SHA</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/queen-review-lifecycle-queues">Open the interactive version</a><a class="btn sec" href="/ru/blog/queen-review-lifecycle-queues/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20PR%20%23888%20made%20review%20ownership%20explicit&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CPR%20%23888%20made%20review%20ownership%20explicit%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fqueen-review-lifecycle-queues%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

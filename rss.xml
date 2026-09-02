@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 01 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 02 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>PR #888 made review ownership explicit</title>
+      <link>https://t27.ai/#/blog/queen-review-lifecycle-queues</link>
+      <guid isPermaLink="false">queen-review-lifecycle-queues</guid>
+      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Merged PR #888 adds four explicit review states in a 5-file diff, while separate CI receipts show that merge state and delivery status are different facts.</description>
+      <category>Review</category>
+      <category>CI</category>
+      <category>GitHub Actions</category>
+      <category>Queen</category>
+    </item>
     <item>
       <title>One commit, nine workflow outcomes</title>
       <link>https://t27.ai/#/blog/one-commit-nine-workflow-outcomes</link>
