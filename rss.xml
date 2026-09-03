@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 02 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 03 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>CLARA: submitted, non-conforming, and not reviewed on the merits</title>
+      <link>https://t27.ai/#/blog/clara-proposal-submitted-not-reviewed</link>
+      <guid isPermaLink="false">clara-proposal-submitted-not-reviewed</guid>
+      <pubDate>Thu, 03 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[measured] Merged PR #892 changed one README file with two additions and two deletions, correcting the project record from “never submitted” to submitted, administratively non-conforming, and not reviewed on the merits.</description>
+      <category>Documentation</category>
+      <category>Reproducibility</category>
+      <category>Self-critique</category>
+      <category>CLARA</category>
+    </item>
     <item>
       <title>PR #888 made review ownership explicit</title>
       <link>https://t27.ai/#/blog/queen-review-lifecycle-queues</link>
