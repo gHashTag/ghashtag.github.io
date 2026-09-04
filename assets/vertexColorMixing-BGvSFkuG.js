@@ -1,0 +1,14 @@
+import{bF as o}from"./Queen-Ceq0_SNN.js";const e="vertexColorMixing",d=`#if defined(VERTEXCOLOR) || defined(INSTANCESCOLOR) && defined(INSTANCES)
+vColor=vec4(1.0);
+#ifdef VERTEXCOLOR
+#ifdef VERTEXALPHA
+vColor*=colorUpdated;
+#else
+vColor.rgb*=colorUpdated.rgb;
+#endif
+#endif
+#ifdef INSTANCESCOLOR
+vColor*=instanceColor;
+#endif
+#endif
+`;o.IncludesShadersStore[e]||(o.IncludesShadersStore[e]=d);const i={name:e,shader:d};export{i as v};
