@@ -86,7 +86,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 changesRequested
 humanEscalation
 reconciliationAnomaly</code></pre>
-<p>[proven] When the public ledger supplies reviewQueues, those counts remain authoritative. For a legacy review card without reviewState, the model returns reconciliationAnomaly; an unclassified card is therefore visible as an anomaly rather than silently added to a different queue.</p>
+<p>[proven] When the public ledger supplies reviewQueues, those counts remain authoritative. For a review card without reviewState, the model returns null: the card reads a dash, the queues read a dash while no review card states its queue, and the menu carries the unclassified total. An absent field is never printed as a ledger anomaly the wire did not state (changed 2026-09-04; until then it read reconciliationAnomaly).</p>
 <h2>Checks are separate receipts</h2>
 <p>[measured] On the same merge SHA, CI, Codegen Validation, and Website checks completed successfully. KOSCHEI Production Deploy stopped at Run all tests; S³AI Brain CI stopped at Run Brain Health Check; Site live gate stopped while comparing the build with the live site; and the manual deploy stopped at Checkout the deploy repo.</p>
 <div class="tw"><table><thead><tr><th>Receipt</th><th>Observed outcome</th></tr></thead><tbody><tr><td>PR #888</td><td>merged</td></tr><tr><td>CI / Codegen Validation / Website checks</td><td>success</td></tr><tr><td>KOSCHEI / S³AI Brain / Site live gate / manual deploy</td><td>stopped at named steps</td></tr></tbody></table></div>

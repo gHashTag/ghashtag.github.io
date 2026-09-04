@@ -86,7 +86,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 changesRequested
 humanEscalation
 reconciliationAnomaly</code></pre>
-<p>[доказано] Если публичный реестр поставляет reviewQueues, эти значения остаются авторитетными. У старой карточки review без reviewState модель возвращает reconciliationAnomaly: неразмеченная карточка становится видимой аномалией, а не молча попадает в другую очередь.</p>
+<p>[доказано] Если публичный реестр поставляет reviewQueues, эти значения остаются авторитетными. У карточки review без reviewState модель возвращает null: карточка читается прочерком, очереди читаются прочерком, пока ни одна карточка не назвала свою очередь, а меню несёт число неразмеченных. Отсутствующее поле никогда не печатается как аномалия реестра, которую провод не сообщал (изменено 2026-09-04; до этого читалось reconciliationAnomaly).</p>
 <h2>Проверки — это отдельные свидетельства</h2>
 <p>[измерено] На том же merge SHA CI, Codegen Validation и Website checks завершились успешно. KOSCHEI Production Deploy остановился на Run all tests; S³AI Brain CI — на Run Brain Health Check; Site live gate — при сравнении сборки с живым сайтом; ручной deploy — на Checkout the deploy repo.</p>
 <div class="tw"><table><thead><tr><th>Свидетельство</th><th>Наблюдаемый исход</th></tr></thead><tbody><tr><td>PR #888</td><td>merged</td></tr><tr><td>CI / Codegen Validation / Website checks</td><td>success</td></tr><tr><td>KOSCHEI / S³AI Brain / Site live gate / ручной deploy</td><td>остановились на названных шагах</td></tr></tbody></table></div>
