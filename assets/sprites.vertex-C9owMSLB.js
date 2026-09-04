@@ -1,0 +1,16 @@
+import{bF as e}from"./Queen-DnIekj8u.js";import{f as s}from"./fogVertexDeclaration-CFUUU0ae.js";import{l as n}from"./logDepthDeclaration-CX7doUBJ.js";import{l as v}from"./logDepthVertex-CMWHeDCd.js";import"./index-D6MTppPL.js";import"./react-BikoVsHo.js";import"./motion-DmZWFm6O.js";import"./router-DHWxIZD9.js";const r="spritesVertexShader",o=`attribute position: vec4f;attribute options: vec2f;attribute offsets: vec2f;attribute inverts: vec2f;attribute cellInfo: vec4f;attribute color: vec4f;uniform view: mat4x4f;uniform projection: mat4x4f;varying vUV: vec2f;varying vColor: vec4f;
+#include<fogVertexDeclaration>
+#include<logDepthDeclaration>
+#define CUSTOM_VERTEX_DEFINITIONS
+@vertex
+fn main(input : VertexInputs)->FragmentInputs {
+#define CUSTOM_VERTEX_MAIN_BEGIN
+var viewPos: vec3f=(uniforms.view* vec4f(vertexInputs.position.xyz,1.0)).xyz; 
+var cornerPos: vec2f;var angle: f32=vertexInputs.position.w;var size: vec2f= vec2f(vertexInputs.options.x,vertexInputs.options.y);var offset: vec2f=vertexInputs.offsets.xy;cornerPos= vec2f(offset.x-0.5,offset.y -0.5)*size;var rotatedCorner: vec3f;rotatedCorner.x=cornerPos.x*cos(angle)-cornerPos.y*sin(angle);rotatedCorner.y=cornerPos.x*sin(angle)+cornerPos.y*cos(angle);rotatedCorner.z=0.;viewPos+=rotatedCorner;vertexOutputs.position=uniforms.projection*vec4f(viewPos,1.0); 
+vertexOutputs.vColor=vertexInputs.color;var uvOffset: vec2f= vec2f(abs(offset.x-vertexInputs.inverts.x),abs(1.0-offset.y-vertexInputs.inverts.y));var uvPlace: vec2f=vertexInputs.cellInfo.xy;var uvSize: vec2f=vertexInputs.cellInfo.zw;vertexOutputs.vUV.x=uvPlace.x+uvSize.x*uvOffset.x;vertexOutputs.vUV.y=uvPlace.y+uvSize.y*uvOffset.y;
+#ifdef FOG
+vertexOutputs.vFogDistance=viewPos;
+#endif
+#include<logDepthVertex>
+#define CUSTOM_VERTEX_MAIN_END
+}`;e.ShadersStoreWGSL[r]||(e.ShadersStoreWGSL[r]=o);const i=[s,n,v];for(const t of i)e.IncludesShadersStoreWGSL[t.name]||(e.IncludesShadersStoreWGSL[t.name]=t.shader);const d={name:r,shader:o};export{d as spritesVertexShaderWGSL};
