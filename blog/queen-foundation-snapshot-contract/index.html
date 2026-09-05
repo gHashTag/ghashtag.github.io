@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Queen foundation snapshot now has a source contract · TRINITY</title>
+<meta name="description" content="[measured] Merged PR #937 adds a dated foundation snapshot and a fixture-backed contract that keeps the page source visible." />
+<link rel="canonical" href="https://t27.ai/blog/queen-foundation-snapshot-contract/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/queen-foundation-snapshot-contract/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/queen-foundation-snapshot-contract/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/queen-foundation-snapshot-contract/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/queen-foundation-snapshot-contract/" />
+<meta property="og:title" content="The Queen foundation snapshot now has a source contract" />
+<meta property="og:description" content="[measured] Merged PR #937 adds a dated foundation snapshot and a fixture-backed contract that keeps the page source visible." />
+<meta property="og:image" content="https://t27.ai/og-blog-queen-foundation-snapshot-contract.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The Queen foundation snapshot now has a source contract" />
+<meta name="twitter:description" content="[measured] Merged PR #937 adds a dated foundation snapshot and a fixture-backed contract that keeps the page source visible." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The Queen foundation snapshot now has a source contract","description":"[measured] Merged PR #937 adds a dated foundation snapshot and a fixture-backed contract that keeps the page source visible.","url":"https://t27.ai/blog/queen-foundation-snapshot-contract/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/queen-foundation-snapshot-contract/"},"image":"https://t27.ai/og-blog-queen-foundation-snapshot-contract.png","datePublished":"2026-09-05","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Queen, Reproducibility, Web, GitHub"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>The Queen foundation snapshot now has a source contract</h1>
+<p class="meta">2026-09-05 · 5 min read</p>
+<p class="lede">[measured] Merged PR #937 adds a dated foundation snapshot and a fixture-backed contract that keeps the page source visible.</p>
+<div class="tags"><span class="tag">#Queen</span><span class="tag">#Reproducibility</span><span class="tag">#Web</span><span class="tag">#GitHub</span></div>
+<p>[measured] Merged [PR #937](https://github.com/gHashTag/trinity/pull/937) puts a dated Queen foundation snapshot and its source contract on the page. The public [merge commit](https://github.com/gHashTag/trinity/commit/d12883f03324b99ca7206db38e49f1a299073ced) adds the snapshot, a hex-sand asset, a fixture-backed QA contract, and the page wiring.</p>
+<h2>A snapshot with a receipt trail</h2>
+<p>[proven] The snapshot is generated at 2026-09-05T14:18:58Z. It records 1,009 closed issues, 17 epics with 419 children, 21 rings, and 2 releases. The raw JSON is 284 KB and the compressed brotli form is 40 KB, as recorded in the merged change.</p>
+<div class="tw"><table><thead><tr><th>Field</th><th>Recorded value</th></tr></thead><tbody><tr><td>Snapshot time</td><td>2026-09-05T14:18:58Z</td></tr><tr><td>Closed issues</td><td>1,009</td></tr><tr><td>Epics and children</td><td>17 / 419</td></tr><tr><td>Rings</td><td>21</td></tr><tr><td>Releases</td><td>2</td></tr></tbody></table></div>
+<h2>The page contract is the useful part</h2>
+<p>[proven] The page reads the server route /queen/public-foundation first and the checked-in file second, refreshing the source every 60 seconds. The viewport exposes data-foundation=&quot;N@generatedAt:source&quot;, so a rendered view can say how many records it used and where they came from.</p>
+<p>[measured] The new check:queen-foundation contract uses a 37-issue fixture. It checks the route response, accepts the route 404 as a wire-stage condition, and then requires the viewport to expose 37@&lt;moment&gt;:file. This tests provenance instead of treating a green page as proof that its data is current.</p>
+<h2>What is established</h2>
+<ul><li>[measured] PR #937 is merged and its public diff adds the foundation snapshot, the source contract, and the page wiring.</li><li>[proven] The snapshot has a timestamp and explicit counts, while the page reports source and record count through data-foundation.</li><li>[proven] The repository adds an automated foundation contract rather than relying on a screenshot or an unlabelled number.</li></ul>
+<h2>What is not established</h2>
+<ul><li>The server route is not established as live by this merge; the contract explicitly tolerates its current 404 while the checked-in file remains the fallback.</li><li>A dated repository snapshot is not proof that the underlying GitHub ledger is complete, current, or independently verified.</li><li>The change does not establish a deployed honeycomb interaction, a production deployment, performance, FPGA hardware, a crystal, speed, energy, or downstream-model result.</li></ul>
+<blockquote>A page becomes more auditable when its number carries a timestamp and a source, not just a visual shape.</blockquote>
+<div class="box"><h2>What this does not settle</h2><ul><li>The server route /queen/public-foundation is not established as live by this merge; the contract records a route 404 as a wire-stage condition and uses the file fallback.</li><li>A dated repository snapshot does not independently prove that the underlying GitHub ledger is complete or current.</li><li>The change does not establish a deployed honeycomb interaction, production deployment, performance, FPGA hardware, a crystal, speed, energy, or downstream-model result.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity/pull/937">Merged PR #937 — Queen foundation snapshot and contract</a></li><li><a href="https://github.com/gHashTag/trinity/commit/d12883f03324b99ca7206db38e49f1a299073ced">Merge commit d12883f0 — page wiring and snapshot</a></li><li><a href="https://raw.githubusercontent.com/gHashTag/trinity/d12883f03324b99ca7206db38e49f1a299073ced/apps/website/public/queen/foundation.json">Foundation snapshot JSON at the merge commit</a></li><li><a href="https://raw.githubusercontent.com/gHashTag/trinity/d12883f03324b99ca7206db38e49f1a299073ced/apps/website/qa/queen-foundation-contract.mjs">Executable foundation contract at the merge commit</a></li><li><a href="https://github.com/gHashTag/trinity/actions/runs/33972650656">CI run on the merge commit</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/queen-foundation-snapshot-contract">Open the interactive version</a><a class="btn sec" href="/ru/blog/queen-foundation-snapshot-contract/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20The%20Queen%20foundation%20snapshot%20now%20has%20a%20source%20contract&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CThe%20Queen%20foundation%20snapshot%20now%20has%20a%20source%20contract%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fqueen-foundation-snapshot-contract%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

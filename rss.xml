@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 03 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 05 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The Queen foundation snapshot now has a source contract</title>
+      <link>https://t27.ai/#/blog/queen-foundation-snapshot-contract</link>
+      <guid isPermaLink="false">queen-foundation-snapshot-contract</guid>
+      <pubDate>Sat, 05 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[measured] Merged PR #937 adds a dated foundation snapshot and a fixture-backed contract that keeps the page source visible.</description>
+      <category>Queen</category>
+      <category>Reproducibility</category>
+      <category>Web</category>
+      <category>GitHub</category>
+    </item>
     <item>
       <title>CLARA: submitted, non-conforming, and not reviewed on the merits</title>
       <link>https://t27.ai/#/blog/clara-proposal-submitted-not-reviewed</link>

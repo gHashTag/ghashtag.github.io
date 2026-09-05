@@ -1,5 +1,221 @@
 [
  {
+  "slug": "queen-foundation-snapshot-contract",
+  "title": "The Queen foundation snapshot now has a source contract",
+  "summary": "[measured] Merged PR #937 adds a dated foundation snapshot and a fixture-backed contract that keeps the page source visible.",
+  "date": "2026-09-05",
+  "readingMinutes": 5,
+  "tags": [
+   "Queen",
+   "Reproducibility",
+   "Web",
+   "GitHub"
+  ],
+  "receipts": [
+   {
+    "label": "Merged PR #937 — Queen foundation snapshot and contract",
+    "href": "https://github.com/gHashTag/trinity/pull/937"
+   },
+   {
+    "label": "Merge commit d12883f0 — page wiring and snapshot",
+    "href": "https://github.com/gHashTag/trinity/commit/d12883f03324b99ca7206db38e49f1a299073ced"
+   },
+   {
+    "label": "Foundation snapshot JSON at the merge commit",
+    "href": "https://raw.githubusercontent.com/gHashTag/trinity/d12883f03324b99ca7206db38e49f1a299073ced/apps/website/public/queen/foundation.json"
+   },
+   {
+    "label": "Executable foundation contract at the merge commit",
+    "href": "https://raw.githubusercontent.com/gHashTag/trinity/d12883f03324b99ca7206db38e49f1a299073ced/apps/website/qa/queen-foundation-contract.mjs"
+   },
+   {
+    "label": "CI run on the merge commit",
+    "href": "https://github.com/gHashTag/trinity/actions/runs/33972650656"
+   }
+  ],
+  "openQuestions": [
+   "The server route /queen/public-foundation is not established as live by this merge; the contract records a route 404 as a wire-stage condition and uses the file fallback.",
+   "A dated repository snapshot does not independently prove that the underlying GitHub ledger is complete or current.",
+   "The change does not establish a deployed honeycomb interaction, production deployment, performance, FPGA hardware, a crystal, speed, energy, or downstream-model result."
+  ],
+  "published": true,
+  "ru": {
+   "title": "Снимок основания Queen получил контракт источника",
+   "summary": "[измерено] Смерженный PR #937 добавляет датированный снимок основания и контракт с фикстурой, который делает источник данных страницы видимым.",
+   "openQuestions": [
+    "Работа серверного маршрута /queen/public-foundation не установлена этим merge; контракт записывает 404 маршрута как состояние wire-этапа и использует резервный файл.",
+    "Датированный снимок репозитория сам по себе не доказывает полноту или актуальность исходного журнала GitHub.",
+    "Изменение не устанавливает развёрнутую интерактивность honeycomb, production deploy, производительность, FPGA-железо, кристалл, скорость, энергию или результат для модели."
+   ],
+   "body": [
+    {
+     "kind": "p",
+     "text": "[измерено] Смерженный [PR #937](https://github.com/gHashTag/trinity/pull/937) выводит на страницу датированный снимок основания Queen и контракт его источника. Публичный [merge-коммит](https://github.com/gHashTag/trinity/commit/d12883f03324b99ca7206db38e49f1a299073ced) добавляет снимок, hex-sand asset, QA-контракт с фикстурой и связку со страницей."
+    },
+    {
+     "kind": "h",
+     "text": "Снимок с цепочкой свидетельств"
+    },
+    {
+     "kind": "p",
+     "text": "[доказано] Снимок сгенерирован в 2026-09-05T14:18:58Z. В нём записаны 1 009 закрытых issue, 17 эпиков с 419 дочерними задачами, 21 кольцо и 2 релиза. Размер сырого JSON — 284 KB, сжатого brotli-варианта — 40 KB; это зафиксировано в смерженном изменении."
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Поле",
+      "Зафиксированное значение"
+     ],
+     "rows": [
+      [
+       "Время снимка",
+       "2026-09-05T14:18:58Z"
+      ],
+      [
+       "Закрытые issue",
+       "1 009"
+      ],
+      [
+       "Эпики и дочерние задачи",
+       "17 / 419"
+      ],
+      [
+       "Кольца",
+       "21"
+      ],
+      [
+       "Релизы",
+       "2"
+      ]
+     ]
+    },
+    {
+     "kind": "h",
+     "text": "Полезная часть — контракт страницы"
+    },
+    {
+     "kind": "p",
+     "text": "[доказано] Страница сначала читает серверный маршрут /queen/public-foundation, а затем файл в репозитории; источник обновляется каждые 60 секунд. В viewport выводится data-foundation=\"N@generatedAt:source\", поэтому отрисованное представление может сообщить, сколько записей оно использовало и откуда они пришли."
+    },
+    {
+     "kind": "p",
+     "text": "[измерено] Новый контракт check:queen-foundation использует фикстуру из 37 issue. Он проверяет ответ маршрута, допускает текущий 404 как состояние wire-этапа, а затем требует от viewport значение 37@<moment>:file. Так проверяется происхождение данных, а зелёная страница не принимается автоматически за доказательство их актуальности."
+    },
+    {
+     "kind": "h",
+     "text": "Что установлено"
+    },
+    {
+     "kind": "ul",
+     "items": [
+      "[измерено] PR #937 смержен; его публичный дифф добавляет снимок основания, контракт источника и связку со страницей.",
+      "[доказано] У снимка есть временная метка и явные счётчики, а страница сообщает источник и количество записей через data-foundation.",
+      "[доказано] В репозитории появился автоматический контракт основания, а не только скриншот или безымянное число."
+     ]
+    },
+    {
+     "kind": "h",
+     "text": "Что НЕ установлено"
+    },
+    {
+     "kind": "ul",
+     "items": [
+      "Работа серверного маршрута не установлена этим merge; контракт явно допускает его текущий 404, пока резервом остаётся файл в репозитории.",
+      "Датированный снимок репозитория не доказывает полноту, актуальность или независимую проверку исходного журнала GitHub.",
+      "Изменение не устанавливает развёрнутую интерактивность honeycomb, production deploy, производительность, FPGA-железо, кристалл, скорость, энергию или результат для модели."
+     ]
+    },
+    {
+     "kind": "quote",
+     "text": "Страница становится аудируемее, когда у её числа есть временная метка и источник, а не только визуальная форма."
+    }
+   ]
+  },
+  "body": [
+   {
+    "kind": "p",
+    "text": "[measured] Merged [PR #937](https://github.com/gHashTag/trinity/pull/937) puts a dated Queen foundation snapshot and its source contract on the page. The public [merge commit](https://github.com/gHashTag/trinity/commit/d12883f03324b99ca7206db38e49f1a299073ced) adds the snapshot, a hex-sand asset, a fixture-backed QA contract, and the page wiring."
+   },
+   {
+    "kind": "h",
+    "text": "A snapshot with a receipt trail"
+   },
+   {
+    "kind": "p",
+    "text": "[proven] The snapshot is generated at 2026-09-05T14:18:58Z. It records 1,009 closed issues, 17 epics with 419 children, 21 rings, and 2 releases. The raw JSON is 284 KB and the compressed brotli form is 40 KB, as recorded in the merged change."
+   },
+   {
+    "kind": "table",
+    "head": [
+     "Field",
+     "Recorded value"
+    ],
+    "rows": [
+     [
+      "Snapshot time",
+      "2026-09-05T14:18:58Z"
+     ],
+     [
+      "Closed issues",
+      "1,009"
+     ],
+     [
+      "Epics and children",
+      "17 / 419"
+     ],
+     [
+      "Rings",
+      "21"
+     ],
+     [
+      "Releases",
+      "2"
+     ]
+    ]
+   },
+   {
+    "kind": "h",
+    "text": "The page contract is the useful part"
+   },
+   {
+    "kind": "p",
+    "text": "[proven] The page reads the server route /queen/public-foundation first and the checked-in file second, refreshing the source every 60 seconds. The viewport exposes data-foundation=\"N@generatedAt:source\", so a rendered view can say how many records it used and where they came from."
+   },
+   {
+    "kind": "p",
+    "text": "[measured] The new check:queen-foundation contract uses a 37-issue fixture. It checks the route response, accepts the route 404 as a wire-stage condition, and then requires the viewport to expose 37@<moment>:file. This tests provenance instead of treating a green page as proof that its data is current."
+   },
+   {
+    "kind": "h",
+    "text": "What is established"
+   },
+   {
+    "kind": "ul",
+    "items": [
+     "[measured] PR #937 is merged and its public diff adds the foundation snapshot, the source contract, and the page wiring.",
+     "[proven] The snapshot has a timestamp and explicit counts, while the page reports source and record count through data-foundation.",
+     "[proven] The repository adds an automated foundation contract rather than relying on a screenshot or an unlabelled number."
+    ]
+   },
+   {
+    "kind": "h",
+    "text": "What is not established"
+   },
+   {
+    "kind": "ul",
+    "items": [
+     "The server route is not established as live by this merge; the contract explicitly tolerates its current 404 while the checked-in file remains the fallback.",
+     "A dated repository snapshot is not proof that the underlying GitHub ledger is complete, current, or independently verified.",
+     "The change does not establish a deployed honeycomb interaction, a production deployment, performance, FPGA hardware, a crystal, speed, energy, or downstream-model result."
+    ]
+   },
+   {
+    "kind": "quote",
+    "text": "A page becomes more auditable when its number carries a timestamp and a source, not just a visual shape."
+   }
+  ]
+ },
+ {
   "slug": "clara-proposal-submitted-not-reviewed",
   "title": "CLARA: submitted, non-conforming, and not reviewed on the merits",
   "summary": "[measured] Merged PR #892 changed one README file with two additions and two deletions, correcting the project record from “never submitted” to submitted, administratively non-conforming, and not reviewed on the merits.",
