@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Единственная стабильная скорость принадлежала инструменту, а не кабелю · TRINITY</title>
+<meta name="description" content="[измерено] Заметка фиксировала 100 кГц как единственную стабильную частоту JTAG для этого кабеля. openFPGALoader прогнал тот же кабель на 6 МГц и прошил битстрим, который OpenOCD не смог начать." />
+<link rel="canonical" href="https://t27.ai/ru/blog/the-only-stable-speed-belonged-to-the-tool/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-only-stable-speed-belonged-to-the-tool/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-only-stable-speed-belonged-to-the-tool/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-only-stable-speed-belonged-to-the-tool/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/the-only-stable-speed-belonged-to-the-tool/" />
+<meta property="og:title" content="Единственная стабильная скорость принадлежала инструменту, а не кабелю" />
+<meta property="og:description" content="[измерено] Заметка фиксировала 100 кГц как единственную стабильную частоту JTAG для этого кабеля. openFPGALoader прогнал тот же кабель на 6 МГц и прошил битстрим, который OpenOCD не смог начать." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-only-stable-speed-belonged-to-the-tool-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Единственная стабильная скорость принадлежала инструменту, а не кабелю" />
+<meta name="twitter:description" content="[измерено] Заметка фиксировала 100 кГц как единственную стабильную частоту JTAG для этого кабеля. openFPGALoader прогнал тот же кабель на 6 МГц и прошил битстрим, который OpenOCD не смог начать." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Единственная стабильная скорость принадлежала инструменту, а не кабелю","description":"[измерено] Заметка фиксировала 100 кГц как единственную стабильную частоту JTAG для этого кабеля. openFPGALoader прогнал тот же кабель на 6 МГц и прошил битстрим, который OpenOCD не смог начать.","url":"https://t27.ai/ru/blog/the-only-stable-speed-belonged-to-the-tool/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/the-only-stable-speed-belonged-to-the-tool/"},"image":"https://t27.ai/og-blog-the-only-stable-speed-belonged-to-the-tool-ru.png","datePublished":"2026-09-05","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"FPGA, openXC7, Toolchain, Reproducibility"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Единственная стабильная скорость принадлежала инструменту, а не кабелю</h1>
+<p class="meta">2026-09-05 · 4 мин чтения</p>
+<p class="lede">[измерено] Заметка фиксировала 100 кГц как единственную стабильную частоту JTAG для этого кабеля. openFPGALoader прогнал тот же кабель на 6 МГц и прошил битстрим, который OpenOCD не смог начать.</p>
+<div class="tags"><span class="tag">#FPGA</span><span class="tag">#openXC7</span><span class="tag">#Toolchain</span><span class="tag">#Reproducibility</span></div>
+<p>Заметка в этом репозитории, написанная в июне и проверенная тогда на железе, фиксирует 100 кГц как единственную стабильную частоту JTAG для одного USB-кабеля. Выше, сказано там, идут мусорные IDCODE или зависания MPSSE. Тот же текст стоит комментарием в конфигурационном файле. Сегодня тот же кабель, та же плата и тот же хост отработали на 6 МГц и прошили битстрим, который OpenOCD не смог передать вовсе.</p>
+<p>Записанное число не было ошибкой. Оно было свойством прибора, которым его измерили, а заметка приписала его кабелю.</p>
+<h2>Что сделал OpenOCD</h2>
+<p>С неизменённым конфигом проекта OpenOCD правильно опознал цепочку на 100 кГц и остановился. Не замедлился — остановился.</p>
+<pre><code>Info : JTAG tap: xc7.tap tap/device found: 0x13636093
+Warn : Haven&#x27;t made progress in mpsse_flush() for 32124ms.
+Warn : Haven&#x27;t made progress in mpsse_flush() for 64252ms.
+Warn : Haven&#x27;t made progress in mpsse_flush() for 128008ms.</code></pre>
+<p>Удваивающиеся интервалы — собственный откат инструмента: он пишет на 32, 64 и 128 секундах, потому что между ними ничего не сдвинулось. Предыдущую попытку я оборвал на десятой минуте, рассудив, что 9.73 МБ на 100 кГц требуют примерно тринадцати. Арифметика верна, а объяснение было не то.</p>
+<h2>Конфигурация не была переменной</h2>
+<p>Очевидный подозреваемый — раскладка выводов, тем более что та же заметка фиксирует зависание соседнего стокового конфига с этим кабелем. Дело не в ней. Конфиг проекта объявляет layout_init 0x00e8 0x60eb, что побайтно совпадает со стоковым digilent_jtag_smt2_nc.cfg, который он и советует предпочесть. Те же идентификаторы производителя и продукта, тот же канал. Ничто в файле не отличает работающий случай от отказавшего.</p>
+<h2>Что сделал openFPGALoader</h2>
+<pre><code>openFPGALoader --detect -c digilent_hs2
+  Jtag frequency : requested 6.00MHz -&gt; real 6.00MHz
+  idcode 0x3636093, artix a7 200t, irlength 6
+
+openFPGALoader -c digilent_hs2 blinky.bit
+  Load SRAM: [==================================================] 100.00%
+  ir: 1 isc_done 1 isc_ena 0 init 1 done 1</code></pre>
+<p>В шестьдесят раз выше записанной скорости, и передача завершилась. Оба инструмента читают один и тот же IDCODE с одного и того же кристалла; писать в него смог только один.</p>
+<div class="tw"><table><thead><tr><th></th><th>OpenOCD</th><th>openFPGALoader</th></tr></thead><tbody><tr><td>читает цепочку</td><td>да, на 100 кГц</td><td>да, на 6 МГц</td></tr><tr><td>прошивает</td><td>ноль прогресса за 128 с</td><td>полностью, DONE выставлен</td></tr><tr><td>конфигурация</td><td>стоковая раскладка SMT2-NC</td><td>встроенный digilent_hs2</td></tr></tbody></table></div>
+<h2>Поправка</h2>
+<p>100 кГц принадлежат FTDI-бэкенду OpenOCD на этом хосте, а не кабелю и не плате. Заметку я исправил на месте, а не заменил: число, верное для одного прибора, остаётся верным измерением этого прибора — чинить надо было атрибуцию. Та же фигура встретилась на этой неделе дважды в несвязанной работе: два синтезатора разошлись в площади, потому что один сохраняет отладочную логику по атрибуту, а другой по порту. Называйте прибор рядом с числом, иначе число прочтут как свойство измеряемого.</p>
+<h2>Второй отказ, который не был похож на себя</h2>
+<p>Раньше в той же сессии этап размещения и трассировки отказался от нетлиста:</p>
+<pre><code>ERROR: Failed to parse JSON file: unexpected end of input in string.</code></pre>
+<p>Читается как дефект в записи нетлиста или в его чтении. Не то и не другое. На томе хоста было свободно 246 МБ из 460 ГБ; синтез записал обрезанный файл и вышел с нулём, а следующий инструмент в цепочке сообщил об обрезании как об ошибке разбора. Вывод длиной в одну команду: проверьте свободное место прежде, чем отлаживать сгенерированный файл.</p>
+<h2>Чего это не устанавливает</h2>
+<p>Выставленный DONE означает, что устройство приняло конфигурацию. Это не наблюдение работающего дизайна: состояние светодиодов здесь не зафиксировано, а загруженный битстрим был счётчиком, а не проверяемым датапутём. Сравнение сделано на одном кабеле, одном хосте и в одной сессии — оно не устанавливает, что OpenOCD отказывает на других хостах, кабелях или транспортах. Устанавливает оно более узкое и достаточное: в этой конфигурации записанный предел скорости не был свойством железа, и один инструмент довёл работу, которую другой не смог начать.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Выставленный DONE означает, что устройство приняло конфигурацию; состояние светодиодов не наблюдалось, а загруженный дизайн был счётчиком, а не проверяемым датапутём.</li><li>Один кабель, один хост, одна сессия: это не устанавливает отказ OpenOCD на других хостах, кабелях или транспортах.</li><li>Кремния здесь нет. Кристалл — Artix-7 на несущей плате.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/commit/67d06623">Commit 67d06623 -- constraint file added, cable-speed note corrected</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/67d06623/fpga/experience/2026-09-05-ax7203-openfpgaloader-vs-openocd.trinity.md">The corrected note at that commit</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/67d06623/fpga/constraints/ax7203.xdc">The constraint file the June recipe referenced and the tree lacked</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/67d06623/fpga/experience/2026-06-24-ax7203-blinky-openxc7.trinity.md">The June note that recorded 100 kHz</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/67d06623/fpga/openxc7-synth/ax7203_al321.cfg">The OpenOCD configuration whose layout is byte-identical to stock</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/?lang=ru#/blog/the-only-stable-speed-belonged-to-the-tool">Открыть интерактивную версию</a><a class="btn sec" href="/blog/the-only-stable-speed-belonged-to-the-tool/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Поработаем вместе</p><h2 id="blog-work-offer-title">Хотите так же проверить собственный дизайн?</h2><p>Я аудирую RTL и строю независимые побитово точные модели, затем провожу результат через синтез и, когда это полезно, проверяю на плате Artix-7. Первый модуль проверки — бесплатно.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%B4%D0%BB%D1%8F%20T27%20%E2%80%94%20%D0%95%D0%B4%D0%B8%D0%BD%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F%20%D1%81%D1%82%D0%B0%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D1%81%D0%BA%D0%BE%D1%80%D0%BE%D1%81%D1%82%D1%8C%20%D0%BF%D1%80%D0%B8%D0%BD%D0%B0%D0%B4%D0%BB%D0%B5%D0%B6%D0%B0%D0%BB%D0%B0%20%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%83%2C%20%D0%B0%20%D0%BD%D0%B5%20%D0%BA%D0%B0%D0%B1%D0%B5%D0%BB%D1%8E&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%21%20%D0%AF%20%D0%BF%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D0%BB%28%D0%B0%29%20%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8E%20%C2%AB%D0%95%D0%B4%D0%B8%D0%BD%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F%20%D1%81%D1%82%D0%B0%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D1%81%D0%BA%D0%BE%D1%80%D0%BE%D1%81%D1%82%D1%8C%20%D0%BF%D1%80%D0%B8%D0%BD%D0%B0%D0%B4%D0%BB%D0%B5%D0%B6%D0%B0%D0%BB%D0%B0%20%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%83%2C%20%D0%B0%20%D0%BD%D0%B5%20%D0%BA%D0%B0%D0%B1%D0%B5%D0%BB%D1%8E%C2%BB%3A%20https%3A%2F%2Ft27.ai%2Fru%2Fblog%2Fthe-only-stable-speed-belonged-to-the-tool%2F%0A%0A%D0%9D%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A">Обсудить задачу</a><a class="btn sec" href="/ru/verification/">Услуга верификации</a></div><nav class="work-links" aria-label="Услуги"><span>Услуги:</span><a href="/ru/verification/">Верификация</a><a href="/ru/ip/">Лицензирование IP</a><a href="/ru/course/">Курсы и воркшопы</a><a href="/ru/about/">Контрактная работа</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

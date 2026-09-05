@@ -19,6 +19,17 @@
       <category>GitHub</category>
     </item>
     <item>
+      <title>The only stable speed belonged to the tool, not the cable</title>
+      <link>https://t27.ai/#/blog/the-only-stable-speed-belonged-to-the-tool</link>
+      <guid isPermaLink="false">the-only-stable-speed-belonged-to-the-tool</guid>
+      <pubDate>Sat, 05 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[measured] A note recorded 100 kHz as the only stable JTAG clock for this cable. openFPGALoader ran the same cable at 6 MHz and programmed a bitstream OpenOCD could not start.</description>
+      <category>FPGA</category>
+      <category>openXC7</category>
+      <category>Toolchain</category>
+      <category>Reproducibility</category>
+    </item>
+    <item>
       <title>CLARA: submitted, non-conforming, and not reviewed on the merits</title>
       <link>https://t27.ai/#/blog/clara-proposal-submitted-not-reviewed</link>
       <guid isPermaLink="false">clara-proposal-submitted-not-reviewed</guid>
