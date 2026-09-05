@@ -1,0 +1,6 @@
+import{bG as r}from"./Queen-CJ_XUAd9.js";import"./index-Yak8xL2-.js";import"./react-BikoVsHo.js";import"./motion-DmZWFm6O.js";import"./router-DHWxIZD9.js";const e="depthBoxBlurPixelShader",o=`varying vec2 vUV;uniform sampler2D textureSampler;uniform vec2 screenSize;
+#define CUSTOM_FRAGMENT_DEFINITIONS
+void main(void)
+{vec4 colorDepth=vec4(0.0);for (int x=-OFFSET; x<=OFFSET; x++)
+for (int y=-OFFSET; y<=OFFSET; y++)
+colorDepth+=texture2D(textureSampler,vUV+vec2(x,y)/screenSize);gl_FragColor=(colorDepth/float((OFFSET*2+1)*(OFFSET*2+1)));}`;r.ShadersStore[e]||(r.ShadersStore[e]=o);const p={name:e,shader:o};export{p as depthBoxBlurPixelShader};
