@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 05 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 06 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>One saturation rule, five artefacts</title>
+      <link>https://t27.ai/#/blog/one-saturation-rule-five-artefacts</link>
+      <guid isPermaLink="false">one-saturation-rule-five-artefacts</guid>
+      <pubDate>Sun, 06 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[measured] A merged fp6_e3m2 correction changed 8 boundary codes, kept 56 codes unchanged, and brought a 66,720-code consistency pass to 0 mismatches.</description>
+      <category>FPGA</category>
+      <category>Conformance</category>
+      <category>Reproducibility</category>
+      <category>Testing</category>
+    </item>
     <item>
       <title>The Queen foundation snapshot now has a source contract</title>
       <link>https://t27.ai/#/blog/queen-foundation-snapshot-contract</link>
