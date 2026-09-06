@@ -1,1 +1,0 @@
-import{bI as e}from"./Queen-6cFN3A1A.js";const r="kernelBlurVaryingDeclaration",a="varying sampleCoord{X}: vec2f;";e.IncludesShadersStoreWGSL[r]||(e.IncludesShadersStoreWGSL[r]=a);const o={name:r,shader:a};export{o as k};

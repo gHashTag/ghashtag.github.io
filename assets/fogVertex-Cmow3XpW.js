@@ -1,4 +1,0 @@
-import{bW as o}from"./Queen-BBI2u1hW.js";const e="fogVertex",r=`#ifdef FOG
-vFogDistance=(view*worldPos).xyz;
-#endif
-`;o.IncludesShadersStore[e]||(o.IncludesShadersStore[e]=r);const t={name:e,shader:r};export{t as f};
