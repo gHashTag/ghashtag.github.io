@@ -310,6 +310,9 @@ PAGES = {
                 ("arXiv:2606.05017 — GoldenFloat", "A φ-based floating-point family, GF4 through GF1024, with the reference implementations that make it checkable."),
                 ("arXiv:2606.09686 — 83 numeric formats", "A conformance catalogue with bit-exact vectors for FP8, BF16, MXFP4 and microscaling formats, published so anyone can validate their own arithmetic against it."),
             ]),
+            ("Shipped", [
+                ("Orb — screen recorder for macOS", "A camera bubble that floats above every other app and is never welded into the video. Screen, camera and pointer stay separate tracks until export, so the bubble can be moved, resized or reshaped after the take is over — and the glass rim refracts the screen behind it, because those pixels are still there. Native Swift on ScreenCaptureKit, AVFoundation and Core Image."),
+            ]),
             ("Working with me", [
                 ("Remote, UTC+7", "Based in Thailand, working with teams across Europe and North America."),
                 ("Open tools by default", "Nothing I deliver requires you to buy a licence to reproduce it."),
