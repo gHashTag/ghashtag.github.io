@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Orb records your screen with your face in a bubble on top of it, and never welds the bubble into the video. Screen, camera and pointer stay separate tracks until export. $99 one-time, macOS.">
+<link rel="canonical" href="https://t27.ai/orb/">
+<meta property="og:type" content="product">
+<meta property="og:title" content="Orb — a camera bubble that stays editable">
+<meta property="og:description" content="A screen recorder that keeps the camera bubble as its own track, so it can be moved, resized and reshaped after the take is over. $99 one-time, macOS.">
+<meta property="og:url" content="https://t27.ai/orb/">
+<meta name="twitter:card" content="summary_large_image">
+<title>Orb — a camera bubble that stays editable after the take</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+  /* Light palette first and complete: every token defined here before any block
+     redefines it. The hues are the product's own — a violet key light and a cyan
+     bounce, the two sources that light the sphere in the app itself. */
+  :root {
+    --ground: #F5F3FB;
+    --surface: #FFFFFF;
+    --surface-2: #ECE8F8;
+    --line: #DED7F0;
+    --line-soft: #EBE6F6;
+    --ink: #14112A;
+    --ink-dim: #3B3557;
+    --muted: #625C82;
+    --violet: #6B3FF2;
+    --violet-soft: #A98BFF;
+    --cyan: #0E86C7;
+    --screen: #E7E2F4;
+    --screen-line: #D3CBEA;
+    --shadow: 0 24px 60px -28px rgba(30, 18, 80, .38);
+    --sphere-core: #C4B3FF;
+    --sphere-mid: #7B54F5;
+    --sphere-deep: #2A1470;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #090811;
+      --surface: #12101F;
+      --surface-2: #1A1630;
+      --line: #2C2545;
+      --line-soft: #201B38;
+      --ink: #F0EDF9;
+      --ink-dim: #C6BFE0;
+      --muted: #A099C2;
+      --violet: #9B7BFF;
+      --violet-soft: #B9A2FF;
+      --cyan: #52C8FF;
+      --screen: #15121F;
+      --screen-line: #26203C;
+      --shadow: 0 30px 70px -30px rgba(0, 0, 0, .8);
+      --sphere-core: #D5C7FF;
+      --sphere-mid: #8B67FF;
+      --sphere-deep: #1B0C52;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #090811;
+    --surface: #12101F;
+    --surface-2: #1A1630;
+    --line: #2C2545;
+    --line-soft: #201B38;
+    --ink: #F0EDF9;
+    --ink-dim: #C6BFE0;
+    --muted: #A099C2;
+    --violet: #9B7BFF;
+    --violet-soft: #B9A2FF;
+    --cyan: #52C8FF;
+    --screen: #15121F;
+    --screen-line: #26203C;
+    --shadow: 0 30px 70px -30px rgba(0, 0, 0, .8);
+    --sphere-core: #D5C7FF;
+    --sphere-mid: #8B67FF;
+    --sphere-deep: #1B0C52;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+  }
+
+  .page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 28px 24px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 96px;
+  }
+
+  h1, h2, h3 {
+    font-family: Fraunces, Georgia, "Times New Roman", serif;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+    letter-spacing: -0.018em;
+    line-height: 1.1;
+  }
+
+  p { margin: 0; }
+  a { color: inherit; }
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-family: Fraunces, Georgia, serif;
+    font-size: 21px;
+    letter-spacing: -0.01em;
+  }
+
+  .price-chip {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 14px;
+  }
+  .price-chip b {
+    color: var(--ink);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- the sphere ----------
+     Two lights, a terminator and one specular — the same model the app draws
+     the real bubble with, rebuilt in gradients. */
+
+  .orb {
+    position: relative;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 26%, var(--sphere-core) 0%, var(--sphere-mid) 38%, transparent 74%),
+      radial-gradient(circle at 82% 84%, color-mix(in srgb, var(--cyan) 62%, transparent) 0%, transparent 52%),
+      radial-gradient(circle at 50% 50%, transparent 62%, rgba(0, 0, 0, .42) 100%),
+      var(--sphere-deep);
+    flex: none;
+  }
+  .orb::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(
+      ellipse 34% 22% at 27% 22%,
+      rgba(255, 255, 255, .92) 0%,
+      rgba(255, 255, 255, 0) 70%);
+  }
+
+  .brand .orb { width: 26px; height: 26px; }
+  .brand .orb::after { background: radial-gradient(ellipse 36% 26% at 28% 24%, rgba(255,255,255,.9) 0%, rgba(255,255,255,0) 70%); }
+
+  /* ---------- hero ---------- */
+
+  .hero { display: flex; flex-direction: column; gap: 34px; }
+
+  .hero-copy { max-width: 40ch; display: flex; flex-direction: column; gap: 20px; }
+
+  h1 { font-size: clamp(2.7rem, 6.4vw, 4.5rem); }
+  h1 em {
+    font-style: italic;
+    font-variation-settings: "SOFT" 30;
+    color: var(--violet);
+  }
+
+  .lede { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--ink-dim); max-width: 46ch; }
+
+  .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+
+  .buy {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    background: var(--violet);
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 13px 24px;
+    border-radius: 999px;
+    box-shadow: 0 12px 30px -12px color-mix(in srgb, var(--violet) 70%, transparent);
+    transition: transform .16s ease, box-shadow .16s ease;
+  }
+  .buy:hover { transform: translateY(-1px); box-shadow: 0 18px 36px -14px color-mix(in srgb, var(--violet) 80%, transparent); }
+  .buy span { opacity: .72; font-variant-numeric: tabular-nums; font-weight: 500; }
+
+  .cta-note { font-size: 14px; color: var(--muted); }
+
+  /* ---------- the stage: a bubble sitting on a screen ---------- */
+
+  .stage {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--screen);
+    padding: 0;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .stage-bar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--screen-line);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--screen-line); }
+
+  .stage-body {
+    position: relative;
+    min-height: 340px;
+    padding: 26px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+
+  /* Faux content, purely so the glass rim has something real to bend. */
+  .line { height: 9px; border-radius: 4px; background: var(--screen-line); }
+  .line.w1 { width: 62%; } .line.w2 { width: 84%; } .line.w3 { width: 45%; }
+  .line.w4 { width: 73%; } .line.w5 { width: 55%; } .line.w6 { width: 90%; }
+  .line.accent { background: color-mix(in srgb, var(--violet) 42%, var(--screen-line)); width: 34%; }
+
+  .bubble-mount {
+    position: absolute;
+    right: 34px;
+    bottom: 30px;
+    width: 168px;
+    height: 168px;
+  }
+  .bubble-mount .orb { width: 100%; height: 100%; }
+
+  /* The halo is a ring that samples what is behind it — which is the whole point:
+     those pixels still exist because the camera never touched them. */
+  .halo {
+    position: absolute;
+    inset: -13px;
+    border-radius: 50%;
+    pointer-events: none;
+    transition: box-shadow .3s ease, border-color .3s ease, backdrop-filter .3s ease;
+  }
+
+  [data-halo="none"] .halo { border: 0; }
+
+  [data-halo="ring"] .halo {
+    inset: -7px;
+    border: 7px solid color-mix(in srgb, var(--ink) 88%, transparent);
+  }
+
+  [data-halo="glass"] .halo {
+    -webkit-backdrop-filter: blur(9px) saturate(1.5) brightness(1.06);
+    backdrop-filter: blur(9px) saturate(1.5) brightness(1.06);
+    mask: radial-gradient(circle, transparent 0 calc(50% - 13px), #000 calc(50% - 12.4px) 100%);
+    -webkit-mask: radial-gradient(circle, transparent 0 calc(50% - 13px), #000 calc(50% - 12.4px) 100%);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, .34),
+      0 0 0 1px color-mix(in srgb, var(--ink) 14%, transparent);
+    background: linear-gradient(140deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,.04) 48%, color-mix(in srgb, var(--cyan) 26%, transparent) 100%);
+  }
+
+  [data-halo="glow"] .halo {
+    inset: -9px;
+    border: 3px solid color-mix(in srgb, var(--violet) 70%, transparent);
+    box-shadow:
+      0 0 26px 6px color-mix(in srgb, var(--violet) 46%, transparent),
+      0 0 64px 22px color-mix(in srgb, var(--violet) 22%, transparent);
+  }
+
+  .halo-picker {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .halo-picker .eyebrow { margin-right: 4px; }
+
+  .halo-btn {
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .halo-btn:hover { color: var(--ink); border-color: var(--violet-soft); }
+  .halo-btn[aria-pressed="true"] {
+    color: var(--ink);
+    border-color: var(--violet);
+    background: color-mix(in srgb, var(--violet) 13%, transparent);
+  }
+  .halo-btn:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+
+  /* ---------- the thesis ---------- */
+
+  section { display: flex; flex-direction: column; gap: 28px; }
+
+  .section-head { display: flex; flex-direction: column; gap: 12px; max-width: 54ch; }
+  h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); }
+  .section-head p { color: var(--ink-dim); }
+
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .panel {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: var(--surface);
+  }
+  .panel.theirs { background: transparent; border-style: dashed; }
+  .panel h3 { font-size: 1.15rem; font-family: "IBM Plex Sans", sans-serif; font-weight: 600; letter-spacing: 0; }
+  .panel p { font-size: 14.5px; color: var(--muted); }
+
+  .files {
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--ink-dim);
+    overflow-x: auto;
+  }
+  .files b { color: var(--violet); font-weight: 500; }
+  .files i { font-style: normal; color: var(--muted); }
+
+  /* ---------- capability list ---------- */
+
+  .rows { display: flex; flex-direction: column; }
+  .row {
+    display: grid;
+    grid-template-columns: 15.5rem 1fr;
+    gap: 8px 32px;
+    padding: 20px 0;
+    border-top: 1px solid var(--line-soft);
+    align-items: start;
+  }
+  .row:last-child { border-bottom: 1px solid var(--line-soft); }
+  .row h3 { font-size: 1.12rem; }
+  .row p { color: var(--muted); font-size: 15.5px; }
+
+  /* ---------- specs ---------- */
+
+  .specs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+    gap: 26px 32px;
+    border-top: 1px solid var(--line);
+    padding-top: 26px;
+  }
+  .spec { display: flex; flex-direction: column; gap: 5px; }
+  .spec dt { font-size: 12px; letter-spacing: .11em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  .spec dd { margin: 0; font-size: 15.5px; color: var(--ink-dim); }
+
+  /* ---------- not ready ---------- */
+
+  .pending {
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--violet-soft);
+    border-radius: 4px 14px 14px 4px;
+    background: var(--surface-2);
+    padding: 24px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 62ch;
+  }
+  .pending h3 { font-size: 1.2rem; }
+  .pending p { color: var(--ink-dim); font-size: 15.5px; }
+
+  /* ---------- close ---------- */
+
+  .close {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    align-items: flex-start;
+    border-top: 1px solid var(--line);
+    padding-top: 44px;
+  }
+  .close h2 { max-width: 20ch; }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13.5px;
+    color: var(--muted);
+    border-top: 1px solid var(--line-soft);
+    padding-top: 22px;
+  }
+
+  @media (max-width: 720px) {
+    .compare { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 1fr; gap: 6px; }
+    .bubble-mount { width: 118px; height: 118px; right: 20px; bottom: 20px; }
+    .stage-body { min-height: 260px; }
+    .page { gap: 72px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <div class="brand"><span class="orb"></span>Orb</div>
+    <div class="price-chip"><b>$99</b> one-time · macOS</div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-copy">
+      <h1>The bubble is still a <em>number</em> when the take ends.</h1>
+      <p class="lede">
+        A camera bubble that floats over everything you do — and a recorder that
+        never welds it into the video. Move it, resize it, reshape it after you
+        stop.
+      </p>
+      <div class="cta-row">
+        <a class="buy" href="#buy">Buy Orb <span>$99</span></a>
+        <span class="cta-note">One-time. macOS 14 or later.</span>
+      </div>
+    </div>
+
+    <div class="stage" id="stage" data-halo="glass">
+      <div class="stage-bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+      <div class="stage-body">
+        <div class="line w2"></div>
+        <div class="line accent"></div>
+        <div class="line w4"></div>
+        <div class="line w1"></div>
+        <div class="line w6"></div>
+        <div class="line w3"></div>
+        <div class="line w5"></div>
+        <div class="line w4"></div>
+        <div class="line w2"></div>
+
+        <div class="bubble-mount">
+          <div class="orb"></div>
+          <div class="halo"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="halo-picker" role="group" aria-label="Halo style">
+      <span class="eyebrow">Halo</span>
+      <button class="halo-btn" data-set="none" aria-pressed="false">None</button>
+      <button class="halo-btn" data-set="ring" aria-pressed="false">Ring</button>
+      <button class="halo-btn" data-set="glass" aria-pressed="true">Glass</button>
+      <button class="halo-btn" data-set="glow" aria-pressed="false">Glow</button>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">Why it can do that</span>
+      <h2>Two tracks, joined at the last moment.</h2>
+      <p>
+        Every other recorder composites the camera onto the screen while it records.
+        The moment it does, the pixels underneath are gone and the corner you chose
+        is the corner you have. Orb writes a folder instead.
+      </p>
+    </div>
+
+    <div class="compare">
+      <div class="panel theirs">
+        <h3>Recorded flat</h3>
+        <div class="files">
+          walkthrough.mp4<br>
+          <i>&nbsp;&nbsp;screen and face, already one image</i>
+        </div>
+        <p>
+          Wrong corner, wrong size, face over the thing you were pointing at —
+          all of it is now a re-record.
+        </p>
+      </div>
+
+      <div class="panel">
+        <h3>Recorded as an Orb project</h3>
+        <div class="files">
+          Onboarding.orb/<br>
+          &nbsp;&nbsp;<b>project.json</b> &nbsp;<i>shape, size, position, halo</i><br>
+          &nbsp;&nbsp;<b>screen.mov</b> &nbsp;&nbsp;<i>the display, no bubble in it</i><br>
+          &nbsp;&nbsp;<b>camera.mov</b> &nbsp;&nbsp;<i>your face and your voice</i><br>
+          &nbsp;&nbsp;<b>cursor.json</b> &nbsp;<i>where you pointed and clicked</i>
+        </div>
+        <p>
+          Nothing is decided until you export. The glass halo can bend the screen
+          behind the rim because those pixels are still there.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">What you get</span>
+      <h2>Made for showing someone how to use an app.</h2>
+    </div>
+
+    <div class="rows">
+      <div class="row">
+        <h3>A bubble that goes anywhere</h3>
+        <p>
+          Floats above every app and every Space, follows you into full screen.
+          Drag it, scroll over it to resize. The record button is attached to it,
+          so you can stop a take while another app has focus.
+        </p>
+      </div>
+      <div class="row">
+        <h3>Four halos</h3>
+        <p>
+          None, a clean ring, a glow, or glass — which blurs and magnifies the
+          screen behind the rim as real refraction, not a drawn-on highlight.
+        </p>
+      </div>
+      <div class="row">
+        <h3>Auto-zoom that leads the click</h3>
+        <p>
+          Orb samples the pointer sixty times a second and pushes in toward what
+          you clicked, arriving a beat <em>before</em> the click rather than
+          chasing it. Amount, speed and hold are sliders you can move afterwards,
+          or switch off entirely.
+        </p>
+      </div>
+      <div class="row">
+        <h3>An editor for the take you already made</h3>
+        <p>
+          Reopen a finished recording, scrub to any moment, drag the bubble to
+          where it should have been, change circle to square, then export.
+        </p>
+      </div>
+      <div class="row">
+        <h3>The bubble is never in your screen track</h3>
+        <p>
+          Kept out twice over — the window is marked unshareable, and the capture
+          filter names it as excluded. One stale flag should not be able to burn a
+          Stop button into your finished video.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">Specifics</span>
+      <h2>What it records, and what it needs.</h2>
+    </div>
+    <dl class="specs">
+      <div class="spec"><dt>Screen</dt><dd>Native display resolution, cursor included</dd></div>
+      <div class="spec"><dt>Audio</dt><dd>Microphone and system audio, together or apart</dd></div>
+      <div class="spec"><dt>Camera</dt><dd>Built-in, external, Continuity or Desk View</dd></div>
+      <div class="spec"><dt>Export</dt><dd>H.264 MP4 — 720p, 1080p, 1440p or native</dd></div>
+      <div class="spec"><dt>Requires</dt><dd>macOS 14 or later, Apple silicon or Intel</dd></div>
+      <div class="spec"><dt>Your videos</dt><dd>Stay on your Mac. No account, no upload</dd></div>
+    </dl>
+  </section>
+
+  <section>
+    <div class="pending">
+      <h3>iPhone is not ready, and is not part of this</h3>
+      <p>
+        There is an iOS version in progress. The bubble floats over other apps and
+        the screen recorder runs on device — but a full take, start to finish, has
+        not been proven yet, and iOS constrains the shape in ways macOS does not.
+      </p>
+      <p>
+        It is not included in this licence and it is not being sold. It ships when
+        someone who has never seen it can record a take without being told
+        anything.
+      </p>
+    </div>
+  </section>
+
+  <section class="close" id="buy">
+    <span class="eyebrow">One licence</span>
+    <h2>$99, paid once.</h2>
+    <p class="lede">
+      One person, every Mac you own, commercial work included. The videos you
+      record are yours — nothing in the licence claims any interest in them. Free
+      updates through version 1.
+    </p>
+    <a class="buy" href="#buy" id="checkout">Buy Orb <span>$99</span></a>
+    <p class="cta-note">
+      Point this button at your checkout — Gumroad, Lemon Squeezy or Paddle — before
+      the page goes out.
+    </p>
+  </section>
+
+  <footer>
+    <span>Orb — screen recordings that keep their bubble editable.</span>
+    <span>macOS 14+ · one-time licence</span>
+  </footer>
+
+</div>
+
+<script>
+  // The halo buttons drive the real bubble above them, so the page demonstrates the
+  // choice instead of describing it.
+  const stage = document.getElementById("stage");
+  const buttons = Array.from(document.querySelectorAll(".halo-btn"));
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      stage.dataset.halo = button.dataset.set;
+      buttons.forEach((other) => {
+        other.setAttribute("aria-pressed", String(other === button));
+      });
+    });
+  });
+</script>
+</body>
+</html>
