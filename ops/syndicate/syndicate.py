@@ -3,8 +3,9 @@
 
 Cross-posts every new post from blog-posts.json to the channels configured in
 ~/.config/t27-syndicate/config.json. State lives in
-~/.config/t27-syndicate/state.json so each post is published to each channel
-exactly once. Re-running is always safe: already-syndicated slugs are skipped.
+~/.config/t27-syndicate/state.json; confirmed post/channel pairs are skipped.
+Live runs are locked and each confirmed result is saved atomically. An ambiguous
+API response still needs reconciliation before retrying.
 
 Best practices baked in (SEO / traffic):
   - canonical link + "originally published at" line at the top of every
@@ -15,7 +16,7 @@ Best practices baked in (SEO / traffic):
   - tags are mapped per channel (dev.to: max 4 tags, lowercase).
 
 Channels (enable by filling their token in the config; missing tokens are
-skipped with a warning, never an error):
+skipped unless that channel was explicitly selected):
   telegram  — Telegram channel via bot (sendPhoto + caption + link)
   devto     — dev.to API (draft by default, review then flip)
   hashnode  — Hashnode GraphQL API (draft by default)
@@ -25,15 +26,20 @@ Usage:
   syndicate.py                 # syndicate all unposted posts
   syndicate.py --dry-run       # show what would be posted, touch nothing
   syndicate.py --limit 1       # only the newest unposted post
+  syndicate.py --slug example --channel telegram  # one exact article/channel
   syndicate.py --status        # print state table
 """
 import argparse
+from contextlib import contextmanager
+import fcntl
 import ipaddress
 import json
+import os
 import re
 import socket
 import subprocess
 import sys
+import tempfile
 import time
 import urllib.parse
 from pathlib import Path
@@ -89,6 +95,47 @@ def load_json(path, default):
         return json.loads(path.read_text())
     except FileNotFoundError:
         return default
+
+
+class StateLockError(RuntimeError):
+    pass
+
+
+@contextmanager
+def state_lock(path):
+    """Hold one stable lock inode from state read through the last save."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lock_path = path.with_name(path.name + ".lock")
+    with lock_path.open("a") as lock_file:
+        try:
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            raise StateLockError("another syndication run holds the state lock") from exc
+        try:
+            yield
+        finally:
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+    # Do not unlink: a waiter may still have the old inode open.
+
+
+def save_state(path, state):
+    """Replace the legacy JSON map only after the entire new file is flushed."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", dir=path.parent,
+            prefix=f".{path.name}.", suffix=".tmp", delete=False,
+        ) as stream:
+            temporary = Path(stream.name)
+            json.dump(state, stream, indent=2, ensure_ascii=False)
+            stream.write("\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
 
 
 def load_config():
@@ -372,37 +419,70 @@ def update_profile(posts, dry):
     print(f"profile README updated ({PROFILE_REPO})")
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--limit", type=int)
+    ap.add_argument("--slug", help="exact slug of one already-published article")
+    ap.add_argument("--channel", choices=VALID_CHANNELS,
+                    help="send only to this channel (all configured channels by default)")
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--update-profile", action="store_true",
                     help="refresh the Latest posts block in the GitHub profile README")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
+    if args.limit is not None and args.limit < 1:
+        ap.error("--limit must be positive")
+    if args.update_profile and (args.slug is not None or args.channel is not None):
+        ap.error("--slug/--channel cannot be combined with --update-profile")
 
     posts = json.loads((REPO / "blog-posts.json").read_text())
     posts.sort(key=lambda p: p["date"])
+    if args.slug is not None:
+        posts = [p for p in posts if p["slug"] == args.slug
+                 and p["date"] <= time.strftime("%Y-%m-%d")]
+        if len(posts) != 1:
+            ap.error(f"--slug must match exactly one published article: {args.slug!r}")
 
     if args.update_profile:
         update_profile(posts, args.dry_run)
-        return
+        return 0
 
     cfg = load_config()
-    state = load_json(STATE_PATH, {})
+    posters = {args.channel: POSTERS[args.channel]} if args.channel else POSTERS
+    if args.channel and not channel_enabled(
+        args.channel, cfg.get("channels", {}).get(args.channel, {})
+    ):
+        ap.error(f"channel {args.channel!r} is not configured")
 
     if args.status:
-        for name in VALID_CHANNELS:
+        state = load_json(STATE_PATH, {})
+        for name in posters:
             ch = cfg.get("channels", {}).get(name, {})
             print(f"{name:10} {'enabled' if channel_enabled(name, ch) else 'no token (skipped)'}")
         for slug, done in state.items():
+            if args.slug is not None and slug != args.slug:
+                continue
+            done = {k: v for k, v in done.items() if k in posters}
             print(f"{slug[:60]:60} -> {', '.join(f'{k}:{v}' for k, v in done.items()) or '-'}")
-        return
+        return 0
+
+    if args.dry_run:
+        return syndicate(posts, posters, cfg, load_json(STATE_PATH, {}), args)
+    try:
+        with state_lock(STATE_PATH):
+            # Read after acquiring the lock, never before another writer finishes.
+            return syndicate(posts, posters, cfg, load_json(STATE_PATH, {}), args)
+    except (StateLockError, OSError) as exc:
+        print(f"syndication stopped: {exc}", file=sys.stderr)
+        return 1
+
+
+def syndicate(posts, posters, cfg, state, args):
 
     # only posts dated today or earlier; a future-dated post waits for its date
     todo = [p for p in posts
             if p["date"] <= time.strftime("%Y-%m-%d")
-            and set(state.get(p["slug"], {})) != set(POSTERS)]
+            and any(name not in state.get(p["slug"], {}) for name in posters)]
     # drip order: posts not yet in the Telegram channel come first (newest of
     # them first), so --limit advances the backlog instead of re-picking posts
     # that only lack optional token channels
@@ -415,11 +495,12 @@ def main():
 
     if not todo:
         print("nothing to syndicate")
-        return
+        return 0
 
+    failed = False
     for post in todo:
         slug = post["slug"]
-        for name, poster in POSTERS.items():
+        for name, poster in posters.items():
             if name in state.get(slug, {}):
                 continue
             ch = cfg.get("channels", {}).get(name, {})
@@ -429,19 +510,21 @@ def main():
                 continue
             try:
                 res = poster(post, ch, args.dry_run)
-                state.setdefault(slug, {})[name] = (
-                    "dry-run" if res.get("dry") else str(res.get("id") or res.get("url") or "ok"))
-                print(f"[{slug}] {name}: {'dry-run ok' if res.get('dry') else res}")
+                if not res.get("ok"):
+                    raise RuntimeError("channel did not confirm success")
             except Exception as e:  # noqa: BLE001 — one channel failing must not stop others
+                failed = True
                 msg = re.sub(r"bot\d+:[\w-]+", "bot***", str(e))  # never leak tokens
                 print(f"[{slug}] {name}: FAILED {msg}")
+                continue
+            if not args.dry_run:
+                state.setdefault(slug, {})[name] = str(res.get("id") or res.get("url") or "ok")
+                # A persistence failure must stop dispatch, not silently continue.
+                save_state(STATE_PATH, state)
+            print(f"[{slug}] {name}: {'dry-run ok' if args.dry_run else res}")
         print()
-
-    if not args.dry_run:
-        STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
-        STATE_PATH.write_text(json.dumps(state, indent=2, ensure_ascii=False) + "\n")
-        print(f"state saved to {STATE_PATH}")
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
