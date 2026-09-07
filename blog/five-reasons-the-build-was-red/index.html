@@ -46,6 +46,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 figure{margin:0 0 1.8rem;overflow-x:auto}
 figure svg{max-width:100%;height:auto}
 figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
 table{border-collapse:collapse;width:100%;font-size:.9rem}
 th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
 th{color:#00ff88;font-weight:600}
@@ -64,7 +74,7 @@ th{color:#00ff88;font-weight:600}
 .work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
-.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
 .posts h2{margin:0 0 .4rem;font-size:1.2rem}
 </style>
 </head>
@@ -78,6 +88,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 <h1>Five reasons the build was red, and the fifth was mine</h1>
 <p class="meta">2026-08-15 · 7 min read</p>
 <p class="lede">Our CLI could not be installed by anyone, and the CI that should have said so had zero successes in thirty runs. Each cause hid the next; removing the fourth created the fifth.</p>
+<figure class="blog-cover"><a href="/og-art/five-reasons-the-build-was-red.jpg?v=39dc0c7984d9" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — Five reasons the build was red, and the fifth was mine"><img src="/og-art/five-reasons-the-build-was-red.jpg?v=39dc0c7984d9" alt="Three-panel engraved illustration for: Five reasons the build was red, and the fifth was mine" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><span>Three panels, left to right</span><ol class="cover-panels" lang="en"><li><strong>THE INSTALL</strong><span>The tool could not be installed.</span></li><li><strong>THE NESTING</strong><span>Each cause hid the next.</span></li><li><strong>THE LIMIT</strong><span>Removing the fourth created the fifth.</span></li></ol><a href="/og-art/five-reasons-the-build-was-red.jpg?v=39dc0c7984d9" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — Five reasons the build was red, and the fifth was mine">View the complete triptych at full size</a></figcaption></figure>
 <div class="tags"><span class="tag">#CI</span><span class="tag">#Zig</span><span class="tag">#BuildSystems</span><span class="tag">#Tooling</span></div>
 <p>Until yesterday our command-line tool could not be installed by anybody, including us. Not &quot;was awkward to build&quot; — <code>zig build</code> could not produce it from a clean clone on any machine. The CI job that exists to say so had been failing for thirty consecutive runs, which is the same as saying nothing at all.</p>
 <p>Five causes, stacked. Each one hid the next, so every fix looked like it had not worked.</p>

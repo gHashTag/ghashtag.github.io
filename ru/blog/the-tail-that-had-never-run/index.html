@@ -46,6 +46,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 figure{margin:0 0 1.8rem;overflow-x:auto}
 figure svg{max-width:100%;height:auto}
 figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
 table{border-collapse:collapse;width:100%;font-size:.9rem}
 th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
 th{color:#00ff88;font-weight:600}
@@ -64,7 +74,7 @@ th{color:#00ff88;font-weight:600}
 .work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
-.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
 .posts h2{margin:0 0 .4rem;font-size:1.2rem}
 </style>
 </head>
@@ -78,6 +88,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 <h1>Хвост, который никогда не исполнялся</h1>
 <p class="meta">2026-08-19 · 9 мин чтения</p>
 <p class="lede">Собирающая битстрим CI-задача была красной одиннадцать дней. Под этим — тринадцать слоёв дефектов, каждый невидим, пока не вылечен верхний: фальшивая база кристалла, список зависимостей, который никто не исполнял, и шаг успеха, отвергнувший первый настоящий битстрим в истории задачи. Теперь задача выдаёт битстрим xc7a100t в 3 822 704 байта через полностью открытый поток.</p>
+<figure class="blog-cover"><a href="/og-art/the-tail-that-had-never-run.jpg?v=fcd16bd3cd6a" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — Хвост, который никогда не исполнялся"><img src="/og-art/the-tail-that-had-never-run.jpg?v=fcd16bd3cd6a" alt="Гравюрный триптих к статье: Хвост, который никогда не исполнялся" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><span>Три панели, слева направо</span><p class="cover-language">Подписи на изображении — на английском.</p><ol class="cover-panels" lang="en"><li><strong>THE RED JOB</strong><span>Eleven days red.</span></li><li><strong>THE STACK</strong><span>Thirteen stacked defects.</span></li><li><strong>THE BITSTREAM</strong><span>The first real bitstream in its history.</span></li></ol><a href="/og-art/the-tail-that-had-never-run.jpg?v=fcd16bd3cd6a" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — Хвост, который никогда не исполнялся">Открыть полный триптих в исходном размере</a></figcaption></figure>
 <div class="tags"><span class="tag">#CI</span><span class="tag">#FPGA</span><span class="tag">#openXC7</span><span class="tag">#Debugging</span><span class="tag">#SelfCritique</span></div>
 <p>CI-задача, собирающая битстрим для FPGA, была красной одиннадцать дней. Починка оказалась не починкой, а починками: тринадцать разных дефектов, сложенных так, что каждый можно было обнаружить, только вылечив предыдущий. Хвост задачи — синтез, трассировка, генерация фреймов, сборка битстрима — не исполнялся никогда. Ни разу за всю историю задачи.</p>
 <p>Это стоит записать не потому, что тринадцать — большое число, а потому, что каждый слой был невидим снаружи, пока падал слой над ним. Конвейер, умирающий на шаге 3, не сообщает о шагах с 4 по 14 ничего — и «ничего» здесь буквально: ни строчки лога, ни ошибки типов, ни предупреждения линтера. Код, который никогда не исполнялся, — это не работающий код и не падающий код. Это пустое место.</p>

@@ -20,15 +20,19 @@ binding itself yields `undefined` and writes a broken file without erroring.
 
     python3 build-blog.py
 """
+import hashlib
 import html
 import json
 import os
 import re
+import sys
+from pathlib import Path
 from urllib.parse import quote
 
 SITE = "https://t27.ai"
 EMAIL = "admin@t27.ai"
 DATA = "blog-posts.json"
+ROOT = Path(__file__).resolve().parent
 
 NAV = [
     ("gft", "Format"), ("verification", "Verification"), ("proof", "Proof"),
@@ -59,6 +63,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 figure{margin:0 0 1.8rem;overflow-x:auto}
 figure svg{max-width:100%;height:auto}
 figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
 table{border-collapse:collapse;width:100%;font-size:.9rem}
 th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
 th{color:#00ff88;font-weight:600}
@@ -77,7 +91,7 @@ th{color:#00ff88;font-weight:600}
 .work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
-.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
 .posts h2{margin:0 0 .4rem;font-size:1.2rem}
 """
 
@@ -96,6 +110,10 @@ UI = {
                      "published here first with receipts and open questions.",
         "openApp": "Open the interactive version", "all": "All posts",
         "other": "Читать по-русски", "otherLang": "ru",
+        "coverAlt": "Three-panel engraved illustration for",
+        "coverFull": "View the complete triptych at full size",
+        "coverPanels": "Three panels, left to right",
+        "coverEnglish": "The image captions are in English.",
         "workEyebrow": "Work with me", "workPrimary": "Discuss your project",
         "servicesLabel": "Services",
         "services": [
@@ -135,6 +153,10 @@ UI = {
                      "публикуются здесь первыми, с пруфами и открытыми вопросами.",
         "openApp": "Открыть интерактивную версию", "all": "Все статьи",
         "other": "Read in English", "otherLang": "en",
+        "coverAlt": "Гравюрный триптих к статье",
+        "coverFull": "Открыть полный триптих в исходном размере",
+        "coverPanels": "Три панели, слева направо",
+        "coverEnglish": "Подписи на изображении — на английском.",
         "workEyebrow": "Поработаем вместе", "workPrimary": "Обсудить задачу",
         "servicesLabel": "Услуги",
         "services": [
@@ -190,6 +212,81 @@ def localise(p, lang):
 
 def esc(s):
     return html.escape(str(s))
+
+
+def cover_panels(slug, lang):
+    """Optional, verified transcription; never infer panel text from a title.
+
+    The shared JPG can contain English text even on a Russian page. Keep that
+    explicit rather than presenting an English fallback as localized artwork.
+    """
+    path = ROOT / "og-art" / "captions.json"
+    if not path.is_file():
+        return [], lang
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as error:
+        raise SystemExit(f"build-blog: cannot read og-art/captions.json: {error}")
+    if not isinstance(data, dict):
+        raise SystemExit("build-blog: og-art/captions.json must map slugs to locales")
+    entry = data.get(slug, {})
+    if not isinstance(entry, dict):
+        raise SystemExit(f"build-blog: captions for {slug} must map locales to panels")
+    panel_lang = lang if lang in entry else "en"
+    if panel_lang not in entry:
+        return [], lang
+    panels = entry[panel_lang]
+    if not isinstance(panels, list) or len(panels) != 3:
+        raise SystemExit(f"build-blog: captions for {slug}/{panel_lang} need exactly three panels")
+    for panel in panels:
+        if not isinstance(panel, dict) or any(
+            not isinstance(panel.get(key), str) or not panel[key].strip()
+            for key in ("heading", "caption")
+        ):
+            raise SystemExit(f"build-blog: each caption for {slug}/{panel_lang} needs heading and caption")
+    return panels, panel_lang
+
+
+def cover_figure(p, lang, *, priority=False):
+    """Show the real, whole triptych, never a fallback OG title card.
+
+    The byte hash changes when artwork changes without putting arbitrary
+    versions on article URLs. A missing asset is reported, but does not block
+    publishing unrelated work or produce a broken image for the reader.
+    """
+    slug = p["slug"]
+    path = ROOT / "og-art" / f"{slug}.jpg"
+    if not path.is_file():
+        print(f"build-blog: missing triptych og-art/{slug}.jpg; no visible cover emitted", file=sys.stderr)
+        return ""
+    version = hashlib.sha256(path.read_bytes()).hexdigest()[:12]
+    src = f"/og-art/{quote(slug, safe='')}.jpg?v={version}"
+    u = UI[lang]
+    title = localise(p, lang)["title"]
+    alt = f"{u['coverAlt']}: {title}"
+    full_size_label = f"{u['coverFull']} — {title}"
+    panels, panel_lang = cover_panels(slug, lang)
+    transcription = ""
+    if panels:
+        language_note = (
+            f'<p class="cover-language">{esc(u["coverEnglish"])}</p>'
+            if lang == "ru" and panel_lang == "en" else ""
+        )
+        transcription = (
+            f'<span>{esc(u["coverPanels"])}</span>{language_note}'
+            f'<ol class="cover-panels" lang="{panel_lang}">'
+            + "".join(f'<li><strong>{esc(panel["heading"])}</strong>'
+                      f'<span>{esc(panel["caption"])}</span></li>' for panel in panels)
+            + "</ol>"
+        )
+    return (
+        '<figure class="blog-cover">'
+        f'<a href="{esc(src)}" target="_blank" rel="noopener" aria-label="{esc(full_size_label)}">'
+        f'<img src="{esc(src)}" alt="{esc(alt)}" width="1200" height="630" '
+        f'loading="{"eager" if priority else "lazy"}" decoding="async" /></a>'
+        f'<figcaption>{transcription}<a href="{esc(src)}" target="_blank" '
+        f'rel="noopener" aria-label="{esc(full_size_label)}">{esc(u["coverFull"])}</a></figcaption></figure>'
+    )
 
 
 def hashtag(tag):
@@ -440,6 +537,7 @@ def post_page(p, lang="en"):
         f"<h1>{esc(d['title'])}</h1>",
         f'<p class="meta">{esc(p["date"])} · {esc(p["readingMinutes"])} {esc(u["read"])}</p>',
         f'<p class="lede">{esc(d["summary"])}</p>',
+        cover_figure(p, lang, priority=True),
     ]
     if not p.get("tags"):
         raise SystemExit(f"build-blog: post {slug} has no mandatory tags")
@@ -485,7 +583,7 @@ def index_page(posts, lang="en"):
     for p in posts:
         d = localise(p, lang)
         items.append(
-            f'<li><h2><a href="{base(lang)}/{esc(p["slug"])}/">{esc(d["title"])}</a></h2>'
+            f'<li>{cover_figure(p, lang)}<h2><a href="{base(lang)}/{esc(p["slug"])}/">{esc(d["title"])}</a></h2>'
             f'<p class="meta">{esc(p["date"])} · {esc(p["readingMinutes"])} {esc(u["read"])}</p>'
             f'<p>{esc(d["summary"])}</p></li>'
         )

@@ -5,6 +5,36 @@ at `apps/website`. A publish is: build there, copy `index.html`, `manifest.json`
 and `assets/*` here, run `verify-site.sh`, commit, push. GitHub Pages serves
 `index.html` with `max-age=600` and gives no custom headers.
 
+## Blog triptych artwork
+
+The blog artwork contract is one intact 1200 × 630, black-and-white engraved
+triptych: three vertical panels, serif titles, italic captions, ornaments and
+the full-width topic strip. Use inspected historical images as img2img
+references; do not substitute generic title cards when refreshing artwork.
+
+The original artwork lives at `og-art/<slug>.jpg`. Verified panel transcriptions
+live in `og-art/captions.json`, keyed by slug and language. English text inside
+an image remains explicitly English on a Russian page; never invent a
+translation or transcription. Both static pages and the SPA show the complete
+image, a full-size link and these captions, stacked at narrow widths.
+
+After changing the art or captions, publish the two repositories together:
+
+1. Run `python3 regen-blog.py /path/to/trinity/apps/website` here. This renders
+   the EN/RU OG PNGs, article pages, indexes, feeds and sitemap.
+2. In `trinity/apps/website`, run
+   `node scripts/update-blog-cover-versions.mjs /path/to/this/repository`, then
+   the same command with `--check`. The updater hashes the actual final PNG
+   bytes for every published post and rejects absent triptychs or wrong sizes.
+3. Run the blog-cover Node tests, typecheck ratchet, API checks and production
+   build there; run `python3 -m unittest test_build_blog.py` here.
+4. Follow the publish-race checks below, copy the final build additively, then
+   run `./verify-site.sh --local`. Preserve the previously served asset
+   generation for clients with a cached index.
+5. After publication, verify visible covers on both static and SPA pages,
+   including a 360px mobile viewport. An `og:image` tag alone is not proof
+   that a reader can see the triptych.
+
 ## The publish race
 
 More than one session publishes this site. Between the moment you build and the

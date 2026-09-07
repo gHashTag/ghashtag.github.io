@@ -46,6 +46,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 figure{margin:0 0 1.8rem;overflow-x:auto}
 figure svg{max-width:100%;height:auto}
 figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
 table{border-collapse:collapse;width:100%;font-size:.9rem}
 th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
 th{color:#00ff88;font-weight:600}
@@ -64,7 +74,7 @@ th{color:#00ff88;font-weight:600}
 .work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
-.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
 .posts h2{margin:0 0 .4rem;font-size:1.2rem}
 </style>
 </head>
@@ -78,6 +88,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 <h1>One saturation rule, five artefacts</h1>
 <p class="meta">2026-09-06 · 5 min read</p>
 <p class="lede">[measured] A merged fp6_e3m2 correction changed 8 boundary codes, kept 56 codes unchanged, and brought a 66,720-code consistency pass to 0 mismatches.</p>
+<figure class="blog-cover"><a href="/og-art/one-saturation-rule-five-artefacts.jpg?v=d5530765ebea" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — One saturation rule, five artefacts"><img src="/og-art/one-saturation-rule-five-artefacts.jpg?v=d5530765ebea" alt="Three-panel engraved illustration for: One saturation rule, five artefacts" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><span>Three panels, left to right</span><ol class="cover-panels" lang="en"><li><strong>THE BOUNDARY</strong><span>8 codes changed; 56 preserved.</span></li><li><strong>THE AGREEMENT</strong><span>One rule across five artefacts.</span></li><li><strong>THE EVIDENCE</strong><span>Host checks agree; hardware not rerun.</span></li></ol><a href="/og-art/one-saturation-rule-five-artefacts.jpg?v=d5530765ebea" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — One saturation rule, five artefacts">View the complete triptych at full size</a></figcaption></figure>
 <div class="tags"><span class="tag">#FPGA</span><span class="tag">#Conformance</span><span class="tag">#Reproducibility</span><span class="tag">#Testing</span></div>
 <p>[measured] A merged correction in gHashTag/trinity-fpga aligned the fp6_e3m2 boundary rule across the host conformance path. When the exponent field reaches its maximum, the code now saturates to the largest finite value, 14.0, instead of being read as an ordinary exponent.</p>
 <p>[measured] The correction changed 8 boundary codes: four positive and four negative. The remaining 56 fp6_e3m2 codes were unchanged. This is a conformance correction, not a claim about speed, energy, model quality, or a new hardware result.</p>

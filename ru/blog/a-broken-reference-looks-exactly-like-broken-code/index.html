@@ -46,6 +46,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 figure{margin:0 0 1.8rem;overflow-x:auto}
 figure svg{max-width:100%;height:auto}
 figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
 table{border-collapse:collapse;width:100%;font-size:.9rem}
 th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
 th{color:#00ff88;font-weight:600}
@@ -64,7 +74,7 @@ th{color:#00ff88;font-weight:600}
 .work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
-.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
 .posts h2{margin:0 0 .4rem;font-size:1.2rem}
 </style>
 </head>
@@ -78,6 +88,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 <h1>Восемь сломанных гейтов за день, и ни один — из-за сломанного кода</h1>
 <p class="meta">2026-08-15 · 9 мин чтения</p>
 <p class="lede">Флаг, версия, раннер, модуль, скрипт, три спеки, два пути форматирования, пять ссылок на сабмодули и шаг, который запускал то, что называл сборкой. Каждый сообщал «failure» — ровно как сообщил бы настоящий дефект.</p>
+<figure class="blog-cover"><a href="/og-art/a-broken-reference-looks-exactly-like-broken-code.jpg?v=324129c0615e" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — Восемь сломанных гейтов за день, и ни один — из-за сломанного кода"><img src="/og-art/a-broken-reference-looks-exactly-like-broken-code.jpg?v=324129c0615e" alt="Гравюрный триптих к статье: Восемь сломанных гейтов за день, и ни один — из-за сломанного кода" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><span>Три панели, слева направо</span><p class="cover-language">Подписи на изображении — на английском.</p><ol class="cover-panels" lang="en"><li><strong>THE SIGNAL</strong><span>Eight gates reported failure.</span></li><li><strong>THE CAUSE</strong><span>A flag, a path, a missing link.</span></li><li><strong>THE LIMIT</strong><span>A real defect looks the same.</span></li></ol><a href="/og-art/a-broken-reference-looks-exactly-like-broken-code.jpg?v=324129c0615e" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — Восемь сломанных гейтов за день, и ни один — из-за сломанного кода">Открыть полный триптих в исходном размере</a></figcaption></figure>
 <div class="tags"><span class="tag">#CI</span><span class="tag">#Tooling</span><span class="tag">#Git</span><span class="tag">#Zig</span></div>
 <p>У нашего CI было ноль успехов из последних тридцати прогонов. За один день из него вышло восемь отдельных причин. Ни одна не была ошибкой в проверяемом коде.</p>
 <div class="tw"><table><thead><tr><th>что было не так</th><th>как это выглядело</th></tr></thead><tbody><tr><td>флаг был в build.zig и не передавался</td><td>нет системной библиотеки raylib</td></tr><tr><td><code>brew install zig</code> ставил 0.16 на дерево 0.15.2</td><td>linkLibC переехал, trimLeft удалён</td></tr><tr><td>задача шла на macos-latest, чей SDK 0.15.2 не линкует</td><td>undefined _abort, _bzero</td></tr><tr><td>модуль из файла, которого нет ни на одной машине</td><td>file_hash FileNotFound</td></tr><tr><td>шаг звал скрипт, которого не было ни в одном коммите</td><td>exit 127</td></tr><tr><td>трёх .vibee-спек из списка генерации не существует</td><td>отказ генерации</td></tr><tr><td>два пути в проверке форматирования давно удалены</td><td>unable to format: FileNotFound</td></tr><tr><td>пять gitlink-ов сабмодулей без url в .gitmodules</td><td>checkout, exit 128</td></tr></tbody></table></div>

@@ -46,6 +46,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 figure{margin:0 0 1.8rem;overflow-x:auto}
 figure svg{max-width:100%;height:auto}
 figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
 table{border-collapse:collapse;width:100%;font-size:.9rem}
 th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
 th{color:#00ff88;font-weight:600}
@@ -64,7 +74,7 @@ th{color:#00ff88;font-weight:600}
 .work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
-.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
 .posts h2{margin:0 0 .4rem;font-size:1.2rem}
 </style>
 </head>
@@ -78,6 +88,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 <h1>The ratchet counted a total as an error</h1>
 <p class="meta">2026-08-23 · 8 min read</p>
 <p class="lede">A gate written to stop elaboration errors creeping back reported 186 of them; 25 were the compiler&#x27;s own summary line saying how many errors it had found. The number had already reached commit messages and a status page. This is the proof that could not have come out any other way, the live emitter defect that was hiding inside the count, why fixing it made the number worse, and one fix that was built, measured, and thrown away.</p>
+<figure class="blog-cover"><a href="/og-art/the-ratchet-counted-a-total-as-an-error.jpg?v=cbfb9c40caae" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — The ratchet counted a total as an error"><img src="/og-art/the-ratchet-counted-a-total-as-an-error.jpg?v=cbfb9c40caae" alt="Three-panel engraved illustration for: The ratchet counted a total as an error" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><span>Three panels, left to right</span><ol class="cover-panels" lang="en"><li><strong>THE COUNT</strong><span>186 reported included 25 phantoms.</span></li><li><strong>THE SUMMARY</strong><span>Summary lines are not errors.</span></li><li><strong>THE RATCHET</strong><span>Classify the output before counting.</span></li></ol><a href="/og-art/the-ratchet-counted-a-total-as-an-error.jpg?v=cbfb9c40caae" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — The ratchet counted a total as an error">View the complete triptych at full size</a></figcaption></figure>
 <div class="tags"><span class="tag">#CI</span><span class="tag">#Measurement</span><span class="tag">#SelfCritique</span><span class="tag">#FPGA</span><span class="tag">#Compilers</span></div>
 <p>A gate we wrote to stop elaboration errors from creeping back reported 186 of them. Twenty-five were not errors. They were the line iverilog prints at the end of a failing file to say how many errors it found.</p>
 <h2>One substring, twenty-five phantoms</h2>

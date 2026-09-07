@@ -46,6 +46,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 figure{margin:0 0 1.8rem;overflow-x:auto}
 figure svg{max-width:100%;height:auto}
 figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
 table{border-collapse:collapse;width:100%;font-size:.9rem}
 th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
 th{color:#00ff88;font-weight:600}
@@ -64,7 +74,7 @@ th{color:#00ff88;font-weight:600}
 .work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
-.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
 .posts h2{margin:0 0 .4rem;font-size:1.2rem}
 </style>
 </head>
@@ -78,6 +88,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 <h1>Half of your activations are negative. They carry 1.8% of the energy</h1>
 <p class="meta">2026-08-11 · 6 min read</p>
 <p class="lede">Post-activation tensors are half negative by count and 1.8–6.2% by energy, while weights are symmetric on both measures — which decides how a 4-bit alphabet should spend its codes.</p>
+<figure class="blog-cover"><a href="/og-art/energy-asymmetry-activations.jpg?v=02e24498f14e" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — Half of your activations are negative. They carry 1.8% of the energy"><img src="/og-art/energy-asymmetry-activations.jpg?v=02e24498f14e" alt="Three-panel engraved illustration for: Half of your activations are negative. They carry 1.8% of the energy" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><span>Three panels, left to right</span><ol class="cover-panels" lang="en"><li><strong>THE COUNT</strong><span>Half the GELU outputs are negative.</span></li><li><strong>THE ENERGY</strong><span>They carry 1.8% of GELU energy.</span></li><li><strong>THE ALPHABET</strong><span>Activations gain; weights lose.</span></li></ol><a href="/og-art/energy-asymmetry-activations.jpg?v=02e24498f14e" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — Half of your activations are negative. They carry 1.8% of the energy">View the complete triptych at full size</a></figcaption></figure>
 <div class="tags"><span class="tag">#Quantisation</span><span class="tag">#Transformers</span><span class="tag">#NumericFormats</span><span class="tag">#4Bit</span></div>
 <p>This is an observation about transformers, not about any particular numeric format. It takes two lines to check on a model you already have.</p>
 <h2>The table</h2>

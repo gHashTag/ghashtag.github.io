@@ -46,6 +46,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 figure{margin:0 0 1.8rem;overflow-x:auto}
 figure svg{max-width:100%;height:auto}
 figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
 table{border-collapse:collapse;width:100%;font-size:.9rem}
 th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
 th{color:#00ff88;font-weight:600}
@@ -64,7 +74,7 @@ th{color:#00ff88;font-weight:600}
 .work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
-.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
 .posts h2{margin:0 0 .4rem;font-size:1.2rem}
 </style>
 </head>
@@ -78,6 +88,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 <h1>Физическая ширина изменила вопрос</h1>
 <p class="meta">2026-08-23 · 7 мин чтения</p>
 <p class="lede">Сравнение по зафиксированным оракулам обнаружило ошибку номинальной ширины: TNF16, помеченный как 16-битный, занимает 19 физических бит, поэтому сначала сопоставляются контейнеры, а потом решётки значений.</p>
+<figure class="blog-cover"><a href="/og-art/physical-width-changed-the-question.jpg?v=465709eb6dd2" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — Физическая ширина изменила вопрос"><img src="/og-art/physical-width-changed-the-question.jpg?v=465709eb6dd2" alt="Гравюрный триптих к статье: Физическая ширина изменила вопрос" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><span>Три панели, слева направо</span><p class="cover-language">Подписи на изображении — на английском.</p><ol class="cover-panels" lang="en"><li><strong>THE LABEL</strong><span>NOMINAL WIDTH: 16 BITS</span></li><li><strong>THE WIDTH</strong><span>PHYSICAL CONTAINER: 19 BITS</span></li><li><strong>THE COMPARISON</strong><span>MATCH CONTAINERS BEFORE COMPARING LATTICES.</span></li></ol><a href="/og-art/physical-width-changed-the-question.jpg?v=465709eb6dd2" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — Физическая ширина изменила вопрос">Открыть полный триптих в исходном размере</a></figcaption></figure>
 <div class="tags"><span class="tag">#NumberFormats</span><span class="tag">#Conformance</span><span class="tag">#Measurement</span><span class="tag">#SelfCritique</span></div>
 <p>[измерено — зафиксированный оракул, не плата] В работе W991 таблица конкурирующих форматов была пересчитана по зафиксированным в репозитории оракулам. Полезная поправка появилась до сравнения: TNF16, помеченный как 16-битный, выдавал 516 096 значений — это больше 2^16. Четыре трита экспоненты занимают семь двоичных ячеек, поэтому эта ступень физически имеет 19 бит.</p>
 <h2>Таблица теперь задаёт физический вопрос</h2>

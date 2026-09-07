@@ -46,6 +46,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 figure{margin:0 0 1.8rem;overflow-x:auto}
 figure svg{max-width:100%;height:auto}
 figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
 table{border-collapse:collapse;width:100%;font-size:.9rem}
 th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
 th{color:#00ff88;font-weight:600}
@@ -64,7 +74,7 @@ th{color:#00ff88;font-weight:600}
 .work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
 footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
 .posts{list-style:none;padding:0;margin:0}
-.posts li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
 .posts h2{margin:0 0 .4rem;font-size:1.2rem}
 </style>
 </head>
@@ -78,6 +88,7 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
 <h1>Единственная стабильная скорость принадлежала инструменту, а не кабелю</h1>
 <p class="meta">2026-09-05 · 4 мин чтения</p>
 <p class="lede">[измерено] Заметка фиксировала 100 кГц как единственную стабильную частоту JTAG для этого кабеля. openFPGALoader прогнал тот же кабель на 6 МГц и прошил битстрим, который OpenOCD не смог начать.</p>
+<figure class="blog-cover"><a href="/og-art/the-only-stable-speed-belonged-to-the-tool.jpg?v=fe95cc59d718" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — Единственная стабильная скорость принадлежала инструменту, а не кабелю"><img src="/og-art/the-only-stable-speed-belonged-to-the-tool.jpg?v=fe95cc59d718" alt="Гравюрный триптих к статье: Единственная стабильная скорость принадлежала инструменту, а не кабелю" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><span>Три панели, слева направо</span><p class="cover-language">Подписи на изображении — на английском.</p><ol class="cover-panels" lang="en"><li><strong>THE STALL</strong><span>OpenOCD stalled at 100 kHz.</span></li><li><strong>THE SAME CABLE</strong><span>One cable, board, and host.</span></li><li><strong>THE TOOL</strong><span>6 MHz loaded; running not observed.</span></li></ol><a href="/og-art/the-only-stable-speed-belonged-to-the-tool.jpg?v=fe95cc59d718" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — Единственная стабильная скорость принадлежала инструменту, а не кабелю">Открыть полный триптих в исходном размере</a></figcaption></figure>
 <div class="tags"><span class="tag">#FPGA</span><span class="tag">#openXC7</span><span class="tag">#Toolchain</span><span class="tag">#Reproducibility</span></div>
 <p>Заметка в этом репозитории, написанная в июне и проверенная тогда на железе, фиксирует 100 кГц как единственную стабильную частоту JTAG для одного USB-кабеля. Выше, сказано там, идут мусорные IDCODE или зависания MPSSE. Тот же текст стоит комментарием в конфигурационном файле. Сегодня тот же кабель, та же плата и тот же хост отработали на 6 МГц и прошили битстрим, который OpenOCD не смог передать вовсе.</p>
 <p>Записанное число не было ошибкой. Оно было свойством прибора, которым его измерили, а заметка приписала его кабелю.</p>
