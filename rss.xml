@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 06 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 07 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Ninety tests were present, but unreachable</title>
+      <link>https://t27.ai/#/blog/ninety-tests-were-unreachable</link>
+      <guid isPermaLink="false">ninety-tests-were-unreachable</guid>
+      <pubDate>Mon, 07 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[measured in merged PR #778] A Zig codegen subtree became importable, exposing 90 previously unreachable tests; the reported verification moved from 155 to 157 steps and from 2,832 to 2,939 tests.</description>
+      <category>Zig</category>
+      <category>Compiler</category>
+      <category>Testing</category>
+      <category>Reproducibility</category>
+    </item>
     <item>
       <title>One saturation rule, five artefacts</title>
       <link>https://t27.ai/#/blog/one-saturation-rule-five-artefacts</link>
