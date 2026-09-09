@@ -785,27 +785,18 @@ def result_slugs():
 
 
 def doc_pages():
-    """The GOLDEN SUNFLOWERS chapters served under /docs/.
+    """The GOLDEN SUNFLOWERS chapters are no longer listed.
 
-    Forty-eight substantive pages that were in no sitemap at all — the book is
-    linked from the landings, so a crawler could reach it, but nothing told one
-    that it exists or how large it is. Listed with the .html extension because
-    that is the form the book's own internal links use; both forms resolve, and
-    publishing the other one would only invent a second URL for every chapter.
+    Until 2026-09-09 this returned the forty-eight chapter pages under /docs/.
+    The book now lives at /docs-legacy/ (noindex, robots.txt Disallow) and
+    /docs/ holds redirect stubs: index.html to the system documentation the
+    t27.ai app renders at /#/docs, the chapter names to their /docs-legacy/
+    twins so links published before the move keep resolving. A redirect stub
+    is not a page and a noindex page is not for the sitemap, so neither
+    directory contributes a URL. The system documentation itself is a hash
+    route inside /, which the sitemap already lists.
     """
-    if not os.path.isdir("docs"):
-        return []
-    # print.html is the whole book on one page (9,065 words against ~430 in a
-    # chapter). Listing it beside the chapters is duplicate content that competes
-    # with them for the same queries, so it stays out.
-    skip = {"404.html", "print.html"}
-    names = sorted(
-        f for f in os.listdir("docs")
-        if f.endswith(".html") and f not in skip
-    )
-    if not names:
-        raise SystemExit("sitemap: docs/ exists but holds no pages — check the path")
-    return [f"docs/{f}" for f in names]
+    return []
 
 
 def blog_pages():
@@ -1117,5 +1108,11 @@ if __name__ == "__main__":
     with open("sitemap.xml", "w", encoding="utf-8") as fh:
         fh.write(sitemap(list(PAGES)))
     with open("robots.txt", "w", encoding="utf-8") as fh:
-        fh.write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
+        # /docs-legacy/ is the retired GOLDEN SUNFLOWERS book: kept so old links
+        # resolve, marked noindex on every page, and excluded here so a crawler
+        # does not spend its budget on pages that ask not to be indexed.
+        fh.write(
+            "User-agent: *\nAllow: /\nDisallow: /docs-legacy/\n\n"
+            f"Sitemap: {SITE}/sitemap.xml\n"
+        )
     print("wrote sitemap.xml, robots.txt")

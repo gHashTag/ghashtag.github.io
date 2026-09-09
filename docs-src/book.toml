@@ -12,7 +12,7 @@ git-repository-url = "https://github.com/gHashTag/ghashtag.github.io"
 edit-url-template = "https://github.com/gHashTag/ghashtag.github.io/edit/main/docs-src/{path}"
 additional-css = ["theme/sunflower.css"]
 mathjax-support = true
-site-url = "/docs/"
+site-url = "/docs-legacy/"
 
 [output.html.search]
 enable = true

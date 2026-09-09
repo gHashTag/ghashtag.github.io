@@ -28,12 +28,12 @@ jobs:
         if: env.DATABASE_URL != ''
         run: python3 ops/sync_neon_to_mdbook.py
       - name: Build mdBook
-        run: mdbook build docs-src --dest-dir ../docs
+        run: mdbook build docs-src --dest-dir ../docs-legacy
       - name: Commit & push (if changed)
         run: |
           git config user.name  'goldensunflowers-bot'
           git config user.email 'bot@goldensunflowers'
-          git add docs/ docs-src/src/
+          git add docs-legacy/ docs-src/src/
           if ! git diff --staged --quiet; then
             git commit -m "chore(book): rebuild from Neon SSOT [skip ci]"
             git push
