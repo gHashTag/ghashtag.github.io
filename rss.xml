@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 08 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>A merged diff was not one CI verdict</title>
+      <link>https://t27.ai/#/blog/merge-diff-ci-boundaries</link>
+      <guid isPermaLink="false">merge-diff-ci-boundaries</guid>
+      <pubDate>Wed, 09 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[measured] Merged PR #975 changed 85 files with 4,154 additions and 58 deletions; the receipts still need to be kept separate from interface correctness and live delivery.</description>
+      <category>Reproducibility</category>
+      <category>CI</category>
+      <category>Web</category>
+      <category>Spec-first</category>
+    </item>
     <item>
       <title>Four languages shared one .tri extension</title>
       <link>https://t27.ai/#/blog/four-languages-one-tri-extension</link>
