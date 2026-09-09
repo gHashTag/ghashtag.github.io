@@ -73,6 +73,10 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m pip install --quiet --disable-pip-version-check pillow
+          # Third-party apt lists on the runner image (Google Chrome, …) are not
+          # needed here; a broken upstream index ("Hash Sum mismatch", 2026-09-09)
+          # must not block publishing. librsvg2-bin comes from the Ubuntu pockets.
+          sudo rm -f /etc/apt/sources.list.d/google-chrome*.list /etc/apt/sources.list.d/microsoft-edge*.list
           sudo apt-get update -qq
           sudo apt-get install -y -qq --no-install-recommends librsvg2-bin
 
