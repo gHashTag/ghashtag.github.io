@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 07 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Four languages shared one .tri extension</title>
+      <link>https://t27.ai/#/blog/four-languages-one-tri-extension</link>
+      <guid isPermaLink="false">four-languages-one-tri-extension</guid>
+      <pubDate>Tue, 08 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[reported in merged PR #793] The VIBEE generator now names Markdown, TOML, and t27 inputs instead of silently treating them as empty VIBEE modules, while unrecognised files retain the old fall-through.</description>
+      <category>Compiler</category>
+      <category>Parser</category>
+      <category>Testing</category>
+      <category>Reproducibility</category>
+    </item>
     <item>
       <title>Ninety tests were present, but unreachable</title>
       <link>https://t27.ai/#/blog/ninety-tests-were-unreachable</link>
