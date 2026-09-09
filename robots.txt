@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /docs-legacy/
 
 Sitemap: https://t27.ai/sitemap.xml
