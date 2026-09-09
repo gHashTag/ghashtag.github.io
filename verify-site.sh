@@ -377,14 +377,18 @@ for block in blocks:
     if loc:
         entries.append((loc.group(1), lm.group(1) if lm else None))
 
-# These three URLs are served by the separate gHashTag/leela Pages project.
-# This checkout cannot ask that repository when its files changed, and stamping
-# them with this repository's date would turn lastmod into a fabricated claim.
-# Every URL this repository actually owns must still carry a derived date.
+# These URLs are served by separate Pages projects: the three leela surfaces by
+# gHashTag/leela, and /orb/ by gHashTag/orb since 7e8ac690 handed the page to
+# its own site. This checkout cannot ask those repositories when their files
+# changed, and stamping them with this repository's date would turn lastmod into
+# a fabricated claim. Every URL this repository actually owns must still carry
+# a derived date. (7e8ac690 kept the sitemap entry but did not add it here, so
+# every scheduled publish since 2026-09-08 18:00Z failed on this check.)
 external_without_lastmod = {
     "https://t27.ai/leela/",
     "https://t27.ai/leela/classic/",
     "https://t27.ai/leela/docs/",
+    "https://t27.ai/orb/",
 }
 unexpected_missing = [
     loc for loc, lm in entries if lm is None and loc not in external_without_lastmod
