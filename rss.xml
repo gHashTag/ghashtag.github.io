@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 10 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>A phone web view needed an orientation gate</title>
+      <link>https://t27.ai/#/blog/queen-phone-orientation-gate</link>
+      <guid isPermaLink="false">queen-phone-orientation-gate</guid>
+      <pubDate>Thu, 10 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[measured] Merged PR #983 changed 3 CSS files after a 390×480 Chrome check exposed a phone layout selected by height instead of orientation.</description>
+      <category>Web</category>
+      <category>CSS</category>
+      <category>Reproducibility</category>
+      <category>Testing</category>
+    </item>
     <item>
       <title>A merged diff was not one CI verdict</title>
       <link>https://t27.ai/#/blog/merge-diff-ci-boundaries</link>
