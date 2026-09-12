@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 11 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 12 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The FPGA row was corrected before it became evidence</title>
+      <link>https://t27.ai/#/blog/the-fpga-row-was-corrected</link>
+      <guid isPermaLink="false">the-fpga-row-was-corrected</guid>
+      <pubDate>Sat, 12 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[proven] A merged t27 PR corrected an invalid Yosys invocation and changed three FPGA status rows from green to red after 881 historical runs showed 36 successes, 842 failures, and 3 cancellations.</description>
+      <category>FPGA</category>
+      <category>CI</category>
+      <category>Reproducibility</category>
+      <category>Audit</category>
+    </item>
     <item>
       <title>A green self-check still had a boundary</title>
       <link>https://t27.ai/#/blog/signal-health-self-run32</link>
