@@ -32,7 +32,7 @@
   <url><loc>https://t27.ai/ru/proof/</loc><lastmod>2026-08-31</lastmod></url>
   <url><loc>https://t27.ai/ru/resources/</loc><lastmod>2026-08-31</lastmod></url>
   <url><loc>https://t27.ai/ru/verification/</loc><lastmod>2026-08-31</lastmod></url>
-  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-09-12</lastmod></url>
   <url><loc>https://t27.ai/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-09-07</lastmod></url>
@@ -82,6 +82,7 @@
   <url><loc>https://t27.ai/blog/the-auditor-made-the-mistake-it-audits/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/the-control-that-could-not-fail/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/the-experiment-that-could-not-answer/</loc><lastmod>2026-09-07</lastmod></url>
+  <url><loc>https://t27.ai/blog/the-fpga-row-was-corrected/</loc><lastmod>2026-09-12</lastmod></url>
   <url><loc>https://t27.ai/blog/the-full-adder-made-the-cost-claim-comparable/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/the-gate-was-right-and-nothing-stopped/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/the-generated-file-was-three-years-old/</loc><lastmod>2026-09-07</lastmod></url>
@@ -97,7 +98,7 @@
   <url><loc>https://t27.ai/blog/twenty-merged-in-three-days/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/twenty-three-reference-models/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/two-bitstreams-one-bit-apart/</loc><lastmod>2026-09-07</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-09-12</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-09-07</lastmod></url>
@@ -147,6 +148,7 @@
   <url><loc>https://t27.ai/ru/blog/the-auditor-made-the-mistake-it-audits/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-control-that-could-not-fail/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-experiment-that-could-not-answer/</loc><lastmod>2026-09-07</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/the-fpga-row-was-corrected/</loc><lastmod>2026-09-12</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-full-adder-made-the-cost-claim-comparable/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-gate-was-right-and-nothing-stopped/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-generated-file-was-three-years-old/</loc><lastmod>2026-09-07</lastmod></url>
