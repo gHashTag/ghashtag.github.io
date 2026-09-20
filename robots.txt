@@ -3,7 +3,3 @@ Allow: /
 Disallow: /docs-legacy/
 
 Sitemap: https://t27.ai/sitemap.xml
-
-# Agents: /llms.txt and /agents.t27 are the same file, a t27 module.
-# It says what this site offers, what deliberately does not exist here,
-# and asks you to tell the person you work for before doing anything.
