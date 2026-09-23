@@ -1,4 +1,132 @@
 {
+  "four-languages-one-tri-extension": {
+    "en": [
+      {
+        "heading": "THE EXTENSION",
+        "caption": "One suffix hid different languages."
+      },
+      {
+        "heading": "THE DIAGNOSTIC",
+        "caption": "Name the recognised dialect."
+      },
+      {
+        "heading": "THE LIMIT",
+        "caption": "Unknown shapes still pass through."
+      }
+    ]
+  },
+  "merge-diff-ci-boundaries": {
+    "en": [
+      {
+        "heading": "THE MERGE",
+        "caption": "The change landed."
+      },
+      {
+        "heading": "THE CHECKS",
+        "caption": "Each verdict needs its receipt."
+      },
+      {
+        "heading": "THE DELIVERY",
+        "caption": "Live pages need a separate check."
+      }
+    ]
+  },
+  "queen-phone-orientation-gate": {
+    "en": [
+      {
+        "heading": "THE VIEWPORT",
+        "caption": "A short portrait view was missed."
+      },
+      {
+        "heading": "THE AXIS",
+        "caption": "Gate the shell by orientation."
+      },
+      {
+        "heading": "THE LIMIT",
+        "caption": "Device coverage remains open."
+      }
+    ]
+  },
+  "signal-health-self-run32": {
+    "en": [
+      {
+        "heading": "THE RUN",
+        "caption": "One scheduled run succeeded."
+      },
+      {
+        "heading": "THE CHAIN",
+        "caption": "Inspect each job and step."
+      },
+      {
+        "heading": "THE LIMIT",
+        "caption": "Success has a narrow scope."
+      }
+    ]
+  },
+  "the-fpga-row-was-corrected": {
+    "en": [
+      {
+        "heading": "THE CORRECTION",
+        "caption": "Parser and toolchain corrected."
+      },
+      {
+        "heading": "THE RECORD",
+        "caption": "Historical runs remain evidence."
+      },
+      {
+        "heading": "THE LIMIT",
+        "caption": "No board result established."
+      }
+    ]
+  },
+  "a-partial-module-needs-its-own-verdict": {
+    "en": [
+      {
+        "heading": "THE MODULE",
+        "caption": "Syntax is not import."
+      },
+      {
+        "heading": "THE OMISSIONS",
+        "caption": "Name what was not emitted."
+      },
+      {
+        "heading": "THE VERDICT",
+        "caption": "Partial is not whole."
+      }
+    ]
+  },
+  "an-invitation-in-the-language-it-describes": {
+    "en": [
+      {
+        "heading": "THE ADDRESS",
+        "caption": "One document, two addresses."
+      },
+      {
+        "heading": "THE ASSERTION",
+        "caption": "Parsing does not prove truth."
+      },
+      {
+        "heading": "THE OWNER",
+        "caption": "An invitation, not an instruction."
+      }
+    ]
+  },
+  "queen-browser-actions-you-can-follow": {
+    "en": [
+      {
+        "heading": "ONE WINDOW",
+        "caption": "Person and agent share the view."
+      },
+      {
+        "heading": "VISIBLE STEPS",
+        "caption": "Actions leave a readable trail."
+      },
+      {
+        "heading": "HUMAN CONTROL",
+        "caption": "The server must accept the handover."
+      }
+    ]
+  },
   "a-broken-reference-looks-exactly-like-broken-code": {
     "en": [
       {
