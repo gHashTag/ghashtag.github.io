@@ -1,5 +1,622 @@
 [
  {
+  "slug": "queen-browser-actions-you-can-follow",
+  "title": "The browser agent should show its work",
+  "summary": "Queen’s merged browser changes expose actions as they arrive, keep a compact journal, and let human input request server-side control—with the remaining handover limits made explicit.",
+  "date": "2026-09-23",
+  "readingMinutes": 6,
+  "tags": [
+   "Queen",
+   "BrowserAutomation",
+   "Agents",
+   "Observability",
+   "Testing"
+  ],
+  "receipts": [
+   {
+    "label": "Trinity #1088 — one remote browser in Queen · MERGED 2026-09-21",
+    "href": "https://github.com/gHashTag/trinity/pull/1088"
+   },
+   {
+    "label": "Trinity #1094 — chat reaches the browser-equipped agent · MERGED 2026-09-21",
+    "href": "https://github.com/gHashTag/trinity/pull/1094"
+   },
+   {
+    "label": "Trinity #1096 — incremental action and text events · MERGED 2026-09-21",
+    "href": "https://github.com/gHashTag/trinity/pull/1096"
+   },
+   {
+    "label": "Trinity #1104 — connection-state messages · MERGED 2026-09-21",
+    "href": "https://github.com/gHashTag/trinity/pull/1104"
+   },
+   {
+    "label": "Trinity #1107 — recent browser journal · MERGED 2026-09-21",
+    "href": "https://github.com/gHashTag/trinity/pull/1107"
+   },
+   {
+    "label": "Trinity #1109 — human-control request from the board · MERGED 2026-09-22",
+    "href": "https://github.com/gHashTag/trinity/pull/1109"
+   },
+   {
+    "label": "Trinity #1111 — consecutive journal repeats folded · MERGED 2026-09-22",
+    "href": "https://github.com/gHashTag/trinity/pull/1111"
+   },
+   {
+    "label": "Website checks — browser contract passed in run 35689898918",
+    "href": "https://github.com/gHashTag/trinity/actions/runs/35689898918/job/106624452015"
+   }
+  ],
+  "openQuestions": [
+   "The source diffs and browser contract were inspected and the contract rerun for this article; no fresh signed-in end-to-end remote-browser session was independently tested.",
+   "The driving indicator updates before server acknowledgement and a failed wheel request is not surfaced; the indicator alone is not evidence of accepted control, and cancellation of in-flight actions is not established.",
+   "The journal shows at most six folded lines from up to 24 recent entries, polls every five seconds, and is not a complete audit archive.",
+   "Connection handling and human-control enforcement depend on the matching viewer and server deployments; a source merge alone does not establish live delivery. Server behaviour is attributed to the public #1109 report, not independently reproduced here.",
+   "The public #1109 report says a human-control lease can persist until its ten-minute expiry after a tab is closed; this article does not claim a general security guarantee or measured productivity improvement."
+  ],
+  "published": true,
+  "ru": {
+   "title": "Браузерный агент должен показывать свою работу",
+   "summary": "Смерженные изменения Queen показывают действия по мере поступления, сохраняют компактный журнал и позволяют вводу человека запрашивать управление на сервере — с явными ограничениями передачи руля.",
+   "openQuestions": [
+    "Для статьи изучены изменения и браузерный контракт, который также запущен повторно; новая сквозная проверка удалённого браузера в авторизованной сессии независимо не выполнялась.",
+    "Индикатор управления меняется до подтверждения сервера, а отказ запроса не показывается; одного индикатора недостаточно для подтверждения принятого управления, отмена уже начатых действий не установлена.",
+    "Журнал показывает не более шести свёрнутых строк из максимум 24 последних записей, опрашивается каждые пять секунд и не является полным архивом аудита.",
+    "Обработка соединения и ограничение действий зависят от соответствующих версий окна просмотра и сервера; слияние исходников само по себе не подтверждает доставку на живой сайт. Поведение сервера приведено по публичному отчёту #1109, а не независимо воспроизведено здесь.",
+    "По публичному отчёту #1109 после закрытия вкладки право управления может сохраняться до истечения десятиминутного срока; статья не заявляет общей гарантии безопасности или измеренного роста производительности."
+   ],
+   "body": [
+    {
+     "kind": "p",
+     "text": "Слова агента «готово» — не то же самое, что возможность увидеть, что произошло. Браузер может оказаться на нужной странице после ошибочного клика, отказа в разрешении или нескольких бесполезных попыток. 21–22 сентября серия смерженных изменений связала Queen с браузером более осмысленно: человек и агент работают с одним окном, действия видны ещё до завершения ответа, а последние шаги остаются под изображением страницы."
+    },
+    {
+     "kind": "h",
+     "text": "Одно окно, а не второй браузер"
+    },
+    {
+     "kind": "p",
+     "text": "PR #1088 добавил на доску Queen раздел BROWSER. Он обращается к существующему удалённому браузеру пользователя, а не запускает для панели ещё одну машину. Копия доски по адресу app.t27.ai/queen/ находится на том же origin, что и приложение; адрес окна просмотра обязан вести на этот же origin по пути /live/. В другом месте панель предлагает перейти в приложение, а не делает вид, будто авторизованное окно уже доступно."
+    },
+    {
+     "kind": "p",
+     "text": "Сам переход в раздел только читает состояние сессии. Чтобы запустить браузер, нужно нажать Open; предварительный просмотр на главной странице даже не запрашивает это состояние у брокера. Затем PR #1094 направил сообщения из этого раздела агенту пользователя, у которого есть браузерные инструменты. Вместе с вопросом передаются контекст вкладки и до восьми предыдущих реплик. Исправлена конкретная несостыковка: разговор рядом с браузером должен попадать к агенту, способному действовать именно в нём."
+    },
+    {
+     "kind": "h",
+     "text": "Действие становится видно раньше вывода"
+    },
+    {
+     "kind": "p",
+     "text": "PR #1096 изменил чтение ответа. Вместо ожидания всего текста Queen обрабатывает события, разделённые переводами строк, по мере поступления. Вызов браузерного инструмента появляется в чате отдельным шагом; рядом постепенно растёт ответ. Это события инструментов и текст ответа, а не показ внутренних рассуждений модели. Само название инструмента ещё не доказывает, что задача завершилась успешно."
+    },
+    {
+     "kind": "p",
+     "text": "Для русскоязычного читателя здесь важна небольшая инженерная деталь: сетевой фрагмент может оборваться посередине кириллической буквы. Декодер сохраняет состояние между фрагментами, а неполное событие ждёт следующих байтов. Контрактный тест разбивает ответ на куски по семь байтов и проверяет две вещи: буквы остаются целыми, а шаг инструмента появляется до текста ответа. Он также проверяет, что промежуточные состояния передаются копиями: позднее обновление не должно незаметно переписывать то, что наблюдалось раньше."
+    },
+    {
+     "kind": "h",
+     "text": "Журнал, в котором остаётся место важному"
+    },
+    {
+     "kind": "p",
+     "text": "Живое изображение показывает страницу сейчас. PR #1107 добавил другой взгляд: последние записанные действия под окном, с временем, глаголом и коротким фактом либо ошибкой. PR #1111 не дал повторным наблюдениям занять весь список. Панель читает до 24 записей и показывает не более шести свёрнутых строк. Обновление происходит каждые пять секунд, пока браузер работает и документ видим."
+    },
+    {
+     "kind": "p",
+     "text": "В строку со счётчиком сворачиваются только соседние записи с одинаковыми инструментом, исходом и отображаемым текстом. Сохраняется самое новое время. Ошибка между двумя успешными наблюдениями разрывает серию, а не исчезает внутри успокаивающего числа повторов. Это компактное представление недавней работы, а не полный архив и не утверждение, что каждое действие независимо проверено."
+    },
+    {
+     "kind": "h",
+     "text": "Передача управления требует решения сервера"
+    },
+    {
+     "kind": "p",
+     "text": "PR #1109 связал нажатия указателя и клавиатуры внутри окна доски с запросами к серверному механизму «руля». Публичный отчёт описывает право управления на десять минут: агент может наблюдать и спрашивать, но не должен кликать или вводить текст, пока управление у человека. Это поведение сервера приведено по отчёту PR, а не независимо продемонстрировано здесь. Открытый код панели отправляет запросы продления не чаще одного раза в тридцать секунд продолжающегося ввода и предоставляет кнопку запроса на возврат управления агенту."
+    },
+    {
+     "kind": "p",
+     "text": "Здесь остаётся существенное ограничение. Текущая панель меняет индикатор управления до подтверждения запроса и не показывает отказ запроса на передачу руля. Поэтому индикатор сам по себе не доказывает, что сервер принял передачу управления. Реализация также не устанавливает, что отменяется каждое уже начатое действие. Если вкладку закрыли, выданное право управления может сохраняться до истечения срока. Это границы, которые нужно проверять и улучшать, а не прятать за словом «безопасно»."
+    },
+    {
+     "kind": "h",
+     "text": "Что именно подтверждают проверки"
+    },
+    {
+     "kind": "p",
+     "text": "PR #1104 также научил панель заново читать состояние сессии, когда её собственное окно сообщает о переподключении или зависшем соединении. Сообщения от другого окна или origin игнорируются. Это позволяет заменить застывшее изображение завершённой сессии соответствующим состоянием интерфейса, но не обещает, что сеть перестанет отказывать."
+    },
+    {
+     "kind": "p",
+     "text": "При подготовке статьи мы изучили публичные смерженные изменения и 23 сентября повторно запустили check:queen-browser: проверка прошла. В связанном запуске CI также зафиксирован успешный контракт. Эти проверки вызывают функции принятия решений и моделируют поток ответа; это не новая сквозная проверка браузера в авторизованной сессии. Практический результат конкретен: интерфейс раскрывает больше действий агента, не позволяет повторам вытеснять полезные события и позволяет вводу человека запрашивать управление на сервере. Оставшиеся ограничения названы рядом с результатом."
+    }
+   ]
+  },
+  "body": [
+   {
+    "kind": "p",
+    "text": "An agent saying “done” is not the same as a person seeing what happened. A browser can finish on the right page after a wrong click, a failed permission request, or several unproductive attempts. On September 21–22, a sequence of merged changes gave Queen a more useful relationship with the browser: the person and the agent share a window, actions become visible while the answer is arriving, and recent steps remain below the picture."
+   },
+   {
+    "kind": "h",
+    "text": "One window, not a second browser"
+   },
+   {
+    "kind": "p",
+    "text": "PR #1088 added the BROWSER view to the Queen board. It refers to the person’s existing remote browser, not a second machine opened for the dashboard. The board’s copy at app.t27.ai/queen/ shares the app’s origin; the viewer address must resolve to that same origin under /live/. Elsewhere, the panel offers a route into the app instead of pretending the authenticated window is available."
+   },
+   {
+    "kind": "p",
+    "text": "Opening the panel only reads session state. Starting a browser needs a press of Open; a homepage preview does not even ask the broker for that state. PR #1094 then routed chat from this view to the person’s browser-equipped agent, carrying the tab context and up to eight previous turns. This fixes a concrete mismatch: a conversation beside a browser should reach the agent that can act in that browser."
+   },
+   {
+    "kind": "h",
+    "text": "The action arrives before the conclusion"
+   },
+   {
+    "kind": "p",
+    "text": "PR #1096 changed how the response is read. Instead of collecting the whole answer first, Queen consumes newline-delimited events as they arrive. A browser tool call becomes a step in the chat; answer text grows alongside it. These are tool events and answer text, not a display of the model’s private reasoning, and a tool name alone does not prove that the intended task succeeded."
+   },
+   {
+    "kind": "p",
+    "text": "The small engineering detail matters for Russian readers: a network chunk can end halfway through a Cyrillic character. The decoder keeps its state between chunks, while an incomplete event waits for its next bytes. The contract test divides a response into seven-byte pieces and checks both intact text and a tool step appearing before the answer. It also checks that progress snapshots are copies, so later updates cannot silently rewrite an earlier observation."
+   },
+   {
+    "kind": "h",
+    "text": "A journal that leaves room for the important step"
+   },
+   {
+    "kind": "p",
+    "text": "The live picture shows the page now. PR #1107 added a different view: recent recorded actions below it, with a time, a verb, and a short fact or error. PR #1111 stopped repeated observations from consuming the entire list. The panel reads up to 24 entries and displays at most six folded lines, refreshing every five seconds while the browser is live and the document is visible."
+   },
+   {
+    "kind": "p",
+    "text": "Only consecutive entries with the same tool, outcome, and displayed text collapse into a counted line. The newest timestamp survives. A failure between two successful observations breaks the run rather than disappearing inside a reassuring count. This is a compact operational view, not a complete archive or a claim that every action has been independently verified."
+   },
+   {
+    "kind": "h",
+    "text": "Taking control needs a server decision"
+   },
+   {
+    "kind": "p",
+    "text": "PR #1109 connected the board’s pointer and keyboard activity to requests for the server’s “wheel” mechanism. Its public report describes a ten-minute human-control lease: the agent may look and ask, but should not click or type while the person holds it. That server behaviour is reported by the PR, not independently demonstrated here. The public panel code sends renewal requests at most once every thirty seconds of continued input, and provides a button requesting that control return to the agent."
+   },
+   {
+    "kind": "p",
+    "text": "There is an important remaining limit. The current panel changes its driving indicator before the request is acknowledged and does not surface a failed wheel request. The indicator is therefore not proof that the server accepted control. Nor does this implementation establish that every in-flight action is cancelled. A lease left behind by a closed tab can last until its expiry. These are boundaries to test and improve, not details to hide behind the word “safe”."
+   },
+   {
+    "kind": "h",
+    "text": "What the evidence actually covers"
+   },
+   {
+    "kind": "p",
+    "text": "PR #1104 also made the panel re-read session state when its own viewer reports a reconnecting or stuck connection. Messages from another frame or origin are ignored. That can replace a dead session’s frozen picture with the appropriate session state; it is not a promise that networks never fail."
+   },
+   {
+    "kind": "p",
+    "text": "For this article, we inspected the public merged diffs and reran check:queen-browser on September 23: it passed. The linked CI run also records the contract passing. Those checks exercise decisions and simulated streams, not a fresh signed-in, end-to-end browser session. The practical advance is specific: the interface exposes more of what the agent does, keeps repetition from hiding useful events, and lets human input request server-side control—with its remaining limits stated beside the result."
+   }
+  ]
+ },
+ {
+  "slug": "a-partial-module-needs-its-own-verdict",
+  "title": "A partial module needs its own verdict",
+  "summary": "JavaScript and TypeScript generation gained explicit omission records, so the Spec Explorer can distinguish a useful partial module from a complete one and from a failed compilation.",
+  "date": "2026-09-23",
+  "readingMinutes": 6,
+  "tags": [
+   "Compiler",
+   "TypeScript",
+   "Testing",
+   "Reproducibility"
+  ],
+  "receipts": [
+   {
+    "label": "Trinity #1084 — partial output becomes a warning · MERGED 2026-09-21",
+    "href": "https://github.com/gHashTag/trinity/pull/1084"
+   },
+   {
+    "label": "t27 #4529 — references and explicit omission records · MERGED 2026-09-21",
+    "href": "https://github.com/gHashTag/t27/pull/4529"
+   },
+   {
+    "label": "t27 #4502 — TypeScript shares the JS value layer · MERGED 2026-09-21",
+    "href": "https://github.com/gHashTag/t27/pull/4502"
+   },
+   {
+    "label": "Reviewed manifest — 1,419-spec snapshot at e7a11be",
+    "href": "https://github.com/gHashTag/trinity/blob/e7a11be07eb73fceaf41fb693a628d10ec245637/apps/website/public/t27/manifest.json"
+   },
+   {
+    "label": "Website checks for #1084 · SUCCESS 2026-09-21",
+    "href": "https://github.com/gHashTag/trinity/actions/runs/35599487248/job/106331933482"
+   }
+  ],
+  "openQuestions": [
+   "The reviewed website snapshot still has 211 specifications with no AST and seven parsed specifications losing a backend; their causes are not resolved by this article.",
+   "The upstream 1,414-spec test corpus and the website's 1,419-spec snapshot are different populations, so their counts are not interchangeable.",
+   "A partial declaration artifact does not establish complete language support or runtime correctness for every generated program.",
+   "Upstream test results are attributed to their merged PR reports, not presented as independently rerun compiler benchmarks."
+  ],
+  "published": true,
+  "ru": {
+   "title": "Частичному модулю нужен собственный вердикт",
+   "summary": "Генераторы JavaScript и TypeScript получили явные записи о пропусках: Spec Explorer теперь отличает полезный, но частичный модуль от полного результата и от неудачной компиляции.",
+   "openQuestions": [
+    "В изученном снимке сайта остаются 211 спецификаций без AST и семь разобранных файлов с отказом backend; статья не устраняет причины этих ошибок.",
+    "Корпус upstream-проверки из 1 414 спецификаций и снимок сайта из 1 419 — разные выборки, их числа нельзя подменять друг другом.",
+    "Частичный артефакт объявлений не устанавливает полную поддержку языка или корректность исполнения каждой сгенерированной программы.",
+    "Результаты upstream-тестов приведены по отчётам смерженных PR, а не как независимо повторённые бенчмарки компилятора."
+   ],
+   "body": [
+    {
+     "kind": "p",
+     "text": "Сгенерированный модуль может быть синтаксически правильным и при этом непригодным для использования. А может быть полезным, но неполным. Если оба случая спрятать за одной красной или зелёной меткой, разработчик не получит главного ответа перед импортом файла. Недавняя работа над JavaScript и TypeScript в t27 сделала это различие частью результата компилятора, а не догадкой интерфейса."
+    },
+    {
+     "kind": "h",
+     "text": "Новый backend проявил старое допущение"
+    },
+    {
+     "kind": "p",
+     "text": "[доказано] JavaScript появился в Spec Explorer со смерженным PR #1067 в Trinity, а TypeScript — с #1074. В upstream-репозитории t27 PR #4502 сделал генерацию значений общей для двух направлений вместо копирования реализации. Экранирование, зарезервированные имена и константные выражения получили один источник. Это полезное свойство архитектуры, но общий код одинаково хорошо распространяет и исправление, и ошибку."
+    },
+    {
+     "kind": "p",
+     "text": "Одной из ошибок оказался идентификатор, который генератор печатал, не проверяя, сможет ли полученный модуль на него сослаться. Объявление с этим именем могло быть отклонено самим backend, находиться ниже по файлу до доступности значения или обозначать примитивный тип вместо значения. Комментарий называл такую ссылку уже объявленной. Но комментарий ничего не проверял."
+    },
+    {
+     "kind": "p",
+     "text": "[измерено] В расследовании из смерженного t27 PR #4529 использовали три разных инструмента. Синтаксическая проверка находила повторные экспорты. Импорт каждого артефакта обнаруживал несвязанные имена, которых синтаксическая проверка не видела. Строгая проверка TypeScript обнаруживала потерянные записи о пропусках и значения вариантов перечислений. Это три самостоятельных вопроса: разбирается ли модуль, загружается ли он и описывают ли объявления пригодные значения."
+    },
+    {
+     "kind": "h",
+     "text": "Пропуск становится частью результата"
+    },
+    {
+     "kind": "p",
+     "text": "Исправление отдельно отслеживает выведенные, отклонённые и объявленные имена. Ссылка разрешается по этим множествам, а не печатается в надежде на успех. Для пользователя важен ещё один результат: объявление, которое нельзя вывести, явно попадает в неизменяемый список __NOT_EMITTED__. Артефакт сохраняет полезные объявления, но больше не притворяется полной реализацией спецификации."
+    },
+    {
+     "kind": "p",
+     "text": "[доказано] Смерженный PR #1084 в Trinity приносит этот компилятор на сайт и читает количество пропусков прямо из его ответа. Интерфейс не ищет удобную строку внутри сгенерированного кода. Компилятор уже знает, что именно он не вывел; восстанавливать это знание вторым парсером означало бы создать ещё одно место для расхождений. Каталог записывает partialBackends: частичный результат не получает отметку полностью работающего, а отказ другого backend по-прежнему имеет приоритет над предупреждением."
+    },
+    {
+     "kind": "p",
+     "text": "Есть и небольшое, но важное решение в подсчёте. Количества пропусков JS и TS объединяются через максимум, а не складываются: общее объявление, пропущенное обоими направлениями, не должно превращаться в два пропуска каталога. Это свойство данной пары backend, а не универсальное доказательство того, что максимум устраняет дубликаты любых множеств."
+    },
+    {
+     "kind": "h",
+     "text": "Что действительно посчитано в снимке"
+    },
+    {
+     "kind": "p",
+     "text": "[измерено] Manifest из #1084 содержит 1 419 спецификаций: 1 017 в категории работающих, 184 предупреждения и 218 ошибок. Отдельный признак частичного результата есть у 71 спецификации. Проверка manifest на изученной ревизии main подтверждает: 211 ошибок возникают до получения AST; ещё семь файлов разбираются, но теряют один backend — шесть verilog_hir и один verilog. Эти семь нельзя потерять в удобной фразе, будто все оставшиеся ошибки относятся к парсеру."
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Вопрос",
+      "Зафиксированный результат"
+     ],
+     "rows": [
+      [
+       "Спецификаций в снимке сайта",
+       "1 419"
+      ],
+      [
+       "Работает / предупреждение / ошибка",
+       "1 017 / 184 / 218"
+      ],
+      [
+       "Явно частичных спецификаций",
+       "71: 67 предупреждений, 4 с дополнительным отказом backend"
+      ],
+      [
+       "Ошибок до появления AST",
+       "211"
+      ],
+      [
+       "Разобранных файлов с отказом backend",
+       "7"
+      ]
+     ]
+    },
+    {
+     "kind": "p",
+     "text": "Это классификация конкретного корпуса конкретным компилятором, а не оценка производительности. В предыдущем снимке сайта было на пять спецификаций меньше, поэтому изменение итогов нельзя считать чистым экспериментом над неизменной выборкой. Upstream PR сообщает об успешном импорте 1 205 полученных артефактов, но этот результат относится к его корпусу из 1 414 спецификаций. Нельзя переносить тот знаменатель на более поздний снимок сайта."
+    },
+    {
+     "kind": "h",
+     "text": "Что получает разработчик"
+    },
+    {
+     "kind": "p",
+     "text": "Практическое улучшение — третий возможный ответ. Полный, частичный и неудавшийся результат теперь ведут к разным решениям. Потребитель может изучить список пропусков до того, как довериться модулю. Каталог может объяснить предупреждение вместо того, чтобы скрывать неполноту успешной меткой. Оставшиеся ошибки парсера и backend требуют отдельной работы. Эти изменения не устанавливают корректность исполнения каждой программы, скорость оборудования или полную поддержку языка."
+    },
+    {
+     "kind": "p",
+     "text": "Для команды, которая строит генераторы кода, повторяемая проверка проста: передайте продукт следующему настоящему потребителю, а не только его парсеру. После этого обозначьте допустимую неполноту внутри самого продукта. Успешный синтаксический разбор — одна квитанция. Это ещё не окончательный вердикт."
+    }
+   ]
+  },
+  "body": [
+   {
+    "kind": "p",
+    "text": "A generated module can be valid text and still be unusable. It can also be useful without being complete. Treating both cases as one red or green badge hides exactly the distinction a developer needs before importing the file. The recent JavaScript and TypeScript work in t27 made that distinction part of the compiler output, rather than leaving the website to guess."
+   },
+   {
+    "kind": "h",
+    "text": "The new backend exposed an old assumption"
+   },
+   {
+    "kind": "p",
+    "text": "[proven] JavaScript joined the Spec Explorer in merged Trinity PR #1067; TypeScript followed in #1074. Upstream, t27 PR #4502 shared the value-emission machinery between the two targets instead of copying it. Escaping, reserved names and constant expressions therefore had one implementation. That is a useful design property, but shared code can share a defect just as efficiently as it shares a fix."
+   },
+   {
+    "kind": "p",
+    "text": "One such defect was a bare identifier that the generator printed without checking whether the emitted module could actually refer to it. The name might belong to a declaration that the backend had refused, occur later in the file before its value was available, or name a primitive type rather than a value. A comment described the reference as already declared. The comment was not a check."
+   },
+   {
+    "kind": "p",
+    "text": "[measured] The investigation reported in merged t27 PR #4529 used three different probes. A syntax check found duplicate exports. Importing every artifact found unbound identifiers that syntax checking could not see. Strict TypeScript checking found lost omission records and enum discriminants. These are different questions: whether a module parses, whether it loads, and whether its declarations describe usable values."
+   },
+   {
+    "kind": "h",
+    "text": "An omission becomes part of the result"
+   },
+   {
+    "kind": "p",
+    "text": "The repair tracks emitted, refused and declared names separately. A reference is resolved against those sets instead of being printed optimistically. More importantly for a reader, a declaration that cannot be emitted is announced in a frozen __NOT_EMITTED__ list. The artifact can retain useful declarations without pretending that it contains the whole specification."
+   },
+   {
+    "kind": "p",
+    "text": "[proven] Merged Trinity PR #1084 carries this compiler into the website and reads the omission count from the compiler response. It does not search the generated source for a convenient string. The compiler already knows what it omitted; asking a second parser to reconstruct that knowledge would create another place for the answer to drift. The catalog records partialBackends: partial output prevents a fully working verdict, while a failed backend still takes priority over a warning."
+   },
+   {
+    "kind": "p",
+    "text": "There is a smaller accounting decision here worth keeping. The JS and TS omission counts are combined with a maximum rather than added together: the shared declaration omitted by both targets must not become two missing declarations in the catalog. This is a property of these paired backends, not a general theorem that a maximum deduplicates arbitrary sets."
+   },
+   {
+    "kind": "h",
+    "text": "What the published source snapshot actually counts"
+   },
+   {
+    "kind": "p",
+    "text": "[measured] The manifest shipped by #1084 contains 1,419 specifications: 1,017 in the working category, 184 warnings and 218 failures. Seventy-one specifications are explicitly marked partial. Reading the manifest at the reviewed main revision confirms that 211 of the failures produce no AST; seven parse but lose one backend, six in verilog_hir and one in verilog. Those seven must not disappear inside a sentence claiming every remaining failure is a parser failure."
+   },
+   {
+    "kind": "table",
+    "head": [
+     "Question",
+     "Recorded result"
+    ],
+    "rows": [
+     [
+      "Specifications in this website snapshot",
+      "1,419"
+     ],
+     [
+      "Working / warning / failure",
+      "1,017 / 184 / 218"
+     ],
+     [
+      "Explicitly partial specifications",
+      "71: 67 warnings, 4 with an additional backend failure"
+     ],
+     [
+      "Failures before an AST exists",
+      "211"
+     ],
+     [
+      "Parsed specifications losing a backend",
+      "7"
+     ]
+    ]
+   },
+   {
+    "kind": "p",
+    "text": "These are classifications of a particular corpus and compiler, not a performance score. The preceding website snapshot contained five fewer specifications, so the change in totals is not a clean experiment on an unchanged population. The upstream PR reports clean imports for its 1,205 emitted artifacts, but that result belongs to its 1,414-spec test corpus. It would be wrong to attach that denominator to the later website snapshot."
+   },
+   {
+    "kind": "h",
+    "text": "What this gives a consumer"
+   },
+   {
+    "kind": "p",
+    "text": "The practical improvement is a third answer. Whole output, partial output and failed output now lead to different decisions. A consumer can inspect an omission list before trusting a generated module. A catalog can explain a warning instead of hiding incompleteness behind a success badge. The remaining parser and backend failures still need their own investigation; none of this establishes runtime correctness for every emitted program, hardware performance or complete language support."
+   },
+   {
+    "kind": "p",
+    "text": "For a team building code generators, the reusable test is simple: feed the product to the next real consumer, not only to its parser. Then make any accepted incompleteness explicit in the product itself. Syntax success is one receipt. It is not the final verdict."
+   }
+  ]
+ },
+ {
+  "slug": "an-invitation-in-the-language-it-describes",
+  "title": "An invitation in the language it describes",
+  "summary": "T27's agent-facing introduction is one compiler-checked module served at two addresses, with executable claim checks and an explicit boundary around the reader's authority.",
+  "date": "2026-09-23",
+  "readingMinutes": 6,
+  "tags": [
+   "Agents",
+   "Compiler",
+   "Spec-first",
+   "Testing"
+  ],
+  "receipts": [
+   {
+    "label": "Trinity #1047 — one .t27 onboarding source · MERGED 2026-09-20",
+    "href": "https://github.com/gHashTag/trinity/pull/1047"
+   },
+   {
+    "label": "Trinity #1074 — backend and corpus claims checked · MERGED 2026-09-21",
+    "href": "https://github.com/gHashTag/trinity/pull/1074"
+   },
+   {
+    "label": "Reviewed generator — schema, assertions, consent and rendered-output checks",
+    "href": "https://github.com/gHashTag/trinity/blob/e7a11be07eb73fceaf41fb693a628d10ec245637/apps/website/scripts/onboarding-from-spec.mjs"
+   },
+   {
+    "label": "Reviewed onboarding source — nine tests and declared unknowns",
+    "href": "https://github.com/gHashTag/trinity/blob/e7a11be07eb73fceaf41fb693a628d10ec245637/apps/website/specs/catalog/onboarding.t27"
+   },
+   {
+    "label": "Website checks — nine blocks, 49 assertions · SUCCESS 2026-09-21",
+    "href": "https://github.com/gHashTag/trinity/actions/runs/35599487248/job/106331933482"
+   }
+  ],
+  "openQuestions": [
+   "Serving the document at llms.txt does not establish compatibility with every consumer, crawler indexing or external adoption.",
+   "The consent checks constrain this generated document; they are not a universal prompt-injection defence.",
+   "Comparing declared counts with the shipped manifest proves agreement, not independent correctness of the corpus classification.",
+   "The initial audit and negative-control results are attributed to the merged PR; no count of outside readers or contributions is established."
+  ],
+  "published": true,
+  "ru": {
+   "title": "Приглашение на языке, о котором оно рассказывает",
+   "summary": "Введение T27 для агентов — один проверяемый компилятором модуль по двум адресам, с исполняемыми проверками утверждений и явной границей полномочий читателя.",
+   "openQuestions": [
+    "Публикация документа по адресу llms.txt не устанавливает совместимость со всеми потребителями, индексацию или внешнее использование.",
+    "Проверки согласия ограничивают данный сгенерированный документ, но не являются универсальной защитой от prompt injection.",
+    "Сравнение объявленных чисел с поставляемым manifest доказывает согласованность, а не независимую правильность классификации корпуса.",
+    "Исходный аудит и отрицательные контроли приведены по смерженному PR; число внешних читателей или вкладов не установлено."
+   ],
+   "body": [
+    {
+     "kind": "p",
+     "text": "Что проект языка программирования должен отдать агенту, который спрашивает, что это за проект? Соблазнительный ответ — очередной manifest: один для поискового робота, второй для реестра, третий для интеграции, которая, возможно, появится позже. Каждая копия выглядит полезной. Но каждая становится ещё одним местом, где можно придумать несуществующую возможность или оставить вчерашние числа."
+    },
+    {
+     "kind": "p",
+     "text": "[доказано] Смерженный PR #1047 в Trinity выбрал другой путь. Публичный документ знакомства — модуль .t27, сгенерированный один раз и доступный под двумя именами: agents.t27 и llms.txt. Второй адрес обозначает тот же документ, а не отдельный перевод. Обычный текст записан в комментариях, поэтому человек и читатель без компилятора всё равно могут понять приглашение."
+    },
+    {
+     "kind": "h",
+     "text": "Адрес и источник — разные решения"
+    },
+    {
+     "kind": "p",
+     "text": "Исходный аудит сообщил, что семь правдоподобных адресов для агентов возвращали одну и ту же оболочку страницы с ошибкой 404. Заполнить все семь убедительными файлами означало бы решить проблему доставки и одновременно создать проблему сопровождения. Вместо этого реализация разделила адрес, по которому приходит читатель, и место, где поддерживаются факты. Описанием владеет одна спецификация, а генератор выпускает два побайтно одинаковых документа."
+    },
+    {
+     "kind": "p",
+     "text": "Это не означает, что любой внешний протокол примет модуль .t27. Совместимость со всеми потребителями llms.txt тоже не установлена. Это конкретное решение для двух текстовых адресов. Строгим форматам, которые программное обеспечение действительно разбирает, по-прежнему нужно собственное сгенерированное представление. Читаемое приглашение также не становится размещённым MCP-сервером или API записи только потому, что агент способен его обнаружить."
+    },
+    {
+     "kind": "h",
+     "text": "Скомпилировать утверждение — не значит проверить его"
+    },
+    {
+     "kind": "p",
+     "text": "Главная работа находится за документом. Генератор загружает спецификацию через поставляемый компилятор, проверяет обязательную схему констант, исполняет тестовые блоки спецификации и проверяет полученные значения. Корректное по типам утверждение всё ещё может быть ложным. В исходном расследовании утверждение, эквивалентное 1 > 2, показало, почему одного успешного typecheck недостаточно."
+    },
+    {
+     "kind": "p",
+     "text": "[доказано] Готовый документ компилируется повторно до записи. Этот второй проход важен: сгенерированный заголовок становится частью конечного входа, а не внешним украшением. Исходник может компилироваться, пока обёртка ломает файл, полученный читателем. Реализация проверяет имя модуля и отброшенный материал наряду с результатом проверки типов."
+    },
+    {
+     "kind": "p",
+     "text": "[измерено] Первая смерженная версия сообщала о восьми тестовых блоках и 36 утверждениях. Это исторические числа, а не вечные свойства. В изученной ревизии main уже девять блоков и 49 утверждений; website job для PR #1084 печатает этот результат вместе с хешем исходной спецификации. Воспроизводимое описание называет свою ревизию, а не превращает первое число тестов в постоянный лозунг."
+    },
+    {
+     "kind": "h",
+     "text": "Приглашение не должно присваивать полномочия"
+    },
+    {
+     "kind": "p",
+     "text": "Есть и вторая граница: читателем может быть чужой агент. Четыре явных значения говорят, что документ не является инструкцией, требует согласия владельца, не просит учётные данные и не предлагает агенту действовать самостоятельно. Путь знакомства начинается с человека, которому агент помогает. Обнаружить проект — ещё не значит получить разрешение присоединиться к нему."
+    },
+    {
+     "kind": "p",
+     "text": "Эти значения проверяются и в спецификации, и повторно в JavaScript. Дублирование здесь намеренное: изменение флага вместе с ослаблением соседнего утверждения не должно незаметно превращать приглашение в приказ. PR фиксирует отрицательные контроли: меняли флаг, убирали владельца из первого шага и опустошали список неизвестного. Генератор отказывался принимать такие входы. Это узкая проверка публикуемого документа, а не заявление о решении проблемы prompt injection вообще."
+    },
+    {
+     "kind": "h",
+     "text": "Числа должны отвечать перед источником"
+    },
+    {
+     "kind": "p",
+     "text": "Первый PR честно называл слабость: числа корпуса были датированным снимком, который никто не сравнивал с актуальным источником. Последующие изменения добавили это сравнение. Сейчас генератор читает manifest и проверяет количество спецификаций и строк, категории состояния, названия backend и число частичных результатов. Документ не может сохранить успокаивающий старый итог только потому, что его внутренняя арифметика всё ещё сходится."
+    },
+    {
+     "kind": "p",
+     "text": "Такая проверка устанавливает согласованность артефактов одной публикации, но не является независимым доказательством правильности классификации корпуса. Она не измеряет, сколько внешних агентов прочитали документ, понятен ли он каждому потребителю и решил ли читатель внести вклад. Эти неизвестные полезны: они не дают описать входную дверь как целую сеть, существование которой никто не измерял."
+    },
+    {
+     "kind": "p",
+     "text": "Повторяемый результат — процесс публикации, в котором у описания есть источник, у утверждений есть исполняемые проверки, а приглашение останавливается на границе полномочий читателя. Проект может говорить на собственном языке, не предлагая чужим агентам забыть, кому они помогают."
+    }
+   ]
+  },
+  "body": [
+   {
+    "kind": "p",
+    "text": "What should a programming-language project hand to an agent that asks what the project is? The tempting answer is another manifest: one for a crawler, another for a registry, a third for an integration that might exist later. Each copy looks helpful. Each also becomes another place to invent a capability or leave yesterday's numbers behind."
+   },
+   {
+    "kind": "p",
+    "text": "[proven] Merged Trinity PR #1047 took a different route. The public onboarding document is a .t27 module, generated once and exposed as both agents.t27 and llms.txt. The latter address is an alias for the same document, not a second translation. Prose is kept in comments, so a human or a reader without the compiler can still understand the invitation."
+   },
+   {
+    "kind": "h",
+    "text": "The address and the source are different decisions"
+   },
+   {
+    "kind": "p",
+    "text": "The motivating audit reported that seven plausible agent-facing addresses returned the same 404 page shell. Filling all seven with plausible-looking files would have answered the transport problem while creating a maintenance problem. Instead, the implementation separated where a reader arrives from where the facts are maintained. One specification owns the description; the generator produces two byte-identical surfaces."
+   },
+   {
+    "kind": "p",
+    "text": "This does not mean that every external protocol will accept a .t27 module. It does not establish compatibility with every llms.txt consumer either. It is a concrete publication choice for these two text addresses. Strict formats that software actually parses still need their own generated representation. A readable invitation is also not a hosted MCP endpoint or a write API merely because an agent can discover it."
+   },
+   {
+    "kind": "h",
+    "text": "Compiling a claim is not checking it"
+   },
+   {
+    "kind": "p",
+    "text": "The important work is behind the document. The generator loads the specification through the vendored compiler, checks a required constant schema, evaluates the specification's test blocks and validates the resulting values. A correctly typed assertion can still be false. The original investigation used an assertion equivalent to 1 > 2 to show why accepting a typecheck verdict was insufficient."
+   },
+   {
+    "kind": "p",
+    "text": "[proven] The rendered document is compiled again before it can be written. That second pass matters because the generated header is part of the final input, not a decorative layer outside the language. A source can compile while a wrapper breaks the file delivered to the reader. The implementation checks the module name and rejected material as well as the type verdict."
+   },
+   {
+    "kind": "p",
+    "text": "[measured] The first merged version reported eight test blocks and 36 assertions. Those are historical counts, not permanent properties. The reviewed main revision has nine blocks and 49 assertions; the website job for PR #1084 prints that result alongside the source specification hash. A reproducible description names the revision it describes instead of letting its earliest test count become a slogan."
+   },
+   {
+    "kind": "h",
+    "text": "An invitation must not acquire authority"
+   },
+   {
+    "kind": "p",
+    "text": "There is a second boundary because the reader may be somebody else's agent. Four explicit values say the document is not an instruction, requires the owner's consent, does not ask for credentials and does not ask the agent to act alone. The joining path starts with the person the agent serves. Discovering a project does not authorize joining it."
+   },
+   {
+    "kind": "p",
+    "text": "These values are checked in the specification and again in JavaScript. That is deliberate redundancy: changing a flag and weakening the nearby assertion in the same edit must not silently change the invitation into a command. The PR records negative controls that flipped a flag, removed the owner from the first joining step and emptied the unknowns. The generator refused those inputs. This is a narrow check on the document we publish, not a claim to solve prompt injection everywhere."
+   },
+   {
+    "kind": "h",
+    "text": "The counts have to answer to their source"
+   },
+   {
+    "kind": "p",
+    "text": "The original PR also admitted a weakness: its corpus figures were a dated snapshot that nothing compared with the live source. Later changes added that comparison. The current generator reads the manifest and checks specification count, line count, health categories, backend names and partial-output counts. A document cannot preserve a reassuring old total merely because its arithmetic still adds up."
+   },
+   {
+    "kind": "p",
+    "text": "That check establishes agreement between artifacts in the same publication, not an independent proof that the corpus classification is right. It does not measure how many outside agents have read the document, whether every consumer understands it, or whether a reader decided to contribute. Those unknowns remain useful: they stop a front door from being described as a network that nobody has measured."
+   },
+   {
+    "kind": "p",
+    "text": "The reusable result is a publication pipeline in which the description has a source, its claims have executable checks, and its invitation stops at the reader's authority boundary. The project can speak its own language without asking other people's agents to forget whom they work for."
+   }
+  ]
+ },
+ {
   "slug": "the-fpga-row-was-corrected",
   "title": "The FPGA row was corrected before it became evidence",
   "summary": "[proven] A merged t27 PR corrected an invalid Yosys invocation and changed three FPGA status rows from green to red after 881 historical runs showed 36 successes, 842 failures, and 3 cancellations.",

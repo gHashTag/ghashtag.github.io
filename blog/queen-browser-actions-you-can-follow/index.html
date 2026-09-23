@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The browser agent should show its work · TRINITY</title>
+<meta name="description" content="Queen’s merged browser changes expose actions as they arrive, keep a compact journal, and let human input request server-side control—with the remaining handover limits made explicit." />
+<link rel="canonical" href="https://t27.ai/blog/queen-browser-actions-you-can-follow/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/queen-browser-actions-you-can-follow/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/queen-browser-actions-you-can-follow/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/queen-browser-actions-you-can-follow/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/queen-browser-actions-you-can-follow/" />
+<meta property="og:title" content="The browser agent should show its work" />
+<meta property="og:description" content="Queen’s merged browser changes expose actions as they arrive, keep a compact journal, and let human input request server-side control—with the remaining handover limits made explicit." />
+<meta property="og:image" content="https://t27.ai/og-blog-queen-browser-actions-you-can-follow.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The browser agent should show its work" />
+<meta name="twitter:description" content="Queen’s merged browser changes expose actions as they arrive, keep a compact journal, and let human input request server-side control—with the remaining handover limits made explicit." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The browser agent should show its work","description":"Queen’s merged browser changes expose actions as they arrive, keep a compact journal, and let human input request server-side control—with the remaining handover limits made explicit.","url":"https://t27.ai/blog/queen-browser-actions-you-can-follow/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/queen-browser-actions-you-can-follow/"},"image":"https://t27.ai/og-blog-queen-browser-actions-you-can-follow.png","datePublished":"2026-09-23","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Queen, BrowserAutomation, Agents, Observability, Testing"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>The browser agent should show its work</h1>
+<p class="meta">2026-09-23 · 6 min read</p>
+<p class="lede">Queen’s merged browser changes expose actions as they arrive, keep a compact journal, and let human input request server-side control—with the remaining handover limits made explicit.</p>
+<figure class="blog-cover"><a href="/og-art/queen-browser-actions-you-can-follow.jpg?v=80175b43a360" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — The browser agent should show its work"><img src="/og-art/queen-browser-actions-you-can-follow.jpg?v=80175b43a360" alt="Three-panel engraved illustration for: The browser agent should show its work" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><span>Three panels, left to right</span><ol class="cover-panels" lang="en"><li><strong>ONE WINDOW</strong><span>Person and agent share the view.</span></li><li><strong>VISIBLE STEPS</strong><span>Actions leave a readable trail.</span></li><li><strong>HUMAN CONTROL</strong><span>The server must accept the handover.</span></li></ol><a href="/og-art/queen-browser-actions-you-can-follow.jpg?v=80175b43a360" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — The browser agent should show its work">View the complete triptych at full size</a></figcaption></figure>
+<div class="tags"><span class="tag">#Queen</span><span class="tag">#BrowserAutomation</span><span class="tag">#Agents</span><span class="tag">#Observability</span><span class="tag">#Testing</span></div>
+<p>An agent saying “done” is not the same as a person seeing what happened. A browser can finish on the right page after a wrong click, a failed permission request, or several unproductive attempts. On September 21–22, a sequence of merged changes gave Queen a more useful relationship with the browser: the person and the agent share a window, actions become visible while the answer is arriving, and recent steps remain below the picture.</p>
+<h2>One window, not a second browser</h2>
+<p>PR #1088 added the BROWSER view to the Queen board. It refers to the person’s existing remote browser, not a second machine opened for the dashboard. The board’s copy at app.t27.ai/queen/ shares the app’s origin; the viewer address must resolve to that same origin under /live/. Elsewhere, the panel offers a route into the app instead of pretending the authenticated window is available.</p>
+<p>Opening the panel only reads session state. Starting a browser needs a press of Open; a homepage preview does not even ask the broker for that state. PR #1094 then routed chat from this view to the person’s browser-equipped agent, carrying the tab context and up to eight previous turns. This fixes a concrete mismatch: a conversation beside a browser should reach the agent that can act in that browser.</p>
+<h2>The action arrives before the conclusion</h2>
+<p>PR #1096 changed how the response is read. Instead of collecting the whole answer first, Queen consumes newline-delimited events as they arrive. A browser tool call becomes a step in the chat; answer text grows alongside it. These are tool events and answer text, not a display of the model’s private reasoning, and a tool name alone does not prove that the intended task succeeded.</p>
+<p>The small engineering detail matters for Russian readers: a network chunk can end halfway through a Cyrillic character. The decoder keeps its state between chunks, while an incomplete event waits for its next bytes. The contract test divides a response into seven-byte pieces and checks both intact text and a tool step appearing before the answer. It also checks that progress snapshots are copies, so later updates cannot silently rewrite an earlier observation.</p>
+<h2>A journal that leaves room for the important step</h2>
+<p>The live picture shows the page now. PR #1107 added a different view: recent recorded actions below it, with a time, a verb, and a short fact or error. PR #1111 stopped repeated observations from consuming the entire list. The panel reads up to 24 entries and displays at most six folded lines, refreshing every five seconds while the browser is live and the document is visible.</p>
+<p>Only consecutive entries with the same tool, outcome, and displayed text collapse into a counted line. The newest timestamp survives. A failure between two successful observations breaks the run rather than disappearing inside a reassuring count. This is a compact operational view, not a complete archive or a claim that every action has been independently verified.</p>
+<h2>Taking control needs a server decision</h2>
+<p>PR #1109 connected the board’s pointer and keyboard activity to requests for the server’s “wheel” mechanism. Its public report describes a ten-minute human-control lease: the agent may look and ask, but should not click or type while the person holds it. That server behaviour is reported by the PR, not independently demonstrated here. The public panel code sends renewal requests at most once every thirty seconds of continued input, and provides a button requesting that control return to the agent.</p>
+<p>There is an important remaining limit. The current panel changes its driving indicator before the request is acknowledged and does not surface a failed wheel request. The indicator is therefore not proof that the server accepted control. Nor does this implementation establish that every in-flight action is cancelled. A lease left behind by a closed tab can last until its expiry. These are boundaries to test and improve, not details to hide behind the word “safe”.</p>
+<h2>What the evidence actually covers</h2>
+<p>PR #1104 also made the panel re-read session state when its own viewer reports a reconnecting or stuck connection. Messages from another frame or origin are ignored. That can replace a dead session’s frozen picture with the appropriate session state; it is not a promise that networks never fail.</p>
+<p>For this article, we inspected the public merged diffs and reran check:queen-browser on September 23: it passed. The linked CI run also records the contract passing. Those checks exercise decisions and simulated streams, not a fresh signed-in, end-to-end browser session. The practical advance is specific: the interface exposes more of what the agent does, keeps repetition from hiding useful events, and lets human input request server-side control—with its remaining limits stated beside the result.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>The source diffs and browser contract were inspected and the contract rerun for this article; no fresh signed-in end-to-end remote-browser session was independently tested.</li><li>The driving indicator updates before server acknowledgement and a failed wheel request is not surfaced; the indicator alone is not evidence of accepted control, and cancellation of in-flight actions is not established.</li><li>The journal shows at most six folded lines from up to 24 recent entries, polls every five seconds, and is not a complete audit archive.</li><li>Connection handling and human-control enforcement depend on the matching viewer and server deployments; a source merge alone does not establish live delivery. Server behaviour is attributed to the public #1109 report, not independently reproduced here.</li><li>The public #1109 report says a human-control lease can persist until its ten-minute expiry after a tab is closed; this article does not claim a general security guarantee or measured productivity improvement.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity/pull/1088">Trinity #1088 — one remote browser in Queen · MERGED 2026-09-21</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1094">Trinity #1094 — chat reaches the browser-equipped agent · MERGED 2026-09-21</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1096">Trinity #1096 — incremental action and text events · MERGED 2026-09-21</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1104">Trinity #1104 — connection-state messages · MERGED 2026-09-21</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1107">Trinity #1107 — recent browser journal · MERGED 2026-09-21</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1109">Trinity #1109 — human-control request from the board · MERGED 2026-09-22</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1111">Trinity #1111 — consecutive journal repeats folded · MERGED 2026-09-22</a></li><li><a href="https://github.com/gHashTag/trinity/actions/runs/35689898918/job/106624452015">Website checks — browser contract passed in run 35689898918</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/queen-browser-actions-you-can-follow">Open the interactive version</a><a class="btn sec" href="/ru/blog/queen-browser-actions-you-can-follow/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20The%20browser%20agent%20should%20show%20its%20work&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CThe%20browser%20agent%20should%20show%20its%20work%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fqueen-browser-actions-you-can-follow%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

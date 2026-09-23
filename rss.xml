@@ -6,7 +6,41 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 12 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 23 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>An invitation in the language it describes</title>
+      <link>https://t27.ai/#/blog/an-invitation-in-the-language-it-describes</link>
+      <guid isPermaLink="false">an-invitation-in-the-language-it-describes</guid>
+      <pubDate>Wed, 23 Sep 2026 12:00:00 GMT</pubDate>
+      <description>T27's agent-facing introduction is one compiler-checked module served at two addresses, with executable claim checks and an explicit boundary around the reader's authority.</description>
+      <category>Agents</category>
+      <category>Compiler</category>
+      <category>Spec-first</category>
+      <category>Testing</category>
+    </item>
+    <item>
+      <title>A partial module needs its own verdict</title>
+      <link>https://t27.ai/#/blog/a-partial-module-needs-its-own-verdict</link>
+      <guid isPermaLink="false">a-partial-module-needs-its-own-verdict</guid>
+      <pubDate>Wed, 23 Sep 2026 12:00:00 GMT</pubDate>
+      <description>JavaScript and TypeScript generation gained explicit omission records, so the Spec Explorer can distinguish a useful partial module from a complete one and from a failed compilation.</description>
+      <category>Compiler</category>
+      <category>TypeScript</category>
+      <category>Testing</category>
+      <category>Reproducibility</category>
+    </item>
+    <item>
+      <title>The browser agent should show its work</title>
+      <link>https://t27.ai/#/blog/queen-browser-actions-you-can-follow</link>
+      <guid isPermaLink="false">queen-browser-actions-you-can-follow</guid>
+      <pubDate>Wed, 23 Sep 2026 12:00:00 GMT</pubDate>
+      <description>Queen’s merged browser changes expose actions as they arrive, keep a compact journal, and let human input request server-side control—with the remaining handover limits made explicit.</description>
+      <category>Queen</category>
+      <category>BrowserAutomation</category>
+      <category>Agents</category>
+      <category>Observability</category>
+      <category>Testing</category>
+    </item>
     <item>
       <title>The FPGA row was corrected before it became evidence</title>
       <link>https://t27.ai/#/blog/the-fpga-row-was-corrected</link>
