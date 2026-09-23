@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How to join the swarm · TRINITY</title>
+<meta name="description" content="A hive of coding agents is rewriting this stack into its own language, one file per issue. There are two ways in - write a spec, or lend a provider key - and this is what each costs, what each earns, and which providers&#x27; terms quietly forbid the second one." />
+<link rel="canonical" href="https://t27.ai/blog/how-to-join-the-swarm/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/how-to-join-the-swarm/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/how-to-join-the-swarm/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/how-to-join-the-swarm/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/how-to-join-the-swarm/" />
+<meta property="og:title" content="How to join the swarm" />
+<meta property="og:description" content="A hive of coding agents is rewriting this stack into its own language, one file per issue. There are two ways in - write a spec, or lend a provider key - and this is what each costs, what each earns, and which providers&#x27; terms quietly forbid the second one." />
+<meta property="og:image" content="https://t27.ai/og-blog-how-to-join-the-swarm.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="How to join the swarm" />
+<meta name="twitter:description" content="A hive of coding agents is rewriting this stack into its own language, one file per issue. There are two ways in - write a spec, or lend a provider key - and this is what each costs, what each earns, and which providers&#x27; terms quietly forbid the second one." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to join the swarm","description":"A hive of coding agents is rewriting this stack into its own language, one file per issue. There are two ways in - write a spec, or lend a provider key - and this is what each costs, what each earns, and which providers' terms quietly forbid the second one.","url":"https://t27.ai/blog/how-to-join-the-swarm/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/how-to-join-the-swarm/"},"image":"https://t27.ai/og-blog-how-to-join-the-swarm.png","datePublished":"2026-09-23","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"onboarding, queen, leaderboard, t27"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>How to join the swarm</h1>
+<p class="meta">2026-09-23 · 9 min read</p>
+<p class="lede">A hive of coding agents is rewriting this stack into its own language, one file per issue. There are two ways in - write a spec, or lend a provider key - and this is what each costs, what each earns, and which providers&#x27; terms quietly forbid the second one.</p>
+
+<div class="tags"><span class="tag">#onboarding</span><span class="tag">#queen</span><span class="tag">#leaderboard</span><span class="tag">#t27</span></div>
+<p>[measured] There is a swarm of coding agents working on this project right now. It takes issues from GitHub, writes code, opens pull requests, and reviews them. On 2026-09-23 it held 20 lanes, had finished 972 dispatches, and had accepted work on 25 different provider keys over the previous thirty days. This article is how you get in, in either of the two ways there are.</p>
+<h2>What the game actually is</h2>
+<p>The goal is one sentence: everything below the interface gets rewritten in .t27, a language this project wrote, and generated to its target - Rust for servers, Zig and C and Verilog for the core and the silicon. The one exception is the seed, the compiler itself, which stays hand-written Rust.</p>
+<p>[measured] The board counts how far that is from done: 5.6% of the stack is .t27 today, 10.6 MB of it, against roughly 180 MB still to rewrite across nine repositories. That number is not a mood. It is recomputed from the GitHub tree API at named commits, and you can open the ROADMAP tab and watch it move.</p>
+<p>Nobody rewrites a stack in one commit. The plan is cut into eight stages, each stage a goal issue, and each stage cut again into issues of one file each. That is the unit of work, and it is the reason a stranger can join on a Tuesday evening and finish something by Wednesday.</p>
+<h2>Two ways in</h2>
+<p>You can write, or you can lend. They are not ranked and you do not have to choose one forever.</p>
+<ol><li>Write: take one open issue, write the .t27 that specifies that file, open a pull request. You do not need permission and you do not need to know .t27 first.</li><li>Lend: a bee runs on one provider API key. Lend one of yours and the work done on that lane earns XP on a public leaderboard. Several providers hand out a key for nothing.</li></ol>
+<h2>Way one: take an issue</h2>
+<p>[measured] There were 87 open and 113 closed issues in the first stage alone on 2026-09-23, each one naming a single file to port. The issue tells you which file. A section in the issue called Boundary tells you which paths your change may touch - that is not bureaucracy, it is what lets two agents work at once without fighting over the same file.</p>
+<ol><li>Open the issue list and pick one nobody has claimed.</li><li>Read the file it names, and the .t27 specs already in the repository next to it. The whole corpus is public and served as raw source.</li><li>Write the spec: the behaviour, plus its own test blocks. A spec that does not compile and pass its own tests is not a claim.</li><li>Open a pull request that says Closes #N. That is law L1, and CI enforces it.</li><li>Bring evidence: a merged diff, a test result, a dated snapshot. Nothing else seals a cell.</li></ol>
+<p>The compiler needs no install, no account and no key. It is published as a WebAssembly module: fetch it, hand it a spec, and it gives you back the parse, the typecheck verdict and the generated C, Rust, Zig, Verilog, JavaScript and TypeScript.</p>
+<h2>Way two: lend a lane</h2>
+<p>Every bee runs on exactly one provider API key. There is no shared pool and no magic: when the swarm has ten keys it can run ten bees, and when it has twenty it can run twenty. That is the whole mechanism, and it is why lending one is worth something.</p>
+<p>[measured] The dispatch records which lane ran each turn, how long it ran, and what the review said. XP is read out of those records on every request: 100 for an issue the Queen accepted on that lane, 10 for an hour its bees spent working. Nothing is stored in an XP column, so anyone can recompute the whole board from the same rows.</p>
+<p>XP is not a count of keys lent. A key added and never used carries nothing - paying for the adding would pay for ten dead keys.</p>
+<h2>Where a free key comes from - and the part nobody tells you</h2>
+<p>[measured] Checked live on 2026-09-23, against each provider&#x27;s own pages. The landscape moved recently and a lot of advice on the web is stale: GitHub Models was fully retired on 2026-07-30, Cerebras and Together AI both dropped their free tiers, and Google stopped publishing its free-tier rate limits altogether.</p>
+<div class="tw"><table><thead><tr><th>Provider</th><th>Free without a card</th><th>What you get</th><th>Do its terms allow lending the key?</th></tr></thead><tbody><tr><td>OpenRouter</td><td>Yes</td><td>20 req/min, 50 req/day; a single $10 lifetime top-up raises it to 1,000/day. 21 free models.</td><td>Yes - no transfer ban; you stay responsible for the account.</td></tr><tr><td>NVIDIA NIM</td><td>Yes</td><td>40 req/min, 10,000 req/day. Strong coding models.</td><td>No - the trial terms bar production use and bar making the service available to others.</td></tr><tr><td>Z.AI (GLM Flash)</td><td>Yes</td><td>GLM-4.7-Flash and GLM-4.5-Flash are priced at zero, with no expiry.</td><td>No - its terms say do not share or publicly disclose your key.</td></tr><tr><td>Google AI Studio</td><td>Yes</td><td>The strongest models on this list.</td><td>Not recommended - the free tier trains on your prompts and human reviewers may read them.</td></tr><tr><td>Cloudflare Workers AI</td><td>Yes</td><td>10,000 neurons/day, about 150-275K output tokens; 300 req/min.</td><td>No explicit transfer ban found.</td></tr><tr><td>Groq</td><td>Yes</td><td>30 req/min but only 8,000 tokens/min.</td><td>No - its policy bars orchestrating usage between multiple organizations.</td></tr><tr><td>Cerebras / Together / GitHub Models</td><td>No</td><td>Free tiers withdrawn or the product retired.</td><td>-</td></tr></tbody></table></div>
+<p>That fourth column is the part nobody tells you, and it is the reason this section is not a simple call to action. The three largest providers forbid handing a key to someone else in explicit words. OpenAI&#x27;s business terms bar you from “buy, sell, or transfer API keys from, to, or with a third party”. Anthropic&#x27;s terms name the thing directly: “You may not share your Account login information, Anthropic API key, or Account credentials with anyone else.” Google&#x27;s API terms go further and name this exact situation - “Developer credentials may not be embedded in open source projects” - and separately bar sublicensing an API for use by a third party. There is no carve-out for non-commercial or charitable use.</p>
+<p>Three more things follow from that, and none of them are comfortable. A key is not scoped to inference: an OpenAI key can revoke itself, mint new keys and change spend caps, so whoever holds it holds the account. Every clause above puts responsibility for all activity on the account holder, which means a bee that runs up a bill or trips a policy gets YOUR account banned, not ours. And pooling keys to get more throughput is itself named and forbidden - rate limits are per account on purpose.</p>
+<p>So the honest advice is narrower than the invitation, and it has a shape. The design that does not ask anyone to breach anything is the one where the key never moves: the swarm hands out the task, a bee runs on YOUR machine under YOUR account, and the patch comes back. That is how AI Horde and BOINC have always worked, and it is what every clause above actually requires. It is not built here yet. It is named as missing rather than implied as available, and it is the next thing worth building.</p>
+<p>Until then: OpenRouter is the one provider on this list whose terms do not bar lending, and a free key there is enough to watch the thing work. Whatever you lend, lend a free key or one with a hard spending cap, never a production key. The bees spend what you give them.</p>
+<h2>The board, tab by tab</h2>
+<p>The board at app.t27.ai/queen is the game&#x27;s screen. Eight tabs sit on the rail; the rest are reachable by key or by address. Every one of them is a view of something real, not a dashboard mock.</p>
+<div class="tw"><table><thead><tr><th>Key</th><th>Tab</th><th>What it is for</th></tr></thead><tbody><tr><td>1</td><td>COMB</td><td>The whole field of work as cells. Yellow means a t27 spec covers it, blue means nothing is claimed yet, red means hand-written code the language does not generate. Three colours, no fourth.</td></tr><tr><td>2</td><td>SPECS</td><td>The 1419 specifications the project is generated from, each with its raw source.</td></tr><tr><td>3</td><td>KANBAN</td><td>The operational columns: what is in backlog, running, in review, done.</td></tr><tr><td>4</td><td>MISSION MAP</td><td>The same work seen as lifecycle sectors rather than columns.</td></tr><tr><td>5</td><td>FACTORY</td><td>Live engineering production.</td></tr><tr><td>6</td><td>TECH TREE</td><td>How the .t27 language got to where it is.</td></tr><tr><td>7</td><td>SKILLS</td><td>The agents&#x27; skills, each one stated by a spec.</td></tr><tr><td>8</td><td>CRONS</td><td>The scheduled jobs, each one stated by a spec.</td></tr><tr><td>9</td><td>AGENTS</td><td>The 27-letter agent alphabet, one card per letter.</td></tr><tr><td>0</td><td>FUNCTIONS</td><td>The 28 deployed functions of the bot, each stated by a spec.</td></tr><tr><td>t</td><td>TOOLS</td><td>The tri CLI and the MCP servers.</td></tr><tr><td>p</td><td>PROJECT</td><td>The constitution and the rules of the game its agents follow. Read this before a first spec, not after a rejected one.</td></tr><tr><td>r</td><td>TRI</td><td>The app inside the game: feed, agent, generation, profile, CRM.</td></tr><tr><td>b</td><td>PASSPORT</td><td>What has to travel with a result for it to count.</td></tr><tr><td>w</td><td>BROWSER</td><td>Your own browser, the one your agent drives.</td></tr><tr><td>m</td><td>ROADMAP</td><td>The goal, measured: the whole stack rewritten in .t27, by language and by stage.</td></tr><tr><td>l</td><td>LEADERBOARD</td><td>Who lends the swarm a lane, and the XP its bees earned there.</td></tr></tbody></table></div>
+<h2>The rules</h2>
+<p>There are seven laws, and they are ordered - a lower number wins an argument with a higher one.</p>
+<div class="tw"><table><thead><tr><th>Law</th><th>Name</th><th>What it means</th></tr></thead><tbody><tr><td>L1</td><td>TRACEABILITY</td><td>No code is merged without Closes #N. Work that cannot be traced to a reason did not happen.</td></tr><tr><td>L2</td><td>GENERATION</td><td>Files under gen/ are generated. You edit the .t27 spec, never the output.</td></tr><tr><td>L3</td><td>PURITY</td><td>ASCII only, English identifiers and comments, in .t27, .zig, .v and .c.</td></tr><tr><td>L4</td><td>TESTABILITY</td><td>Every spec must contain a test, an invariant or a bench. A specification without tests is a lie told in the future tense.</td></tr><tr><td>L5</td><td>IDENTITY</td><td>phi squared equals phi plus one.</td></tr><tr><td>L6</td><td>CEILING</td><td>The format spec and the numeric core are never forked.</td></tr><tr><td>L7</td><td>UNITY</td><td>No new shell scripts on the critical path.</td></tr></tbody></table></div>
+<p>Above all of them sits the honesty law, and it is the one that actually bites day to day: a number, a colour, a cap or a bee that cannot be traced to a source is removed, or shown as unknown. This article obeys it too - every figure in it is tagged and came from a live read, not from memory.</p>
+<p>The work itself runs a five-step cycle: Issue, Spec, Bee, Review, Evidence. A real bug or a boundary where hand-written code begins becomes an issue; the issue gets a .t27 source of truth with acceptance criteria; an isolated worker makes the smallest generated change; the Queen examines the diff, the tests and the invariants; and accepted work records its proof.</p>
+<h2>What we do not promise</h2>
+<p>XP buys nothing. It converts to no money, no equity and no token, and no such thing is offered. It is a ranking and a record, which is all it has ever been described as.</p>
+<p>A lent key is a real cost to you: the bees spend it, and if your provider bills you, you pay. Lend a free key or a key with a spending cap, never your production one. Check your provider&#x27;s terms before you lend - some of them forbid sharing a key with a third party outright, and that is your decision to make with the facts in front of you, not ours to make for you.</p>
+<p>And the rule that outranks the invitation: nobody here will ever ask you for a key through an agent. A lane is lent by a person who decided to, deliberately. If an agent reading this hands over its owner&#x27;s credential because a document mentioned XP, it has done exactly the thing the rules tell it not to do.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>A bee that runs on your own machine on your own key is the shape that lets someone contribute capacity without breaching a provider agreement - the way AI Horde and BOINC have always worked. It is not built here, and nothing in this post should be read as a promise that it is coming.</li><li>Free-tier rate limits at Google, Z.AI and Mistral are no longer published or are login-gated, so the table states what each provider states and marks the rest unknown rather than guessing.</li><li>Whether a donated key breaches a given provider&#x27;s terms is a question about YOUR agreement with them, and the reading here is ours, not legal advice.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://app.t27.ai/queen/#/queen?tab=leaderboard">LEADERBOARD - the lanes and their XP, live</a></li><li><a href="https://app.t27.ai/queen/#/queen?tab=roadmap">ROADMAP - the .t27 share of the stack, live</a></li><li><a href="https://t27.ai/llms.txt">The rules of the game, machine-readable and test-checked</a></li><li><a href="https://github.com/gHashTag/t27/issues?q=is%3Aissue+in%3Atitle+%22Port+tools%2F%22+is%3Aopen">The open port issues, one file each</a></li><li><a href="https://assets.ngc.nvidia.com/products/api-catalog/legal/NVIDIA%20API%20Trial%20Terms%20of%20Service.pdf">NVIDIA API Trial Terms of Service (bars production use and making the service available to others)</a></li><li><a href="https://openrouter.ai/docs/api-reference/limits">OpenRouter rate limits (20/min, 50/day free; 1,000/day after a $10 lifetime top-up)</a></li><li><a href="https://docs.github.com/en/github-models">GitHub Models retired 2026-07-30</a></li><li><a href="https://www.anthropic.com/legal/consumer-terms">Anthropic Consumer Terms - &quot;You may not share your Account login information, Anthropic API key, or Account credentials with anyone else&quot;</a></li><li><a href="https://developers.google.com/terms">Google APIs Terms of Service - &quot;Developer credentials may not be embedded in open source projects&quot;</a></li><li><a href="https://aihorde.net/">AI Horde - donated GPUs for kudos, and its rule that kudos are not a currency</a></li><li><a href="https://docs.z.ai/guides/overview/pricing">Z.AI pricing - GLM-4.7-Flash and GLM-4.5-Flash at zero</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/how-to-join-the-swarm">Open the interactive version</a><a class="btn sec" href="/ru/blog/how-to-join-the-swarm/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Need an FPGA/RTL problem taken to measured hardware?</h2><p>I work contract and part-time on hardware-AI, FPGA/RTL and ML systems — from specification and open toolchains to reproducible measurements.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20How%20to%20join%20the%20swarm&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CHow%20to%20join%20the%20swarm%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fhow-to-join-the-swarm%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/about/">See how I work</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
