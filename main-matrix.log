@@ -1,0 +1,39 @@
+  1920x1080 comb     FAIL  NOT EXACTLY ONE VIEW RENDERED 0 ; UNDECLARED SCROLLER .queen-hive-display-content[40x98 in 40x35] | .queen-hive-display-content[40x82 in 40x35] | .queen-hive-display-content[40x82 in 40x35] | .queen-hive-display-content[40x67 in 40x35] | .queen-hive-display-content[40x97 in 40x35] | .queen-hive-display-content[40x82 in 40x35] ; STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views) ; COUNT views=0
+  1920x1080 kanban   FAIL  STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1920x1080 map      FAIL  STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1920x1080 factory  FAIL  STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1920x1080 research FAIL  STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1920x1080 address  PASS  a hash set from outside moved the shell to kanban
+  1440x900 comb     FAIL  NOT EXACTLY ONE VIEW RENDERED 0 ; UNDECLARED SCROLLER .queen27-hud-vp-head[1019x39 in 804x39] | .queen27-hud-vp-tools[574x26 in 359x26] | .queen-hive-display-content[33x128 in 33x28] | .queen-hive-display-content[33x82 in 33x28] | .queen-hive-display-content[33x97 in 33x28] | .queen-hive-display-content[33x97 in 33x28] ; STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views) ; COUNT views=0
+  1440x900 kanban   FAIL  STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1440x900 map      FAIL  STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1440x900 factory  FAIL  STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1440x900 research FAIL  STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1440x900 address  PASS  a hash set from outside moved the shell to kanban
+  1272x806 comb     FAIL  NOT EXACTLY ONE VIEW RENDERED 0 ; UNDECLARED SCROLLER .queen27-hud-vp-head[862x39 in 712x39] | .queen27-hud-vp-tools[483x26 in 333x26] | .queen-hive-display-content[29x128 in 29x25] | .queen-hive-display-content[29x82 in 29x25] | .queen-hive-display-content[29x97 in 29x25] | .queen-hive-display-content[29x97 in 29x25] ; STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views) ; COUNT views=0
+  1272x806 kanban   FAIL  STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1272x806 map      FAIL  STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1272x806 factory  FAIL  STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1272x806 research FAIL  STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1272x806 address  PASS  a hash set from outside moved the shell to kanban
+  1280x700 comb     FAIL  NOT EXACTLY ONE VIEW RENDERED 0 ; UNDECLARED SCROLLER .queen27-hud-vp-head[862x39 in 644x39] | .queen27-hud-vp-tools[483x26 in 265x26] | .queen-hive-display-content[27x143 in 25x21] | small[27x29 in 25x29] | small[27x29 in 25x29] | .queen-hive-display-content[27x82 in 25x21] ; STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views) ; COUNT views=0
+  1280x700 kanban   FAIL  UNDECLARED SCROLLER .queen27-hud-vp-head[679x39 in 644x39] | .queen27-hud-vp-tools[300x26 in 265x26] ; STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1280x700 map      FAIL  UNDECLARED SCROLLER .queen27-hud-vp-head[679x39 in 644x39] | .queen27-hud-vp-tools[300x26 in 265x26] ; STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1280x700 factory  FAIL  UNDECLARED SCROLLER .queen27-hud-vp-head[679x39 in 644x39] | .queen27-hud-vp-tools[300x26 in 265x26] ; STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1280x700 research FAIL  UNDECLARED SCROLLER .queen27-hud-vp-head[679x39 in 644x39] | .queen27-hud-vp-tools[300x26 in 265x26] ; STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1280x700 address  PASS  a hash set from outside moved the shell to kanban
+  1280x600 comb     FAIL  NOT EXACTLY ONE VIEW RENDERED 0 ; UNDECLARED SCROLLER .queen27-hud-vp-head[862x39 in 644x39] | .queen27-hud-vp-tools[483x26 in 265x26] | .queen-hive-display-content[27x143 in 20x17] | small[27x29 in 20x29] | small[27x29 in 20x29] | .queen-hive-display-content[27x82 in 20x17] ; STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views) ; COUNT views=0
+  1280x600 kanban   FAIL  UNDECLARED SCROLLER .queen27-hud-vp-head[679x39 in 644x39] | .queen27-hud-vp-tools[300x26 in 265x26] ; STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1280x600 map      FAIL  UNDECLARED SCROLLER .queen27-hud-vp-head[679x39 in 644x39] | .queen27-hud-vp-tools[300x26 in 265x26] ; STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1280x600 factory  FAIL  UNDECLARED SCROLLER .queen27-hud-vp-head[679x39 in 644x39] | .queen27-hud-vp-tools[300x26 in 265x26] ; STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1280x600 research FAIL  UNDECLARED SCROLLER .queen27-hud-vp-head[679x39 in 644x39] | .queen27-hud-vp-tools[300x26 in 265x26] ; STATUS SLOT MISSING: alerts ; COUNT commands=12 (the rail draws 9 of 17 views)
+  1280x600 address  PASS  a hash set from outside moved the shell to kanban
+  390x844 comb     FAIL  NOT EXACTLY ONE VIEW RENDERED 0 ; UNDECLARED SCROLLER .queen-hive-display-content[23x183 in 10x8] | small[23x25 in 10x25] | small[23x25 in 10x25] | .queen-hive-display-content[23x83 in 10x8] | small[23x25 in 10x25] | small[23x25 in 10x25] ; COUNT commands=12 (the rail draws 9 of 17 views) ; COUNT views=0
+  390x844 kanban   FAIL  COUNT commands=12 (the rail draws 9 of 17 views)
+  390x844 map      FAIL  UNDECLARED SCROLLER .queen27-board-stack[362x470 in 358x470] ; COUNT commands=12 (the rail draws 9 of 17 views)
+  390x844 factory  FAIL  UNDECLARED SCROLLER .queen27-board-stack[362x470 in 358x470] ; COUNT commands=12 (the rail draws 9 of 17 views)
+  390x844 research FAIL  COUNT commands=12 (the rail draws 9 of 17 views)
+  390x844 address  PASS  a hash set from outside moved the shell to kanban
+
+  Queen viewport contract: FAIL (30 size/view combination(s))
+matrix_exit=1
