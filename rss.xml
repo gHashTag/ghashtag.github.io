@@ -6,7 +6,33 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 23 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 26 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>A small agent is only useful next to an exact judge</title>
+      <link>https://t27.ai/#/blog/a-small-agent-needs-an-exact-judge</link>
+      <guid isPermaLink="false">a-small-agent-needs-an-exact-judge</guid>
+      <pubDate>Sat, 26 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[model results measured on GPUs; board throughput derived, not measured] One Artix-7 200T holds the layers of a 13M-parameter ternary model in its own block memory. In our own twin experiment the 100M ternary model passes 0.97% vs 1.68% for full precision across eight languages, and compile rate, not correctness, is the gap. A model that is wrong most of the time becomes useful only where a compiler checks every answer.</description>
+      <category>IGLA</category>
+      <category>Agents</category>
+      <category>FPGA</category>
+      <category>Ternary</category>
+      <category>Verification</category>
+      <category>Plan</category>
+    </item>
+    <item>
+      <title>The token is mined, not sold</title>
+      <link>https://t27.ai/#/blog/tri-mined-not-sold</link>
+      <guid isPermaLink="false">tri-mined-not-sold</guid>
+      <pubDate>Thu, 24 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[design] 100% of TRI is mined by accepted .t27 work with zero pre-mine; the mint-on-acceptance rule is a Zig golden oracle (11/11 tests) with a TON and Solana minter whose digest matches cross-language (cargo test 4/4). Nothing is deployed.</description>
+      <category>DePIN</category>
+      <category>TRI</category>
+      <category>Tokenomics</category>
+      <category>TON</category>
+      <category>Solana</category>
+      <category>Design</category>
+    </item>
     <item>
       <title>How to join the swarm</title>
       <link>https://t27.ai/#/blog/how-to-join-the-swarm</link>
