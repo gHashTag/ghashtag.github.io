@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A small agent is only useful next to an exact judge · TRINITY</title>
+<meta name="description" content="[model results measured on GPUs; board throughput derived, not measured] One Artix-7 200T holds the layers of a 13M-parameter ternary model in its own block memory. In our own twin experiment the 100M ternary model passes 0.97% vs 1.68% for full precision across eight languages, and compile rate, not correctness, is the gap. A model that is wrong most of the time becomes useful only where a compiler checks every answer." />
+<link rel="canonical" href="https://t27.ai/blog/a-small-agent-needs-an-exact-judge/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/a-small-agent-needs-an-exact-judge/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/a-small-agent-needs-an-exact-judge/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/a-small-agent-needs-an-exact-judge/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/a-small-agent-needs-an-exact-judge/" />
+<meta property="og:title" content="A small agent is only useful next to an exact judge" />
+<meta property="og:description" content="[model results measured on GPUs; board throughput derived, not measured] One Artix-7 200T holds the layers of a 13M-parameter ternary model in its own block memory. In our own twin experiment the 100M ternary model passes 0.97% vs 1.68% for full precision across eight languages, and compile rate, not correctness, is the gap. A model that is wrong most of the time becomes useful only where a compiler checks every answer." />
+<meta property="og:image" content="https://t27.ai/og-blog-a-small-agent-needs-an-exact-judge.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="A small agent is only useful next to an exact judge" />
+<meta name="twitter:description" content="[model results measured on GPUs; board throughput derived, not measured] One Artix-7 200T holds the layers of a 13M-parameter ternary model in its own block memory. In our own twin experiment the 100M ternary model passes 0.97% vs 1.68% for full precision across eight languages, and compile rate, not correctness, is the gap. A model that is wrong most of the time becomes useful only where a compiler checks every answer." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"A small agent is only useful next to an exact judge","description":"[model results measured on GPUs; board throughput derived, not measured] One Artix-7 200T holds the layers of a 13M-parameter ternary model in its own block memory. In our own twin experiment the 100M ternary model passes 0.97% vs 1.68% for full precision across eight languages, and compile rate, not correctness, is the gap. A model that is wrong most of the time becomes useful only where a compiler checks every answer.","url":"https://t27.ai/blog/a-small-agent-needs-an-exact-judge/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/a-small-agent-needs-an-exact-judge/"},"image":"https://t27.ai/og-blog-a-small-agent-needs-an-exact-judge.png","datePublished":"2026-09-26","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"IGLA, Agents, FPGA, Ternary, Verification, Plan"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>A small agent is only useful next to an exact judge</h1>
+<p class="meta">2026-09-26 · 9 min read</p>
+<p class="lede">[model results measured on GPUs; board throughput derived, not measured] One Artix-7 200T holds the layers of a 13M-parameter ternary model in its own block memory. In our own twin experiment the 100M ternary model passes 0.97% vs 1.68% for full precision across eight languages, and compile rate, not correctness, is the gap. A model that is wrong most of the time becomes useful only where a compiler checks every answer.</p>
+
+<div class="tags"><span class="tag">#IGLA</span><span class="tag">#Agents</span><span class="tag">#FPGA</span><span class="tag">#Ternary</span><span class="tag">#Verification</span><span class="tag">#Plan</span></div>
+<p>The proposal was the owner&#x27;s: instead of one large model, a network of narrow agents, one per FPGA. Each agent is rewarded for its own work, and open firmware lets anyone connect a device. Before any of it is built, the arithmetic decides what it can be. Nothing below is measured on a board. The capacity numbers are block-RAM bits divided by 1.6 bits per ternary weight. The model figures come from GPU training runs.</p>
+<h2>What one board holds</h2>
+<div class="tw"><table><thead><tr><th>Board</th><th>Block RAM</th><th>Ternary weights at 1.6 bits</th><th>Layers of a 13M model</th></tr></thead><tbody><tr><td>ALINX AX7203 (XC7A200T)</td><td>13.46 Mb</td><td>8.41M</td><td>fit, using 53%</td></tr><tr><td>XC7A100T boards</td><td>4.98 Mb</td><td>3.11M</td><td>do not fit (142%)</td></tr><tr><td>Sipeed Tang Mega 138K</td><td>6.27 Mb</td><td>3.92M</td><td>do not fit (113%)</td></tr></tbody></table></div>
+<p>An XC7A200T holds the transformer layers of one 13M-parameter ternary model. A 100M model fits on none of these parts. It has to stream its weights from DDR3, and the AX7203&#x27;s DDR3 delivers 3.2 GB/s, about a fifth of a Raspberry Pi 5&#x27;s memory bandwidth. Streaming is not where an FPGA wins.</p>
+<h2>The vocabulary is the bottleneck</h2>
+<p>At 13M parameters with a 32,000-token vocabulary, the embedding table, which doubles as the output head, holds 8.19M of the 12.62M parameters. The ternary layers need 0.89 MB. An 8-bit head needs 8.19 MB, read once for every generated token. That read, not the ternary arithmetic, caps one stream at about 330 tokens per second on the AX7203. Eight streams sharing each read reach about 2,650. JetBrains ships its local 100M code model with a 16,384-token vocabulary. A board-sized IGLA needs a smaller vocabulary and a 4-bit head before it needs a faster adder.</p>
+<h2>Why the unit of work is a task</h2>
+<p>Splitting one large model across nodes does not survive the internet: spread a model over a hundred boards and every token pays a hundred network hops. A task, such as completing one spec or repairing another, travels once and takes seconds, so a 50 ms hop is noise. Branch-Train-Merge and c-BTM trained experts independently on separate slices of data and routed each document to one of them. They report matching dense models trained with the same compute. One expert per request means one board per request.</p>
+<h2>A small model is wrong most of the time</h2>
+<div class="tw"><table><thead><tr><th>Model</th><th>HumanEval pass@1</th><th>pass@100</th></tr></thead><tbody><tr><td>Codex-12M</td><td>2.00%</td><td>8.58%</td></tr><tr><td>Codex-85M</td><td>8.22%</td><td>22.4%</td></tr></tbody></table></div>
+<p>These are the only published code results under 100M parameters, and they come from the Codex paper. A 12M agent that answers once is right 2% of the time. A network of such agents with nobody checking their work mostly produces noise. Now give the same agent a cheap, exact judge and let it try a hundred times: it solves 4.3 times as many problems. At 200 tokens a try, a hundred tries take 8 to 60 seconds on one board.</p>
+<h2>The judge already exists</h2>
+<p>t27c turns a spec into a syntax tree, types and generated code, and refuses a spec it cannot handle. The corpus carries its own tests and invariants, and t27c test-report runs every test in isolation. Today the swarm uses that judge only in part: its merge gate checks structure, and the tests run nightly on master, not before a merge. A device lane would change two things. The worker becomes an IGLA model on the owner&#x27;s board instead of a provider token. And nothing the lane sends counts until the spec&#x27;s own tests pass. It takes only the work the compiler can judge: complete a spec skeleton, repair a spec until t27c accepts it, or port a function into .t27. The swarm already records an accepted turn as a non-transferable integer against the name that made it, and a device lane earns the same way. Ternary inference in integers is bit-exact, so any node can rerun a sampled task and settle a dispute by comparing the outputs. tri-net&#x27;s compute-challenge spec already applies that rule to single operations.</p>
+<h2>Measured: the 100M twins, eight languages</h2>
+<p>The judge argument needed our own numbers, not only the Codex table. We trained a controlled twin pair: two 100M-parameter models, one full-precision, one ternary (b1.58), on the same 10.0 billion tokens of code, then ran both through MultiPL-E (HumanEval-164 translated into eight languages, n=20 samples, temperature 0.2, native execution).</p>
+<div class="tw"><table><thead><tr><th>Language</th><th>pass@1 FP</th><th>pass@1 ternary</th><th>compiles FP</th><th>compiles ternary</th></tr></thead><tbody><tr><td>python</td><td>2.35%</td><td>1.25%</td><td>86%</td><td>84%</td></tr><tr><td>c++</td><td>1.43%</td><td>0.12%</td><td>59%</td><td>47%</td></tr><tr><td>go</td><td>1.01%</td><td>1.23%</td><td>45%</td><td>46%</td></tr><tr><td>java</td><td>2.41%</td><td>2.18%</td><td>62%</td><td>55%</td></tr><tr><td>javascript</td><td>1.68%</td><td>1.15%</td><td>72%</td><td>75%</td></tr><tr><td>php</td><td>0.68%</td><td>0.62%</td><td>100%</td><td>100%</td></tr><tr><td>rust</td><td>1.57%</td><td>0.16%</td><td>38%</td><td>12%</td></tr><tr><td>typescript</td><td>2.33%</td><td>1.38%</td><td>65%</td><td>49%</td></tr></tbody></table></div>
+<p>Mean pass@1 over the eight languages: FP 1.68%, ternary 1.01%. Full precision leads in seven of eight languages; go is the exception. The striking column is not pass@1 but compiles: the ternary model produces code that fails to compile far more often (rust 12% vs 38%). Compile is the judge&#x27;s first gate, so compile rate is the natural ladder step.</p>
+<p>We also measured knowledge distillation from the FP teacher into the ternary student on the same 2-billion-token budget: the distilled student is worse in every language (mixed bits-per-byte 0.897 vs 0.713 for plain cross-entropy), at roughly seven times the GPU cost. The teacher is not far enough ahead of the student to teach it. Distillation from this teacher is rejected on measurement.</p>
+<h2>What has to exist first</h2>
+<ul><li>IGLA itself. The pilot is training ternary and full-precision models from 13M to 100M parameters on code. Measured so far, in validation bits per byte (ternary against full precision): 0.8901 against 0.7742 at 13M, 0.7460 against 0.6594 at 25M, and 0.6093 against 0.5482 at 52M. The ternary gap narrows from 15.0% to 11.1% as the model grows. At 25M and 52M, each ternary model matches a full-precision one 0.59-0.66 times its size.</li><li>IGLA-t27: the base model fine-tuned on the .t27 corpus, and measured by what t27c accepts on specs it has not seen.</li><li>An integer reference implementation that a CPU and a board run bit for bit alike. This is what a receipt can point at.</li><li>A bitstream: the layers in block RAM, and the head over DDR3 through LiteDRAM and the open toolchain. Tokens per second and watts are measured at the board.</li></ul>
+<h2>Not proven / open</h2>
+<ul><li>No IGLA model has run on a board. Every throughput figure here is a ceiling derived from memory bandwidth and LUT counts.</li><li>The code ability of a 13M model on .t27 is unknown. The HumanEval figures above are for Python and for another model family.</li><li>The open DDR3 path on Artix-7 has passed memtest on hardware only since nextpnr-xilinx 0.9.5 (13 September 2026). The independent UberDDR3 test reached a 333 MHz DDR clock, not the 400 MHz the AX7203 is rated for.</li><li>Integer inference must be shown to cost little quality against the float model before receipts can rest on it.</li><li>The c-BTM experts had 1.3B parameters or more, a hundred times the size of a board-sized one. Whether the result holds at 13M is a measurement, not an inference.</li></ul>
+<div class="box"><h2>What this does not settle</h2><ul><li>No IGLA model has run on a board. Every throughput figure here is a ceiling derived from memory bandwidth and LUT counts.</li><li>The code ability of a 13M model on .t27 is unknown. The HumanEval figures above are for Python and for another model family.</li><li>The open DDR3 path on Artix-7 has passed memtest on hardware only since nextpnr-xilinx 0.9.5 (13 September 2026). The independent UberDDR3 test reached a 333 MHz DDR clock, not the 400 MHz the AX7203 is rated for.</li><li>Integer inference must be shown to cost little quality against the float model before receipts can rest on it.</li><li>The c-BTM experts had 1.3B parameters or more, a hundred times the size of a board-sized one. Whether the result holds at 13M is a measurement, not an inference.</li><li>The twin numbers are for 100M-parameter models trained on GPUs; the board-sized 13M ternary model has been neither trained nor run on a board.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://arxiv.org/abs/2107.03374">Codex paper, Table 1: pass@k for 12M-85M code models (arXiv:2107.03374)</a></li><li><a href="https://arxiv.org/abs/2405.08704">JetBrains Full Line Code Completion: a local 100M model, 16,384-token vocabulary (arXiv:2405.08704)</a></li><li><a href="https://arxiv.org/abs/2208.03306">Branch-Train-Merge (arXiv:2208.03306)</a></li><li><a href="https://arxiv.org/abs/2303.14177">c-BTM: scaling expert language models with unsupervised domain discovery (arXiv:2303.14177)</a></li><li><a href="https://arxiv.org/abs/2502.16473">TerEffic: on-chip vs HBM ternary inference on FPGA (arXiv:2502.16473)</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/releases">nextpnr-xilinx releases: 0.9.5, LiteX DDR3 memtest passing on hardware</a></li><li><a href="https://docs.amd.com/api/khub/documents/2LByHkO~nSZXcei2D55fTg/content">AMD DS180: 7-series block RAM counts</a></li><li><a href="https://t27.ai/blog/tri-claw-an-agent-you-can-audit/">TRI CLAW: an agent you can audit (the device this lane runs on)</a></li><li><a href="https://arxiv.org/abs/2208.08227">MultiPL-E: MultiPL-E benchmark, HumanEval-164 in 18+ languages (arXiv:2208.08227)</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/a-small-agent-needs-an-exact-judge">Open the interactive version</a><a class="btn sec" href="/ru/blog/a-small-agent-needs-an-exact-judge/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20A%20small%20agent%20is%20only%20useful%20next%20to%20an%20exact%20judge&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CA%20small%20agent%20is%20only%20useful%20next%20to%20an%20exact%20judge%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fa-small-agent-needs-an-exact-judge%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Маленький агент полезен только рядом с точным судьёй · TRINITY</title>
+<meta name="description" content="[результаты моделей измерены на GPU; пропускная способность платы выведена, не измерена] Одна Artix-7 200T держит слои тернарной модели на 13M параметров в собственной блочной памяти. В нашем парном эксперименте тернарная модель на 100M проходит 0,97% против 1,68% у полной точности на восьми языках, и разрыв — это компиляция, а не корректность. Модель, чаще ошибающаяся, полезна только там, где каждый ответ проверяет компилятор." />
+<link rel="canonical" href="https://t27.ai/ru/blog/a-small-agent-needs-an-exact-judge/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/a-small-agent-needs-an-exact-judge/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/a-small-agent-needs-an-exact-judge/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/a-small-agent-needs-an-exact-judge/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/a-small-agent-needs-an-exact-judge/" />
+<meta property="og:title" content="Маленький агент полезен только рядом с точным судьёй" />
+<meta property="og:description" content="[результаты моделей измерены на GPU; пропускная способность платы выведена, не измерена] Одна Artix-7 200T держит слои тернарной модели на 13M параметров в собственной блочной памяти. В нашем парном эксперименте тернарная модель на 100M проходит 0,97% против 1,68% у полной точности на восьми языках, и разрыв — это компиляция, а не корректность. Модель, чаще ошибающаяся, полезна только там, где каждый ответ проверяет компилятор." />
+<meta property="og:image" content="https://t27.ai/og-blog-a-small-agent-needs-an-exact-judge-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Маленький агент полезен только рядом с точным судьёй" />
+<meta name="twitter:description" content="[результаты моделей измерены на GPU; пропускная способность платы выведена, не измерена] Одна Artix-7 200T держит слои тернарной модели на 13M параметров в собственной блочной памяти. В нашем парном эксперименте тернарная модель на 100M проходит 0,97% против 1,68% у полной точности на восьми языках, и разрыв — это компиляция, а не корректность. Модель, чаще ошибающаяся, полезна только там, где каждый ответ проверяет компилятор." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Маленький агент полезен только рядом с точным судьёй","description":"[результаты моделей измерены на GPU; пропускная способность платы выведена, не измерена] Одна Artix-7 200T держит слои тернарной модели на 13M параметров в собственной блочной памяти. В нашем парном эксперименте тернарная модель на 100M проходит 0,97% против 1,68% у полной точности на восьми языках, и разрыв — это компиляция, а не корректность. Модель, чаще ошибающаяся, полезна только там, где каждый ответ проверяет компилятор.","url":"https://t27.ai/ru/blog/a-small-agent-needs-an-exact-judge/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/a-small-agent-needs-an-exact-judge/"},"image":"https://t27.ai/og-blog-a-small-agent-needs-an-exact-judge-ru.png","datePublished":"2026-09-26","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"IGLA, Agents, FPGA, Ternary, Verification, Plan"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Маленький агент полезен только рядом с точным судьёй</h1>
+<p class="meta">2026-09-26 · 9 мин чтения</p>
+<p class="lede">[результаты моделей измерены на GPU; пропускная способность платы выведена, не измерена] Одна Artix-7 200T держит слои тернарной модели на 13M параметров в собственной блочной памяти. В нашем парном эксперименте тернарная модель на 100M проходит 0,97% против 1,68% у полной точности на восьми языках, и разрыв — это компиляция, а не корректность. Модель, чаще ошибающаяся, полезна только там, где каждый ответ проверяет компилятор.</p>
+
+<div class="tags"><span class="tag">#IGLA</span><span class="tag">#Agents</span><span class="tag">#FPGA</span><span class="tag">#Ternary</span><span class="tag">#Verification</span><span class="tag">#Plan</span></div>
+<p>Предложение принадлежит владельцу проекта: вместо одной большой модели — сеть узких агентов, по одному на FPGA. Каждый агент получает награду за собственную работу, а открытая прошивка позволяет любому подключить своё устройство. Прежде чем что-то строить, арифметика решает, чем это может быть. Ниже ничего не измерено на плате. Цифры ёмкости — это биты блочной памяти, поделённые на 1,6 бита на тернарный вес. Цифры моделей взяты из обучающих прогонов на GPU.</p>
+<h2>Что держит одна плата</h2>
+<div class="tw"><table><thead><tr><th>Плата</th><th>Блочная память</th><th>Тернарных весов при 1,6 бита</th><th>Слои модели на 13M</th></tr></thead><tbody><tr><td>ALINX AX7203 (XC7A200T)</td><td>13,46 Мбит</td><td>8,41M</td><td>помещаются, 53%</td></tr><tr><td>Платы на XC7A100T</td><td>4,98 Мбит</td><td>3,11M</td><td>не помещаются (142%)</td></tr><tr><td>Sipeed Tang Mega 138K</td><td>6,27 Мбит</td><td>3,92M</td><td>не помещаются (113%)</td></tr></tbody></table></div>
+<p>XC7A200T держит слои трансформера одной тернарной модели на 13M параметров. Модель на 100M не помещается ни в один из этих чипов. Ей приходится подкачивать веса из DDR3, а DDR3 на AX7203 даёт 3,2 ГБ/с — примерно пятую часть пропускной способности памяти Raspberry Pi 5. На подкачке FPGA не выигрывает.</p>
+<h2>Узкое место — словарь</h2>
+<p>При 13M параметров и словаре на 32 000 токенов таблица эмбеддингов, которая служит и выходной головой, занимает 8,19M из 12,62M параметров. Тернарным слоям нужно 0,89 МБ. Восьмибитной голове нужно 8,19 МБ, и она читается целиком на каждый сгенерированный токен. Именно это чтение, а не тернарная арифметика, ограничивает один поток примерно 330 токенами в секунду на AX7203. Восемь потоков, которые делят каждое чтение, дают около 2 650. JetBrains выпускает свою локальную модель для кода на 100M со словарём на 16 384 токена. Модели IGLA размером с плату сначала нужны словарь поменьше и четырёхбитная голова, а уже потом более быстрый сумматор.</p>
+<h2>Почему единица работы — задача</h2>
+<p>Разрезать одну большую модель по узлам интернет не позволяет: если разложить модель на сотню плат, каждый токен заплатит сотней сетевых переходов. Задача — дописать одну спеку, починить другую — пересылается один раз и выполняется секунды, так что переход в 50 мс ничего не значит. Branch-Train-Merge и c-BTM обучали экспертов независимо, каждого на своём срезе данных, и направляли каждый документ одному из них. Авторы сообщают, что такие эксперты не уступают плотным моделям, обученным на том же объёме вычислений. Один эксперт на запрос — это одна плата на запрос.</p>
+<h2>Маленькая модель чаще ошибается</h2>
+<div class="tw"><table><thead><tr><th>Модель</th><th>HumanEval pass@1</th><th>pass@100</th></tr></thead><tbody><tr><td>Codex-12M</td><td>2,00%</td><td>8,58%</td></tr><tr><td>Codex-85M</td><td>8,22%</td><td>22,4%</td></tr></tbody></table></div>
+<p>Это единственные опубликованные результаты по коду для моделей меньше 100M параметров, и они взяты из статьи о Codex. Агент на 12M, отвечающий с одной попытки, прав в 2% случаев. Сеть таких агентов, чью работу никто не проверяет, в основном производит шум. А если дать тому же агенту дешёвого и точного судью и разрешить сто попыток, он решает в 4,3 раза больше задач. При 200 токенах на попытку сто попыток занимают от 8 до 60 секунд на одной плате.</p>
+<h2>Судья уже есть</h2>
+<p>t27c превращает спеку в синтаксическое дерево, типы и сгенерированный код, а спеку, с которой не справляется, отклоняет. В самом корпусе есть собственные тесты и инварианты, а t27c test-report запускает каждый тест отдельно. Сегодня рой пользуется этим судьёй лишь отчасти: его фильтр перед слиянием проверяет структуру, а тесты гоняются по ночам на master, а не до слияния. Лейн-устройство меняет две вещи. Работником становится модель IGLA на плате владельца, а не токен провайдера. И ничто из присланного лейном не засчитывается, пока не пройдут собственные тесты спеки. Он берёт только ту работу, которую может рассудить компилятор: дописать заготовку спеки, чинить спеку, пока t27c её не примет, или перенести функцию в .t27. Рой уже записывает принятый ход как непередаваемое целое число на имя того, кто его сделал, и лейн-устройство зарабатывает так же. Тернарный вывод в целых числах воспроизводится бит в бит, поэтому любой узел может перезапустить выбранную задачу и разрешить спор, сравнив результаты. Спецификация compute-challenge в tri-net уже применяет это правило к отдельным операциям.</p>
+<h2>Измерено: двойняшки на 100M, восемь языков</h2>
+<p>Аргументу про судью нужны наши собственные числа, а не только таблица Codex. Мы обучили контролируемую пару: две модели на 100M параметров, одна в полной точности, одна тернарная (b1.58), на одинаковых 10,0 млрд токенов кода, и прогнали обе через MultiPL-E (HumanEval-164, переведённый на восемь языков; n=20 сэмплов, температура 0,2, нативное исполнение).</p>
+<div class="tw"><table><thead><tr><th>Язык</th><th>pass@1 FP</th><th>pass@1 тернарная</th><th>компилируется FP</th><th>компилируется тернарная</th></tr></thead><tbody><tr><td>python</td><td>2.35%</td><td>1.25%</td><td>86%</td><td>84%</td></tr><tr><td>c++</td><td>1.43%</td><td>0.12%</td><td>59%</td><td>47%</td></tr><tr><td>go</td><td>1.01%</td><td>1.23%</td><td>45%</td><td>46%</td></tr><tr><td>java</td><td>2.41%</td><td>2.18%</td><td>62%</td><td>55%</td></tr><tr><td>javascript</td><td>1.68%</td><td>1.15%</td><td>72%</td><td>75%</td></tr><tr><td>php</td><td>0.68%</td><td>0.62%</td><td>100%</td><td>100%</td></tr><tr><td>rust</td><td>1.57%</td><td>0.16%</td><td>38%</td><td>12%</td></tr><tr><td>typescript</td><td>2.33%</td><td>1.38%</td><td>65%</td><td>49%</td></tr></tbody></table></div>
+<p>Средний pass@1 по восьми языкам: FP 1.68%, тернарная 1.01%. Полная точность впереди на семи языках из восьми; исключение — go. Самая выразительная колонка не pass@1, а компиляция: тернарная модель гораздо чаще выдаёт несобирающийся код (rust 12% против 38%). Компиляция — первый фильтр судьи, поэтому темп компиляции — естественная ступень лестницы.</p>
+<p>Мы также измерили дистилляцию из FP-учителя в тернарного ученика на том же бюджете 2 млрд токенов: дистиллированный ученик хуже на каждом языке (смешанные биты на байт 0,897 против 0,713 у обычной кросс-энтропии) и примерно в семь раз дороже по GPU-времени. Учитель недостаточно впереди, чтобы чему-то научить. Дистилляция от этого учителя отвергнута по измерению.</p>
+<h2>Что должно появиться сначала</h2>
+<ul><li>Сама IGLA. Пилот обучает на коде тернарные и полноточные модели от 13M до 100M параметров. Уже измерено, в битах на байт на валидации (тернарная против полноточной): 0,8901 против 0,7742 при 13M, 0,7460 против 0,6594 при 25M и 0,6093 против 0,5482 при 52M. С ростом модели тернарный разрыв сужается с 15,0% до 11,1%. При 25M и 52M тернарная модель равна полноточной размером в 0,59–0,66 от неё.</li><li>IGLA-t27: базовая модель, дообученная на корпусе .t27. Её мерой служит то, что t27c принимает на спеках, которых она не видела.</li><li>Целочисленная эталонная реализация, которую CPU и плата исполняют одинаково бит в бит. Именно на неё может ссылаться квитанция.</li><li>Битстрим: слои в блочной памяти, голова через DDR3 на LiteDRAM и открытом тулчейне. Токены в секунду и ватты измеряются на плате.</li></ul>
+<h2>Не доказано / открыто</h2>
+<ul><li>Ни одна модель IGLA ещё не запускалась на плате. Каждая цифра скорости здесь — потолок, выведенный из пропускной способности памяти и числа LUT.</li><li>Способность модели на 13M писать .t27 неизвестна. Цифры HumanEval выше относятся к Python и к другому семейству моделей.</li><li>Открытый путь к DDR3 на Artix-7 проходит memtest на железе только с nextpnr-xilinx 0.9.5 (13 сентября 2026). Независимый тест UberDDR3 достиг частоты DDR 333 МГц, а не 400 МГц, на которые рассчитана AX7203.</li><li>Нужно показать, что целочисленный вывод почти не теряет в качестве по сравнению с плавающей точкой. Только после этого на него могут опираться квитанции.</li><li>Эксперты в c-BTM имели 1,3B параметров и больше — в сто раз больше, чем модель размером с плату. Держится ли результат при 13M, решит замер, а не рассуждение.</li></ul>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Ни одна модель IGLA ещё не запускалась на плате. Каждая цифра скорости здесь — потолок, выведенный из пропускной способности памяти и числа LUT.</li><li>Способность модели на 13M писать .t27 неизвестна. Цифры HumanEval выше относятся к Python и к другому семейству моделей.</li><li>Открытый путь к DDR3 на Artix-7 проходит memtest на железе только с nextpnr-xilinx 0.9.5 (13 сентября 2026). Независимый тест UberDDR3 достиг частоты DDR 333 МГц, а не 400 МГц, на которые рассчитана AX7203.</li><li>Нужно показать, что целочисленный вывод почти не теряет в качестве по сравнению с плавающей точкой. Только после этого на него могут опираться квитанции.</li><li>Эксперты в c-BTM имели 1,3B параметров и больше — в сто раз больше, чем модель размером с плату. Держится ли результат при 13M, решит замер, а не рассуждение.</li><li>Числа двойняшек относятся к моделям на 100M параметров, обученным на GPU; модель на 13M, помещающаяся на плату, не обучена и не запускалась на плате.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://arxiv.org/abs/2107.03374">Codex paper, Table 1: pass@k for 12M-85M code models (arXiv:2107.03374)</a></li><li><a href="https://arxiv.org/abs/2405.08704">JetBrains Full Line Code Completion: a local 100M model, 16,384-token vocabulary (arXiv:2405.08704)</a></li><li><a href="https://arxiv.org/abs/2208.03306">Branch-Train-Merge (arXiv:2208.03306)</a></li><li><a href="https://arxiv.org/abs/2303.14177">c-BTM: scaling expert language models with unsupervised domain discovery (arXiv:2303.14177)</a></li><li><a href="https://arxiv.org/abs/2502.16473">TerEffic: on-chip vs HBM ternary inference on FPGA (arXiv:2502.16473)</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/releases">nextpnr-xilinx releases: 0.9.5, LiteX DDR3 memtest passing on hardware</a></li><li><a href="https://docs.amd.com/api/khub/documents/2LByHkO~nSZXcei2D55fTg/content">AMD DS180: 7-series block RAM counts</a></li><li><a href="https://t27.ai/blog/tri-claw-an-agent-you-can-audit/">TRI CLAW: an agent you can audit (the device this lane runs on)</a></li><li><a href="https://arxiv.org/abs/2208.08227">MultiPL-E: MultiPL-E benchmark, HumanEval-164 in 18+ languages (arXiv:2208.08227)</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/?lang=ru#/blog/a-small-agent-needs-an-exact-judge">Открыть интерактивную версию</a><a class="btn sec" href="/blog/a-small-agent-needs-an-exact-judge/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Поработаем вместе</p><h2 id="blog-work-offer-title">Хотите так же проверить собственный дизайн?</h2><p>Я аудирую RTL и строю независимые побитово точные модели, затем провожу результат через синтез и, когда это полезно, проверяю на плате Artix-7. Первый модуль проверки — бесплатно.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%B4%D0%BB%D1%8F%20T27%20%E2%80%94%20%D0%9C%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%B0%D0%B3%D0%B5%D0%BD%D1%82%20%D0%BF%D0%BE%D0%BB%D0%B5%D0%B7%D0%B5%D0%BD%20%D1%82%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE%20%D1%80%D1%8F%D0%B4%D0%BE%D0%BC%20%D1%81%20%D1%82%D0%BE%D1%87%D0%BD%D1%8B%D0%BC%20%D1%81%D1%83%D0%B4%D1%8C%D1%91%D0%B9&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%21%20%D0%AF%20%D0%BF%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D0%BB%28%D0%B0%29%20%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8E%20%C2%AB%D0%9C%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%B0%D0%B3%D0%B5%D0%BD%D1%82%20%D0%BF%D0%BE%D0%BB%D0%B5%D0%B7%D0%B5%D0%BD%20%D1%82%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE%20%D1%80%D1%8F%D0%B4%D0%BE%D0%BC%20%D1%81%20%D1%82%D0%BE%D1%87%D0%BD%D1%8B%D0%BC%20%D1%81%D1%83%D0%B4%D1%8C%D1%91%D0%B9%C2%BB%3A%20https%3A%2F%2Ft27.ai%2Fru%2Fblog%2Fa-small-agent-needs-an-exact-judge%2F%0A%0A%D0%9D%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A">Обсудить задачу</a><a class="btn sec" href="/ru/verification/">Услуга верификации</a></div><nav class="work-links" aria-label="Услуги"><span>Услуги:</span><a href="/ru/verification/">Верификация</a><a href="/ru/ip/">Лицензирование IP</a><a href="/ru/course/">Курсы и воркшопы</a><a href="/ru/about/">Контрактная работа</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
