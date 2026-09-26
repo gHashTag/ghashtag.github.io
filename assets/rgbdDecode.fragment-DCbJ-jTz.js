@@ -1,5 +1,0 @@
-import{ar as e}from"./QueenComb-DojR2dWW.js";import{h as i}from"./helperFunctions-C4tz-qFy.js";import"./index-3zHDZIRR.js";import"./react-D-uFLJMr.js";import"./motion-mybjp1Q4.js";import"./router-4H5ws2tv.js";import"./queenRepositoryWorld-CyuPyfZ9.js";const o="rgbdDecodePixelShader",t=`varying vec2 vUV;uniform sampler2D textureSampler;
-#include<helperFunctions>
-#define CUSTOM_FRAGMENT_DEFINITIONS
-void main(void) 
-{gl_FragColor=vec4(fromRGBD(texture2D(textureSampler,vUV)),1.0);}`;e.ShadersStore[o]||(e.ShadersStore[o]=t);const a=[i];for(const r of a)e.IncludesShadersStore[r.name]||(e.IncludesShadersStore[r.name]=r.shader);const p={name:o,shader:t};export{p as rgbdDecodePixelShader};
