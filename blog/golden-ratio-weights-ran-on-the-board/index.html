@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Golden-ratio weights ran on the board. The phi cost one add per output. · TRINITY</title>
+<meta name="description" content="[measured on FPGA: layer 0, 403,200 of 403,200 receipts verified, registered before the run; the phi step and digit recombination are host arithmetic; one synthetic activation vector] The TNF paper&#x27;s GFTernary weights, t*phi, applied to activations in Z[phi], ran on the unchanged AX7203 node with no multiplier. Each output is W.b + (W.a + W.b)*phi, so the node computes only ternary dots and the host adds once per output. All 5,632 Z[phi] rows of layer 0 matched a plain Z[phi] multiplication oracle bit for bit." />
+<link rel="canonical" href="https://t27.ai/blog/golden-ratio-weights-ran-on-the-board/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/golden-ratio-weights-ran-on-the-board/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/golden-ratio-weights-ran-on-the-board/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/golden-ratio-weights-ran-on-the-board/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/golden-ratio-weights-ran-on-the-board/" />
+<meta property="og:title" content="Golden-ratio weights ran on the board. The phi cost one add per output." />
+<meta property="og:description" content="[measured on FPGA: layer 0, 403,200 of 403,200 receipts verified, registered before the run; the phi step and digit recombination are host arithmetic; one synthetic activation vector] The TNF paper&#x27;s GFTernary weights, t*phi, applied to activations in Z[phi], ran on the unchanged AX7203 node with no multiplier. Each output is W.b + (W.a + W.b)*phi, so the node computes only ternary dots and the host adds once per output. All 5,632 Z[phi] rows of layer 0 matched a plain Z[phi] multiplication oracle bit for bit." />
+<meta property="og:image" content="https://t27.ai/og-blog-golden-ratio-weights-ran-on-the-board.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Golden-ratio weights ran on the board. The phi cost one add per output." />
+<meta name="twitter:description" content="[measured on FPGA: layer 0, 403,200 of 403,200 receipts verified, registered before the run; the phi step and digit recombination are host arithmetic; one synthetic activation vector] The TNF paper&#x27;s GFTernary weights, t*phi, applied to activations in Z[phi], ran on the unchanged AX7203 node with no multiplier. Each output is W.b + (W.a + W.b)*phi, so the node computes only ternary dots and the host adds once per output. All 5,632 Z[phi] rows of layer 0 matched a plain Z[phi] multiplication oracle bit for bit." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Golden-ratio weights ran on the board. The phi cost one add per output.","description":"[measured on FPGA: layer 0, 403,200 of 403,200 receipts verified, registered before the run; the phi step and digit recombination are host arithmetic; one synthetic activation vector] The TNF paper's GFTernary weights, t*phi, applied to activations in Z[phi], ran on the unchanged AX7203 node with no multiplier. Each output is W.b + (W.a + W.b)*phi, so the node computes only ternary dots and the host adds once per output. All 5,632 Z[phi] rows of layer 0 matched a plain Z[phi] multiplication oracle bit for bit.","url":"https://t27.ai/blog/golden-ratio-weights-ran-on-the-board/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/golden-ratio-weights-ran-on-the-board/"},"image":"https://t27.ai/og-blog-golden-ratio-weights-ran-on-the-board.png","datePublished":"2026-09-27","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"FPGA, Ternary, Number formats, Verification, TRI-NET"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Golden-ratio weights ran on the board. The phi cost one add per output.</h1>
+<p class="meta">2026-09-27 · 6 min read</p>
+<p class="lede">[measured on FPGA: layer 0, 403,200 of 403,200 receipts verified, registered before the run; the phi step and digit recombination are host arithmetic; one synthetic activation vector] The TNF paper&#x27;s GFTernary weights, t*phi, applied to activations in Z[phi], ran on the unchanged AX7203 node with no multiplier. Each output is W.b + (W.a + W.b)*phi, so the node computes only ternary dots and the host adds once per output. All 5,632 Z[phi] rows of layer 0 matched a plain Z[phi] multiplication oracle bit for bit.</p>
+
+<div class="tags"><span class="tag">#FPGA</span><span class="tag">#Ternary</span><span class="tag">#NumberFormats</span><span class="tag">#Verification</span><span class="tag">#TRINET</span></div>
+<p>The TNF paper&#x27;s weight format is GFTernary: a weight is t*phi, with t in {-1, 0, +1}. Its activations live in Z[phi], the numbers a + b*phi with integer a and b. The paper claims that a layer&#x27;s linear path is exact in Z[phi] and needs no multiplier. The AX7203 node from the previous post computes signed 32-trit ternary dot products and signs every answer. We asked whether that node, unchanged, can compute a GFTernary layer on Z[phi] activations exactly.</p>
+<h2>Why no multiplier is needed</h2>
+<p>Because phi^2 = phi + 1, applying a weight is the Fibonacci step: t*phi*(a + b*phi) = t*(b + (a + b)*phi). Summed over a row, one output is W.b + (W.a + W.b)*phi. W.a and W.b are ternary-by-integer dot products. With a and b in [-127, 127], each one is six balanced-ternary digit planes, which makes 12 node jobs per 32-wide chunk. The phi itself costs one integer add per output, done on the host.</p>
+<p>This is the same point as an earlier post, &#x27;The golden ratio in this format is a scale factor, not information&#x27;, now measured on silicon. In the weights, phi is a fixed linear map on Z[phi], not a product the hardware has to form. The node&#x27;s work in this run is exactly the kind of work it did for tern_tc: ternary dots, nothing else.</p>
+<h2>Registered before it ran</h2>
+<p>The command, the input, the expected numbers and the rules were committed at 03:32:06 UTC, and the run started at 03:32:44. The input was layer 0 of the trained tern_tc model: all 7 ternary matrices, 2,816 outputs, one Z[phi] activation vector from a fixed seed, and 24 jobs in flight. The rules: the run happens once, and its result is recorded whatever it is. A UART slip would count against the link, not against the Z[phi] claim, and would still be recorded as a fail.</p>
+<div class="tw"><table><thead><tr><th></th><th>Registered</th><th>Board</th></tr></thead><tbody><tr><td>Jobs</td><td>403,200</td><td>403,200 of 403,200 sent</td></tr><tr><td>Receipts verified</td><td>403,200 / 403,200</td><td>403,200 / 403,200</td></tr><tr><td>Z[phi] rows bit-exact</td><td>5,632 / 5,632</td><td>5,632 / 5,632</td></tr><tr><td>Rejected</td><td>none</td><td>none</td></tr><tr><td>Time</td><td>about 86 s</td><td>85.35 s, 4,724 answers/s</td></tr></tbody></table></div>
+<p>Every answer passed the same five checks as in the tern_tc run: status, nonce, node id, a SipHash tag recomputed under the key, and y. The oracle is plain Z[phi] multiplication, (a, b)(c, d) = (ac + bd, ad + bc + bd), applied to each weight and activation pair and summed. It uses neither the Fibonacci shortcut nor the digit split. Each output is checked as two rows, the rational part and the phi part minus the rational part. Both are bit-exact exactly when the output assembled from the board&#x27;s answers equals the oracle in Z[phi].</p>
+<p>Before the board run, the self-test showed each check able to fail:</p>
+<div class="tw"><table><thead><tr><th>Wrong on purpose</th><th>Result</th></tr></thead><tbody><tr><td>an oracle that uses phi^2 = 1</td><td>12 / 24 rows: every phi row fails</td></tr><tr><td>weights read as t instead of t*phi</td><td>0 / 24 rows</td></tr><tr><td>the host drops the 3^0 digit plane</td><td>0 / 24 rows</td></tr><tr><td>a validly signed wrong answer</td><td>rejected as &#x27;lie&#x27;</td></tr><tr><td>a cell signing with another key</td><td>0 receipts</td></tr></tbody></table></div>
+<p>The node&#x27;s own Verilog, unchanged, also ran a request stream of the same kind in simulation, with synthetic weights for one matrix: 7,680 of 7,680 receipts and 128 of 128 rows.</p>
+<h2>What this is not</h2>
+<ul><li>Not the TNF accumulator. Nothing was rounded, and TNF16 has no RTL. The digit recombination and the phi step are host arithmetic, one add per output for the phi.</li><li>Not the model on real data. The activations are one synthetic Z[phi] vector, and only layer 0 ran.</li><li>Not fast. 12,902,400 ternary multiply-accumulates in 85.35 s is about 151,000 per second (derived). The UART sets the pace, and a laptop CPU does this in milliseconds.</li><li>Not a public proof. SipHash is a shared-key MAC: it tells the key holder which node answered, and it does not stop an operator forging their own receipts.</li></ul>
+<h2>Next</h2>
+<ol><li>All six layers: 2,419,200 jobs, about 8.5 minutes at the measured rate (derived).</li><li>Real activations: take the Z[phi] inputs a TNF forward pass would produce, not a seeded vector.</li><li>The accumulator: TNF rounding in RTL, so the part of the claim that is not a dot product can be tested too.</li><li>Receipts anyone can check: a Merkle root per run, and random re-execution or Freivalds checks.</li></ol>
+<div class="box"><h2>What this does not settle</h2><ul><li>Only layer 0 ran, with one synthetic Z[phi] activation vector, not the activations of a real forward pass.</li><li>The TNF accumulator and its rounding have no RTL, so the part of the claim beyond the dot products is untested on hardware.</li><li>The node computes ternary dots; the digit recombination and the phi step run on the host. The result says the linear path needs no multiplier, not that the FPGA did all of it.</li><li>Speed is not claimed: about 151,000 ternary multiply-accumulates per second over UART (derived).</li><li>A SipHash receipt is not publicly verifiable, and it does not stop an operator forging their own.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/blob/8a203217084eb3499d6dee5815be6a462575878f/conformance/GFT_ZPHI_ON_THE_NODE.md">The pre-registration and the result, side by side</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/8a203217084eb3499d6dee5815be6a462575878f/conformance/board_runs/gft_zphi_l0.log">The board log: 403,200 / 403,200 receipts, 5,632 / 5,632 Z[phi] rows</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/8a203217084eb3499d6dee5815be6a462575878f/conformance/gft_zphi_ax7203.py">The harness, with its Z[phi] oracle and negative controls</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/8a203217084eb3499d6dee5815be6a462575878f/conformance/TERN_TC_WEAK_POINTS.md">Ten weak points of the tern_tc record, ranked</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/pull/800">The pull request that carries it: gHashTag/trinity-fpga 800</a></li><li><a href="https://t27.ai/blog/phi-is-a-scale-not-information/">Earlier: the golden ratio in this format is a scale factor, not information</a></li><li><a href="https://t27.ai/blog/trained-weights-ran-receipts-were-not-checked/">Earlier: the board&#x27;s receipts were never checked; now all 403,200 are</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/golden-ratio-weights-ran-on-the-board">Open the interactive version</a><a class="btn sec" href="/ru/blog/golden-ratio-weights-ran-on-the-board/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20Golden-ratio%20weights%20ran%20on%20the%20board.%20The%20phi%20cost%20one%20add%20per%20output.&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CGolden-ratio%20weights%20ran%20on%20the%20board.%20The%20phi%20cost%20one%20add%20per%20output.%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fgolden-ratio-weights-ran-on-the-board%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The board&#x27;s receipts were never checked. Now all 403,200 are. · TRINITY</title>
+<meta name="description" content="[measured on FPGA: all 42 trained matrices, every receipt verified; the activations were test vectors, not a forward pass] An AX7203 computed 28,416 of 28,416 rows of the trained tern_tc model&#x27;s weight matrices bit-exact, while its harness reported 284,160 authenticated receipts without comparing a single tag. The fixed harness fails on seven kinds of misbehaving cell. On the board it then verified all 403,200 receipts across all 42 ternary matrices, with 33,792 of 33,792 rows bit-exact, plus 51,840 for w_down with int8 activations. Its first long runs stopped when a UART link dropped bytes with 64 jobs in flight. A test registered before it ran put the loss threshold at the USB bridge&#x27;s 512-byte receive buffer, and at 24 in flight none were lost." />
+<link rel="canonical" href="https://t27.ai/blog/trained-weights-ran-receipts-were-not-checked/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/trained-weights-ran-receipts-were-not-checked/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/trained-weights-ran-receipts-were-not-checked/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/trained-weights-ran-receipts-were-not-checked/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/trained-weights-ran-receipts-were-not-checked/" />
+<meta property="og:title" content="The board&#x27;s receipts were never checked. Now all 403,200 are." />
+<meta property="og:description" content="[measured on FPGA: all 42 trained matrices, every receipt verified; the activations were test vectors, not a forward pass] An AX7203 computed 28,416 of 28,416 rows of the trained tern_tc model&#x27;s weight matrices bit-exact, while its harness reported 284,160 authenticated receipts without comparing a single tag. The fixed harness fails on seven kinds of misbehaving cell. On the board it then verified all 403,200 receipts across all 42 ternary matrices, with 33,792 of 33,792 rows bit-exact, plus 51,840 for w_down with int8 activations. Its first long runs stopped when a UART link dropped bytes with 64 jobs in flight. A test registered before it ran put the loss threshold at the USB bridge&#x27;s 512-byte receive buffer, and at 24 in flight none were lost." />
+<meta property="og:image" content="https://t27.ai/og-blog-trained-weights-ran-receipts-were-not-checked.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The board&#x27;s receipts were never checked. Now all 403,200 are." />
+<meta name="twitter:description" content="[measured on FPGA: all 42 trained matrices, every receipt verified; the activations were test vectors, not a forward pass] An AX7203 computed 28,416 of 28,416 rows of the trained tern_tc model&#x27;s weight matrices bit-exact, while its harness reported 284,160 authenticated receipts without comparing a single tag. The fixed harness fails on seven kinds of misbehaving cell. On the board it then verified all 403,200 receipts across all 42 ternary matrices, with 33,792 of 33,792 rows bit-exact, plus 51,840 for w_down with int8 activations. Its first long runs stopped when a UART link dropped bytes with 64 jobs in flight. A test registered before it ran put the loss threshold at the USB bridge&#x27;s 512-byte receive buffer, and at 24 in flight none were lost." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The board's receipts were never checked. Now all 403,200 are.","description":"[measured on FPGA: all 42 trained matrices, every receipt verified; the activations were test vectors, not a forward pass] An AX7203 computed 28,416 of 28,416 rows of the trained tern_tc model's weight matrices bit-exact, while its harness reported 284,160 authenticated receipts without comparing a single tag. The fixed harness fails on seven kinds of misbehaving cell. On the board it then verified all 403,200 receipts across all 42 ternary matrices, with 33,792 of 33,792 rows bit-exact, plus 51,840 for w_down with int8 activations. Its first long runs stopped when a UART link dropped bytes with 64 jobs in flight. A test registered before it ran put the loss threshold at the USB bridge's 512-byte receive buffer, and at 24 in flight none were lost.","url":"https://t27.ai/blog/trained-weights-ran-receipts-were-not-checked/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/trained-weights-ran-receipts-were-not-checked/"},"image":"https://t27.ai/og-blog-trained-weights-ran-receipts-were-not-checked.png","datePublished":"2026-09-27","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"IGLA, FPGA, Ternary, Verification, TRI-NET, Correction"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>The board&#x27;s receipts were never checked. Now all 403,200 are.</h1>
+<p class="meta">2026-09-27 · 11 min read</p>
+<p class="lede">[measured on FPGA: all 42 trained matrices, every receipt verified; the activations were test vectors, not a forward pass] An AX7203 computed 28,416 of 28,416 rows of the trained tern_tc model&#x27;s weight matrices bit-exact, while its harness reported 284,160 authenticated receipts without comparing a single tag. The fixed harness fails on seven kinds of misbehaving cell. On the board it then verified all 403,200 receipts across all 42 ternary matrices, with 33,792 of 33,792 rows bit-exact, plus 51,840 for w_down with int8 activations. Its first long runs stopped when a UART link dropped bytes with 64 jobs in flight. A test registered before it ran put the loss threshold at the USB bridge&#x27;s 512-byte receive buffer, and at 24 in flight none were lost.</p>
+
+<div class="tags"><span class="tag">#IGLA</span><span class="tag">#FPGA</span><span class="tag">#Ternary</span><span class="tag">#Verification</span><span class="tag">#TRINET</span><span class="tag">#Correction</span></div>
+<p>IGLA&#x27;s board-sized model, tern_tc, has 9.08M parameters. 6,451,200 of them are ternary block weights in 42 matrices across six layers, trained on 2.0B tokens of code to 0.7613 validation bits per byte. The board is an ALINX AX7203 (XC7A200T) running the TRI-NET node cell, built with the open openXC7 flow: a 32-trit ternary dot product with no multiplier and no DSP48. It answers each job with the result, the job&#x27;s nonce, a node id and a SipHash-2-4 tag over all of them. The host splits every 320-wide row into ten 32-trit jobs and adds up the answers.</p>
+<h2>What the board did</h2>
+<div class="tw"><table><thead><tr><th>Run (AX7203, 1,144,744 baud)</th><th>Jobs</th><th>Rows bit-exact</th><th>Receipt tags compared?</th><th>Time</th></tr></thead><tbody><tr><td>Random 320x320 ternary matvec</td><td>3,200</td><td>320 / 320</td><td>yes</td><td>0.67 s</td></tr><tr><td>Layer 0 wq, trained weights</td><td>12,800</td><td>1,280 / 1,280</td><td>no</td><td>2.7 s</td></tr><tr><td>wq, wo, gate, up in all six layers</td><td>284,160</td><td>28,416 / 28,416</td><td>no</td><td>62.4 s</td></tr></tbody></table></div>
+<p>The activations were ternary vectors, not the model&#x27;s int8 activations. So this shows the trained weight matrices computed exactly. It is not a forward pass of the model.</p>
+<h2>The receipts in the last two rows were never compared</h2>
+<p>The layer harness built each receipt&#x27;s preimage and then dropped it, and the key it loaded was never used. It counted status byte 0x01 as authentication. It never checked that the nonce came back, and it compared only row sums, so two wrong chunks could cancel. We gave it a software model of the cell that signs every answer with a key the host does not hold. It printed &#x27;receipts authenticated 160/160&#x27; and PASS.</p>
+<p>What stands: every row value in the table matched the CPU oracle, and the random-matrix run did compare its tags. What is withdrawn: &#x27;284,160 receipts authenticated under node0&#x27;s key&#x27;, because those receipts were never checked. The fixed harness has since measured all 42 matrices on the board, those 24 included, with every receipt verified (below).</p>
+<h2>The fixed harness, and seven ways to make it fail</h2>
+<p>A response now counts only if all five of these hold. Its status is 0x01. Its nonce was issued by this run and answered once. Its node id matches the first answer. Its SipHash tag recomputes under the key. Its y equals that chunk&#x27;s dot product. A row passes only if every chunk passed and their sum equals the row dot computed directly from the model&#x27;s int8 weights, not from the packed wire bytes. Each check is shown able to fail:</p>
+<div class="tw"><table><thead><tr><th>What the cell does wrong</th><th>Harness verdict</th></tr></thead><tbody><tr><td>signs with another key</td><td>rejected: tag</td></tr><tr><td>returns a wrong answer and signs it validly</td><td>rejected: lie</td></tr><tr><td>flips one tag bit</td><td>rejected: tag</td></tr><tr><td>answers with a nonce the run never issued</td><td>rejected: fabricated</td></tr><tr><td>answers as another node id</td><td>rejected: node</td></tr><tr><td>drops a response</td><td>rejected: short read, run stops</td></tr><tr><td>was never keyed (status 0x04)</td><td>no credit, though y is right</td></tr></tbody></table></div>
+<p>After the board run below, an eighth control was added, for the link rather than the cell. It is a stream that loses 16 bytes in the middle, as the board&#x27;s link did. The harness credits the answers before the hole, rejects the damaged one and stops.</p>
+<h2>The same bytes through the RTL</h2>
+<p>The cell&#x27;s own source, trinet_node_core.v and trinet_siphash24.v, unchanged, was simulated in Icarus Verilog at UART bit level. The key was installed over the wire exactly as on the board. The weights are random ternary values in tern_tc&#x27;s exact shapes, because the trained model file is not in this environment.</p>
+<div class="tw"><table><thead><tr><th>RTL run</th><th>Jobs</th><th>Rows bit-exact</th><th>Receipts verified</th></tr></thead><tbody><tr><td>Layer 0, all seven matrices, w_down as 27 chunks</td><td>67,200</td><td>5,632 / 5,632</td><td>67,200 / 67,200</td></tr><tr><td>Layer 5 w_down, int8 activations (6 digit planes)</td><td>51,840</td><td>320 / 320</td><td>51,840 / 51,840</td></tr><tr><td>Layer 0 wk, node never keyed</td><td>640</td><td>0 / 64</td><td>0 / 640 (status 0x04)</td></tr><tr><td>Layer 0 wk, checked under a different key</td><td>1,280</td><td>0 / 128</td><td>0 / 1,280</td></tr></tbody></table></div>
+<h2>The fixed harness on the board</h2>
+<p>On 2026-09-27 the fixed harness ran on the AX7203 with the trained model file. The host was an M1 Pro, talking to the board&#x27;s CP2102N UART through a USB hub. The x-vectors are random test vectors from a fixed seed, not the model&#x27;s real activations.</p>
+<div class="tw"><table><thead><tr><th>Board run (1,144,744 baud)</th><th>Jobs in flight</th><th>Receipts verified</th><th>Rows bit-exact</th><th>Result</th></tr></thead><tbody><tr><td>Random 320x320 ternary matvec</td><td>64</td><td>3,200 / 3,200</td><td>320 / 320</td><td>PASS, 0.79 s</td></tr><tr><td>All 42 matrices, ternary x</td><td>64</td><td>18,984 of 403,200, then the link lost 16 bytes</td><td>1,898 / 33,792</td><td>FAIL, stopped</td></tr><tr><td>Layer 5 w_down, int8 x</td><td>64</td><td>9,886 of 51,840, then the link lost 4 bytes</td><td>61 / 320</td><td>FAIL, stopped</td></tr><tr><td>Layer 5 w_down, int8 x</td><td>8</td><td>51,840 / 51,840</td><td>320 / 320</td><td>PASS, 11.9 s</td></tr><tr><td>All 42 matrices, ternary x</td><td>24</td><td>403,200 / 403,200</td><td>33,792 / 33,792</td><td>PASS, 85.5 s</td></tr><tr><td>All 42 matrices, ternary x (control)</td><td>64</td><td>6,679 of 403,200, then the link lost 59 bytes</td><td>667 / 33,792</td><td>FAIL, stopped</td></tr><tr><td>All 42 matrices, ternary x (registered)</td><td>26</td><td>403,200 / 403,200</td><td>33,792 / 33,792</td><td>PASS, 85.3 s</td></tr><tr><td>All 42 matrices, ternary x (registered)</td><td>30</td><td>149,986 of 403,200, then the link lost 7 bytes</td><td>12,822 / 33,792</td><td>FAIL, stopped</td></tr></tbody></table></div>
+<p>The window-24 row is the result this post was waiting for. All 42 ternary matrices of the trained model, all 6,451,200 weights, ran on the existing bitstream. The host checked every one of the 403,200 receipts: status, nonce, node id, the SipHash tag recomputed under the key, and y. All 33,792 rows equal the int8-weight oracle. The run took 85.5 s, 4,716 answers per second.</p>
+<p>The w_down run at 8 in flight is the first board run of trained weights with int8 activations and every receipt checked: 51,840 tags and 320 rows. It covers one matrix of 42, with one random activation vector.</p>
+<p>The four failures are not wrong answers. All 185,535 answers that arrived whole before a hole had the right y and a verifying tag. The one answer each hole tore through failed a check and was refused. The link is what failed. The answer stream lost 16, 4, 59 and 7 bytes, with intact bytes on both sides. The cell cannot produce that pattern, because it sends every answer whole from one buffer. The harness did its job: it stopped at the first unframed read and credited nothing after it.</p>
+<p>The window matters; the control shows it. The same full run, on the same harness, setup and session, went clean at 24 jobs in flight and lost bytes after 6,744 jobs at 64. So the pass comes from the window, not from the new harness&#x27;s timing and hex output. At 64, three long runs slipped three times.</p>
+<p>The first explanation does not survive the control. The idea was that answers pile up while the harness process looks away. The fixed harness measures those pauses. In the failing control at 64 the longest was 4.2 ms, about 1,700 answers before the hole. Passing runs survived pauses of 22.4 ms at 24 in flight and 25.8 ms at 26.</p>
+<p>What does fit is the USB bridge. The board&#x27;s UART goes to the host through a CP2102N, whose datasheet gives a 512-byte receive buffer and asks for handshaking above 1 Mbaud to avoid receiver overrun. The node runs at 1,144,744 baud and has no handshake lines, so nothing can hold it off. With W jobs in flight, at most 19 x W answer bytes are on their way. The next test was registered before it ran: a pass at 26 in flight (494 bytes) and a slip at 30 (570 bytes). Both happened. Window 26 carried all 403,200 jobs, and window 30 lost 7 bytes after 150,017 jobs. That puts the loss threshold between 494 and 570 bytes, around the 512-byte buffer.</p>
+<p>One side prediction missed. The slip at 30 came after 150,017 jobs, not within the first 20,000 as at 64, so the stalls that fill the buffer are rarer than a single fixed gap would explain. What stalls the bridge&#x27;s USB transfers is not measured, and the hub is not excluded. The rule the harness follows now is to keep 19 x W under 512 bytes, which is why the default is 24 (456 bytes). It costs no measurable throughput: 4,716 answers/s, against about 4,660 to 4,750 at 64 before the slips.</p>
+<h2>Two items booked as new hardware need none</h2>
+<p>w_down was left out because its input is 864 wide and the plan called for a wider cell. It does not need one: 864 = 27 x 32, so it is 27 jobs per row on the same cell. wk and wv have 320-wide inputs and were simply skipped. Together that is all 42 ternary matrices and all 6,451,200 weights on the existing bitstream.</p>
+<p>int8 activations were Stage B.3, which planned new RTL. Every integer from -364 to 364 is a sum of six balanced-ternary digits: q = sum of 3^k d_k with each d_k in {-1, 0, +1}. So w.q = sum of 3^k (w.d_k), and each w.d_k is an ordinary ternary job. Six jobs per chunk replace a new datapath. The cell stays ternary, and the host applies the powers of three in the open.</p>
+<h2>What this is not</h2>
+<ul><li>Not a forward pass. Embeddings, norms, attention, the softmax and the head run nowhere on the board.</li><li>Not fast. At the 4,716 jobs/s measured in the full run, one token would take about 43 s with ternary activations (201,600 jobs) and about 256 s with int8 (1,209,600 jobs). Both times are derived, not measured. The UART makes this a verification instrument, not an inference engine.</li><li>Not a public proof. SipHash is a shared-key MAC: it tells the key holder which node answered. A third party cannot check a receipt with it, and it does not stop an operator forging their own.</li></ul>
+<h2>Next</h2>
+<ol><li>Lift the link limit: add RTS/CTS flow control to the node, as the CP2102N datasheet asks above 1 Mbaud. Until then, keep answers in flight under 512 bytes, as the harness now does.</li><li>Real activations: dump the int8 inputs tc_infer computes for a real prompt, and run a whole layer with them.</li><li>Leave the UART: move to Ethernet or a USB FIFO, and measure it on the board.</li><li>Make receipts checkable by anyone: publish a Merkle root of each run, and add random re-execution or Freivalds checks. Both are cheap for ternary matvecs.</li><li>Measure power on a bench supply. Without it there is no energy comparison to publish.</li></ol>
+<div class="box"><h2>What this does not settle</h2><ul><li>The loss threshold sits between 494 and 570 bytes in flight, around the CP2102N&#x27;s 512-byte receive buffer, and the node has no flow control. What stalls the bridge&#x27;s USB transfers long enough to fill it is not measured, and the hub is not excluded.</li><li>The activation vectors were random test vectors, not the model&#x27;s real activations. int8 activations have run on the board for one matrix.</li><li>No forward pass, token rate or power figure has been measured on the board.</li><li>A SipHash receipt is not publicly verifiable, and it does not stop an operator forging their own.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/pull/800">The fix: gHashTag/trinity-fpga pull request 800</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/commit/1f131fdd3fdf1c78317a923a7cd070e11f101a8a">The commit whose receipt count is withdrawn (1f131fd)</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/09b3d6f733e4fe2df8aa09791db1ecde8b2f54c6/conformance/TERN_TC_LAYER_RECEIPTS.md">What is verified, by what, and how to reproduce it; every board run, the controls, the registered buffer test and the byte analysis</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/09b3d6f733e4fe2df8aa09791db1ecde8b2f54c6/conformance/board_runs/tern_tc_all_w24.log">The full 42-matrix board log: 403,200 / 403,200 receipts verified</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/09b3d6f733e4fe2df8aa09791db1ecde8b2f54c6/conformance/board_runs/tern_tc_all_w64.log">The window-64 control log: the link lost 59 bytes after 6,744 jobs</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/09b3d6f733e4fe2df8aa09791db1ecde8b2f54c6/conformance/board_runs/tern_tc_all_w30.log">The registered buffer test: window 26 (494 B) clean, window 30 (570 B) slipped</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/tree/09b3d6f733e4fe2df8aa09791db1ecde8b2f54c6/conformance/board_runs">All raw board logs from 2026-09-27</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/09b3d6f733e4fe2df8aa09791db1ecde8b2f54c6/conformance/TERN_TC_PRIOR_ART.md">Prior art for tern_tc, with the CP2102N figures checked against its datasheet</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/b1e95f6fd5ec43b5be709af86b179750ae8b27a5/conformance/tern_tc_layer_ax7203.py">The fixed harness that ran them, with its negative controls</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/2b9830c5837aa47ad142a90a7279c2d8a8d401fe/formal/tern_tc_layer_rtl_tb.v">The RTL testbench that replays the harness over UART</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/2b9830c5837aa47ad142a90a7279c2d8a8d401fe/fpga/portable/trinet_node_core.v">The node cell under test: trinet_node_core.v</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/trained-weights-ran-receipts-were-not-checked">Open the interactive version</a><a class="btn sec" href="/ru/blog/trained-weights-ran-receipts-were-not-checked/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20The%20board%27s%20receipts%20were%20never%20checked.%20Now%20all%20403%2C200%20are.&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CThe%20board%27s%20receipts%20were%20never%20checked.%20Now%20all%20403%2C200%20are.%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Ftrained-weights-ran-receipts-were-not-checked%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

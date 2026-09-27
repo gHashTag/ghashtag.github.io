@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Квитанции с платы никто не проверял. Теперь проверены все 403 200. · TRINITY</title>
+<meta name="description" content="[измерено на FPGA: все 42 обученные матрицы, проверена каждая квитанция; активации — тестовые векторы, а не прямой проход] AX7203 посчитала 28 416 из 28 416 строк матриц весов обученной модели tern_tc бит-точно, а её харнесс сообщил о 284 160 аутентифицированных квитанциях, не сравнив ни одного тега. Исправленный харнесс падает на семи видах неисправной ячейки. На плате он затем проверил все 403 200 квитанций по всем 42 тернарным матрицам, 33 792 из 33 792 строк бит-точно, и ещё 51 840 для w_down с int8-активациями. Первые длинные прогоны остановились, когда канал UART терял байты при 64 задачах в полёте. Проверка, зарегистрированная до запуска, поместила порог потерь на приёмный буфер USB-моста в 512 байт, а при 24 задачах в полёте не потерялось ни одного байта." />
+<link rel="canonical" href="https://t27.ai/ru/blog/trained-weights-ran-receipts-were-not-checked/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/trained-weights-ran-receipts-were-not-checked/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/trained-weights-ran-receipts-were-not-checked/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/trained-weights-ran-receipts-were-not-checked/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/trained-weights-ran-receipts-were-not-checked/" />
+<meta property="og:title" content="Квитанции с платы никто не проверял. Теперь проверены все 403 200." />
+<meta property="og:description" content="[измерено на FPGA: все 42 обученные матрицы, проверена каждая квитанция; активации — тестовые векторы, а не прямой проход] AX7203 посчитала 28 416 из 28 416 строк матриц весов обученной модели tern_tc бит-точно, а её харнесс сообщил о 284 160 аутентифицированных квитанциях, не сравнив ни одного тега. Исправленный харнесс падает на семи видах неисправной ячейки. На плате он затем проверил все 403 200 квитанций по всем 42 тернарным матрицам, 33 792 из 33 792 строк бит-точно, и ещё 51 840 для w_down с int8-активациями. Первые длинные прогоны остановились, когда канал UART терял байты при 64 задачах в полёте. Проверка, зарегистрированная до запуска, поместила порог потерь на приёмный буфер USB-моста в 512 байт, а при 24 задачах в полёте не потерялось ни одного байта." />
+<meta property="og:image" content="https://t27.ai/og-blog-trained-weights-ran-receipts-were-not-checked-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Квитанции с платы никто не проверял. Теперь проверены все 403 200." />
+<meta name="twitter:description" content="[измерено на FPGA: все 42 обученные матрицы, проверена каждая квитанция; активации — тестовые векторы, а не прямой проход] AX7203 посчитала 28 416 из 28 416 строк матриц весов обученной модели tern_tc бит-точно, а её харнесс сообщил о 284 160 аутентифицированных квитанциях, не сравнив ни одного тега. Исправленный харнесс падает на семи видах неисправной ячейки. На плате он затем проверил все 403 200 квитанций по всем 42 тернарным матрицам, 33 792 из 33 792 строк бит-точно, и ещё 51 840 для w_down с int8-активациями. Первые длинные прогоны остановились, когда канал UART терял байты при 64 задачах в полёте. Проверка, зарегистрированная до запуска, поместила порог потерь на приёмный буфер USB-моста в 512 байт, а при 24 задачах в полёте не потерялось ни одного байта." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Квитанции с платы никто не проверял. Теперь проверены все 403 200.","description":"[измерено на FPGA: все 42 обученные матрицы, проверена каждая квитанция; активации — тестовые векторы, а не прямой проход] AX7203 посчитала 28 416 из 28 416 строк матриц весов обученной модели tern_tc бит-точно, а её харнесс сообщил о 284 160 аутентифицированных квитанциях, не сравнив ни одного тега. Исправленный харнесс падает на семи видах неисправной ячейки. На плате он затем проверил все 403 200 квитанций по всем 42 тернарным матрицам, 33 792 из 33 792 строк бит-точно, и ещё 51 840 для w_down с int8-активациями. Первые длинные прогоны остановились, когда канал UART терял байты при 64 задачах в полёте. Проверка, зарегистрированная до запуска, поместила порог потерь на приёмный буфер USB-моста в 512 байт, а при 24 задачах в полёте не потерялось ни одного байта.","url":"https://t27.ai/ru/blog/trained-weights-ran-receipts-were-not-checked/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/trained-weights-ran-receipts-were-not-checked/"},"image":"https://t27.ai/og-blog-trained-weights-ran-receipts-were-not-checked-ru.png","datePublished":"2026-09-27","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"IGLA, FPGA, Ternary, Verification, TRI-NET, Correction"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Квитанции с платы никто не проверял. Теперь проверены все 403 200.</h1>
+<p class="meta">2026-09-27 · 11 мин чтения</p>
+<p class="lede">[измерено на FPGA: все 42 обученные матрицы, проверена каждая квитанция; активации — тестовые векторы, а не прямой проход] AX7203 посчитала 28 416 из 28 416 строк матриц весов обученной модели tern_tc бит-точно, а её харнесс сообщил о 284 160 аутентифицированных квитанциях, не сравнив ни одного тега. Исправленный харнесс падает на семи видах неисправной ячейки. На плате он затем проверил все 403 200 квитанций по всем 42 тернарным матрицам, 33 792 из 33 792 строк бит-точно, и ещё 51 840 для w_down с int8-активациями. Первые длинные прогоны остановились, когда канал UART терял байты при 64 задачах в полёте. Проверка, зарегистрированная до запуска, поместила порог потерь на приёмный буфер USB-моста в 512 байт, а при 24 задачах в полёте не потерялось ни одного байта.</p>
+
+<div class="tags"><span class="tag">#IGLA</span><span class="tag">#FPGA</span><span class="tag">#Ternary</span><span class="tag">#Verification</span><span class="tag">#TRINET</span><span class="tag">#Correction</span></div>
+<p>Модель IGLA размером с плату, tern_tc, — это 9,08M параметров. Из них 6 451 200 — тернарные веса блоков: 42 матрицы в шести слоях. Модель обучена на 2,0 млрд токенов кода до 0,7613 бит на байт на валидации. Плата — ALINX AX7203 (XC7A200T) с ячейкой узла TRI-NET, собранной открытым тулчейном openXC7. Ячейка считает тернарное скалярное произведение на 32 трита без умножителя и без DSP48. На каждую задачу она отвечает результатом, nonce задачи, id узла и тегом SipHash-2-4 по всему этому. Хост режет каждую строку шириной 320 на десять задач по 32 трита и складывает ответы.</p>
+<h2>Что сделала плата</h2>
+<div class="tw"><table><thead><tr><th>Прогон (AX7203, 1 144 744 бод)</th><th>Задач</th><th>Строк бит-точно</th><th>Теги квитанций сверялись?</th><th>Время</th></tr></thead><tbody><tr><td>Случайный тернарный matvec 320x320</td><td>3 200</td><td>320 / 320</td><td>да</td><td>0,67 с</td></tr><tr><td>Слой 0, wq, обученные веса</td><td>12 800</td><td>1 280 / 1 280</td><td>нет</td><td>2,7 с</td></tr><tr><td>wq, wo, gate, up во всех шести слоях</td><td>284 160</td><td>28 416 / 28 416</td><td>нет</td><td>62,4 с</td></tr></tbody></table></div>
+<p>Активации были тернарными векторами, а не int8-активациями модели. Это показывает, что обученные матрицы весов считаются точно. Прямым проходом модели это не является.</p>
+<h2>Квитанции в двух последних строках никто не сверял</h2>
+<p>Харнесс слоя собирал прообраз каждой квитанции и выбрасывал его, а загруженный ключ не использовался вовсе. Аутентификацией он считал байт статуса 0x01. Возврат nonce он не проверял и сравнивал только суммы строк, так что две ошибки в кусках могли взаимно погаситься. Мы подключили к нему программную модель ячейки, которая подписывает каждый ответ ключом, которого у хоста нет. Он напечатал «receipts authenticated 160/160» и PASS.</p>
+<p>Что остаётся в силе: каждое значение строк в таблице совпало с CPU-оракулом, а прогон случайной матрицы свои теги сверял. Что отозвано: «284 160 квитанций аутентифицировано под ключом node0», потому что эти квитанции никто не проверял. С тех пор исправленный харнесс измерил на плате все 42 матрицы, включая эти 24, с проверкой каждой квитанции (ниже).</p>
+<h2>Исправленный харнесс и семь способов его завалить</h2>
+<p>Теперь ответ засчитывается, только если выполнены все пять условий. Статус равен 0x01. Nonce выдан этим прогоном, и ответ на него пришёл один раз. Id узла совпадает с первым ответом. Тег SipHash пересчитывается под ключом. y равен скалярному произведению этого куска. Строка проходит, только если прошли все её куски и их сумма равна скалярному произведению строки, посчитанному прямо по int8-весам модели, а не по упакованным байтам провода. Для каждой проверки показано, что она умеет падать:</p>
+<div class="tw"><table><thead><tr><th>Что ячейка делает не так</th><th>Вердикт харнесса</th></tr></thead><tbody><tr><td>подписывает чужим ключом</td><td>отвергнуто: tag</td></tr><tr><td>отдаёт неверный ответ с корректной подписью</td><td>отвергнуто: lie</td></tr><tr><td>портит один бит тега</td><td>отвергнуто: tag</td></tr><tr><td>отвечает nonce, которого прогон не выдавал</td><td>отвергнуто: fabricated</td></tr><tr><td>отвечает от имени другого узла</td><td>отвергнуто: node</td></tr><tr><td>теряет ответ</td><td>отвергнуто: short read, прогон останавливается</td></tr><tr><td>ключ так и не установлен (статус 0x04)</td><td>не засчитано, хотя y верный</td></tr></tbody></table></div>
+<p>После прогона на плате, описанного ниже, добавлена восьмая проверка, уже для канала, а не для ячейки. Это поток, из середины которого пропадают 16 байт, как было в канале платы. Харнесс засчитывает ответы до дыры, отвергает повреждённый ответ и останавливается.</p>
+<h2>Те же байты через RTL</h2>
+<p>Собственные исходники ячейки, trinet_node_core.v и trinet_siphash24.v, без изменений, симулированы в Icarus Verilog на уровне битов UART. Ключ ставился по проводу ровно так же, как на плате. Веса — случайные тернарные значения точно в формах tern_tc, потому что файла обученной модели в этом окружении нет.</p>
+<div class="tw"><table><thead><tr><th>Прогон RTL</th><th>Задач</th><th>Строк бит-точно</th><th>Квитанций проверено</th></tr></thead><tbody><tr><td>Слой 0, все семь матриц, w_down по 27 кускам</td><td>67 200</td><td>5 632 / 5 632</td><td>67 200 / 67 200</td></tr><tr><td>Слой 5, w_down, int8-активации (6 разрядов)</td><td>51 840</td><td>320 / 320</td><td>51 840 / 51 840</td></tr><tr><td>Слой 0, wk, ключ не установлен</td><td>640</td><td>0 / 64</td><td>0 / 640 (статус 0x04)</td></tr><tr><td>Слой 0, wk, проверка под другим ключом</td><td>1 280</td><td>0 / 128</td><td>0 / 1 280</td></tr></tbody></table></div>
+<h2>Исправленный харнесс на плате</h2>
+<p>27 сентября 2026 года исправленный харнесс прогнали на AX7203 с файлом обученной модели. Хостом был M1 Pro, связанный с UART платы (CP2102N) через USB-хаб. Векторы x — случайные тестовые векторы из фиксированного seed, а не настоящие активации модели.</p>
+<div class="tw"><table><thead><tr><th>Прогон на плате (1 144 744 бод)</th><th>Задач в полёте</th><th>Квитанций проверено</th><th>Строк бит-точно</th><th>Итог</th></tr></thead><tbody><tr><td>Случайный тернарный matvec 320x320</td><td>64</td><td>3 200 / 3 200</td><td>320 / 320</td><td>PASS, 0,79 с</td></tr><tr><td>Все 42 матрицы, тернарный x</td><td>64</td><td>18 984 из 403 200, потом канал потерял 16 байт</td><td>1 898 / 33 792</td><td>FAIL, остановлен</td></tr><tr><td>Слой 5, w_down, int8 x</td><td>64</td><td>9 886 из 51 840, потом канал потерял 4 байта</td><td>61 / 320</td><td>FAIL, остановлен</td></tr><tr><td>Слой 5, w_down, int8 x</td><td>8</td><td>51 840 / 51 840</td><td>320 / 320</td><td>PASS, 11,9 с</td></tr><tr><td>Все 42 матрицы, тернарный x</td><td>24</td><td>403 200 / 403 200</td><td>33 792 / 33 792</td><td>PASS, 85,5 с</td></tr><tr><td>Все 42 матрицы, тернарный x (контроль)</td><td>64</td><td>6 679 из 403 200, потом канал потерял 59 байт</td><td>667 / 33 792</td><td>FAIL, остановлен</td></tr><tr><td>Все 42 матрицы, тернарный x (зарегистрирован)</td><td>26</td><td>403 200 / 403 200</td><td>33 792 / 33 792</td><td>PASS, 85,3 с</td></tr><tr><td>Все 42 матрицы, тернарный x (зарегистрирован)</td><td>30</td><td>149 986 из 403 200, потом канал потерял 7 байт</td><td>12 822 / 33 792</td><td>FAIL, остановлен</td></tr></tbody></table></div>
+<p>Строка с окном 24 — результат, которого ждал этот пост. Все 42 тернарные матрицы обученной модели, все 6 451 200 весов, отработали на текущем битстриме. Хост проверил каждую из 403 200 квитанций: статус, nonce, id узла, тег SipHash, пересчитанный под ключом, и y. Все 33 792 строки совпали с оракулом по int8-весам. Прогон занял 85,5 с, 4 716 ответов в секунду.</p>
+<p>Прогон w_down при 8 задачах в полёте — первый прогон обученных весов с int8-активациями на плате, в котором проверена каждая квитанция: 51 840 тегов и 320 строк. Это одна матрица из 42 и один случайный вектор активаций.</p>
+<p>Все четыре провала — не неверные ответы. У всех 185 535 ответов, пришедших целыми до дыры, был верный y и сходящийся тег. Ответ, который рвала каждая дыра, не прошёл проверку и был отвергнут. Сломался канал. Из потока ответов пропадало 16, 4, 59 и 7 байт, и по обе стороны дыры байты целые. Ячейка такую картину дать не может: каждый ответ она отправляет целиком из одного буфера. Харнесс сделал то, что должен: остановился на первом нераспознанном кадре и после него ничего не засчитал.</p>
+<p>Окно имеет значение, и это показал контроль. Тот же полный прогон на том же харнессе, установке и сессии прошёл чисто при 24 задачах в полёте и потерял байты после 6 744 задач при 64. Значит, успех дало окно, а не замер времени и вывод hex, добавленные в новый харнесс. При 64 три длинных прогона сорвались три раза.</p>
+<p>Первое объяснение контроль не выдержало. Предполагалось, что ответы копятся, пока процесс харнесса отвлёкся. Исправленный харнесс эти паузы измеряет. В провальном контроле при 64 самая долгая была 4,2 мс, примерно за 1 700 ответов до дыры. Успешные прогоны пережили паузы 22,4 мс при 24 задачах в полёте и 25,8 мс при 26.</p>
+<p>Зато подходит USB-мост. UART платы идёт к хосту через CP2102N; по его даташиту у него приёмный буфер на 512 байт, а выше 1 Мбод нужно аппаратное управление потоком, иначе приёмник переполняется. Узел работает на 1 144 744 бод, и линий управления потоком у него нет, так что придержать его нечем. При W задачах в полёте к хосту идёт не больше 19 x W байт ответов. Следующую проверку зарегистрировали до запуска: при 26 задачах в полёте (494 байта) — успех, при 30 (570 байт) — срыв. Так и вышло. Окно 26 провело все 403 200 задач, окно 30 потеряло 7 байт после 150 017 задач. Порог потерь лежит между 494 и 570 байтами, около буфера на 512.</p>
+<p>Одно побочное предсказание не сбылось. Срыв при 30 пришёл после 150 017 задач, а не в первые 20 000, как при 64, так что задержки, заполняющие буфер, реже, чем объяснил бы один фиксированный простой. Что задерживает USB-передачи моста, не измерено, и хаб не исключён. Правило харнесса теперь — держать 19 x W меньше 512 байт, поэтому по умолчанию окно 24 (456 байт). Скорости это заметно не стоит: 4 716 ответов в секунду против примерно 4 660–4 750 при 64 до сбоев.</p>
+<h2>Две задачи, записанные в новое железо, его не требуют</h2>
+<p>w_down пропустили, потому что у неё вход шириной 864, и по плану для неё нужна была ячейка шире. Не нужна: 864 = 27 x 32, то есть это 27 задач на строку на той же ячейке. У wk и wv вход шириной 320, их просто пропустили. Вместе это все 42 тернарные матрицы и все 6 451 200 весов на текущем битстриме.</p>
+<p>int8-активации числились за Stage B.3, где планировался новый RTL. Любое целое от -364 до 364 — это сумма шести сбалансированно-троичных разрядов: q = сумма 3^k d_k, где каждый d_k из {-1, 0, +1}. Значит, w.q = сумма 3^k (w.d_k), и каждое w.d_k — обычная тернарная задача. Шесть задач на кусок заменяют новый тракт данных. Ячейка остаётся тернарной, а степени тройки хост применяет открыто.</p>
+<h2>Чем это не является</h2>
+<ul><li>Это не прямой проход. Эмбеддинги, нормы, внимание, softmax и голова на плате не выполняются.</li><li>Это не быстро. При 4 716 задачах/с, измеренных в полном прогоне, один токен занял бы около 43 с с тернарными активациями (201 600 задач) и около 256 с с int8 (1 209 600 задач). Оба времени выведены, а не измерены. Из-за UART это инструмент проверки, а не движок вывода.</li><li>Это не публичное доказательство. SipHash — MAC с общим ключом: он сообщает владельцу ключа, какой узел ответил. Третья сторона не может им проверить квитанцию, и он не мешает оператору подделать свои собственные.</li></ul>
+<h2>Дальше</h2>
+<ol><li>Снять ограничение канала: добавить узлу управление потоком RTS/CTS, как требует даташит CP2102N выше 1 Мбод. До тех пор держать ответы в полёте меньше 512 байт, как теперь делает харнесс.</li><li>Реальные активации: выгрузить int8-входы, которые tc_infer считает для настоящего промпта, и прогнать с ними целый слой.</li><li>Уйти с UART: перейти на Ethernet или USB FIFO и измерить это на плате.</li><li>Сделать квитанции проверяемыми для всех: публиковать корень Меркла каждого прогона и добавить случайное перевычисление или проверки Фрейвалдса. Для тернарных matvec и то и другое стоит дёшево.</li><li>Измерить мощность от лабораторного блока питания. Без этого публиковать сравнение по энергии нечем.</li></ol>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Порог потерь лежит между 494 и 570 байтами в полёте, около приёмного буфера CP2102N в 512 байт, а у узла нет управления потоком. Что задерживает USB-передачи моста настолько, чтобы буфер заполнился, не измерено, и хаб не исключён.</li><li>Векторы активаций были случайными тестовыми, а не настоящими активациями модели. int8-активации на плате прогнаны для одной матрицы.</li><li>Ни прямой проход, ни скорость в токенах, ни мощность на плате не измерены.</li><li>Квитанция SipHash не проверяется публично и не мешает оператору подделать свои собственные.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/trinity-fpga/pull/800">The fix: gHashTag/trinity-fpga pull request 800</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/commit/1f131fdd3fdf1c78317a923a7cd070e11f101a8a">The commit whose receipt count is withdrawn (1f131fd)</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/09b3d6f733e4fe2df8aa09791db1ecde8b2f54c6/conformance/TERN_TC_LAYER_RECEIPTS.md">What is verified, by what, and how to reproduce it; every board run, the controls, the registered buffer test and the byte analysis</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/09b3d6f733e4fe2df8aa09791db1ecde8b2f54c6/conformance/board_runs/tern_tc_all_w24.log">The full 42-matrix board log: 403,200 / 403,200 receipts verified</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/09b3d6f733e4fe2df8aa09791db1ecde8b2f54c6/conformance/board_runs/tern_tc_all_w64.log">The window-64 control log: the link lost 59 bytes after 6,744 jobs</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/09b3d6f733e4fe2df8aa09791db1ecde8b2f54c6/conformance/board_runs/tern_tc_all_w30.log">The registered buffer test: window 26 (494 B) clean, window 30 (570 B) slipped</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/tree/09b3d6f733e4fe2df8aa09791db1ecde8b2f54c6/conformance/board_runs">All raw board logs from 2026-09-27</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/09b3d6f733e4fe2df8aa09791db1ecde8b2f54c6/conformance/TERN_TC_PRIOR_ART.md">Prior art for tern_tc, with the CP2102N figures checked against its datasheet</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/b1e95f6fd5ec43b5be709af86b179750ae8b27a5/conformance/tern_tc_layer_ax7203.py">The fixed harness that ran them, with its negative controls</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/2b9830c5837aa47ad142a90a7279c2d8a8d401fe/formal/tern_tc_layer_rtl_tb.v">The RTL testbench that replays the harness over UART</a></li><li><a href="https://github.com/gHashTag/trinity-fpga/blob/2b9830c5837aa47ad142a90a7279c2d8a8d401fe/fpga/portable/trinet_node_core.v">The node cell under test: trinet_node_core.v</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/?lang=ru#/blog/trained-weights-ran-receipts-were-not-checked">Открыть интерактивную версию</a><a class="btn sec" href="/blog/trained-weights-ran-receipts-were-not-checked/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Поработаем вместе</p><h2 id="blog-work-offer-title">Хотите так же проверить собственный дизайн?</h2><p>Я аудирую RTL и строю независимые побитово точные модели, затем провожу результат через синтез и, когда это полезно, проверяю на плате Artix-7. Первый модуль проверки — бесплатно.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%B4%D0%BB%D1%8F%20T27%20%E2%80%94%20%D0%9A%D0%B2%D0%B8%D1%82%D0%B0%D0%BD%D1%86%D0%B8%D0%B8%20%D1%81%20%D0%BF%D0%BB%D0%B0%D1%82%D1%8B%20%D0%BD%D0%B8%D0%BA%D1%82%D0%BE%20%D0%BD%D0%B5%20%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D1%8F%D0%BB.%20%D0%A2%D0%B5%D0%BF%D0%B5%D1%80%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%B5%D0%BD%D1%8B%20%D0%B2%D1%81%D0%B5%20403%20200.&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%21%20%D0%AF%20%D0%BF%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D0%BB%28%D0%B0%29%20%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8E%20%C2%AB%D0%9A%D0%B2%D0%B8%D1%82%D0%B0%D0%BD%D1%86%D0%B8%D0%B8%20%D1%81%20%D0%BF%D0%BB%D0%B0%D1%82%D1%8B%20%D0%BD%D0%B8%D0%BA%D1%82%D0%BE%20%D0%BD%D0%B5%20%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D1%8F%D0%BB.%20%D0%A2%D0%B5%D0%BF%D0%B5%D1%80%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%B5%D0%BD%D1%8B%20%D0%B2%D1%81%D0%B5%20403%20200.%C2%BB%3A%20https%3A%2F%2Ft27.ai%2Fru%2Fblog%2Ftrained-weights-ran-receipts-were-not-checked%2F%0A%0A%D0%9D%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A">Обсудить задачу</a><a class="btn sec" href="/ru/verification/">Услуга верификации</a></div><nav class="work-links" aria-label="Услуги"><span>Услуги:</span><a href="/ru/verification/">Верификация</a><a href="/ru/ip/">Лицензирование IP</a><a href="/ru/course/">Курсы и воркшопы</a><a href="/ru/about/">Контрактная работа</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

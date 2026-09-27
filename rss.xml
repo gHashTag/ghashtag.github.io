@@ -6,13 +6,38 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 26 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 27 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The board's receipts were never checked. Now all 403,200 are.</title>
+      <link>https://t27.ai/#/blog/trained-weights-ran-receipts-were-not-checked</link>
+      <guid isPermaLink="false">trained-weights-ran-receipts-were-not-checked</guid>
+      <pubDate>Sun, 27 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[measured on FPGA: all 42 trained matrices, every receipt verified; the activations were test vectors, not a forward pass] An AX7203 computed 28,416 of 28,416 rows of the trained tern_tc model's weight matrices bit-exact, while its harness reported 284,160 authenticated receipts without comparing a single tag. The fixed harness fails on seven kinds of misbehaving cell. On the board it then verified all 403,200 receipts across all 42 ternary matrices, with 33,792 of 33,792 rows bit-exact, plus 51,840 for w_down with int8 activations. Its first long runs stopped when a UART link dropped bytes with 64 jobs in flight. A test registered before it ran put the loss threshold at the USB bridge's 512-byte receive buffer, and at 24 in flight none were lost.</description>
+      <category>IGLA</category>
+      <category>FPGA</category>
+      <category>Ternary</category>
+      <category>Verification</category>
+      <category>TRI-NET</category>
+      <category>Correction</category>
+    </item>
+    <item>
+      <title>Golden-ratio weights ran on the board. The phi cost one add per output.</title>
+      <link>https://t27.ai/#/blog/golden-ratio-weights-ran-on-the-board</link>
+      <guid isPermaLink="false">golden-ratio-weights-ran-on-the-board</guid>
+      <pubDate>Sun, 27 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[measured on FPGA: layer 0, 403,200 of 403,200 receipts verified, registered before the run; the phi step and digit recombination are host arithmetic; one synthetic activation vector] The TNF paper's GFTernary weights, t*phi, applied to activations in Z[phi], ran on the unchanged AX7203 node with no multiplier. Each output is W.b + (W.a + W.b)*phi, so the node computes only ternary dots and the host adds once per output. All 5,632 Z[phi] rows of layer 0 matched a plain Z[phi] multiplication oracle bit for bit.</description>
+      <category>FPGA</category>
+      <category>Ternary</category>
+      <category>Number formats</category>
+      <category>Verification</category>
+      <category>TRI-NET</category>
+    </item>
     <item>
       <title>A small agent is only useful next to an exact judge</title>
       <link>https://t27.ai/#/blog/a-small-agent-needs-an-exact-judge</link>
       <guid isPermaLink="false">a-small-agent-needs-an-exact-judge</guid>
       <pubDate>Sat, 26 Sep 2026 12:00:00 GMT</pubDate>
-      <description>[model results measured on GPUs; board throughput derived, not measured] One Artix-7 200T holds the layers of a 13M-parameter ternary model in its own block memory. In our own twin experiment the 100M ternary model passes 0.97% vs 1.68% for full precision across eight languages, and compile rate, not correctness, is the gap. A model that is wrong most of the time becomes useful only where a compiler checks every answer.</description>
+      <description>[model results measured on GPUs; board throughput derived, not measured] One Artix-7 200T holds the layers of a 13M-parameter ternary model in its own block memory. In our own twin experiment the 100M ternary model passes 1.01% vs 1.68% for full precision across eight languages, and compile rate, not correctness, is the gap. A model that is wrong most of the time becomes useful only where a compiler checks every answer.</description>
       <category>IGLA</category>
       <category>Agents</category>
       <category>FPGA</category>
