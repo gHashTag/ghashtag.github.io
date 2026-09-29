@@ -6,7 +6,19 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 27 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Mask over scale: a 9M ternary model whose drafts compile</title>
+      <link>https://t27.ai/#/blog/mask-over-scale-ternary-drafts-that-compile</link>
+      <guid isPermaLink="false">mask-over-scale-ternary-drafts-that-compile</guid>
+      <pubDate>Tue, 29 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[measured on the 391-item strict t27 bench: 0/150 flat vs 3/150 masked on the same 30 hardest items; 65% of flat first compile errors are undeclared identifiers; strict loop closed at 30 rounds / 8083 samples = 4/391 pass, 283/391 compile; three decode constraints, zero parameters] tern_tc, a 9M ternary model sized to XC7A200T block RAM, cannot learn the names of a scope -- so instead of scaling it we constrained its decoder: a scope mask at every decode step, diversity by mask rule rather than temperature (15/30 vs 3/30 union compile), and a repeat-n-gram ban after 1517/2177 blocked candidates turned out to be repetition cascades. The result is not a solver: 1.0% of the strict set passes. It is a draft model for a verifier -- 72% of the strict set gets a compiling body, tri tc-draft returns the first test-verified one or an honest refusal.</description>
+      <category>tern_tc</category>
+      <category>Ternary</category>
+      <category>t27</category>
+      <category>Code generation</category>
+      <category>Verification</category>
+    </item>
     <item>
       <title>The board's receipts were never checked. Now all 403,200 are.</title>
       <link>https://t27.ai/#/blog/trained-weights-ran-receipts-were-not-checked</link>

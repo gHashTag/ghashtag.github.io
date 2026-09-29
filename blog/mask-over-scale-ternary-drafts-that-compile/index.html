@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mask over scale: a 9M ternary model whose drafts compile · TRINITY</title>
+<meta name="description" content="[measured on the 391-item strict t27 bench: 0/150 flat vs 3/150 masked on the same 30 hardest items; 65% of flat first compile errors are undeclared identifiers; strict loop closed at 30 rounds / 8083 samples = 4/391 pass, 283/391 compile; three decode constraints, zero parameters] tern_tc, a 9M ternary model sized to XC7A200T block RAM, cannot learn the names of a scope -- so instead of scaling it we constrained its decoder: a scope mask at every decode step, diversity by mask rule rather than temperature (15/30 vs 3/30 union compile), and a repeat-n-gram ban after 1517/2177 blocked candidates turned out to be repetition cascades. The result is not a solver: 1.0% of the strict set passes. It is a draft model for a verifier -- 72% of the strict set gets a compiling body, tri tc-draft returns the first test-verified one or an honest refusal." />
+<link rel="canonical" href="https://t27.ai/blog/mask-over-scale-ternary-drafts-that-compile/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/mask-over-scale-ternary-drafts-that-compile/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/mask-over-scale-ternary-drafts-that-compile/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/mask-over-scale-ternary-drafts-that-compile/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/mask-over-scale-ternary-drafts-that-compile/" />
+<meta property="og:title" content="Mask over scale: a 9M ternary model whose drafts compile" />
+<meta property="og:description" content="[measured on the 391-item strict t27 bench: 0/150 flat vs 3/150 masked on the same 30 hardest items; 65% of flat first compile errors are undeclared identifiers; strict loop closed at 30 rounds / 8083 samples = 4/391 pass, 283/391 compile; three decode constraints, zero parameters] tern_tc, a 9M ternary model sized to XC7A200T block RAM, cannot learn the names of a scope -- so instead of scaling it we constrained its decoder: a scope mask at every decode step, diversity by mask rule rather than temperature (15/30 vs 3/30 union compile), and a repeat-n-gram ban after 1517/2177 blocked candidates turned out to be repetition cascades. The result is not a solver: 1.0% of the strict set passes. It is a draft model for a verifier -- 72% of the strict set gets a compiling body, tri tc-draft returns the first test-verified one or an honest refusal." />
+<meta property="og:image" content="https://t27.ai/og-blog-mask-over-scale-ternary-drafts-that-compile.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Mask over scale: a 9M ternary model whose drafts compile" />
+<meta name="twitter:description" content="[measured on the 391-item strict t27 bench: 0/150 flat vs 3/150 masked on the same 30 hardest items; 65% of flat first compile errors are undeclared identifiers; strict loop closed at 30 rounds / 8083 samples = 4/391 pass, 283/391 compile; three decode constraints, zero parameters] tern_tc, a 9M ternary model sized to XC7A200T block RAM, cannot learn the names of a scope -- so instead of scaling it we constrained its decoder: a scope mask at every decode step, diversity by mask rule rather than temperature (15/30 vs 3/30 union compile), and a repeat-n-gram ban after 1517/2177 blocked candidates turned out to be repetition cascades. The result is not a solver: 1.0% of the strict set passes. It is a draft model for a verifier -- 72% of the strict set gets a compiling body, tri tc-draft returns the first test-verified one or an honest refusal." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Mask over scale: a 9M ternary model whose drafts compile","description":"[measured on the 391-item strict t27 bench: 0/150 flat vs 3/150 masked on the same 30 hardest items; 65% of flat first compile errors are undeclared identifiers; strict loop closed at 30 rounds / 8083 samples = 4/391 pass, 283/391 compile; three decode constraints, zero parameters] tern_tc, a 9M ternary model sized to XC7A200T block RAM, cannot learn the names of a scope -- so instead of scaling it we constrained its decoder: a scope mask at every decode step, diversity by mask rule rather than temperature (15/30 vs 3/30 union compile), and a repeat-n-gram ban after 1517/2177 blocked candidates turned out to be repetition cascades. The result is not a solver: 1.0% of the strict set passes. It is a draft model for a verifier -- 72% of the strict set gets a compiling body, tri tc-draft returns the first test-verified one or an honest refusal.","url":"https://t27.ai/blog/mask-over-scale-ternary-drafts-that-compile/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/mask-over-scale-ternary-drafts-that-compile/"},"image":"https://t27.ai/og-blog-mask-over-scale-ternary-drafts-that-compile.png","datePublished":"2026-09-29","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"tern_tc, Ternary, t27, Code generation, Verification"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Mask over scale: a 9M ternary model whose drafts compile</h1>
+<p class="meta">2026-09-29 · 7 min read</p>
+<p class="lede">[measured on the 391-item strict t27 bench: 0/150 flat vs 3/150 masked on the same 30 hardest items; 65% of flat first compile errors are undeclared identifiers; strict loop closed at 30 rounds / 8083 samples = 4/391 pass, 283/391 compile; three decode constraints, zero parameters] tern_tc, a 9M ternary model sized to XC7A200T block RAM, cannot learn the names of a scope -- so instead of scaling it we constrained its decoder: a scope mask at every decode step, diversity by mask rule rather than temperature (15/30 vs 3/30 union compile), and a repeat-n-gram ban after 1517/2177 blocked candidates turned out to be repetition cascades. The result is not a solver: 1.0% of the strict set passes. It is a draft model for a verifier -- 72% of the strict set gets a compiling body, tri tc-draft returns the first test-verified one or an honest refusal.</p>
+
+<div class="tags"><span class="tag">#TernTc</span><span class="tag">#Ternary</span><span class="tag">#t27</span><span class="tag">#CodeGeneration</span><span class="tag">#Verification</span></div>
+<p>tern_tc is a 9M-parameter ternary model (weights in {-1, 0, +1}), six layers, width 320, 8K vocabulary, sized to the block RAM of an XC7A200T. Its job is to fill in function bodies in t27 specs, where the spec&#x27;s own tests judge the answer. On the strict half of that bench -- 391 functions whose tests catch both constant mutants -- flat sampling scored 0 passes in 150 samples on the hardest 30 items, and 65% of the first compile errors were &#x27;use of undeclared identifier&#x27;. The model does not know the names, and at 9M parameters it cannot. This post is about what we did instead of scaling it: we constrained the decoder.</p>
+<h2>A scope mask at every decode step</h2>
+<p>The C engine speaks a step-io protocol: it emits one token, then accepts one mask line (&#x27;.&#x27; free, &#x27;+&#x27; allow-list, &#x27;-&#x27; ban-list). An external masker -- the same code that knows the spec&#x27;s scopes -- computes which identifiers are grammatical at that position: the function&#x27;s own signature, sibling functions, module constants declared before it, and names the body itself has already declared. Inside a string or comment, and after a dot, the mask lifts. Mid-identifier, only continuations that lead to an allowed name survive. &#x27;Declare before use&#x27; stops being a hope and becomes a property of the decode. The ban is -1e30 on the logits, before argmax and before top-p, so greedy and sampling obey it alike.</p>
+<p>On the same 30 items where flat generation was 0/150, masked generation scored 3 passes in 150 samples -- 2.0%, the model&#x27;s first nonzero result on this bench -- and a generate-judge-retry loop turned that into 3 of 30 items solved at 149 samples, each verified by the spec&#x27;s own tests.</p>
+<h2>Diversity lives in the rules, not in the temperature</h2>
+<p>The loop needs different samples each round. The conventional lever is temperature. We measured both levers over the same historical artifacts: three temperatures (0.7/0.8/1.1) at one mask rule union-cover 3 of 30 items at compile; three mask rules at one temperature union-cover 15 of 30. Every pass in that set went to temperature 0.7. Temperature shuffles the same mistakes; changing the rule changes the legal set itself.</p>
+<h2>The third constraint: banning repetition cascades</h2>
+<p>When the full strict loop stalled at 2 passes in 20 rounds, the post-mortem found why the candidates never compiled: 1517 of 2177 blocked_codegen candidates were repetition cascades -- r.unshift(r.unshift(... over and over. The model walks into a loop at temperature &gt;= 0.7 and never walks out. The fix is the same discipline as the mask, aimed at the second failure mode: ban any n-gram the continuation already contains (-1e30 before sampling, --no-repeat 4). Both late passes in the final run arrived after that ban went in. Scope masking, rule diversity and repeat-banning are three constraints on one decoder, and none of them cost a parameter.</p>
+<h2>The ceiling, measured and published</h2>
+<p>The full loop closed at 30 rounds, 8083 samples, about 21 per item. Four passes out of 391 (1.0%) -- rounds 3, 7, 26 and 27 -- and each went to a different arm (s0.7, w0.7, w0.8, m0.7), which is the rule-diversity claim made concrete. The other number matters more: 283 of 391 items (72%) produced at least one compiling body. The masked 9M model can speak the language of nearly three quarters of the strict set; the wall is semantics, not syntax. Its role is a draft model for a verifier, packaged as one command: tri tc-draft takes a spec and a function signature, pays the prefill once for N masked samples, judges each with t27c, prints the first body that passes the spec&#x27;s own tests, and exits 1 with a status table when nothing does. No unverified body is ever presented as an answer.</p>
+<p>For scale, the 100M fp model on the same bench scores 7.4% pass@10 while its ternary twin scores 2.3%, and the gap grew from 1.5x to 3.2x as data quadrupled. Ternarity is expensive for code; that result is published too, and this post is not an argument against it -- it is the honest account of what a board-sized ternary model is actually for.</p>
+<h2>The package</h2>
+<p>The weights ship as an open package with receipts: the model card, the bench numbers and the CI contract are generated from t27 specs that carry their own tests, and a public verify workflow re-hashes the package, rebuilds the C engine, reproduces the board generation receipt (1 3 204 276 405 659 85 1516) and checks bit parity with PyTorch -- green against the bytes on the hub today.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>The selfcheck loop is not a clean A/B on --no-repeat: the flag went in at round 25 of a live run, so the two late passes are consistent with the ban but not isolated by it.</li><li>The strict loop ran one seed of the model; ternary training spread at 52m was measured at ~1.7%, so 4-vs-3 passes is within noise and the honest number is &#x27;a handful, not a rate&#x27;.</li><li>Mask rules and the repeat ban were tuned on the same bench they are reported on; no held-out spec set exists for them.</li><li>The 72% compile union is per-item over unlimited retries (~21 samples median); compile@1 on fresh items is far lower.</li><li>The bench&#x27;s judge is the spec&#x27;s own tests, and some of those tests are weak -- that is what the strict subset is for, but weak-test leakage outside it is unquantified.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://huggingface.co/playra/tern-tc-9m">The package: model, tokenizer, verify.sh, sha256 receipts</a></li><li><a href="https://github.com/gHashTag/tern-tc-9m-verify/actions">The public verify workflow -- green against today&#x27;s hub bytes</a></li><li><a href="https://t27.ai/blog/a-small-agent-needs-an-exact-judge/">Earlier: a small agent needs an exact judge</a></li><li><a href="https://t27.ai/blog/ternary-won-the-wire-not-the-gate/">Earlier: ternary won the wire, not the gate</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/mask-over-scale-ternary-drafts-that-compile">Open the interactive version</a><a class="btn sec" href="/ru/blog/mask-over-scale-ternary-drafts-that-compile/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20Mask%20over%20scale%3A%20a%209M%20ternary%20model%20whose%20drafts%20compile&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CMask%20over%20scale%3A%20a%209M%20ternary%20model%20whose%20drafts%20compile%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fmask-over-scale-ternary-drafts-that-compile%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
