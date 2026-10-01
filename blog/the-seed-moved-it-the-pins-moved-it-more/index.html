@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The seed moved Fmax 1.22x. The pins moved it 2.6x. · TRINITY</title>
+<meta name="description" content="[nextpnr-xilinx post-route estimates on xc7a200tfbg484-2, not sign-off timing; a stand-alone unit on synthetic pins, not a full design; JTAG result from our own bench] Two bench questions became two commands. tri fpga-seeds treats Fmax as a range over placement seeds: a 321-LUT ternary dot-product unit ran 164.15 to 200.40 MHz over 20 seeds, and 62.68 to 76.75 MHz with its pins spread across the package, with the same netlist on every run. tri fpga-jtag reads which chip is on the chain, never programs, and tells a silent TDO from a broken cable. On our bench it caught an XC7A200T where an XC7A100T was expected." />
+<link rel="canonical" href="https://t27.ai/blog/the-seed-moved-it-the-pins-moved-it-more/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-seed-moved-it-the-pins-moved-it-more/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-seed-moved-it-the-pins-moved-it-more/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-seed-moved-it-the-pins-moved-it-more/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/the-seed-moved-it-the-pins-moved-it-more/" />
+<meta property="og:title" content="The seed moved Fmax 1.22x. The pins moved it 2.6x." />
+<meta property="og:description" content="[nextpnr-xilinx post-route estimates on xc7a200tfbg484-2, not sign-off timing; a stand-alone unit on synthetic pins, not a full design; JTAG result from our own bench] Two bench questions became two commands. tri fpga-seeds treats Fmax as a range over placement seeds: a 321-LUT ternary dot-product unit ran 164.15 to 200.40 MHz over 20 seeds, and 62.68 to 76.75 MHz with its pins spread across the package, with the same netlist on every run. tri fpga-jtag reads which chip is on the chain, never programs, and tells a silent TDO from a broken cable. On our bench it caught an XC7A200T where an XC7A100T was expected." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-seed-moved-it-the-pins-moved-it-more.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The seed moved Fmax 1.22x. The pins moved it 2.6x." />
+<meta name="twitter:description" content="[nextpnr-xilinx post-route estimates on xc7a200tfbg484-2, not sign-off timing; a stand-alone unit on synthetic pins, not a full design; JTAG result from our own bench] Two bench questions became two commands. tri fpga-seeds treats Fmax as a range over placement seeds: a 321-LUT ternary dot-product unit ran 164.15 to 200.40 MHz over 20 seeds, and 62.68 to 76.75 MHz with its pins spread across the package, with the same netlist on every run. tri fpga-jtag reads which chip is on the chain, never programs, and tells a silent TDO from a broken cable. On our bench it caught an XC7A200T where an XC7A100T was expected." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The seed moved Fmax 1.22x. The pins moved it 2.6x.","description":"[nextpnr-xilinx post-route estimates on xc7a200tfbg484-2, not sign-off timing; a stand-alone unit on synthetic pins, not a full design; JTAG result from our own bench] Two bench questions became two commands. tri fpga-seeds treats Fmax as a range over placement seeds: a 321-LUT ternary dot-product unit ran 164.15 to 200.40 MHz over 20 seeds, and 62.68 to 76.75 MHz with its pins spread across the package, with the same netlist on every run. tri fpga-jtag reads which chip is on the chain, never programs, and tells a silent TDO from a broken cable. On our bench it caught an XC7A200T where an XC7A100T was expected.","url":"https://t27.ai/blog/the-seed-moved-it-the-pins-moved-it-more/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/the-seed-moved-it-the-pins-moved-it-more/"},"image":"https://t27.ai/og-blog-the-seed-moved-it-the-pins-moved-it-more.png","datePublished":"2026-10-01","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"FPGA, Open toolchain, Verification, Tooling"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>The seed moved Fmax 1.22x. The pins moved it 2.6x.</h1>
+<p class="meta">2026-10-01 · 5 min read</p>
+<p class="lede">[nextpnr-xilinx post-route estimates on xc7a200tfbg484-2, not sign-off timing; a stand-alone unit on synthetic pins, not a full design; JTAG result from our own bench] Two bench questions became two commands. tri fpga-seeds treats Fmax as a range over placement seeds: a 321-LUT ternary dot-product unit ran 164.15 to 200.40 MHz over 20 seeds, and 62.68 to 76.75 MHz with its pins spread across the package, with the same netlist on every run. tri fpga-jtag reads which chip is on the chain, never programs, and tells a silent TDO from a broken cable. On our bench it caught an XC7A200T where an XC7A100T was expected.</p>
+
+<div class="tags"><span class="tag">#FPGA</span><span class="tag">#OpenToolchain</span><span class="tag">#Verification</span><span class="tag">#Tooling</span></div>
+<p>Two questions come up on every open-toolchain FPGA bench before any result is worth reporting. Which chip is actually on the other end of the JTAG cable? And is the Fmax in the log a property of the design, or of the one placement seed that produced it? We turned both into commands, tri fpga-jtag and tri fpga-seeds, and ran them on our own bench and on a 321-LUT ternary dot-product unit we are cross-checking for another group.</p>
+<p>The short answer to the second question: across 20 placement seeds, that unit ranged from 164.15 to 200.40 MHz. Moving its pins ranged it from 62.68 to 76.75 MHz. With the netlist and cell counts identical in both cases, the seed changed Fmax by 1.22x and the pinout by about 2.6x. Every Fmax here is nextpnr&#x27;s post-route estimate from its own delay model, not sign-off timing.</p>
+<h2>tri fpga-seeds: Fmax as a range</h2>
+<p>nextpnr-xilinx prints a post-route Max frequency per clock, and the number moves with --seed. A single seed is one sample from a distribution. fpga-seeds either parses a set of existing logs (--parse) or runs the sweep itself (--run, one nextpnr process per seed, at low priority). It writes the input hashes and the nextpnr version before the first seed and refuses to overwrite earlier logs. Per seed it takes LUT, FF and CARRY4 counts, the last post-route Fmax of the slowest clock, and the logic/routing split of the critical path. It prints min, median, max and the max/min ratio, and it flags any seed whose cell counts differ, because then the seeds did not place the same netlist.</p>
+<div class="tw"><table><thead><tr><th>xc7a200tfbg484-2, nextpnr-xilinx, 100 MHz target, post-route estimate</th><th>Seeds</th><th>LUT / FF / CARRY4</th><th>Fmax min / median / max (MHz)</th><th>Meets 100 MHz</th></tr></thead><tbody><tr><td>Compact pinout</td><td>20</td><td>321 / 114 / 14 on every seed</td><td>164.15 / 187.16 / 200.40</td><td>20 of 20</td></tr><tr><td>Pins spread across the package</td><td>10</td><td>321 / 114 / 14 on every seed</td><td>62.68 / 71.42 / 76.75</td><td>0 of 10</td></tr><tr><td>Corrected unit (one more negation bit), compact pinout</td><td>20</td><td>331 / 114 / 15 on every seed</td><td>178.00 / 194.34 / 221.58</td><td>20 of 20</td></tr></tbody></table></div>
+<p>The slowest compact-pinout seed is faster than the fastest spread-pinout seed by a factor of 2.14. In the spread runs the critical path has 0.4 ns of logic and 12.6 to 15.5 ns of routing: a two-LUT path that crosses the die three times between I/O columns. A stand-alone unit with synthetic pins measures where its pins were put. Our earlier single-seed estimate for this unit, 71.28 MHz, reproduces exactly at seed 1 with the spread pinout; it was a pinout result, not a datapath result. We have said so to the group whose unit it is, and they agree that it does not belong in a speed comparison.</p>
+<p>The third row is the corrected version of the same unit. Its negation is one bit wider, so -1 x (-128) gives +128 instead of wrapping to -128. That costs ten LUTs and one CARRY4 after routing, and on the same compact pinout the estimate for all 20 seeds still clears 100 MHz.</p>
+<h2>tri fpga-jtag: which chip answered</h2>
+<p>fpga-jtag reads IDCODEs and never programs. It handles two cable families. For a Xilinx Platform Cable USB II (or a DLC10 clone; USB VID 0x03fd), the cable comes up as 0x0013 with no firmware. With --load the command loads the firmware with fxload, without sudo, and waits for it to re-enumerate as 0x0008. It then runs xc3sprog and prints the firmware and CPLD versions and every device on the chain, by name and revision. For FTDI cables it asks openFPGALoader which probe is attached and runs --detect. --expect XC7A100T turns the result into an exit code: 0 for a match, 1 for no chain or a different chip, 2 for no cable.</p>
+<p>On our bench that exit code did its job. The only cable attached today was the FTDI probe of the AX7203, and fpga-jtag --expect XC7A100T reported loc 0: 0x03636093 XC7A200T and exited 1. That is the right chip for that board and the wrong chip for the step we were about to take. It is a step we would rather have stopped at a mismatch than at a programming error.</p>
+<p>When there is no chain at all, the command shifts raw bits through TDO and reads what comes back. All ones means nothing is driving TDO. The cable itself works, so the next things to check are the cable status LED, target power, the header, pin-1 orientation and the TDO wire, in that order. All zeros points at the cable side. That distinction is what separates a cable problem from a board problem, and all ones is what our second bench, an XC7A100T on a DLC10 clone, returned at its last check.</p>
+<p>One detail for anyone writing a similar tool: openFPGALoader masks the revision nibble of the IDCODE, so it reports 0x03636093 where xc3sprog reports 0x13636093 for the same part. fpga-jtag names the part on the FTDI path and does not invent a revision.</p>
+<h2>Both commands test themselves</h2>
+<p>Each command carries a --self-test that runs its parsers on recorded output: 17 checks for jtag (IDCODE names, firmware lines, the stuck-high and stuck-low TDO verdicts, the openFPGALoader revision mask) and 11 for seeds (unfinished logs, multiple clocks, differing netlists). tri fpga-tools runs every board-loop self-test together; it reports 14 of 14. Re-parsing the logs behind the table above reproduces the hand-made CSVs value for value.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>The unit is measured stand-alone on synthetic pins. Its Fmax inside a real SoC is set by a different critical path and is not claimed here.</li><li>The spread-pinout sweep has 10 seeds, not 20: one seed did not finish under machine load and the rest were not run.</li><li>Seed spread was measured for one small unit on one part. Larger designs may spread more or less.</li><li>The second bench, an XC7A100T on a DLC10 clone, still returns no chain; the cause is not yet found.</li><li>The two commands live in a private repository for now, so a reader cannot yet run them.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/openXC7/nextpnr-xilinx">nextpnr-xilinx, the place-and-route tool whose seeds were swept</a></li><li><a href="https://github.com/trabucayre/openFPGALoader">openFPGALoader, used for the FTDI path of fpga-jtag</a></li><li><a href="https://sourceforge.net/projects/xc3sprog/">xc3sprog, used for the Platform Cable USB II path</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/the-seed-moved-it-the-pins-moved-it-more">Open the interactive version</a><a class="btn sec" href="/ru/blog/the-seed-moved-it-the-pins-moved-it-more/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20The%20seed%20moved%20Fmax%201.22x.%20The%20pins%20moved%20it%202.6x.&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CThe%20seed%20moved%20Fmax%201.22x.%20The%20pins%20moved%20it%202.6x.%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fthe-seed-moved-it-the-pins-moved-it-more%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

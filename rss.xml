@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 29 Sep 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The seed moved Fmax 1.22x. The pins moved it 2.6x.</title>
+      <link>https://t27.ai/#/blog/the-seed-moved-it-the-pins-moved-it-more</link>
+      <guid isPermaLink="false">the-seed-moved-it-the-pins-moved-it-more</guid>
+      <pubDate>Thu, 01 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[nextpnr-xilinx post-route estimates on xc7a200tfbg484-2, not sign-off timing; a stand-alone unit on synthetic pins, not a full design; JTAG result from our own bench] Two bench questions became two commands. tri fpga-seeds treats Fmax as a range over placement seeds: a 321-LUT ternary dot-product unit ran 164.15 to 200.40 MHz over 20 seeds, and 62.68 to 76.75 MHz with its pins spread across the package, with the same netlist on every run. tri fpga-jtag reads which chip is on the chain, never programs, and tells a silent TDO from a broken cable. On our bench it caught an XC7A200T where an XC7A100T was expected.</description>
+      <category>FPGA</category>
+      <category>Open toolchain</category>
+      <category>Verification</category>
+      <category>Tooling</category>
+    </item>
     <item>
       <title>Mask over scale: a 9M ternary model whose drafts compile</title>
       <link>https://t27.ai/#/blog/mask-over-scale-ternary-drafts-that-compile</link>

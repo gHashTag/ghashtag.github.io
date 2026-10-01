@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://t27.ai/</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://t27.ai/</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://t27.ai/gft/</loc><lastmod>2026-08-31</lastmod></url>
   <url><loc>https://t27.ai/verification/</loc><lastmod>2026-08-31</lastmod></url>
   <url><loc>https://t27.ai/proof/</loc><lastmod>2026-08-31</lastmod></url>
@@ -32,7 +32,7 @@
   <url><loc>https://t27.ai/ru/proof/</loc><lastmod>2026-08-31</lastmod></url>
   <url><loc>https://t27.ai/ru/resources/</loc><lastmod>2026-08-31</lastmod></url>
   <url><loc>https://t27.ai/ru/verification/</loc><lastmod>2026-08-31</lastmod></url>
-  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://t27.ai/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-09-07</lastmod></url>
@@ -98,6 +98,7 @@
   <url><loc>https://t27.ai/blog/the-required-check-was-an-echo/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/the-scanner-scored-what-it-could-not-see/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/the-search-space-erased-a-significance-claim/</loc><lastmod>2026-09-07</lastmod></url>
+  <url><loc>https://t27.ai/blog/the-seed-moved-it-the-pins-moved-it-more/</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://t27.ai/blog/the-silence-was-a-saturated-readout/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/the-tail-that-had-never-run/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/thirty-epochs-exposed-a-failure-rate-blind-spot/</loc><lastmod>2026-09-07</lastmod></url>
@@ -107,7 +108,7 @@
   <url><loc>https://t27.ai/blog/twenty-merged-in-three-days/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/twenty-three-reference-models/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/two-bitstreams-one-bit-apart/</loc><lastmod>2026-09-07</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-09-07</lastmod></url>
@@ -173,6 +174,7 @@
   <url><loc>https://t27.ai/ru/blog/the-required-check-was-an-echo/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-scanner-scored-what-it-could-not-see/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-search-space-erased-a-significance-claim/</loc><lastmod>2026-09-07</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/the-seed-moved-it-the-pins-moved-it-more/</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-silence-was-a-saturated-readout/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-tail-that-had-never-run/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/thirty-epochs-exposed-a-failure-rate-blind-spot/</loc><lastmod>2026-09-07</lastmod></url>

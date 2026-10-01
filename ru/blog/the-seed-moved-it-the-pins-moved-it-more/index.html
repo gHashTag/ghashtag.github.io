@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Seed сдвинул Fmax в 1,22 раза. Выводы — в 2,6 раза. · TRINITY</title>
+<meta name="description" content="[оценки nextpnr-xilinx после разводки на xc7a200tfbg484-2, не подписанный тайминг; отдельный блок на синтетических выводах, а не целый дизайн; результат JTAG — с нашего стенда] Два вопроса стенда стали двумя командами. tri fpga-seeds считает Fmax диапазоном по seed размещения: тернарный блок скалярного произведения на 321 LUT дал от 164,15 до 200,40 МГц на 20 seed и от 62,68 до 76,75 МГц с выводами, разнесёнными по корпусу, при одном и том же нетлисте во всех прогонах. tri fpga-jtag читает, какой чип стоит в цепочке, никогда не прошивает и отличает молчащий TDO от сломанного кабеля. На нашем стенде она поймала XC7A200T там, где ожидался XC7A100T." />
+<link rel="canonical" href="https://t27.ai/ru/blog/the-seed-moved-it-the-pins-moved-it-more/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-seed-moved-it-the-pins-moved-it-more/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-seed-moved-it-the-pins-moved-it-more/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-seed-moved-it-the-pins-moved-it-more/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/the-seed-moved-it-the-pins-moved-it-more/" />
+<meta property="og:title" content="Seed сдвинул Fmax в 1,22 раза. Выводы — в 2,6 раза." />
+<meta property="og:description" content="[оценки nextpnr-xilinx после разводки на xc7a200tfbg484-2, не подписанный тайминг; отдельный блок на синтетических выводах, а не целый дизайн; результат JTAG — с нашего стенда] Два вопроса стенда стали двумя командами. tri fpga-seeds считает Fmax диапазоном по seed размещения: тернарный блок скалярного произведения на 321 LUT дал от 164,15 до 200,40 МГц на 20 seed и от 62,68 до 76,75 МГц с выводами, разнесёнными по корпусу, при одном и том же нетлисте во всех прогонах. tri fpga-jtag читает, какой чип стоит в цепочке, никогда не прошивает и отличает молчащий TDO от сломанного кабеля. На нашем стенде она поймала XC7A200T там, где ожидался XC7A100T." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-seed-moved-it-the-pins-moved-it-more-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Seed сдвинул Fmax в 1,22 раза. Выводы — в 2,6 раза." />
+<meta name="twitter:description" content="[оценки nextpnr-xilinx после разводки на xc7a200tfbg484-2, не подписанный тайминг; отдельный блок на синтетических выводах, а не целый дизайн; результат JTAG — с нашего стенда] Два вопроса стенда стали двумя командами. tri fpga-seeds считает Fmax диапазоном по seed размещения: тернарный блок скалярного произведения на 321 LUT дал от 164,15 до 200,40 МГц на 20 seed и от 62,68 до 76,75 МГц с выводами, разнесёнными по корпусу, при одном и том же нетлисте во всех прогонах. tri fpga-jtag читает, какой чип стоит в цепочке, никогда не прошивает и отличает молчащий TDO от сломанного кабеля. На нашем стенде она поймала XC7A200T там, где ожидался XC7A100T." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Seed сдвинул Fmax в 1,22 раза. Выводы — в 2,6 раза.","description":"[оценки nextpnr-xilinx после разводки на xc7a200tfbg484-2, не подписанный тайминг; отдельный блок на синтетических выводах, а не целый дизайн; результат JTAG — с нашего стенда] Два вопроса стенда стали двумя командами. tri fpga-seeds считает Fmax диапазоном по seed размещения: тернарный блок скалярного произведения на 321 LUT дал от 164,15 до 200,40 МГц на 20 seed и от 62,68 до 76,75 МГц с выводами, разнесёнными по корпусу, при одном и том же нетлисте во всех прогонах. tri fpga-jtag читает, какой чип стоит в цепочке, никогда не прошивает и отличает молчащий TDO от сломанного кабеля. На нашем стенде она поймала XC7A200T там, где ожидался XC7A100T.","url":"https://t27.ai/ru/blog/the-seed-moved-it-the-pins-moved-it-more/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/the-seed-moved-it-the-pins-moved-it-more/"},"image":"https://t27.ai/og-blog-the-seed-moved-it-the-pins-moved-it-more-ru.png","datePublished":"2026-10-01","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"FPGA, Open toolchain, Verification, Tooling"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Seed сдвинул Fmax в 1,22 раза. Выводы — в 2,6 раза.</h1>
+<p class="meta">2026-10-01 · 5 мин чтения</p>
+<p class="lede">[оценки nextpnr-xilinx после разводки на xc7a200tfbg484-2, не подписанный тайминг; отдельный блок на синтетических выводах, а не целый дизайн; результат JTAG — с нашего стенда] Два вопроса стенда стали двумя командами. tri fpga-seeds считает Fmax диапазоном по seed размещения: тернарный блок скалярного произведения на 321 LUT дал от 164,15 до 200,40 МГц на 20 seed и от 62,68 до 76,75 МГц с выводами, разнесёнными по корпусу, при одном и том же нетлисте во всех прогонах. tri fpga-jtag читает, какой чип стоит в цепочке, никогда не прошивает и отличает молчащий TDO от сломанного кабеля. На нашем стенде она поймала XC7A200T там, где ожидался XC7A100T.</p>
+
+<div class="tags"><span class="tag">#FPGA</span><span class="tag">#OpenToolchain</span><span class="tag">#Verification</span><span class="tag">#Tooling</span></div>
+<p>На любом стенде с открытым тулчейном FPGA два вопроса возникают раньше, чем результат становится достойным отчёта. Какой чип на самом деле на другом конце JTAG-кабеля? И Fmax в логе — это свойство дизайна или одного seed размещения, который его дал? Мы превратили оба вопроса в команды, tri fpga-jtag и tri fpga-seeds. Мы прогнали их на своём стенде и на тернарном блоке скалярного произведения на 321 LUT, который перепроверяем для другой группы.</p>
+<p>Короткий ответ на второй вопрос: на 20 seed размещения этот блок дал от 164,15 до 200,40 МГц. Перенос его выводов дал от 62,68 до 76,75 МГц. Нетлист и число ячеек в обоих случаях одинаковые: seed менял Fmax в 1,22 раза, расположение выводов — примерно в 2,6 раза. Каждая Fmax здесь — оценка nextpnr после разводки по её собственной модели задержек, а не подписанный тайминг.</p>
+<h2>tri fpga-seeds: Fmax как диапазон</h2>
+<p>nextpnr-xilinx печатает Max frequency после разводки для каждого клока, и это число меняется с --seed. Один seed — одна выборка из распределения. fpga-seeds либо разбирает набор готовых логов (--parse), либо сам запускает перебор (--run, по одному процессу nextpnr на seed, с низким приоритетом). Перед первым seed команда записывает хэши входов и версию nextpnr и отказывается перезаписывать прежние логи. Для каждого seed она берёт число LUT, FF и CARRY4, последнюю Fmax после разводки для самого медленного клока и разбиение критического пути на логику и разводку. Она печатает минимум, медиану, максимум и отношение max/min. Seed, у которого число ячеек отличается, она помечает: значит, seed размещали не один и тот же нетлист.</p>
+<div class="tw"><table><thead><tr><th>xc7a200tfbg484-2, nextpnr-xilinx, цель 100 МГц, оценка после разводки</th><th>Seed</th><th>LUT / FF / CARRY4</th><th>Fmax мин / медиана / макс (МГц)</th><th>Держит 100 МГц</th></tr></thead><tbody><tr><td>Компактная распиновка</td><td>20</td><td>321 / 114 / 14 на каждом seed</td><td>164,15 / 187,16 / 200,40</td><td>20 из 20</td></tr><tr><td>Выводы разнесены по корпусу</td><td>10</td><td>321 / 114 / 14 на каждом seed</td><td>62,68 / 71,42 / 76,75</td><td>0 из 10</td></tr><tr><td>Исправленный блок (на бит шире отрицание), компактная распиновка</td><td>20</td><td>331 / 114 / 15 на каждом seed</td><td>178,00 / 194,34 / 221,58</td><td>20 из 20</td></tr></tbody></table></div>
+<p>Самый медленный seed с компактной распиновкой быстрее самого быстрого seed с разнесённой в 2,14 раза. В разнесённых прогонах на критическом пути 0,4 нс логики и от 12,6 до 15,5 нс разводки: путь из двух LUT трижды пересекает кристалл между колонками ввода-вывода. Отдельный блок на синтетических выводах измеряет то место, куда поставили его выводы. Наша прежняя оценка для этого блока по одному seed, 71,28 МГц, точно воспроизводится на seed 1 с разнесённой распиновкой. Это был результат распиновки, а не тракта данных. Мы сказали об этом группе, чей это блок, и они согласны, что в сравнение скорости эта цифра не входит.</p>
+<p>Третья строка — исправленная версия того же блока. Отрицание в нём на один бит шире, так что -1 x (-128) даёт +128, а не заворачивается в -128. После разводки это стоит десять LUT и один CARRY4, и на той же компактной распиновке оценка для всех 20 seed по-прежнему проходит 100 МГц.</p>
+<h2>tri fpga-jtag: какой чип ответил</h2>
+<p>fpga-jtag читает IDCODE и никогда ничего не прошивает. Она работает с двумя семействами кабелей. Xilinx Platform Cable USB II (или клон DLC10; USB VID 0x03fd) поднимается как 0x0013 без прошивки. С --load команда загружает прошивку через fxload, без sudo, и ждёт, пока кабель переподключится как 0x0008. Затем она запускает xc3sprog и печатает версии прошивки и CPLD и каждое устройство в цепочке — по имени и ревизии. Для кабелей FTDI она спрашивает у openFPGALoader, какой зонд подключён, и запускает --detect. --expect XC7A100T превращает результат в код выхода: 0 при совпадении, 1 если цепочки нет или чип другой, 2 если нет кабеля.</p>
+<p>На нашем стенде этот код выхода сделал свою работу. Единственным подключённым сегодня кабелем был FTDI-зонд AX7203, и fpga-jtag --expect XC7A100T сообщила loc 0: 0x03636093 XC7A200T и вышла с кодом 1. Для этой платы это правильный чип, а для шага, который мы собирались сделать, — неправильный. Такой шаг лучше остановить на несовпадении, чем на ошибке прошивки.</p>
+<p>Если цепочки нет вовсе, команда прогоняет сырые биты через TDO и читает, что вернулось. Все единицы — TDO никто не ведёт. Сам кабель работает, поэтому дальше проверяют индикатор состояния кабеля, питание платы, разъём, ориентацию первого вывода и провод TDO, именно в таком порядке. Все нули указывают на сторону кабеля. Это различие и отделяет проблему кабеля от проблемы платы. Все единицы — это то, что вернул при последней проверке наш второй стенд, XC7A100T на клоне DLC10.</p>
+<p>Деталь для тех, кто пишет похожий инструмент: openFPGALoader маскирует полубайт ревизии в IDCODE, поэтому для одной и той же микросхемы он сообщает 0x03636093, а xc3sprog — 0x13636093. На пути FTDI fpga-jtag называет микросхему и не придумывает ревизию.</p>
+<h2>Обе команды проверяют себя</h2>
+<p>У каждой команды есть --self-test, который гоняет её разборщики на записанном выводе: 17 проверок для jtag (имена IDCODE, строки прошивки, вердикты TDO «все единицы» и «все нули», маска ревизии openFPGALoader) и 11 для seeds (незаконченные логи, несколько клоков, разные нетлисты). tri fpga-tools запускает все самопроверки board-loop вместе и сообщает 14 из 14. Повторный разбор логов, стоящих за таблицей выше, воспроизводит составленные вручную CSV значение в значение.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Блок измерен отдельно, на синтетических выводах. Его Fmax внутри настоящей SoC задаётся другим критическим путём и здесь не заявляется.</li><li>В переборе с разнесёнными выводами 10 seed, а не 20: один seed не завершился под нагрузкой машины, остальные не запускались.</li><li>Разброс по seed измерен для одного маленького блока на одной микросхеме. У больших дизайнов он может быть больше или меньше.</li><li>Второй стенд, XC7A100T на клоне DLC10, по-прежнему не показывает цепочку; причина пока не найдена.</li><li>Обе команды пока лежат в закрытом репозитории, так что читатель ещё не может их запустить.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/openXC7/nextpnr-xilinx">nextpnr-xilinx, the place-and-route tool whose seeds were swept</a></li><li><a href="https://github.com/trabucayre/openFPGALoader">openFPGALoader, used for the FTDI path of fpga-jtag</a></li><li><a href="https://sourceforge.net/projects/xc3sprog/">xc3sprog, used for the Platform Cable USB II path</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/?lang=ru#/blog/the-seed-moved-it-the-pins-moved-it-more">Открыть интерактивную версию</a><a class="btn sec" href="/blog/the-seed-moved-it-the-pins-moved-it-more/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Поработаем вместе</p><h2 id="blog-work-offer-title">Хотите так же проверить собственный дизайн?</h2><p>Я аудирую RTL и строю независимые побитово точные модели, затем провожу результат через синтез и, когда это полезно, проверяю на плате Artix-7. Первый модуль проверки — бесплатно.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%B4%D0%BB%D1%8F%20T27%20%E2%80%94%20Seed%20%D1%81%D0%B4%D0%B2%D0%B8%D0%BD%D1%83%D0%BB%20Fmax%20%D0%B2%201%2C22%20%D1%80%D0%B0%D0%B7%D0%B0.%20%D0%92%D1%8B%D0%B2%D0%BE%D0%B4%D1%8B%20%E2%80%94%20%D0%B2%202%2C6%20%D1%80%D0%B0%D0%B7%D0%B0.&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%21%20%D0%AF%20%D0%BF%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D0%BB%28%D0%B0%29%20%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8E%20%C2%ABSeed%20%D1%81%D0%B4%D0%B2%D0%B8%D0%BD%D1%83%D0%BB%20Fmax%20%D0%B2%201%2C22%20%D1%80%D0%B0%D0%B7%D0%B0.%20%D0%92%D1%8B%D0%B2%D0%BE%D0%B4%D1%8B%20%E2%80%94%20%D0%B2%202%2C6%20%D1%80%D0%B0%D0%B7%D0%B0.%C2%BB%3A%20https%3A%2F%2Ft27.ai%2Fru%2Fblog%2Fthe-seed-moved-it-the-pins-moved-it-more%2F%0A%0A%D0%9D%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A">Обсудить задачу</a><a class="btn sec" href="/ru/verification/">Услуга верификации</a></div><nav class="work-links" aria-label="Услуги"><span>Услуги:</span><a href="/ru/verification/">Верификация</a><a href="/ru/ip/">Лицензирование IP</a><a href="/ru/course/">Курсы и воркшопы</a><a href="/ru/about/">Контрактная работа</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
