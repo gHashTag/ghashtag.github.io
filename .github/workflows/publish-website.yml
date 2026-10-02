@@ -14,12 +14,27 @@ name: Publish website from trinity
 # rebuild that produces identical bytes leaves no commit behind.
 
 on:
+  # A merge in trinity asks for a publish at once: trinity's
+  # publish-apex-on-merge.yml sends this event on every push to its main that
+  # touches apps/website. repository_dispatch needs Contents: write on this
+  # repository and nothing more, which is exactly what trinity's GHIO_TOKEN
+  # already holds -- workflow_dispatch would need Actions: write as well.
+  repository_dispatch:
+    types: [trinity-main]
   schedule:
-    # Fifteen minutes is the worst-case lag between a merge in trinity and the
-    # apex serving it. The gate in trinity waits that long before going red.
+    # The backstop, not the delivery path. Fifteen minutes was meant to be the
+    # worst-case lag between a merge in trinity and the apex serving it, but
+    # GitHub runs a scheduled workflow when it has capacity: from 2026-09-30
+    # 14:55Z to 2026-10-02 01:00Z this cron fired eight times, 3 to 7 hours
+    # apart. record-delivery.py measures the real lag on /status/.
     - cron: '*/15 * * * *'
   workflow_dispatch:
   push:
+    # main only. Without this, pushing a branch that edits this file ran a full
+    # publish ON that branch and committed the build into it (2026-10-02, the
+    # branch that added repository_dispatch above): the PR then carried seven
+    # generated files and a delivery record of a publish that never went live.
+    branches: [main]
     paths:
       - '.github/workflows/publish-website.yml'
       - 'regen-blog.py'
