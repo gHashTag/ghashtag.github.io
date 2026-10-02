@@ -68,6 +68,14 @@ jobs:
           # problem it had invented. The gate was right about its rule and wrong
           # about the facts, because it was never given them.
           fetch-depth: 0
+          # main as it is when this run STARTS, not the commit that triggered it.
+          # Runs queue behind each other (concurrency, above), and checkout's
+          # default is the event's SHA: on 2026-10-02 a dispatched run waited
+          # 25 s for a push-triggered one, checked out the main that run had
+          # just moved past, built, verified, and was refused at `git push`
+          # (non-fast-forward, run 36965454090). With a publish on every trinity
+          # merge, a queued run is the normal case, not the rare one.
+          ref: main
 
       - name: Checkout the website sources
         uses: actions/checkout@v4
