@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 01 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 02 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>One regional clock, twelve pull requests, and a spec that found a compiler bug</title>
+      <link>https://t27.ai/#/blog/one-regional-clock-twelve-pull-requests</link>
+      <guid isPermaLink="false">one-regional-clock-twelve-pull-requests</guid>
+      <pubDate>Fri, 02 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[counts measured through the GitHub API on 2026-10-02; merged means merged by the openXC7 maintainer, not shipped in a release; bitstream checks are cavearr's Vivado bench and our XC7A200T board] Since 1 September we opened 12 pull requests in repositories we do not own: 11 in openXC7, the open toolchain for Xilinx 7-series, and 1 in inngest. 5 are merged and 7 are open. Most follow one thread: a design with a regional clock buffer (BUFR) on an XC7A200T did not build through the open flow, and fixing it took the placer, the router, the bitstream writer and the bit database. A t27 spec of the database rows then found a parser bug in the t27 compiler, which we fixed in our own repository.</description>
+      <category>FPGA</category>
+      <category>Open toolchain</category>
+      <category>Verification</category>
+      <category>t27</category>
+    </item>
     <item>
       <title>The seed moved Fmax 1.22x. The pins moved it 2.6x.</title>
       <link>https://t27.ai/#/blog/the-seed-moved-it-the-pins-moved-it-more</link>
