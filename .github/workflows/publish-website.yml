@@ -108,6 +108,14 @@ jobs:
         run: |
           set -euo pipefail
           npm ci --silent 2>/dev/null || npm install --silent
+          # Stamp the generated catalogs with the source commit's time, not the
+          # clock. agents-from-specs.mjs and docs-from-specs.mjs already honour
+          # SOURCE_DATE_EPOCH (reproducible-builds.org); unset, every publish
+          # restamped generatedAt in six spec-*.json files, so a run with nothing
+          # new still committed (fc48bce, 0085d68 on 2026-10-02: an identical
+          # bundle, seven files changed) and "no files changed" never fired.
+          SOURCE_DATE_EPOCH=$(git -C ../.. log -1 --format=%ct)
+          export SOURCE_DATE_EPOCH
           npm run build
 
       - name: Publish, but only if the bytes changed
@@ -251,8 +259,11 @@ jobs:
           fi
 
           # Записываем измеренную задержку «коммит исходника → публикация» рядом
-          # с публичной страницей статуса; скрипт хранит последние 50 событий.
-          if ! python3 record-delivery.py .src; then
+          # с публичной страницей статуса; скрипт хранит последние 50 доставок, по одной на исходный коммит.
+          # One entry per source commit: a re-publish of the same commit is not
+          # a delivery. The self-test runs first so a broken dedupe fails here
+          # rather than silently refilling the window with repeats.
+          if ! python3 record-delivery.py --self-test || ! python3 record-delivery.py .src; then
             say "- **FAIL** record-delivery.py could not write delivery status"
             exit 1
           fi
