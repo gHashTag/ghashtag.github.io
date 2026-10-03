@@ -32,7 +32,7 @@
   <url><loc>https://t27.ai/ru/proof/</loc><lastmod>2026-08-31</lastmod></url>
   <url><loc>https://t27.ai/ru/resources/</loc><lastmod>2026-08-31</lastmod></url>
   <url><loc>https://t27.ai/ru/verification/</loc><lastmod>2026-08-31</lastmod></url>
-  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-10-02</lastmod></url>
+  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://t27.ai/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-09-07</lastmod></url>
@@ -60,9 +60,9 @@
   <url><loc>https://t27.ai/blog/four-languages-one-tri-extension/</loc><lastmod>2026-09-23</lastmod></url>
   <url><loc>https://t27.ai/blog/fourteen-rows-agreed-one-did-not/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/frame-length-margin-law/</loc><lastmod>2026-09-07</lastmod></url>
-  <url><loc>https://t27.ai/blog/golden-ratio-weights-ran-on-the-board/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://t27.ai/blog/golden-ratio-weights-ran-on-the-board/</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://t27.ai/blog/green-ci-does-not-mean-usable/</loc><lastmod>2026-09-07</lastmod></url>
-  <url><loc>https://t27.ai/blog/half-the-build-is-bitstream-generation/</loc><lastmod>2026-09-07</lastmod></url>
+  <url><loc>https://t27.ai/blog/half-the-build-is-bitstream-generation/</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://t27.ai/blog/how-to-join-the-swarm/</loc><lastmod>2026-09-23</lastmod></url>
   <url><loc>https://t27.ai/blog/i-wrote-the-post-then-did-the-thing/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/mask-over-scale-ternary-drafts-that-compile/</loc><lastmod>2026-09-29</lastmod></url>
@@ -88,8 +88,10 @@
   <url><loc>https://t27.ai/blog/six-and-a-half-years-in-a-discarded-return-value/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/ternary-won-the-wire-not-the-gate/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/the-auditor-made-the-mistake-it-audits/</loc><lastmod>2026-09-07</lastmod></url>
+  <url><loc>https://t27.ai/blog/the-back-half-of-openxc7-from-a-spec/</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://t27.ai/blog/the-control-that-could-not-fail/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/the-experiment-that-could-not-answer/</loc><lastmod>2026-09-07</lastmod></url>
+  <url><loc>https://t27.ai/blog/the-fpga-flow-layer-by-layer/</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://t27.ai/blog/the-fpga-row-was-corrected/</loc><lastmod>2026-09-23</lastmod></url>
   <url><loc>https://t27.ai/blog/the-full-adder-made-the-cost-claim-comparable/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/the-gate-was-right-and-nothing-stopped/</loc><lastmod>2026-09-07</lastmod></url>
@@ -103,13 +105,14 @@
   <url><loc>https://t27.ai/blog/the-silence-was-a-saturated-readout/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/the-tail-that-had-never-run/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/thirty-epochs-exposed-a-failure-rate-blind-spot/</loc><lastmod>2026-09-07</lastmod></url>
-  <url><loc>https://t27.ai/blog/trained-weights-ran-receipts-were-not-checked/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://t27.ai/blog/trained-weights-ran-receipts-were-not-checked/</loc><lastmod>2026-10-03</lastmod></url>
+  <url><loc>https://t27.ai/blog/tri-cast-from-command-to-card/</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://t27.ai/blog/tri-claw-an-agent-you-can-audit/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/tri-mined-not-sold/</loc><lastmod>2026-10-02</lastmod></url>
   <url><loc>https://t27.ai/blog/twenty-merged-in-three-days/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/twenty-three-reference-models/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/blog/two-bitstreams-one-bit-apart/</loc><lastmod>2026-09-07</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-10-02</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-09-07</lastmod></url>
@@ -137,9 +140,9 @@
   <url><loc>https://t27.ai/ru/blog/four-languages-one-tri-extension/</loc><lastmod>2026-09-23</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/fourteen-rows-agreed-one-did-not/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/frame-length-margin-law/</loc><lastmod>2026-09-07</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/golden-ratio-weights-ran-on-the-board/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/golden-ratio-weights-ran-on-the-board/</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/green-ci-does-not-mean-usable/</loc><lastmod>2026-09-07</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/half-the-build-is-bitstream-generation/</loc><lastmod>2026-09-07</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/half-the-build-is-bitstream-generation/</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/how-to-join-the-swarm/</loc><lastmod>2026-09-23</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/i-wrote-the-post-then-did-the-thing/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/mask-over-scale-ternary-drafts-that-compile/</loc><lastmod>2026-09-29</lastmod></url>
@@ -165,8 +168,10 @@
   <url><loc>https://t27.ai/ru/blog/six-and-a-half-years-in-a-discarded-return-value/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/ternary-won-the-wire-not-the-gate/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-auditor-made-the-mistake-it-audits/</loc><lastmod>2026-09-07</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/the-back-half-of-openxc7-from-a-spec/</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-control-that-could-not-fail/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-experiment-that-could-not-answer/</loc><lastmod>2026-09-07</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/the-fpga-flow-layer-by-layer/</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-fpga-row-was-corrected/</loc><lastmod>2026-09-23</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-full-adder-made-the-cost-claim-comparable/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-gate-was-right-and-nothing-stopped/</loc><lastmod>2026-09-07</lastmod></url>
@@ -180,7 +185,8 @@
   <url><loc>https://t27.ai/ru/blog/the-silence-was-a-saturated-readout/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-tail-that-had-never-run/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/thirty-epochs-exposed-a-failure-rate-blind-spot/</loc><lastmod>2026-09-07</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/trained-weights-ran-receipts-were-not-checked/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/trained-weights-ran-receipts-were-not-checked/</loc><lastmod>2026-10-03</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/tri-cast-from-command-to-card/</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/tri-claw-an-agent-you-can-audit/</loc><lastmod>2026-09-07</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/tri-mined-not-sold/</loc><lastmod>2026-10-02</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/twenty-merged-in-three-days/</loc><lastmod>2026-09-07</lastmod></url>

@@ -1,5 +1,1131 @@
 [
  {
+  "slug": "tri-cast-from-command-to-card",
+  "title": "tri cast: record a command, check the recording, publish it as a page",
+  "summary": "[one machine, one day per recording; 10 of 596 commands have one; tri cast is not in a tri release yet] A recorded command can be replayed and checked, a described one can only be believed. tri cast records real terminal output, scrubs and checks it, and publishes a page, a preview card and a player.",
+  "date": "2026-10-03",
+  "readingMinutes": 4,
+  "tags": [
+   "tri",
+   "Verification",
+   "Terminal"
+  ],
+  "receipts": [
+   {
+    "label": "The recording shown in the post: tri selftest",
+    "href": "https://t27.ai/term/tri-selftest/"
+   },
+   {
+    "label": "The gallery of recorded sessions",
+    "href": "https://t27.ai/term/"
+   },
+   {
+    "label": "trinity#1273: the recorded-session player and gallery · MERGED 2026-10-03",
+    "href": "https://github.com/gHashTag/trinity/pull/1273"
+   },
+   {
+    "label": "trinity#1288: recordings for eight tri commands · MERGED 2026-10-03",
+    "href": "https://github.com/gHashTag/trinity/pull/1288"
+   },
+   {
+    "label": "The FPGA flow, layer by layer (a post built on a recording)",
+    "href": "https://t27.ai/#/blog/the-fpga-flow-layer-by-layer"
+   }
+  ],
+  "openQuestions": [
+   "A recording shows what a command printed on one machine on one day, not that it is correct for every input.",
+   "Only 10 of 596 commands have a recording; the other 586 have a card and no run.",
+   "tri cast lives in the maintainer's skills directory and is not in a tri release, so a reader cannot install it yet."
+  ],
+  "published": true,
+  "ru": {
+   "title": "tri cast: записать команду, проверить запись, опубликовать страницей",
+   "summary": "[одна машина и один день на запись; запись есть у 10 из 596 команд; tri cast пока не входит в релиз tri] Записанную команду можно проиграть и проверить, описанную — только принять на веру. tri cast записывает настоящий вывод терминала, чистит и проверяет его и публикует страницу, карточку-превью и плеер.",
+   "openQuestions": [
+    "Запись показывает, что команда напечатала на одной машине в один день, а не что она верна для любого ввода.",
+    "Запись есть только у 10 из 596 команд; у остальных 586 карточка есть, а прогона нет.",
+    "tri cast живёт в каталоге навыков мейнтейнера и не входит в релиз tri, так что читатель пока не может его установить."
+   ],
+   "body": [
+    {
+     "kind": "p",
+     "text": "Команду, описанную словами, можно оспорить; записанную команду можно проиграть заново. `tri cast` записывает настоящую команду в терминале, проверяет запись и публикует её страницей с карточкой-превью, GIF для GitHub и плеером для блога. У десяти из 596 команд `tri` карточка инструмента теперь заканчивается собственной записью, и каждую можно открыть на t27.ai/term/."
+    },
+    {
+     "kind": "terminal",
+     "src": "term/tri-selftest/session.cast",
+     "share": "https://t27.ai/term/tri-selftest/",
+     "title": "tri selftest · the dependencies tri needs",
+     "caption": "Самая короткая запись в галерее: одна команда, 2,2 с, код выхода 0. Приглашение и набор поставлены; четыре строки вывода — то, что команда напечатала, в момент, когда напечатала."
+    },
+    {
+     "kind": "h",
+     "text": "Проблема: скриншот ничего не доказывает"
+    },
+    {
+     "kind": "p",
+     "text": "В прошлых постах мы писали, что команда напечатала, и давали ссылку на лог. Читателю приходилось верить, что лог получен от этой команды в этот день. Скриншот ещё хуже: это картинка, её можно отредактировать или поставить. Нам нужна запись, которую читатель может проиграть и которая несёт собственные проверки."
+    },
+    {
+     "kind": "h",
+     "text": "Пять шагов от команды до страницы"
+    },
+    {
+     "kind": "ol",
+     "items": [
+      "`tri cast record` запускает каждую команду в псевдотерминале и сохраняет файл asciicast v2: настоящие байты вывода с настоящим временем их появления.",
+      "`tri cast scrub` заменяет домашний каталог на `~` в каждом событии и пишет об этом в заголовке файла (`redacted`). Это единственная правка, которую может нести опубликованная запись.",
+      "`tri cast check` завершается с кодом 1, если какая-то команда вышла не с 0, домашний путь остался или в тексте встречается ключ из локального файла ключей.",
+      "`tri cast render` рисует сессию GIF-ом для GitHub; `tri cast publish` создаёт страницу `t27.ai/term/<id>/` с записью, карточкой-превью 1200×630, `meta.json` и тегами `og:` и `twitter:`, пересобирает галерею и кладёт копию в архив вне рабочего дерева.",
+      "Карточка инструмента в каталоге сайта получает запись, если имя команды принадлежит ровно одному `tri`. Имя, общее у двух из трёх инструментов `tri`, остаётся без записи, а не привязывается не к тому инструменту."
+     ]
+    },
+    {
+     "kind": "p",
+     "text": "Страница — обычный статический HTML, и это намеренно. X не читает метаданные отдельного поста за хеш-маршрутами сайта, поэтому у записи должен быть собственный адрес, чья карточка-превью и есть то, что показывает пост."
+    },
+    {
+     "kind": "h",
+     "text": "Что настоящее, а что поставлено"
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Часть записи",
+      "Статус"
+     ],
+     "rows": [
+      [
+       "Приглашение и набор",
+       "Поставлено: набирается ровным темпом, чтобы команду можно было прочесть"
+      ],
+      [
+       "Каждый байт, который напечатала команда, и когда он пришёл",
+       "Настоящее"
+      ],
+      [
+       "Пауза дольше 2 с",
+       "Сокращена до 2 с, и кадр об этом говорит"
+      ],
+      [
+       "Домашний каталог в путях",
+       "Заменён на `~` командой `scrub`, отмечено в заголовке"
+      ]
+     ]
+    },
+    {
+     "kind": "p",
+     "text": "Страница говорит то же самое. Если вывод неверный — устаревший баннер, опечатка в команде, текст не на том языке, — ответ один: записать заново. Запись никогда не правится."
+    },
+    {
+     "kind": "h",
+     "text": "Ошибка, которая определила правила"
+    },
+    {
+     "kind": "p",
+     "text": "В первой записи сессии на плате был баннер, не совпадавший с названием проекта, а перезапись изменила числа: один и тот же `fasm2frames` занял 33,3 с в одном дубле и 36,8 с в следующем. Пришлось менять все подписи и все фразы, цитировавшие первый дубль. Поэтому пост берёт числа из той записи, которую встраивает, и поэтому числа не копируются вручную во второе место."
+    },
+    {
+     "kind": "h",
+     "text": "У каких команд она есть"
+    },
+    {
+     "kind": "p",
+     "text": "Для начала записали восемь, выбрав те, что идут секунды, не требуют платы и печатают то, что читатель может оценить: `tri fpga-specs`, `fpga-keycheck`, `fpga-selftest`, `game-selftest`, `game-tick`, `game-vault`, `blog list` и `selftest`. С двумя прежними сессиями (прогон на плате и FPGA-flow) выходит десять. У остальных 586 команд карточка есть, а записи пока нет."
+    },
+    {
+     "kind": "h",
+     "text": "Можно ли это запустить у себя?"
+    },
+    {
+     "kind": "p",
+     "text": "Не из релиза. `tri cast` — команда из каталога навыков мейнтейнера на одном Python-скрипте, и в релиз `tri` она не входит. Плеер и опубликованные страницы открыты: записи играют в галерее и в этом посте без установки."
+    },
+    {
+     "kind": "h",
+     "text": "Чего это не показывает"
+    },
+    {
+     "kind": "ul",
+     "items": [
+      "Запись показывает, что команда что-то напечатала на одной машине в один день. Она не показывает, что команда верна для любого ввода.",
+      "Запись есть только у 10 из 596 команд.",
+      "Набор поставлен. Запись доказывает вывод, а не то, что команду набирал человек.",
+      "`tri cast` пока нельзя установить из релиза."
+     ]
+    }
+   ]
+  },
+  "body": [
+   {
+    "kind": "p",
+    "text": "A command that is described in prose can be doubted; a command that was recorded can be replayed. `tri cast` records a real command in a terminal, checks the recording, and publishes it as a page with a preview card, a GIF for GitHub and a player for the blog. Ten of the 596 `tri` commands now have a tool card that ends with their own recording, and each one can be opened at t27.ai/term/."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/tri-selftest/session.cast",
+    "share": "https://t27.ai/term/tri-selftest/",
+    "title": "tri selftest · the dependencies tri needs",
+    "caption": "The smallest recording in the gallery: one command, 2.2 s, exit code 0. The prompt and the typing are staged; the four lines of output are what the command printed, at the moment it printed them."
+   },
+   {
+    "kind": "h",
+    "text": "The problem: a screenshot proves nothing"
+   },
+   {
+    "kind": "p",
+    "text": "Earlier posts in this blog said what a command printed and linked a log. A reader had to trust that the log came from that command, on that day. A screenshot is worse: it is a picture, and a picture can be edited or staged. We wanted a record that a reader can replay, and that carries its own checks."
+   },
+   {
+    "kind": "h",
+    "text": "Five steps from command to page"
+   },
+   {
+    "kind": "ol",
+    "items": [
+     "`tri cast record` runs each command in a pseudo-terminal and saves an asciicast v2 file: the real output bytes, with the real time each one arrived.",
+     "`tri cast scrub` replaces the home directory with `~` in every event and says so in the file header (`redacted`). It is the only edit a published recording may carry.",
+     "`tri cast check` fails (exit 1) unless every command exited 0, the home path is gone and no key from the local key file occurs in the text.",
+     "`tri cast render` draws the session as a GIF for GitHub; `tri cast publish` writes the page `t27.ai/term/<id>/` with the recording, a 1200×630 preview card, a `meta.json` and `og:` and `twitter:` tags, rebuilds the gallery, and archives a copy outside the worktree.",
+     "A tool card in the site catalog gets the recording when its command name belongs to exactly one `tri`. A name shared by two of the three `tri` command-line tools is left without one rather than bound to the wrong tool."
+    ]
+   },
+   {
+    "kind": "p",
+    "text": "The page is plain static HTML on purpose. X cannot read per-post metadata behind the site's hash routes, so a recording needs an address of its own whose preview card is the thing a post shows."
+   },
+   {
+    "kind": "h",
+    "text": "What is real and what is staged"
+   },
+   {
+    "kind": "table",
+    "head": [
+     "Part of the recording",
+     "Status"
+    ],
+    "rows": [
+     [
+      "The prompt and the typing",
+      "Staged: typed at a steady pace so the command is readable"
+     ],
+     [
+      "Every byte the command printed, and when it arrived",
+      "Real"
+     ],
+     [
+      "A silence longer than 2 s",
+      "Shortened to 2 s, and the frame says so"
+     ],
+     [
+      "The home directory in paths",
+      "Replaced with `~` by `scrub`, recorded in the header"
+     ]
+    ]
+   },
+   {
+    "kind": "p",
+    "text": "The page states the same table. If the output is wrong, a stale banner, a typo in a command, text in the wrong language, the answer is to record again. A recording is never edited."
+   },
+   {
+    "kind": "h",
+    "text": "A wrong turn that shaped the rules"
+   },
+   {
+    "kind": "p",
+    "text": "The first recording of the board session carried a banner that did not match the project's name, and re-recording it changed the numbers: the same `fasm2frames` took 33.3 s in one take and 36.8 s in the next. Every caption and every sentence quoting the first take had to change. That is why a post quotes numbers from the recording it embeds, and why the numbers are not copied by hand into a second place."
+   },
+   {
+    "kind": "h",
+    "text": "Which commands have one"
+   },
+   {
+    "kind": "p",
+    "text": "Eight were recorded to start with, chosen because they run in seconds, need no board and print something a reader can judge: `tri fpga-specs`, `fpga-keycheck`, `fpga-selftest`, `game-selftest`, `game-tick`, `game-vault`, `blog list` and `selftest`. With the two earlier sessions (the board run and the FPGA flow) that makes ten. The other 586 commands have a card and no recording yet."
+   },
+   {
+    "kind": "h",
+    "text": "Can I run it?"
+   },
+   {
+    "kind": "p",
+    "text": "Not from a release. `tri cast` is a command in the maintainer's skills directory, backed by one Python script, and it is not part of a `tri` release. The player and the published pages are public: the recordings play in the gallery and in this post without installing anything."
+   },
+   {
+    "kind": "h",
+    "text": "What this does not show"
+   },
+   {
+    "kind": "ul",
+    "items": [
+     "A recording shows that a command printed something on one machine on one day. It does not show the command is correct for every input.",
+     "Only 10 of 596 commands have a recording.",
+     "Staged typing is staged. The recording proves the output, not that a person typed the command.",
+     "`tri cast` is not installable from a release yet."
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "the-fpga-flow-layer-by-layer",
+  "title": "The FPGA flow, layer by layer: what a rewrite from specs is worth",
+  "summary": "[one design, one laptop at a load of 12.6 on 8 cpus; L1 and L2 figures are Amdahl ceilings, not results; hours a year rest on stated assumptions] We timed every layer of one real XC7A200T build through openXC7. Synthesis took 12.7 s, place and route 70.1 s, FASM to frames 33.9 s and frames to bitstream 0.2 s, 116.9 s in all. With the two layers already rebuilt from t27 specs, the flow takes 83.5 s, 1.40 times faster, and the bitstream is byte-identical. Place and route is now 60% of the build: if it took no time the flow would be 8.75 times faster, while an instant synthesis step caps out at 1.65 times. The numbers are in a recorded terminal session. The tools are not in a tri release yet.",
+  "date": "2026-10-03",
+  "readingMinutes": 5,
+  "tags": [
+   "FPGA",
+   "Open toolchain",
+   "t27"
+  ],
+  "receipts": [
+   {
+    "label": "The recorded run: tri devkit flow and impact",
+    "href": "https://t27.ai/term/devkit-flow/"
+   },
+   {
+    "label": "The layer calculator",
+    "href": "https://t27.ai/#/devkit"
+   },
+   {
+    "label": "trinity#1272: tri devkit and bitwalk in a tri release (open)",
+    "href": "https://github.com/gHashTag/trinity/issues/1272"
+   },
+   {
+    "label": "The back half of openXC7, from a spec (previous post)",
+    "href": "https://t27.ai/#/blog/the-back-half-of-openxc7-from-a-spec"
+   },
+   {
+    "label": "t27#5609: bitwalk and the three specs (open)",
+    "href": "https://github.com/gHashTag/t27/pull/5609"
+   }
+  ],
+  "openQuestions": [
+   "One design on one laptop; a design that spends less of its build in fasm2frames gains less.",
+   "Place and route is the largest layer, and nothing here shows a spec-driven route to making it faster."
+  ],
+  "published": true,
+  "ru": {
+   "title": "FPGA-flow по слоям: сколько стоит переписать его из спеков",
+   "summary": "[один дизайн, один ноутбук при нагрузке 12,6 на 8 ядрах; цифры L1 и L2 — потолки по Амдалу, а не результаты; часы в год опираются на названные допущения] Мы засекли каждый слой одной настоящей сборки XC7A200T через openXC7. Синтез занял 12,7 с, размещение и разводка 70,1 с, FASM в кадры 33,9 с, кадры в битстрим 0,2 с, всего 116,9 с. С двумя слоями, уже пересобранными из t27-спеков, flow занимает 83,5 с, в 1,40 раза быстрее, и битстрим совпадает байт в байт. Размещение и разводка теперь 60% сборки: если бы они не занимали времени, flow был бы в 8,75 раза быстрее, а мгновенный синтез упирается в 1,65 раза. Числа — в записанной терминальной сессии. В релизе tri этих инструментов пока нет.",
+   "openQuestions": [
+    "Один дизайн на одном ноутбуке; дизайн, который тратит меньшую долю сборки в fasm2frames, выиграет меньше.",
+    "Размещение и разводка — самый большой слой, и ничто здесь не показывает пути из спеков, который сделал бы его быстрее."
+   ],
+   "body": [
+    {
+     "kind": "p",
+     "text": "В прошлом посте мы пересобрали заднюю половину openXC7 из t27-спеков. FASM в кадры и кадры в битстрим теперь получаются из спеков, байт в байт. Отсюда следующий вопрос: сколько стоило бы сделать то же самое для каждого слоя flow? Чтобы ответить, мы засекли каждый слой одной настоящей сборки и поставили числа рядом."
+    },
+    {
+     "kind": "h",
+     "text": "Одна сборка, все слои"
+    },
+    {
+     "kind": "p",
+     "text": "Дизайн — trinet_node_v2_ax7203 для xc7a200tfbg484-2 на плате AX7203, 121 587 строк FASM. Команда `tri devkit flow --build` запускает flow openXC7 с замером каждого шага. Затем она трижды запускает t27-замены на том же FASM и сравнивает их вывод с выводом openXC7 байт в байт. Время — секунды по часам на одном ноутбуке при нагрузке 12,6 на 8 ядрах."
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Слой",
+      "Инструмент openXC7",
+      "Сейчас",
+      "Доля",
+      "t27",
+      "Те же байты"
+     ],
+     "rows": [
+      [
+       "L1 Синтез",
+       "`yosys`",
+       "12,69 с",
+       "10,9 %",
+       "пока нет",
+       "–"
+      ],
+      [
+       "L2 Размещение и разводка",
+       "`nextpnr-xilinx`",
+       "70,09 с",
+       "60,0 %",
+       "пока нет",
+       "–"
+      ],
+      [
+       "L3 FASM → кадры",
+       "`fasm2frames.py`",
+       "33,86 с",
+       "29,0 %",
+       "`bitwalk --fasm` 0,42 с",
+       "да"
+      ],
+      [
+       "L4 Кадры → .bit",
+       "`xc7frames2bit`",
+       "0,22 с",
+       "0,2 %",
+       "`bitwalk --write` 0,25 с",
+       "да"
+      ],
+      [
+       "Весь flow",
+       "",
+       "116,86 с",
+       "",
+       "83,45 с (1,40×)",
+       ""
+      ]
+     ]
+    },
+    {
+     "kind": "terminal",
+     "src": "term/devkit-flow/session.cast",
+     "share": "https://t27.ai/term/devkit-flow/",
+     "title": "tri devkit · the FPGA flow, layer by layer",
+     "caption": "Записанный прогон: `tri devkit flow --build` и `tri devkit impact`. Каждый напечатанный байт настоящий и появляется тогда, когда появился; приглашение и набор команд постановочные, паузы длиннее 2 с сокращены, и пока это происходит, в заголовке окна стоит пометка. Сама запись на английском."
+    },
+    {
+     "kind": "p",
+     "text": "Переписанное на сегодня экономит 33,4 с на этой сборке, и всё это в L3. L4 — ничья: `bitwalk --write` занял 0,25 с против 0,22 с у `xc7frames2bit`. Битстрим в обоих случаях один и тот же файл, так что это более быстрый путь к тому же результату, а не лучший результат."
+    },
+    {
+     "kind": "h",
+     "text": "Куда уходит остальное время"
+    },
+    {
+     "kind": "p",
+     "text": "После L3 размещение и разводка — 60,0 % сборки, синтез — 10,9 %. Закон Амдала даёт максимум, который мог бы дать переписанный любой из них: пусть слой занимает 0 с, и посмотрим, что останется."
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Если бы это заняло 0 с",
+      "Flow",
+      "Против openXC7 сегодня"
+     ],
+     "rows": [
+      [
+       "L1 Синтез",
+       "83,5 с → 70,8 с",
+       "1,65×"
+      ],
+      [
+       "L2 Размещение и разводка",
+       "83,5 с → 13,4 с",
+       "8,75×"
+      ]
+     ]
+    },
+    {
+     "kind": "p",
+     "text": "Значит, следующий рычаг — размещение и разводка, с большим отрывом. Синтез из спеков, даже мгновенный, ограничивает весь flow 1,65×. Это потолки, а не планы. nextpnr-xilinx — большая зрелая программа на C++, и реалистичный путь — работа внутри неё (мы уже отправляем туда патчи) плюс проверяемые спеками правила тайминга и разводки, а не переписывание с нуля."
+    },
+    {
+     "kind": "h",
+     "text": "Сколько это в часах"
+    },
+    {
+     "kind": "p",
+     "text": "`tri devkit impact` переводит экономию в часы. При допущении 20 сборок в день у одного человека за 230 рабочих дней 33,4 с на сборку — это 42,7 часа ожидания в год. Число сборок и людей — допущения, поэтому страница t27.ai/#/devkit даёт подставить свои."
+    },
+    {
+     "kind": "h",
+     "text": "Можно ли это запустить у себя?"
+    },
+    {
+     "kind": "p",
+     "text": "Пока нет. Прогон выше сделан локальной сборкой `tri devkit`, а `bitwalk` собран из открытого pull request, gHashTag/t27#5609. Ни того, ни другого нет в релизе `tri`, поэтому команды установки здесь нет. Оба должны войти в архивы релиза `tri` с установкой одной строкой; эта работа ведётся в github.com/gHashTag/trinity/issues/1272, и команда появится в посте, когда она будет в релизе."
+    },
+    {
+     "kind": "h",
+     "text": "Чего это не показывает"
+    },
+    {
+     "kind": "ul",
+     "items": [
+      "Один дизайн на одном ноутбуке. 1,40× — для этой сборки; дизайн, который проводит меньше времени в fasm2frames, выиграет меньше.",
+      "Время openXC7 взято из сборки, время t27 — сразу после неё в той же сессии. Нагрузка между ними менялась.",
+      "L1 и L2 не переписаны. Их строки — потолки.",
+      "Загрузка в плату (16,7 с загрузки в SRAM в прошлом прогоне на плате) не входит во время flow выше."
+     ]
+    }
+   ]
+  },
+  "body": [
+   {
+    "kind": "p",
+    "text": "The previous post rebuilt the back half of openXC7 from t27 specs. FASM to frames and frames to bitstream now come from the specs, byte for byte. That raises the next question: what would it be worth to do the same for every layer of the flow? To answer it we timed every layer of one real build and put the numbers next to each other."
+   },
+   {
+    "kind": "h",
+    "text": "One build, every layer"
+   },
+   {
+    "kind": "p",
+    "text": "The design is trinet_node_v2_ax7203 for the xc7a200tfbg484-2 on an AX7203 board, 121,587 lines of FASM. `tri devkit flow --build` runs the openXC7 flow with every step timed. It then runs the t27 replacements on the same FASM, three times each, and compares their output with openXC7's byte for byte. The times are wall seconds on one laptop at a load of 12.6 on 8 cpus."
+   },
+   {
+    "kind": "table",
+    "head": [
+     "Layer",
+     "openXC7 tool",
+     "Now",
+     "Share",
+     "t27",
+     "Same bytes"
+    ],
+    "rows": [
+     [
+      "L1 Synthesis",
+      "`yosys`",
+      "12.69 s",
+      "10.9 %",
+      "not yet",
+      "–"
+     ],
+     [
+      "L2 Place & route",
+      "`nextpnr-xilinx`",
+      "70.09 s",
+      "60.0 %",
+      "not yet",
+      "–"
+     ],
+     [
+      "L3 FASM → frames",
+      "`fasm2frames.py`",
+      "33.86 s",
+      "29.0 %",
+      "`bitwalk --fasm` 0.42 s",
+      "yes"
+     ],
+     [
+      "L4 Frames → .bit",
+      "`xc7frames2bit`",
+      "0.22 s",
+      "0.2 %",
+      "`bitwalk --write` 0.25 s",
+      "yes"
+     ],
+     [
+      "Whole flow",
+      "",
+      "116.86 s",
+      "",
+      "83.45 s (1.40×)",
+      ""
+     ]
+    ]
+   },
+   {
+    "kind": "terminal",
+    "src": "term/devkit-flow/session.cast",
+    "share": "https://t27.ai/term/devkit-flow/",
+    "title": "tri devkit · the FPGA flow, layer by layer",
+    "caption": "The recorded run: `tri devkit flow --build` and `tri devkit impact`. Every byte printed is real and arrives when it did; the prompt and the typing are staged, and silences over 2 s are shortened, with a note in the title bar while that happens."
+   },
+   {
+    "kind": "p",
+    "text": "The rewrite so far saves 33.4 s on this build, all of it in L3. L4 is a tie: `bitwalk --write` took 0.25 s against 0.22 s for `xc7frames2bit`. The bitstream is the same file either way, so this is a faster route to the same result, not a better result."
+   },
+   {
+    "kind": "h",
+    "text": "Where the rest of the time goes"
+   },
+   {
+    "kind": "p",
+    "text": "After L3, place and route is 60.0 % of the build and synthesis is 10.9 %. Amdahl's law gives the most a rewrite of either could ever give: make the layer take 0 s and see what is left."
+   },
+   {
+    "kind": "table",
+    "head": [
+     "If this took 0 s",
+     "Flow",
+     "Against openXC7 today"
+    ],
+    "rows": [
+     [
+      "L1 Synthesis",
+      "83.5 s → 70.8 s",
+      "1.65×"
+     ],
+     [
+      "L2 Place & route",
+      "83.5 s → 13.4 s",
+      "8.75×"
+     ]
+    ]
+   },
+   {
+    "kind": "p",
+    "text": "So the next lever is place and route, by a wide margin. A spec-driven synthesis step, even an instant one, caps the whole flow at 1.65×. These are ceilings, not plans. nextpnr-xilinx is a large, mature C++ program, and the realistic path is work inside it (we already send patches upstream) plus spec-checked timing and routing rules, not a rewrite from zero."
+   },
+   {
+    "kind": "h",
+    "text": "What it is worth in hours"
+   },
+   {
+    "kind": "p",
+    "text": "`tri devkit impact` turns the saving into hours. At an assumed 20 builds a day for one person over 230 working days, 33.4 s a build is 42.7 hours a year of waiting. The builds and the people are assumptions, so the page at t27.ai/#/devkit lets you put in your own."
+   },
+   {
+    "kind": "h",
+    "text": "Can I run it?"
+   },
+   {
+    "kind": "p",
+    "text": "Not yet. The run above used a local build of `tri devkit`, and `bitwalk` is built from an open pull request, gHashTag/t27#5609. Neither is in a `tri` release, so there is no install command to give here. Both are to ship in the `tri` release archives with a one-line install; that work is tracked in github.com/gHashTag/trinity/issues/1272, and this post will get the command when a release has it."
+   },
+   {
+    "kind": "h",
+    "text": "What this does not show"
+   },
+   {
+    "kind": "ul",
+    "items": [
+     "One design on one laptop. The 1.40× is for this build; a design that spends less time in fasm2frames gains less.",
+     "The openXC7 times come from the build, and the t27 times were taken right after it in the same session. Load moved between them.",
+     "L1 and L2 are not rewritten. Their rows are ceilings.",
+     "Loading onto the board (16.7 s SRAM load in the earlier board run) is outside the flow time above."
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "the-back-half-of-openxc7-from-a-spec",
+  "title": "The back half of openXC7, from a spec: FASM to frames to bitstream",
+  "summary": "[one design on one board, equivalence not a better bitstream; timings on one busy laptop, ratios are rough; the fpga-assembler speed figure is its README's, not ours] openXC7 turns FASM into a Xilinx 7-series bitstream with two prjxray tools, fasm2frames in Python and xc7frames2bit in C++. We rebuilt that half so every bit position, frame address and packet word comes from three t27 specs. Against the two tools it matches byte for byte on 22 of 22 FASM files and 16 of 16 frame files, and it is about 6 to 14 times faster on small real designs, about 85 times on a 121,587-line one, and up to about 200 times on synthetic test files. The comparison found a silent bit-wrap in fasm2frames (f4pga/prjxray#2574), a missing part check in xc7frames2bit (#2573), and a bug of our own on kintex7. On an AX7203 board (XC7A200T), a .bit written this way for a 121,587-line design was byte-identical to openXC7's, loaded into SRAM, and returned 403,200 of 403,200 tagged receipts.",
+  "date": "2026-10-03",
+  "readingMinutes": 8,
+  "tags": [
+   "FPGA",
+   "Open toolchain",
+   "Verification",
+   "t27"
+  ],
+  "receipts": [
+   {
+    "label": "t27#5609: bitwalk and the three specs (open)",
+    "href": "https://github.com/gHashTag/t27/pull/5609"
+   },
+   {
+    "label": "prjxray#2574: fasm2frames wraps or drops bits of a site a SING tile lacks",
+    "href": "https://github.com/f4pga/prjxray/issues/2574"
+   },
+   {
+    "label": "prjxray#2573: xc7frames2bit accepts frames for the wrong part",
+    "href": "https://github.com/f4pga/prjxray/issues/2573"
+   },
+   {
+    "label": "openXC7/prjxray#27: xc7frames2bit refuses frame addresses the part does not have (open)",
+    "href": "https://github.com/openXC7/prjxray/pull/27"
+   },
+   {
+    "label": "openXC7/prjxray#28: xc7frames2bit exits 1 when the bitstream cannot be written (open)",
+    "href": "https://github.com/openXC7/prjxray/pull/28"
+   },
+   {
+    "label": "trinity-fpga: the AX7203 run, logs and receipts",
+    "href": "https://github.com/gHashTag/trinity-fpga/blob/421ae920fb477c98505e4143df3cab7954c268a7/conformance/X7_BITWALK_ON_THE_BOARD.md"
+   },
+   {
+    "label": "fpga-assembler#49: the reference-parity cases",
+    "href": "https://github.com/lromor/fpga-assembler/issues/49"
+   },
+   {
+    "label": "fpga-assembler, a C++ FASM-to-bitstream tool",
+    "href": "https://github.com/lromor/fpga-assembler"
+   }
+  ],
+  "openQuestions": [
+   "One design, one board: the AX7203 run covers trinet node 0 only, and its .bit is byte-identical to openXC7's, so it cannot show a case where the two differ.",
+   "Apart from the board design, there is no xc7a200t FASM in the corpus, and there is no Vivado reference for xc7a100t or xc7a200t.",
+   "gHashTag/t27#5609 has no review yet. f4pga/prjxray#2573 and #2574 and openXC7/prjxray#27 and #28 have no maintainer reply yet.",
+   "fpga-assembler was not timed here, so the table carries its README's figure, not a measurement."
+  ],
+  "published": true,
+  "ru": {
+   "title": "Задняя половина openXC7 из спека: FASM в кадры и в битстрим",
+   "summary": "[один дизайн на одной плате, эквивалентность, а не лучший битстрим; время на одном занятом ноутбуке, отношения грубые; скорость fpga-assembler — из его README, не наша] openXC7 превращает FASM в битстрим Xilinx 7-series двумя инструментами prjxray: fasm2frames на Python и xc7frames2bit на C++. Мы пересобрали эту половину так, что каждая позиция бита, адрес кадра и слово пакета берутся из трёх t27-спеков. Против двух инструментов она совпадает байт в байт на 22 из 22 файлов FASM и 16 из 16 файлов кадров и быстрее примерно в 6–14 раз на небольших настоящих дизайнах, примерно в 85 раз на дизайне в 121 587 строк и до примерно 200 раз на синтетических тестах. Сравнение нашло тихий заворот битов в fasm2frames (f4pga/prjxray#2574), отсутствующую проверку микросхемы в xc7frames2bit (#2573) и наш собственный баг на kintex7. На плате AX7203 (XC7A200T) .bit, записанный так для дизайна в 121 587 строк, совпал с openXC7 байт в байт, загрузился в SRAM и вернул 403 200 из 403 200 помеченных квитанций.",
+   "openQuestions": [
+    "Один дизайн, одна плата: прогон на AX7203 покрывает только trinet node 0, и его .bit совпадает с openXC7 байт в байт, так что он не может показать случай, где они расходятся.",
+    "Кроме дизайна для платы, в корпусе нет FASM для xc7a200t, и нет эталона Vivado для xc7a100t и xc7a200t.",
+    "У gHashTag/t27#5609 ещё нет ревью. На f4pga/prjxray#2573 и #2574 и openXC7/prjxray#27 и #28 мейнтейнеры ещё не ответили.",
+    "fpga-assembler здесь не засекали, поэтому в таблице цифра из его README, а не измерение."
+   ],
+   "body": [
+    {
+     "kind": "p",
+     "text": "openXC7 собирает битстрим Xilinx 7-series в две половины. Первая — yosys и nextpnr: на входе Verilog, на выходе FASM. FASM — это текстовый список фич вроде `CLBLM_R_X3Y0.SLICEM_X0.ALUT.INIT[63:0] = 64'h...`. Вторая половина превращает этот список в битстрим. `fasm2frames` из prjxray (Python) находит биты каждой фичи и пишет конфигурационные кадры, а `xc7frames2bit` (C++) упаковывает кадры в конфигурационные пакеты. Мы переписали вторую половину так, что каждая позиция бита, адрес кадра и слово пакета берутся из t27-спека, и сравнили её байт в байт с двумя инструментами, которые она заменяет."
+    },
+    {
+     "kind": "figure",
+     "svg": "<svg viewBox=\"0 0 720 230\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Задняя половина flow openXC7: FASM в кадры и в битстрим, инструменты prjxray против bitwalk из t27-спеков\" style=\"width:100%;height:auto;font-family:inherit\"><text x=\"10\" y=\"20\" font-size=\"12\" fill=\"currentColor\" fill-opacity=\"0.7\">openXC7 сегодня</text><text x=\"10\" y=\"140\" font-size=\"12\" fill=\"#d4af37\">эта ветка (gHashTag/t27#5609)</text><rect x=\"10\" y=\"30\" width=\"70\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"45\" y=\"58\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">FASM</text><line x1=\"80\" y1=\"53\" x2=\"104\" y2=\"53\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M103,49 L110,53 L103,57 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"110\" y=\"30\" width=\"210\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"215\" y=\"50\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">fasm2frames</text><text x=\"215\" y=\"66\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.7\" text-anchor=\"middle\">prjxray · Python</text><line x1=\"320\" y1=\"53\" x2=\"344\" y2=\"53\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M343,49 L350,53 L343,57 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"350\" y=\"30\" width=\"70\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"385\" y=\"58\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">кадры</text><line x1=\"420\" y1=\"53\" x2=\"444\" y2=\"53\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M443,49 L450,53 L443,57 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"450\" y=\"30\" width=\"190\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"545\" y=\"50\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">xc7frames2bit</text><text x=\"545\" y=\"66\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.7\" text-anchor=\"middle\">prjxray · C++</text><line x1=\"640\" y1=\"53\" x2=\"654\" y2=\"53\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M653,49 L660,53 L653,57 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"660\" y=\"30\" width=\"50\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"685\" y=\"58\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">.bit</text><rect x=\"10\" y=\"150\" width=\"70\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"45\" y=\"178\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">FASM</text><line x1=\"80\" y1=\"173\" x2=\"104\" y2=\"173\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M103,169 L110,173 L103,177 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"110\" y=\"150\" width=\"210\" height=\"46\" rx=\"6\" fill=\"#d4af37\" fill-opacity=\"0.14\" stroke=\"#d4af37\" stroke-opacity=\"1\"/><text x=\"215\" y=\"170\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">bitwalk --fasm</text><text x=\"215\" y=\"186\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.7\" text-anchor=\"middle\">frames.t27</text><line x1=\"320\" y1=\"173\" x2=\"344\" y2=\"173\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M343,169 L350,173 L343,177 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"350\" y=\"150\" width=\"70\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"385\" y=\"178\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">кадры</text><line x1=\"420\" y1=\"173\" x2=\"444\" y2=\"173\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M443,169 L450,173 L443,177 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"450\" y=\"150\" width=\"190\" height=\"46\" rx=\"6\" fill=\"#d4af37\" fill-opacity=\"0.14\" stroke=\"#d4af37\" stroke-opacity=\"1\"/><text x=\"545\" y=\"170\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">bitwalk --write</text><text x=\"545\" y=\"186\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.7\" text-anchor=\"middle\">packets.t27 · far.t27</text><line x1=\"640\" y1=\"173\" x2=\"654\" y2=\"173\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M653,169 L660,173 L653,177 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"660\" y=\"150\" width=\"50\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"685\" y=\"178\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">.bit</text><line x1=\"215\" y1=\"80\" x2=\"215\" y2=\"146\" stroke=\"#d4af37\" stroke-dasharray=\"3 3\"/><rect x=\"153\" y=\"92\" width=\"124\" height=\"22\" rx=\"11\" fill=\"#d4af37\" fill-opacity=\"0.18\"/><text x=\"215\" y=\"107\" font-size=\"12\" fill=\"currentColor\" text-anchor=\"middle\">= байт в байт 22/22</text><line x1=\"545\" y1=\"80\" x2=\"545\" y2=\"146\" stroke=\"#d4af37\" stroke-dasharray=\"3 3\"/><rect x=\"483\" y=\"92\" width=\"124\" height=\"22\" rx=\"11\" fill=\"#d4af37\" fill-opacity=\"0.18\"/><text x=\"545\" y=\"107\" font-size=\"12\" fill=\"currentColor\" text-anchor=\"middle\">= байт в байт 16/16</text><text x=\"10\" y=\"222\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\">FASM дают yosys + nextpnr; .bit загружает openFPGALoader</text></svg>",
+     "caption": "Вторая половина flow. Каждый золотой блок — драйвер, сгенерированный из t27-спеков. Пунктир — проверки на корпусе против инструмента prjxray над ним."
+    },
+    {
+     "kind": "h",
+     "text": "Что лежит в спеках"
+    },
+    {
+     "kind": "ul",
+     "items": [
+      "`packets.t27`: поток конфигурационных пакетов. Заголовки, регистры, команды, CRC и последовательность записи, которую использует `xc7frames2bit`.",
+      "`far.t27`: обход адресов кадров для xc7a35t, xc7a100t и xc7a200t; микросхема выбирается по IDCODE.",
+      "`frames.t27`: ECC кадра и то, куда бит из базы попадает в кадре. Это смещение тайла в словах, сдвиг псевдонима у тайла `*_SING`, тайл, который начинается ниже своего кадра, и что происходит с битом, который выпадает за его пределы."
+     ]
+    },
+    {
+     "kind": "p",
+     "text": "Драйвер, `bitwalk`, написан на Rust. `t27c gen-rust` генерирует его функции-правила из этих спеков. Грамматика FASM, поиск фич, файловый ввод-вывод и текстовый вывод написаны руками; битовая арифметика — нет. Каждый раздел спека ссылается на файл и строку prjxray, которые он воспроизводит (prjxray c9f02d857, prjxray-db 517d66a)."
+    },
+    {
+     "kind": "h",
+     "text": "Измерено"
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Проверка",
+      "Корпус",
+      "Результат"
+     ],
+     "rows": [
+      [
+       "FASM в кадры, против `fasm2frames`",
+       "22 файла. 13 настоящих дизайнов: 7 из nextpnr на xc7a100t и 6 битстримов Vivado на xc7a35t, прочитанных обратно через `bit2fasm`. 7 синтетических файлов, 2 из них на kintex7 xc7k325t. 2 файла, которые должны быть отвергнуты",
+       "22/22 байт в байт. Оба файла на отказ отвергнуты по той же причине"
+      ],
+      [
+       "FASM в кадры, против эталонных кадров fpga-assembler",
+       "5 случаев на совпадение с эталоном из lromor/fpga-assembler#49",
+       "5/5, включая случай с псевдо-PIP на kintex7 и 83-битное значение `RXCDR_CFG`"
+      ],
+      [
+       "Кадры в .bit, против `xc7frames2bit`",
+       "16 файлов кадров на xc7a35t, xc7a100t и xc7a200t",
+       "16/16 байт в байт"
+      ],
+      [
+       "CRC, против Vivado",
+       "6 битстримов Vivado",
+       "Все 12 слов CRC воспроизводятся"
+      ],
+      [
+       "ECC кадров, против Vivado",
+       "32 520 кадров, 752 из них с данными",
+       "0 ошибок"
+      ],
+      [
+       "Мутационный гейт",
+       "20 дефектов, внесённых в три спека по одному",
+       "20/20 пойманы. Дефект считается пойманным, только если падают и тесты спека, и прогон по корпусу"
+      ]
+     ]
+    },
+    {
+     "kind": "p",
+     "text": "Мутационный гейт ещё раз окупился, пока писался этот пост. Поддержка kintex7 изменила то, как драйвер считает биты за пределами тайла, и один внесённый дефект выжил: окно тайла на одно слово длиннее. Тесты спека его поймали, а прогон по корпусу — нет, потому что новый счётчик поглотил ровно тот бит, который сдвигал дефект. Теперь счётчик разделён на два, так что у тайла, который начинается внутри своего кадра, собственные биты никогда не окажутся снаружи, и дефект снова ловится."
+    },
+    {
+     "kind": "h",
+     "text": "Скорость"
+    },
+    {
+     "kind": "figure",
+     "svg": "<svg viewBox=\"0 0 720 322\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Время перевода FASM в кадры: fasm2frames против bitwalk\" style=\"width:100%;height:auto;font-family:inherit\"><line x1=\"230.0\" y1=\"20\" x2=\"230.0\" y2=\"282\" stroke=\"currentColor\" stroke-opacity=\"0.15\"/><text x=\"230.0\" y=\"16\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\" text-anchor=\"middle\">0,10 с</text><line x1=\"357.2\" y1=\"20\" x2=\"357.2\" y2=\"282\" stroke=\"currentColor\" stroke-opacity=\"0.15\"/><text x=\"357.2\" y=\"16\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\" text-anchor=\"middle\">1,0 с</text><line x1=\"484.5\" y1=\"20\" x2=\"484.5\" y2=\"282\" stroke=\"currentColor\" stroke-opacity=\"0.15\"/><text x=\"484.5\" y=\"16\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\" text-anchor=\"middle\">10,0 с</text><line x1=\"611.7\" y1=\"20\" x2=\"611.7\" y2=\"282\" stroke=\"currentColor\" stroke-opacity=\"0.15\"/><text x=\"611.7\" y=\"16\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\" text-anchor=\"middle\">100,0 с</text><text x=\"10\" y=\"47\" font-size=\"13\" fill=\"currentColor\">Один настоящий дизайн</text><text x=\"10\" y=\"64\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\">xc7a100t, nextpnr, 1 785 строк</text><rect x=\"230\" y=\"34\" width=\"152.5\" height=\"16\" fill=\"currentColor\" fill-opacity=\"0.35\" rx=\"2\"/><text x=\"388.5\" y=\"46\" font-size=\"11\" fill=\"currentColor\">1,6 с</text><rect x=\"230\" y=\"54\" width=\"38.3\" height=\"16\" fill=\"#d4af37\" rx=\"2\"/><text x=\"274.3\" y=\"66\" font-size=\"11\" fill=\"currentColor\">0,20 с · 8×</text><text x=\"10\" y=\"109\" font-size=\"13\" fill=\"currentColor\">Синтетический тест</text><text x=\"10\" y=\"126\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\">xc7a100t, 1 049 строк</text><rect x=\"230\" y=\"96\" width=\"290.9\" height=\"16\" fill=\"currentColor\" fill-opacity=\"0.35\" rx=\"2\"/><text x=\"526.9\" y=\"108\" font-size=\"11\" fill=\"currentColor\">19,3 с</text><rect x=\"230\" y=\"116\" width=\"18.6\" height=\"16\" fill=\"#d4af37\" rx=\"2\"/><text x=\"254.6\" y=\"128\" font-size=\"11\" fill=\"currentColor\">0,14 с · 138×</text><text x=\"10\" y=\"171\" font-size=\"13\" fill=\"currentColor\">Синтетический тест</text><text x=\"10\" y=\"188\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\">kintex7 xc7k325t, 1 123 строки</text><rect x=\"230\" y=\"158\" width=\"363.4\" height=\"16\" fill=\"currentColor\" fill-opacity=\"0.35\" rx=\"2\"/><text x=\"599.4\" y=\"170\" font-size=\"11\" fill=\"currentColor\">71,8 с</text><rect x=\"230\" y=\"178\" width=\"67.6\" height=\"16\" fill=\"#d4af37\" rx=\"2\"/><text x=\"303.6\" y=\"190\" font-size=\"11\" fill=\"currentColor\">0,34 с · 211×</text><text x=\"10\" y=\"233\" font-size=\"13\" fill=\"currentColor\">Все 22 файла корпуса</text><text x=\"10\" y=\"250\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\">подряд</text><rect x=\"230\" y=\"220\" width=\"404.4\" height=\"16\" fill=\"currentColor\" fill-opacity=\"0.35\" rx=\"2\"/><text x=\"640.4\" y=\"232\" font-size=\"11\" fill=\"currentColor\">150,7 с</text><rect x=\"230\" y=\"240\" width=\"193.7\" height=\"16\" fill=\"#d4af37\" rx=\"2\"/><text x=\"429.7\" y=\"252\" font-size=\"11\" fill=\"currentColor\">3,3 с · 45×</text><rect x=\"10\" y=\"290\" width=\"12\" height=\"12\" fill=\"currentColor\" fill-opacity=\"0.35\" rx=\"2\"/><text x=\"28\" y=\"300\" font-size=\"12\" fill=\"currentColor\">fasm2frames (prjxray, Python)</text><rect x=\"260\" y=\"290\" width=\"12\" height=\"12\" fill=\"#d4af37\" rx=\"2\"/><text x=\"278\" y=\"300\" font-size=\"12\" fill=\"currentColor\">bitwalk --fasm (t27-спеки)</text><text x=\"710\" y=\"300\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\" text-anchor=\"end\">секунды, лог. шкала</text></svg>",
+     "caption": "Секунды на файл, логарифмическая шкала. fasm2frames засекали, когда собирался каждый файл корпуса; bitwalk — лучший из 3 прогонов на том же ноутбуке. В обоих случаях машина была занята другими задачами, так что отношения стоит читать как грубые."
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Файл",
+      "fasm2frames",
+      "bitwalk --fasm",
+      "Отношение"
+     ],
+     "rows": [
+      [
+       "Один настоящий дизайн, xc7a100t, nextpnr, 1 785 строк",
+       "1,6 с",
+       "0,20 с",
+       "8×"
+      ],
+      [
+       "Синтетический тест, xc7a100t, 1 049 строк",
+       "19,3 с",
+       "0,14 с",
+       "138×"
+      ],
+      [
+       "Синтетический тест, kintex7 xc7k325t, 1 123 строки",
+       "71,8 с",
+       "0,34 с",
+       "211×"
+      ],
+      [
+       "Все 22 файла корпуса, подряд",
+       "150,7 с",
+       "3,3 с",
+       "45×"
+      ]
+     ]
+    },
+    {
+     "kind": "p",
+     "text": "Синтетические файлы не длиннее настоящего дизайна, около 1 100 строк против 1 785, но `fasm2frames` тратит на них в 12–45 раз больше времени. Мы не профилировали, почему, и о причине ничего не утверждаем. Ещё мы перезасекли `fasm2frames` на трёх файлах при той же нагрузке, что и наши прогоны: 3,4 с, 32,5 с и 104,4 с — это делает отношения больше, а не меньше. На графике оставлены меньшие."
+    },
+    {
+     "kind": "h",
+     "text": "Что ещё делает эту работу"
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Инструмент",
+      "Язык",
+      "Шаг",
+      "Где живут правила битов"
+     ],
+     "rows": [
+      [
+       "`fasm2frames` (prjxray)",
+       "Python",
+       "FASM в кадры",
+       "Код на Python поверх prjxray-db"
+      ],
+      [
+       "`xc7frames2bit` (prjxray)",
+       "C++",
+       "кадры в .bit",
+       "Код на C++"
+      ],
+      [
+       "fpga-assembler (lromor)",
+       "C++",
+       "FASM в .bit",
+       "Код на C++ поверх prjxray-db. Его README сообщает примерно 10-кратную скорость против `fasm2frames`; здесь мы его не засекали"
+      ],
+      [
+       "`bitwalk` (gHashTag/t27#5609)",
+       "Rust, сгенерированный из t27, плюс написанный руками драйвер",
+       "оба",
+       "t27-спеки поверх prjxray-db"
+      ]
+     ]
+    },
+    {
+     "kind": "h",
+     "text": "Найдено по дороге"
+    },
+    {
+     "kind": "p",
+     "text": "Дифференциальное сравнение полезно только тогда, когда стороны расходятся. Три раза они разошлись, и каждый раз дефект был у инструмента, с которым мы сравнивали."
+    },
+    {
+     "kind": "ul",
+     "items": [
+      "`fasm2frames` не отвергает фичу сайта, которого нет у тайла `*_SING`. На нижнем SING-тайле биты заворачиваются в слова 99–100 кадра, которые принадлежат другому тайлу. На верхнем SING-тайле они отбрасываются. Код выхода в обоих случаях 0, и воспроизводится это одной строкой FASM. Сообщено в f4pga/prjxray#2574. На kintex7 то же самое: в одном синтетическом файле 337 завёрнутых и 356 отброшенных битов. `bitwalk` по умолчанию пишет те же байты, поэтому 22/22 выше и держится; `--strict` отвергает файл и называет строку.",
+      "`xc7frames2bit` принимает кадры для чужой микросхемы: кадры xc7a100t с микросхемой xc7a200t дают код выхода 0 и 192 лишних кадра. `bitwalk` их отвергает. Сообщено в f4pga/prjxray#2573, исправления в openXC7/prjxray#27 и #28.",
+      "В случае 05 из lromor/fpga-assembler#49, 83-битном значении `RXCDR_CFG`, собственные кадры fpga-assembler отличаются от эталона: 18 битов не хватает, 5 лишних. `bitwalk` совпадает с эталоном. Наше прочтение исходников: парсер упаковывает длинный двоичный литерал в 64-битные слова со старшего конца, так что для 83 битов первое слово содержит только младшие 19 битов. Эмуляция такой упаковки даёт ровно 18 недостающих и 5 лишних битов."
+     ]
+    },
+    {
+     "kind": "p",
+     "text": "Один дефект был наш. В сетке тайлов kintex7 есть четыре тайла, которые начинаются на 2 слова ниже своего кадра, а наш драйвер читал смещение как беззнаковое и останавливался. Теперь спек говорит, как размещаются биты такого тайла (`seg_shift`), и к этому есть тест."
+    },
+    {
+     "kind": "h",
+     "text": "На плате"
+    },
+    {
+     "kind": "p",
+     "text": "Совпадение файлов — это утверждение о файлах. Чтобы проверить цепочку на железе, мы собрали один настоящий дизайн для ALINX AX7203 (XC7A200T): trinet node 0, 121 587 строк FASM, 20 230 кадров. На этом FASM `bitwalk` снова совпал с openXC7 байт в байт и по кадрам, и по .bit, и занял около 0,8 с там, где `fasm2frames` занял около 68 с, на хосте, который всё это время был занят. Затем `openFPGALoader` загрузил .bit от bitwalk в SRAM по JTAG, без записи во флеш, и FPGA сообщила DONE."
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Прогон на AX7203",
+      "Результат"
+     ],
+     "rows": [
+      [
+       "Загрузка .bit от bitwalk в SRAM",
+       "`done 1` за 16,7 с"
+      ],
+      [
+       "Все 42 тернарные матрицы модели, каждый ответ помечен ключом узла",
+       "`receipts verified (tag) : 403200/403200`, 33 792/33 792 строк бит в бит"
+      ],
+      [
+       "Один слой с int8-активациями",
+       "`receipts verified (tag) : 51840/51840`, 320/320 строк бит в бит"
+      ]
+     ]
+    },
+    {
+     "kind": "terminal",
+     "src": "term/x7-board/session.cast",
+     "share": "https://t27.ai/term/x7-board/",
+     "title": "tri x7-board · t27 back half on the AX7203",
+     "caption": "Записанная сессия: `tri x7-board compare`, `load` и `receipts`, запущенные ещё раз для записи. Каждый напечатанный байт настоящий и появляется тогда, когда появился; приглашение и набор команд постановочные, паузы длиннее 2 с сокращены, и пока это происходит, в заголовке окна стоит пометка. В этой сессии `fasm2frames` перезасечён: 33,3 с против 0,43 с, при нагрузке 23 на 8 ядрах. Сама запись на английском."
+    },
+    {
+     "kind": "p",
+     "text": "Поскольку два файла .bit идентичны, это не показывает ничего, чего не показал бы файл openXC7. Утверждение — эквивалентность на одном дизайне на одной плате, а не лучший битстрим. Передняя половина, yosys и nextpnr-xilinx, принадлежит openXC7 и не менялась."
+    },
+    {
+     "kind": "h",
+     "text": "Чего это не показывает"
+    },
+    {
+     "kind": "ul",
+     "items": [
+      "На плате прогнан один дизайн. Все остальные проверки выше сравнивают файлы.",
+      "Кроме дизайна для платы, в корпусе нет FASM для xc7a200t, и нет эталона Vivado для xc7a100t и xc7a200t. Там «байт в байт» значит «как у инструментов prjxray», а не «как у Vivado».",
+      "Правило для тайла, который начинается ниже своего кадра, покрыто только тестами спека. Ни один бит из базы не попадает в эти тайлы kintex7, так что корпус его не проверяет.",
+      "Грамматика FASM и поиск фич — написанный руками Rust, проверенный корпусом, а не выведенный из спека."
+     ]
+    }
+   ]
+  },
+  "body": [
+   {
+    "kind": "p",
+    "text": "openXC7 builds a Xilinx 7-series bitstream in two halves. The first half is yosys and nextpnr: Verilog in, FASM out. FASM is a text list of features such as `CLBLM_R_X3Y0.SLICEM_X0.ALUT.INIT[63:0] = 64'h...`. The second half turns that list into a bitstream. prjxray's `fasm2frames` (Python) looks up every feature's bits and writes configuration frames, and `xc7frames2bit` (C++) wraps the frames in configuration packets. We rewrote the second half so that every bit position, frame address and packet word comes from a t27 spec, and compared it byte for byte with the two tools it replaces."
+   },
+   {
+    "kind": "figure",
+    "svg": "<svg viewBox=\"0 0 720 230\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"The back half of the openXC7 flow: FASM to frames to bitstream, prjxray tools against bitwalk built from t27 specs\" style=\"width:100%;height:auto;font-family:inherit\"><text x=\"10\" y=\"20\" font-size=\"12\" fill=\"currentColor\" fill-opacity=\"0.7\">openXC7 today</text><text x=\"10\" y=\"140\" font-size=\"12\" fill=\"#d4af37\">this branch (gHashTag/t27#5609)</text><rect x=\"10\" y=\"30\" width=\"70\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"45\" y=\"58\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">FASM</text><line x1=\"80\" y1=\"53\" x2=\"104\" y2=\"53\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M103,49 L110,53 L103,57 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"110\" y=\"30\" width=\"210\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"215\" y=\"50\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">fasm2frames</text><text x=\"215\" y=\"66\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.7\" text-anchor=\"middle\">prjxray · Python</text><line x1=\"320\" y1=\"53\" x2=\"344\" y2=\"53\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M343,49 L350,53 L343,57 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"350\" y=\"30\" width=\"70\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"385\" y=\"58\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">.frames</text><line x1=\"420\" y1=\"53\" x2=\"444\" y2=\"53\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M443,49 L450,53 L443,57 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"450\" y=\"30\" width=\"190\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"545\" y=\"50\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">xc7frames2bit</text><text x=\"545\" y=\"66\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.7\" text-anchor=\"middle\">prjxray · C++</text><line x1=\"640\" y1=\"53\" x2=\"654\" y2=\"53\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M653,49 L660,53 L653,57 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"660\" y=\"30\" width=\"50\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"685\" y=\"58\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">.bit</text><rect x=\"10\" y=\"150\" width=\"70\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"45\" y=\"178\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">FASM</text><line x1=\"80\" y1=\"173\" x2=\"104\" y2=\"173\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M103,169 L110,173 L103,177 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"110\" y=\"150\" width=\"210\" height=\"46\" rx=\"6\" fill=\"#d4af37\" fill-opacity=\"0.14\" stroke=\"#d4af37\" stroke-opacity=\"1\"/><text x=\"215\" y=\"170\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">bitwalk --fasm</text><text x=\"215\" y=\"186\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.7\" text-anchor=\"middle\">frames.t27</text><line x1=\"320\" y1=\"173\" x2=\"344\" y2=\"173\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M343,169 L350,173 L343,177 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"350\" y=\"150\" width=\"70\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"385\" y=\"178\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">.frames</text><line x1=\"420\" y1=\"173\" x2=\"444\" y2=\"173\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M443,169 L450,173 L443,177 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"450\" y=\"150\" width=\"190\" height=\"46\" rx=\"6\" fill=\"#d4af37\" fill-opacity=\"0.14\" stroke=\"#d4af37\" stroke-opacity=\"1\"/><text x=\"545\" y=\"170\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">bitwalk --write</text><text x=\"545\" y=\"186\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.7\" text-anchor=\"middle\">packets.t27 · far.t27</text><line x1=\"640\" y1=\"173\" x2=\"654\" y2=\"173\" stroke=\"currentColor\" stroke-opacity=\"0.6\"/><path d=\"M653,169 L660,173 L653,177 Z\" fill=\"currentColor\" fill-opacity=\"0.6\"/><rect x=\"660\" y=\"150\" width=\"50\" height=\"46\" rx=\"6\" fill=\"currentColor\" fill-opacity=\"0.06\" stroke=\"currentColor\" stroke-opacity=\"0.4\"/><text x=\"685\" y=\"178\" font-size=\"13\" fill=\"currentColor\"  text-anchor=\"middle\">.bit</text><line x1=\"215\" y1=\"80\" x2=\"215\" y2=\"146\" stroke=\"#d4af37\" stroke-dasharray=\"3 3\"/><rect x=\"153\" y=\"92\" width=\"124\" height=\"22\" rx=\"11\" fill=\"#d4af37\" fill-opacity=\"0.18\"/><text x=\"215\" y=\"107\" font-size=\"12\" fill=\"currentColor\" text-anchor=\"middle\">= byte-identical 22/22</text><line x1=\"545\" y1=\"80\" x2=\"545\" y2=\"146\" stroke=\"#d4af37\" stroke-dasharray=\"3 3\"/><rect x=\"483\" y=\"92\" width=\"124\" height=\"22\" rx=\"11\" fill=\"#d4af37\" fill-opacity=\"0.18\"/><text x=\"545\" y=\"107\" font-size=\"12\" fill=\"currentColor\" text-anchor=\"middle\">= byte-identical 16/16</text><text x=\"10\" y=\"222\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\">yosys + nextpnr produce the FASM; openFPGALoader loads the .bit</text></svg>",
+    "caption": "The second half of the flow. Each gold box is a driver generated from t27 specs. The dashed lines are the corpus checks against the prjxray tool above it."
+   },
+   {
+    "kind": "h",
+    "text": "What the specs hold"
+   },
+   {
+    "kind": "ul",
+    "items": [
+     "`packets.t27`: the configuration packet stream. Headers, registers, commands, the CRC and the write sequence `xc7frames2bit` uses.",
+     "`far.t27`: the frame address walk for xc7a35t, xc7a100t and xc7a200t, with the part picked by IDCODE.",
+     "`frames.t27`: the frame ECC, and where a database bit lands in a frame. That covers the tile's word offset, the alias shift of a `*_SING` tile, a tile that starts below its frame, and what happens to a bit that falls outside."
+    ]
+   },
+   {
+    "kind": "p",
+    "text": "The driver, `bitwalk`, is Rust. `t27c gen-rust` generates its rule functions from these specs. The FASM grammar, the feature lookup, file I/O and the text output are written by hand; the bit arithmetic is not. Each spec section cites the prjxray file and line it reproduces (prjxray c9f02d857, prjxray-db 517d66a)."
+   },
+   {
+    "kind": "h",
+    "text": "Measured"
+   },
+   {
+    "kind": "table",
+    "head": [
+     "Check",
+     "Corpus",
+     "Result"
+    ],
+    "rows": [
+     [
+      "FASM to frames, against `fasm2frames`",
+      "22 files. 13 real designs: 7 from nextpnr on xc7a100t, and 6 Vivado bitstreams on xc7a35t read back with `bit2fasm`. 7 synthetic files, 2 of them on kintex7 xc7k325t. 2 files that must be refused",
+      "22/22 byte-identical. Both refuse files are refused for the same reason"
+     ],
+     [
+      "FASM to frames, against fpga-assembler's reference frames",
+      "The 5 reference-parity cases in lromor/fpga-assembler#49",
+      "5/5, including the kintex7 pseudo-PIP case and the 83-bit `RXCDR_CFG` value"
+     ],
+     [
+      "Frames to .bit, against `xc7frames2bit`",
+      "16 frame files on xc7a35t, xc7a100t and xc7a200t",
+      "16/16 byte-identical"
+     ],
+     [
+      "CRC, against Vivado",
+      "6 Vivado bitstreams",
+      "All 12 CRC words reproduce"
+     ],
+     [
+      "Frame ECC, against Vivado",
+      "32,520 frames, 752 of them with data",
+      "0 wrong"
+     ],
+     [
+      "Mutation gate",
+      "20 defects seeded into the three specs, one at a time",
+      "20/20 caught. A defect counts as caught only if the spec tests and the corpus sweep both fail"
+     ]
+    ]
+   },
+   {
+    "kind": "p",
+    "text": "The mutation gate earned its place again while this post was being written. Adding kintex7 support changed how the driver counts bits outside a tile, and one seeded defect survived: a tile window one word too long. The spec tests caught it, but the corpus sweep did not, because the new count absorbed exactly the bit the defect moved. The count is now split in two, so a tile that starts inside its frame can never have its own bits outside it, and the defect is caught again."
+   },
+   {
+    "kind": "h",
+    "text": "Speed"
+   },
+   {
+    "kind": "figure",
+    "svg": "<svg viewBox=\"0 0 720 322\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Time to turn FASM into frames, fasm2frames against bitwalk\" style=\"width:100%;height:auto;font-family:inherit\"><line x1=\"230.0\" y1=\"20\" x2=\"230.0\" y2=\"282\" stroke=\"currentColor\" stroke-opacity=\"0.15\"/><text x=\"230.0\" y=\"16\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\" text-anchor=\"middle\">0.10 s</text><line x1=\"357.2\" y1=\"20\" x2=\"357.2\" y2=\"282\" stroke=\"currentColor\" stroke-opacity=\"0.15\"/><text x=\"357.2\" y=\"16\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\" text-anchor=\"middle\">1.0 s</text><line x1=\"484.5\" y1=\"20\" x2=\"484.5\" y2=\"282\" stroke=\"currentColor\" stroke-opacity=\"0.15\"/><text x=\"484.5\" y=\"16\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\" text-anchor=\"middle\">10.0 s</text><line x1=\"611.7\" y1=\"20\" x2=\"611.7\" y2=\"282\" stroke=\"currentColor\" stroke-opacity=\"0.15\"/><text x=\"611.7\" y=\"16\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\" text-anchor=\"middle\">100.0 s</text><text x=\"10\" y=\"47\" font-size=\"13\" fill=\"currentColor\">One real design</text><text x=\"10\" y=\"64\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\">xc7a100t, nextpnr, 1,785 lines</text><rect x=\"230\" y=\"34\" width=\"152.5\" height=\"16\" fill=\"currentColor\" fill-opacity=\"0.35\" rx=\"2\"/><text x=\"388.5\" y=\"46\" font-size=\"11\" fill=\"currentColor\">1.6 s</text><rect x=\"230\" y=\"54\" width=\"38.3\" height=\"16\" fill=\"#d4af37\" rx=\"2\"/><text x=\"274.3\" y=\"66\" font-size=\"11\" fill=\"currentColor\">0.20 s · 8×</text><text x=\"10\" y=\"109\" font-size=\"13\" fill=\"currentColor\">Synthetic test file</text><text x=\"10\" y=\"126\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\">xc7a100t, 1,049 lines</text><rect x=\"230\" y=\"96\" width=\"290.9\" height=\"16\" fill=\"currentColor\" fill-opacity=\"0.35\" rx=\"2\"/><text x=\"526.9\" y=\"108\" font-size=\"11\" fill=\"currentColor\">19.3 s</text><rect x=\"230\" y=\"116\" width=\"18.6\" height=\"16\" fill=\"#d4af37\" rx=\"2\"/><text x=\"254.6\" y=\"128\" font-size=\"11\" fill=\"currentColor\">0.14 s · 138×</text><text x=\"10\" y=\"171\" font-size=\"13\" fill=\"currentColor\">Synthetic test file</text><text x=\"10\" y=\"188\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\">kintex7 xc7k325t, 1,123 lines</text><rect x=\"230\" y=\"158\" width=\"363.4\" height=\"16\" fill=\"currentColor\" fill-opacity=\"0.35\" rx=\"2\"/><text x=\"599.4\" y=\"170\" font-size=\"11\" fill=\"currentColor\">71.8 s</text><rect x=\"230\" y=\"178\" width=\"67.6\" height=\"16\" fill=\"#d4af37\" rx=\"2\"/><text x=\"303.6\" y=\"190\" font-size=\"11\" fill=\"currentColor\">0.34 s · 211×</text><text x=\"10\" y=\"233\" font-size=\"13\" fill=\"currentColor\">All 22 corpus files</text><text x=\"10\" y=\"250\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\">one after another</text><rect x=\"230\" y=\"220\" width=\"404.4\" height=\"16\" fill=\"currentColor\" fill-opacity=\"0.35\" rx=\"2\"/><text x=\"640.4\" y=\"232\" font-size=\"11\" fill=\"currentColor\">150.7 s</text><rect x=\"230\" y=\"240\" width=\"193.7\" height=\"16\" fill=\"#d4af37\" rx=\"2\"/><text x=\"429.7\" y=\"252\" font-size=\"11\" fill=\"currentColor\">3.3 s · 45×</text><rect x=\"10\" y=\"290\" width=\"12\" height=\"12\" fill=\"currentColor\" fill-opacity=\"0.35\" rx=\"2\"/><text x=\"28\" y=\"300\" font-size=\"12\" fill=\"currentColor\">fasm2frames (prjxray, Python)</text><rect x=\"260\" y=\"290\" width=\"12\" height=\"12\" fill=\"#d4af37\" rx=\"2\"/><text x=\"278\" y=\"300\" font-size=\"12\" fill=\"currentColor\">bitwalk --fasm (t27 specs)</text><text x=\"710\" y=\"300\" font-size=\"11\" fill=\"currentColor\" fill-opacity=\"0.6\" text-anchor=\"end\">seconds, log scale</text></svg>",
+    "caption": "Seconds per file, log scale. fasm2frames was timed when each corpus file was built; bitwalk is the best of 3 runs on the same laptop. The machine was busy with other jobs in both cases, so read the ratios as rough."
+   },
+   {
+    "kind": "table",
+    "head": [
+     "File",
+     "fasm2frames",
+     "bitwalk --fasm",
+     "Ratio"
+    ],
+    "rows": [
+     [
+      "One real design, xc7a100t, nextpnr, 1,785 lines",
+      "1.6 s",
+      "0.20 s",
+      "8×"
+     ],
+     [
+      "Synthetic test file, xc7a100t, 1,049 lines",
+      "19.3 s",
+      "0.14 s",
+      "138×"
+     ],
+     [
+      "Synthetic test file, kintex7 xc7k325t, 1,123 lines",
+      "71.8 s",
+      "0.34 s",
+      "211×"
+     ],
+     [
+      "All 22 corpus files, one after another",
+      "150.7 s",
+      "3.3 s",
+      "45×"
+     ]
+    ]
+   },
+   {
+    "kind": "p",
+    "text": "The synthetic files are no longer than a real design, about 1,100 lines against 1,785, yet `fasm2frames` takes 12 to 45 times longer on them. We have not profiled why, so we make no claim about the cause. We also re-timed `fasm2frames` on three files at the same load as our runs: 3.4 s, 32.5 s and 104.4 s, which makes the ratios larger, not smaller. The figure keeps the lower ones."
+   },
+   {
+    "kind": "h",
+    "text": "What else does this job"
+   },
+   {
+    "kind": "table",
+    "head": [
+     "Tool",
+     "Language",
+     "Step",
+     "Where the bit rules live"
+    ],
+    "rows": [
+     [
+      "`fasm2frames` (prjxray)",
+      "Python",
+      "FASM to frames",
+      "Python code over prjxray-db"
+     ],
+     [
+      "`xc7frames2bit` (prjxray)",
+      "C++",
+      "frames to .bit",
+      "C++ code"
+     ],
+     [
+      "fpga-assembler (lromor)",
+      "C++",
+      "FASM to .bit",
+      "C++ code over prjxray-db. Its README reports about 10 times the speed of `fasm2frames`; we did not time it here"
+     ],
+     [
+      "`bitwalk` (gHashTag/t27#5609)",
+      "Rust generated from t27, plus a hand-written driver",
+      "both",
+      "t27 specs over prjxray-db"
+     ]
+    ]
+   },
+   {
+    "kind": "h",
+    "text": "Found on the way"
+   },
+   {
+    "kind": "p",
+    "text": "A differential is only useful when the two sides disagree. Three times they did, and each time the tool we compared against had the defect."
+   },
+   {
+    "kind": "ul",
+    "items": [
+     "`fasm2frames` does not refuse a feature of a site that a `*_SING` tile lacks. On a bottom SING tile the bits wrap into words 99-100 of the frame, which belong to another tile. On a top SING tile they are dropped. The exit code is 0 in both cases, and one line of FASM reproduces it. Reported as f4pga/prjxray#2574. The same happens on kintex7: one synthetic file has 337 wrapped and 356 dropped bits. `bitwalk` writes the same bytes by default, which is why the 22/22 above holds; `--strict` refuses the file and names the line.",
+     "`xc7frames2bit` accepts frames for the wrong part: xc7a100t frames with an xc7a200t part exit 0 and write 192 extra frames. `bitwalk` refuses them. Reported in f4pga/prjxray#2573, with fixes in openXC7/prjxray#27 and #28.",
+     "In case 05 of lromor/fpga-assembler#49, the 83-bit `RXCDR_CFG` value, fpga-assembler's own frames differ from the reference: 18 bits missing, 5 extra. `bitwalk` matches the reference. Our reading of the source: the parser packs a long binary literal into 64-bit words from its most significant end, so for 83 bits the first word holds only the low 19 bits. Emulating that packing gives exactly the 18 missing and 5 extra bits."
+    ]
+   },
+   {
+    "kind": "p",
+    "text": "One defect was ours. The kintex7 tile grid has four tiles that start 2 words below their frame, and our driver read the offset as unsigned and stopped. The spec now says how such a tile's bits are placed (`seg_shift`), with a test."
+   },
+   {
+    "kind": "h",
+    "text": "On the board"
+   },
+   {
+    "kind": "p",
+    "text": "Files that match are a claim about files. To check the chain on hardware we built one real design for the ALINX AX7203 (XC7A200T): trinet node 0, 121,587 FASM lines, 20,230 frames. On that FASM `bitwalk` was again byte-identical to openXC7 for both the frames and the .bit, and took about 0.8 s where `fasm2frames` took about 68 s, on a host that was busy the whole time. `openFPGALoader` then loaded bitwalk's .bit into SRAM over JTAG, with no flash write, and the FPGA reported DONE."
+   },
+   {
+    "kind": "table",
+    "head": [
+     "Run on the AX7203",
+     "Result"
+    ],
+    "rows": [
+     [
+      "SRAM load of bitwalk's .bit",
+      "`done 1` in 16.7 s"
+     ],
+     [
+      "All 42 ternary matrices of the model, each answer tagged under the node key",
+      "`receipts verified (tag) : 403200/403200`, 33,792/33,792 rows bit-exact"
+     ],
+     [
+      "One layer with int8 activations",
+      "`receipts verified (tag) : 51840/51840`, 320/320 rows bit-exact"
+     ]
+    ]
+   },
+   {
+    "kind": "terminal",
+    "src": "term/x7-board/session.cast",
+    "share": "https://t27.ai/term/x7-board/",
+    "title": "tri x7-board · t27 back half on the AX7203",
+    "caption": "A recorded session: `tri x7-board compare`, `load` and `receipts`, run again for the recording. Every byte printed is real and arrives when it did; the prompt and the typing are staged, and silences over 2 s are shortened, with a note in the title bar while that happens. That session re-timed `fasm2frames` at 33.3 s against 0.43 s, on a machine with a load of 23 on 8 cpus."
+   },
+   {
+    "kind": "p",
+    "text": "Because the two .bit files are identical, this shows nothing the openXC7 file would not have shown. The claim is equivalence on one design on one board, not a better bitstream. The front half, yosys and nextpnr-xilinx, is openXC7's and unchanged."
+   },
+   {
+    "kind": "h",
+    "text": "What this does not show"
+   },
+   {
+    "kind": "ul",
+    "items": [
+     "One design has run on a board. Every other check above compares files.",
+     "Apart from the board design, no xc7a200t FASM is in the corpus, and there is no Vivado reference for xc7a100t or xc7a200t. There, byte-identical means identical to the prjxray tools, not to Vivado.",
+     "The rule for a tile that starts below its frame is covered by spec tests only. No database bit reaches those kintex7 tiles, so the corpus cannot exercise it.",
+     "The FASM grammar and feature lookup are hand-written Rust, checked by the corpus rather than derived from a spec."
+    ]
+   }
+  ]
+ },
+ {
   "slug": "one-regional-clock-twelve-pull-requests",
   "title": "One regional clock, twelve pull requests, and a spec that found a compiler bug",
   "summary": "[counts measured through the GitHub API on 2026-10-02; merged means merged by the openXC7 maintainer, not shipped in a release; bitstream checks are cavearr's Vivado bench and our XC7A200T board] Since 1 September we opened 12 pull requests in repositories we do not own: 11 in openXC7, the open toolchain for Xilinx 7-series, and 1 in inngest. 5 are merged and 7 are open. Most follow one thread: a design with a regional clock buffer (BUFR) on an XC7A200T did not build through the open flow, and fixing it took the placer, the router, the bitstream writer and the bit database. A t27 spec of the database rows then found a parser bug in the t27 compiler, which we fixed in our own repository.",
@@ -937,6 +2063,13 @@
      "text": "Собственный Verilog узла без изменений тоже прогнал в симуляции поток запросов того же вида, с синтетическими весами для одной матрицы: 7 680 из 7 680 квитанций и 128 из 128 строк."
     },
     {
+     "kind": "terminal",
+     "src": "term/x7-board/session.cast",
+     "share": "https://t27.ai/term/x7-board/",
+     "title": "tri x7-board · t27 back half on the AX7203",
+     "caption": "Более поздняя запись того же харнесса квитанций на той же плате, с активациями int8, а не Z[phi], как в этом посте, так что её счёт — не этот прогон. Одна записанная сессия на AX7203, 2026-10-02: битстрим, собранный из t27-спеков, сравнивается байт в байт с битстримом openXC7, загружается в SRAM и проверяется 51 840 из 51 840 тегированных квитанций с платы. Каждый напечатанный байт настоящий; приглашение и набор команд постановочные, паузы длиннее 2 с сокращены. Сама запись на английском."
+    },
+    {
      "kind": "h",
      "text": "Чем это не является"
     },
@@ -1064,6 +2197,13 @@
    {
     "kind": "p",
     "text": "The node's own Verilog, unchanged, also ran a request stream of the same kind in simulation, with synthetic weights for one matrix: 7,680 of 7,680 receipts and 128 of 128 rows."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/x7-board/session.cast",
+    "share": "https://t27.ai/term/x7-board/",
+    "title": "tri x7-board · t27 back half on the AX7203",
+    "caption": "A later recording of the same receipt harness on the same board, with int8 activations rather than this post's Z[phi] ones, so its counts are not this run. One recorded session on the AX7203, 2026-10-02: a bitstream built from t27 specs is compared byte for byte with openXC7's, loaded into SRAM, and checked with 51,840 of 51,840 tagged receipts from the board. Every byte printed is real; the prompt and the typing are staged, and silences over 2 s are shortened."
    },
    {
     "kind": "h",
@@ -1424,6 +2564,13 @@
      "text": "Одно побочное предсказание не сбылось. Срыв при 30 пришёл после 150 017 задач, а не в первые 20 000, как при 64, так что задержки, заполняющие буфер, реже, чем объяснил бы один фиксированный простой. Что задерживает USB-передачи моста, не измерено, и хаб не исключён. Правило харнесса теперь — держать 19 x W меньше 512 байт, поэтому по умолчанию окно 24 (456 байт). Скорости это заметно не стоит: 4 716 ответов в секунду против примерно 4 660–4 750 при 64 до сбоев."
     },
     {
+     "kind": "terminal",
+     "src": "term/x7-board/session.cast",
+     "share": "https://t27.ai/term/x7-board/",
+     "title": "tri x7-board · t27 back half on the AX7203",
+     "caption": "Более поздняя запись того же харнесса квитанций с пятью проверками на той же плате, сделанная для поста о задней половине t27. Там прогнан короткий набор на узле trinet, так что её счёт — не прогон этого поста. Одна записанная сессия на AX7203, 2026-10-02: битстрим, собранный из t27-спеков, сравнивается байт в байт с битстримом openXC7, загружается в SRAM и проверяется 51 840 из 51 840 тегированных квитанций с платы. Каждый напечатанный байт настоящий; приглашение и набор команд постановочные, паузы длиннее 2 с сокращены. Сама запись на английском."
+    },
+    {
      "kind": "h",
      "text": "Две задачи, записанные в новое железо, его не требуют"
     },
@@ -1716,6 +2863,13 @@
    {
     "kind": "p",
     "text": "One side prediction missed. The slip at 30 came after 150,017 jobs, not within the first 20,000 as at 64, so the stalls that fill the buffer are rarer than a single fixed gap would explain. What stalls the bridge's USB transfers is not measured, and the hub is not excluded. The rule the harness follows now is to keep 19 x W under 512 bytes, which is why the default is 24 (456 bytes). It costs no measurable throughput: 4,716 answers/s, against about 4,660 to 4,750 at 64 before the slips."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/x7-board/session.cast",
+    "share": "https://t27.ai/term/x7-board/",
+    "title": "tri x7-board · t27 back half on the AX7203",
+    "caption": "A later recording of the same five-check receipt harness on the same board, made for the t27 back-half post. It ran a quick set on the trinet node, so its counts are not this post's run. One recorded session on the AX7203, 2026-10-02: a bitstream built from t27 specs is compared byte for byte with openXC7's, loaded into SRAM, and checked with 51,840 of 51,840 tagged receipts from the board. Every byte printed is real; the prompt and the typing are staged, and silences over 2 s are shortened."
    },
    {
     "kind": "h",
@@ -16499,6 +17653,17 @@
      "text": "Пол перестаёт доминировать, когда дизайн достаточно велик. У gf128_mul битстрим — 122.3 с из 533.2 с, то есть 23%, тогда как трассировка занимает 253.7 с, а синтез 163.1 с. Эти две растут вместе с нетлистом, битстрим-стадия — гораздо медленнее."
     },
     {
+     "kind": "p",
+     "text": "Более поздний прогон засёк тот же этап на дизайне побольше: 33.9 с из 116.9 с сборки trinet_node_v2_ax7203, 121 587 строк FASM, на ноутбуке, а не на CI-раннере. Там же на том же FASM запущен bitwalk — шаги FASM → фреймы и фреймы → .bit, пересобранные из t27-спеков: 0.42 с и 0.25 с, байты те же. Другой дизайн и другая машина, поэтому это не строка таблицы выше."
+    },
+    {
+     "kind": "terminal",
+     "src": "term/devkit-flow/session.cast",
+     "share": "https://t27.ai/term/devkit-flow/",
+     "title": "tri devkit · the FPGA flow, layer by layer",
+     "caption": "Более поздняя запись, не один из прогонов выше. Записанный прогон: `tri devkit flow --build` и `tri devkit impact` на одном дизайне XC7A200T, 2026-10-03. Каждый напечатанный байт настоящий и появляется тогда, когда появился; приглашение и набор команд постановочные, паузы длиннее 2 с сокращены, и пока это происходит, в заголовке окна стоит пометка. Сама запись на английском."
+    },
+    {
      "kind": "h",
      "text": "Одно время сборки — это не измерение"
     },
@@ -16683,6 +17848,17 @@
    {
     "kind": "p",
     "text": "The floor stops dominating once the design is big enough. At gf128_mul the bitstream stage is 122.3 s of 533.2 s — 23% — while place-and-route takes 253.7 s and synthesis 163.1 s. Both of those grow with the netlist; the bitstream stage grows much more slowly."
+   },
+   {
+    "kind": "p",
+    "text": "A later run timed the same stage on a larger design: 33.9 s of a 116.9 s build for trinet_node_v2_ax7203, 121,587 lines of FASM, on a laptop rather than a CI runner. It also ran bitwalk, the FASM-to-frames and frames-to-.bit steps rebuilt from t27 specs, on the same FASM: 0.42 s and 0.25 s, with the same bytes. A different design and a different machine, so it is not a row in the table above."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/devkit-flow/session.cast",
+    "share": "https://t27.ai/term/devkit-flow/",
+    "title": "tri devkit · the FPGA flow, layer by layer",
+    "caption": "A later recording, not one of the runs above. The recorded run: `tri devkit flow --build` and `tri devkit impact` on one XC7A200T design, 2026-10-03. Every byte printed is real and arrives when it did; the prompt and the typing are staged, and silences over 2 s are shortened, with a note in the title bar while that happens."
    },
    {
     "kind": "h",

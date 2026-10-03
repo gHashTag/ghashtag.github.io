@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The FPGA flow, layer by layer: what a rewrite from specs is worth · TRINITY</title>
+<meta name="description" content="[one design, one laptop at a load of 12.6 on 8 cpus; L1 and L2 figures are Amdahl ceilings, not results; hours a year rest on stated assumptions] We timed every layer of one real XC7A200T build through openXC7. Synthesis took 12.7 s, place and route 70.1 s, FASM to frames 33.9 s and frames to bitstream 0.2 s, 116.9 s in all. With the two layers already rebuilt from t27 specs, the flow takes 83.5 s, 1.40 times faster, and the bitstream is byte-identical. Place and route is now 60% of the build: if it took no time the flow would be 8.75 times faster, while an instant synthesis step caps out at 1.65 times. The numbers are in a recorded terminal session. The tools are not in a tri release yet." />
+<link rel="canonical" href="https://t27.ai/blog/the-fpga-flow-layer-by-layer/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-fpga-flow-layer-by-layer/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-fpga-flow-layer-by-layer/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-fpga-flow-layer-by-layer/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/the-fpga-flow-layer-by-layer/" />
+<meta property="og:title" content="The FPGA flow, layer by layer: what a rewrite from specs is worth" />
+<meta property="og:description" content="[one design, one laptop at a load of 12.6 on 8 cpus; L1 and L2 figures are Amdahl ceilings, not results; hours a year rest on stated assumptions] We timed every layer of one real XC7A200T build through openXC7. Synthesis took 12.7 s, place and route 70.1 s, FASM to frames 33.9 s and frames to bitstream 0.2 s, 116.9 s in all. With the two layers already rebuilt from t27 specs, the flow takes 83.5 s, 1.40 times faster, and the bitstream is byte-identical. Place and route is now 60% of the build: if it took no time the flow would be 8.75 times faster, while an instant synthesis step caps out at 1.65 times. The numbers are in a recorded terminal session. The tools are not in a tri release yet." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-fpga-flow-layer-by-layer.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The FPGA flow, layer by layer: what a rewrite from specs is worth" />
+<meta name="twitter:description" content="[one design, one laptop at a load of 12.6 on 8 cpus; L1 and L2 figures are Amdahl ceilings, not results; hours a year rest on stated assumptions] We timed every layer of one real XC7A200T build through openXC7. Synthesis took 12.7 s, place and route 70.1 s, FASM to frames 33.9 s and frames to bitstream 0.2 s, 116.9 s in all. With the two layers already rebuilt from t27 specs, the flow takes 83.5 s, 1.40 times faster, and the bitstream is byte-identical. Place and route is now 60% of the build: if it took no time the flow would be 8.75 times faster, while an instant synthesis step caps out at 1.65 times. The numbers are in a recorded terminal session. The tools are not in a tri release yet." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The FPGA flow, layer by layer: what a rewrite from specs is worth","description":"[one design, one laptop at a load of 12.6 on 8 cpus; L1 and L2 figures are Amdahl ceilings, not results; hours a year rest on stated assumptions] We timed every layer of one real XC7A200T build through openXC7. Synthesis took 12.7 s, place and route 70.1 s, FASM to frames 33.9 s and frames to bitstream 0.2 s, 116.9 s in all. With the two layers already rebuilt from t27 specs, the flow takes 83.5 s, 1.40 times faster, and the bitstream is byte-identical. Place and route is now 60% of the build: if it took no time the flow would be 8.75 times faster, while an instant synthesis step caps out at 1.65 times. The numbers are in a recorded terminal session. The tools are not in a tri release yet.","url":"https://t27.ai/blog/the-fpga-flow-layer-by-layer/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/the-fpga-flow-layer-by-layer/"},"image":"https://t27.ai/og-blog-the-fpga-flow-layer-by-layer.png","datePublished":"2026-10-03","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"FPGA, Open toolchain, t27"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>The FPGA flow, layer by layer: what a rewrite from specs is worth</h1>
+<p class="meta">2026-10-03 · 5 min read</p>
+<p class="lede">[one design, one laptop at a load of 12.6 on 8 cpus; L1 and L2 figures are Amdahl ceilings, not results; hours a year rest on stated assumptions] We timed every layer of one real XC7A200T build through openXC7. Synthesis took 12.7 s, place and route 70.1 s, FASM to frames 33.9 s and frames to bitstream 0.2 s, 116.9 s in all. With the two layers already rebuilt from t27 specs, the flow takes 83.5 s, 1.40 times faster, and the bitstream is byte-identical. Place and route is now 60% of the build: if it took no time the flow would be 8.75 times faster, while an instant synthesis step caps out at 1.65 times. The numbers are in a recorded terminal session. The tools are not in a tri release yet.</p>
+
+<div class="tags"><span class="tag">#FPGA</span><span class="tag">#OpenToolchain</span><span class="tag">#t27</span></div>
+<p>The previous post rebuilt the back half of openXC7 from t27 specs. FASM to frames and frames to bitstream now come from the specs, byte for byte. That raises the next question: what would it be worth to do the same for every layer of the flow? To answer it we timed every layer of one real build and put the numbers next to each other.</p>
+<h2>One build, every layer</h2>
+<p>The design is trinet_node_v2_ax7203 for the xc7a200tfbg484-2 on an AX7203 board, 121,587 lines of FASM. <code>tri devkit flow --build</code> runs the openXC7 flow with every step timed. It then runs the t27 replacements on the same FASM, three times each, and compares their output with openXC7&#x27;s byte for byte. The times are wall seconds on one laptop at a load of 12.6 on 8 cpus.</p>
+<div class="tw"><table><thead><tr><th>Layer</th><th>openXC7 tool</th><th>Now</th><th>Share</th><th>t27</th><th>Same bytes</th></tr></thead><tbody><tr><td>L1 Synthesis</td><td><code>yosys</code></td><td>12.69 s</td><td>10.9 %</td><td>not yet</td><td>–</td></tr><tr><td>L2 Place &amp; route</td><td><code>nextpnr-xilinx</code></td><td>70.09 s</td><td>60.0 %</td><td>not yet</td><td>–</td></tr><tr><td>L3 FASM → frames</td><td><code>fasm2frames.py</code></td><td>33.86 s</td><td>29.0 %</td><td><code>bitwalk --fasm</code> 0.42 s</td><td>yes</td></tr><tr><td>L4 Frames → .bit</td><td><code>xc7frames2bit</code></td><td>0.22 s</td><td>0.2 %</td><td><code>bitwalk --write</code> 0.25 s</td><td>yes</td></tr><tr><td>Whole flow</td><td></td><td>116.86 s</td><td></td><td>83.45 s (1.40×)</td><td></td></tr></tbody></table></div>
+<figure class="term"><p><strong>tri devkit · the FPGA flow, layer by layer</strong></p><figcaption>The recorded run: <code>tri devkit flow --build</code> and <code>tri devkit impact</code>. Every byte printed is real and arrives when it did; the prompt and the typing are staged, and silences over 2 s are shortened, with a note in the title bar while that happens. <a href="https://t27.ai/term/devkit-flow/">Open the recording on its own page.</a></figcaption></figure>
+<p>The rewrite so far saves 33.4 s on this build, all of it in L3. L4 is a tie: <code>bitwalk --write</code> took 0.25 s against 0.22 s for <code>xc7frames2bit</code>. The bitstream is the same file either way, so this is a faster route to the same result, not a better result.</p>
+<h2>Where the rest of the time goes</h2>
+<p>After L3, place and route is 60.0 % of the build and synthesis is 10.9 %. Amdahl&#x27;s law gives the most a rewrite of either could ever give: make the layer take 0 s and see what is left.</p>
+<div class="tw"><table><thead><tr><th>If this took 0 s</th><th>Flow</th><th>Against openXC7 today</th></tr></thead><tbody><tr><td>L1 Synthesis</td><td>83.5 s → 70.8 s</td><td>1.65×</td></tr><tr><td>L2 Place &amp; route</td><td>83.5 s → 13.4 s</td><td>8.75×</td></tr></tbody></table></div>
+<p>So the next lever is place and route, by a wide margin. A spec-driven synthesis step, even an instant one, caps the whole flow at 1.65×. These are ceilings, not plans. nextpnr-xilinx is a large, mature C++ program, and the realistic path is work inside it (we already send patches upstream) plus spec-checked timing and routing rules, not a rewrite from zero.</p>
+<h2>What it is worth in hours</h2>
+<p><code>tri devkit impact</code> turns the saving into hours. At an assumed 20 builds a day for one person over 230 working days, 33.4 s a build is 42.7 hours a year of waiting. The builds and the people are assumptions, so the page at t27.ai/#/devkit lets you put in your own.</p>
+<h2>Can I run it?</h2>
+<p>Not yet. The run above used a local build of <code>tri devkit</code>, and <code>bitwalk</code> is built from an open pull request, gHashTag/t27#5609. Neither is in a <code>tri</code> release, so there is no install command to give here. Both are to ship in the <code>tri</code> release archives with a one-line install; that work is tracked in github.com/gHashTag/trinity/issues/1272, and this post will get the command when a release has it.</p>
+<h2>What this does not show</h2>
+<ul><li>One design on one laptop. The 1.40× is for this build; a design that spends less time in fasm2frames gains less.</li><li>The openXC7 times come from the build, and the t27 times were taken right after it in the same session. Load moved between them.</li><li>L1 and L2 are not rewritten. Their rows are ceilings.</li><li>Loading onto the board (16.7 s SRAM load in the earlier board run) is outside the flow time above.</li></ul>
+<div class="box"><h2>What this does not settle</h2><ul><li>One design on one laptop; a design that spends less of its build in fasm2frames gains less.</li><li>Place and route is the largest layer, and nothing here shows a spec-driven route to making it faster.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://t27.ai/term/devkit-flow/">The recorded run: tri devkit flow and impact</a></li><li><a href="https://t27.ai/#/devkit">The layer calculator</a></li><li><a href="https://github.com/gHashTag/trinity/issues/1272">trinity#1272: tri devkit and bitwalk in a tri release (open)</a></li><li><a href="https://t27.ai/#/blog/the-back-half-of-openxc7-from-a-spec">The back half of openXC7, from a spec (previous post)</a></li><li><a href="https://github.com/gHashTag/t27/pull/5609">t27#5609: bitwalk and the three specs (open)</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/the-fpga-flow-layer-by-layer">Open the interactive version</a><a class="btn sec" href="/ru/blog/the-fpga-flow-layer-by-layer/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Need an FPGA/RTL problem taken to measured hardware?</h2><p>I work contract and part-time on hardware-AI, FPGA/RTL and ML systems — from specification and open toolchains to reproducible measurements.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20The%20FPGA%20flow%2C%20layer%20by%20layer%3A%20what%20a%20rewrite%20from%20specs%20is%20worth&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CThe%20FPGA%20flow%2C%20layer%20by%20layer%3A%20what%20a%20rewrite%20from%20specs%20is%20worth%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fthe-fpga-flow-layer-by-layer%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/about/">See how I work</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
