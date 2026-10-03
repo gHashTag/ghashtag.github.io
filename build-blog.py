@@ -114,6 +114,7 @@ UI = {
         "coverFull": "View the complete triptych at full size",
         "coverPanels": "Three panels, left to right",
         "coverEnglish": "The image captions are in English.",
+        "termOpen": "Open the recording on its own page.",
         "workEyebrow": "Work with me", "workPrimary": "Discuss your project",
         "servicesLabel": "Services",
         "services": [
@@ -157,6 +158,7 @@ UI = {
         "coverFull": "Открыть полный триптих в исходном размере",
         "coverPanels": "Три панели, слева направо",
         "coverEnglish": "Подписи на изображении — на английском.",
+        "termOpen": "Открыть запись на отдельной странице.",
         "workEyebrow": "Поработаем вместе", "workPrimary": "Обсудить задачу",
         "servicesLabel": "Услуги",
         "services": [
@@ -337,7 +339,7 @@ def rich(text):
     return "".join(out)
 
 
-def block_html(b):
+def block_html(b, lang="en"):
     k = b.get("kind")
     if k == "p":
         return f"<p>{rich(b['text'])}</p>"
@@ -364,6 +366,15 @@ def block_html(b):
         # blog-posts.json unchanged -- no reader supplies it -- so it is inlined as
         # markup, exactly as the app does. The caption is prose and is escaped.
         return f"<figure>{b['svg']}<figcaption>{esc(b['caption'])}</figcaption></figure>"
+    if k == "terminal":
+        # A recorded session (trinity#1273). The app replays it with a JS player
+        # (TerminalCast.tsx); a static page has none, so it names the recording
+        # and links to its own page at /term/<id>/, where the player, the .cast
+        # and the GIF live. The link text is the app's, in both languages.
+        share, label = b.get("share"), UI[lang]["termOpen"]
+        link = f' <a href="{esc(share)}">{esc(label)}</a>' if share else ""
+        return (f'<figure class="term"><p><strong>{esc(b["title"])}</strong></p>'
+                f"<figcaption>{rich(b['caption'])}{link}</figcaption></figure>")
     raise SystemExit(f"build-blog: unknown block kind {k!r} -- add it rather than dropping it")
 
 
@@ -542,7 +553,7 @@ def post_page(p, lang="en"):
     if not p.get("tags"):
         raise SystemExit(f"build-blog: post {slug} has no mandatory tags")
     parts.append('<div class="tags">' + "".join(f'<span class="tag">{esc(hashtag(t))}</span>' for t in p["tags"]) + "</div>")
-    parts += [block_html(b) for b in d["body"]]
+    parts += [block_html(b, lang) for b in d["body"]]
 
     if d.get("openQuestions"):
         parts.append(
