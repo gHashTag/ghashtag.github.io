@@ -143,5 +143,30 @@ class TriptychTests(unittest.TestCase):
         self.assertIn("@media(max-width:600px)", blog.CSS)
 
 
+class TerminalBlockTests(unittest.TestCase):
+    """trinity#1273 added a `terminal` block; until build-blog knew it, every
+    publish from 2026-10-03 14:04 UTC stopped on `unknown block kind`."""
+
+    block = {"kind": "terminal", "src": "term/devkit-flow/session.cast",
+             "share": "https://t27.ai/term/devkit-flow/",
+             "title": "tri devkit <flow>", "caption": "The run: `tri devkit flow --build`."}
+
+    def test_links_the_recording_page_in_the_reader_language(self):
+        en = blog.block_html(self.block)
+        ru = blog.block_html(self.block, "ru")
+        self.assertIn('<a href="https://t27.ai/term/devkit-flow/">Open the recording on its own page.</a>', en)
+        self.assertIn("Открыть запись на отдельной странице.", ru)
+        self.assertIn("<code>tri devkit flow --build</code>", en)
+        self.assertIn("tri devkit &lt;flow&gt;", en)
+
+    def test_without_a_share_page_there_is_no_dead_link(self):
+        block = {k: v for k, v in self.block.items() if k != "share"}
+        self.assertNotIn("<a ", blog.block_html(block))
+
+    def test_an_unknown_kind_still_stops_the_build(self):
+        with self.assertRaisesRegex(SystemExit, "unknown block kind"):
+            blog.block_html({"kind": "video"})
+
+
 if __name__ == "__main__":
     unittest.main()
