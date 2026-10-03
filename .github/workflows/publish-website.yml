@@ -249,6 +249,14 @@ jobs:
             say "- **FAIL** build-og.py could not rebuild the Inter OG cards"
             exit 1
           fi
+          # The home page's card is trinity's, rsynced in above. Until
+          # 2026-10-04 build-og.py rendered the blog index card over it on
+          # every publish, so t27.ai/ previewed as the blog whatever trinity
+          # shipped. Byte for byte, or nothing is pushed.
+          if [ -f .src/apps/website/dist/og-image.png ] && ! cmp -s og-image.png .src/apps/website/dist/og-image.png; then
+            say "- **FAIL** og-image.png is not trinity's: something after the rsync redrew the home page's card"
+            exit 1
+          fi
 
           # /r/ и /status/ строятся из того же runs.json, который импортирует
           # SPA. Страница результата исправляется тем же публикатором, который
@@ -335,3 +343,14 @@ jobs:
           git commit -q -m "Publish $NEW from trinity $SRC_SHA"
           git push -q
           say "- **PASS** published \`$NEW\` from trinity \`$SRC_SHA\`"
+
+          # Tell the search engines which pages this commit changed (IndexNow:
+          # Bing, Yandex, Seznam, Naver, Yep). After the push, because the URLs
+          # must already serve the new page when an engine fetches them. A
+          # failure is a warning, not a failed publish: the site is live, and
+          # an unsent ping only leaves the pages to the crawler's own schedule.
+          if python3 indexnow.py --self-test >/dev/null && python3 indexnow.py >/tmp/indexnow.txt 2>&1; then
+            say "- $(tail -1 /tmp/indexnow.txt)"
+          else
+            say "- **WARN** IndexNow: $(tail -1 /tmp/indexnow.txt 2>/dev/null || echo 'self-test failed')"
+          fi
