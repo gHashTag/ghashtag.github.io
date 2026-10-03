@@ -29,6 +29,16 @@
       <category>t27</category>
     </item>
     <item>
+      <title>tri cast: record a command, check the recording, publish it as a page</title>
+      <link>https://t27.ai/#/blog/tri-cast-from-command-to-card</link>
+      <guid isPermaLink="false">tri-cast-from-command-to-card</guid>
+      <pubDate>Sat, 03 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[one machine, one day per recording; 10 of 596 commands have one; tri cast is not in a tri release yet] A recorded command can be replayed and checked, a described one can only be believed. tri cast records real terminal output, scrubs and checks it, and publishes a page, a preview card and a player.</description>
+      <category>tri</category>
+      <category>Verification</category>
+      <category>Terminal</category>
+    </item>
+    <item>
       <title>One regional clock, twelve pull requests, and a spec that found a compiler bug</title>
       <link>https://t27.ai/#/blog/one-regional-clock-twelve-pull-requests</link>
       <guid isPermaLink="false">one-regional-clock-twelve-pull-requests</guid>
