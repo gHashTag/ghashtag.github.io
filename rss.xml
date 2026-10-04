@@ -18,6 +18,16 @@
       <category>Verification</category>
     </item>
     <item>
+      <title>Where t27c's compile time goes, and a first backend without LLVM</title>
+      <link>https://t27.ai/#/blog/t27c-compile-time-and-a-backend-without-llvm</link>
+      <guid isPermaLink="false">t27c-compile-time-and-a-backend-without-llvm</guid>
+      <pubDate>Sun, 04 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[one M1 Pro, one synthetic program; the t27b numbers were taken at a load average of 83–165 on 8 cores; t27b handles 37 of 1174 specs and its JIT runs only on arm64 macOS; three of the four bugs it found are not fixed yet] t27c type-checks a function in 29.9 µs, 5.2 times faster than rustc check, but it emits no machine code, so its full path to an object file is 2.1 times slower than clang on the same program written in C. Its own clean release build went from 142.7 s to 66.0 s after three merged PRs removed unused machine-learning crates and the aws-lc-sys build. t27b, a native AArch64 backend with no LLVM, now merged, compiles and runs the same tests 23 to 381 times faster than the Zig path, writes code at about the clang -O0 level, and found four bugs in t27c and in a spec.</description>
+      <category>t27</category>
+      <category>Compiler</category>
+      <category>Measurement</category>
+    </item>
+    <item>
       <title>The back half of openXC7, from a spec: FASM to frames to bitstream</title>
       <link>https://t27.ai/#/blog/the-back-half-of-openxc7-from-a-spec</link>
       <guid isPermaLink="false">the-back-half-of-openxc7-from-a-spec</guid>
