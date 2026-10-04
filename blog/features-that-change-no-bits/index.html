@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>179 features that change no bits, and one routing choice that did · TRINITY</title>
+<meta name="description" content="A parity report between two Xilinx place-and-route trees ranked its own work items backwards: the 179 missing BRAM features were zero-codepoints, and the blocker that kept a bitstream off a board produced no feature-count delta at all." />
+<link rel="canonical" href="https://t27.ai/blog/features-that-change-no-bits/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/features-that-change-no-bits/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/features-that-change-no-bits/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/features-that-change-no-bits/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/features-that-change-no-bits/" />
+<meta property="og:title" content="179 features that change no bits, and one routing choice that did" />
+<meta property="og:description" content="A parity report between two Xilinx place-and-route trees ranked its own work items backwards: the 179 missing BRAM features were zero-codepoints, and the blocker that kept a bitstream off a board produced no feature-count delta at all." />
+<meta property="og:image" content="https://t27.ai/og-blog-features-that-change-no-bits.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="179 features that change no bits, and one routing choice that did" />
+<meta name="twitter:description" content="A parity report between two Xilinx place-and-route trees ranked its own work items backwards: the 179 missing BRAM features were zero-codepoints, and the blocker that kept a bitstream off a board produced no feature-count delta at all." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"179 features that change no bits, and one routing choice that did","description":"A parity report between two Xilinx place-and-route trees ranked its own work items backwards: the 179 missing BRAM features were zero-codepoints, and the blocker that kept a bitstream off a board produced no feature-count delta at all.","url":"https://t27.ai/blog/features-that-change-no-bits/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/features-that-change-no-bits/"},"image":"https://t27.ai/og-blog-features-that-change-no-bits.png","datePublished":"2026-08-31","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"openXC7, FPGA, Bitstream, Upstream, Measurement"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>179 features that change no bits, and one routing choice that did</h1>
+<p class="meta">2026-08-31 · 7 min read</p>
+<p class="lede">A parity report between two Xilinx place-and-route trees ranked its own work items backwards: the 179 missing BRAM features were zero-codepoints, and the blocker that kept a bitstream off a board produced no feature-count delta at all.</p>
+<figure class="blog-cover"><a href="/og-blog-features-that-change-no-bits.png?v=413a9e30044e" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — 179 features that change no bits, and one routing choice that did"><img src="/og-blog-features-that-change-no-bits.png?v=413a9e30044e" alt="Three-panel engraved illustration for: 179 features that change no bits, and one routing choice that did" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-features-that-change-no-bits.png?v=413a9e30044e" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — 179 features that change no bits, and one routing choice that did">View the complete triptych at full size</a></figcaption></figure>
+<div class="tags"><span class="tag">#openXC7</span><span class="tag">#FPGA</span><span class="tag">#Bitstream</span><span class="tag">#Upstream</span><span class="tag">#Measurement</span></div>
+<p>On 2026-08-27 a parity report landed in openXC7/nextpnr-xilinx#165: two place-and-route trees — the himbaechel port and the released nextpnr-xilinx 0.9.3 — run over the same netlists, the same XDC, the same prjxray-db, the same yosys and the same back end, so that the only variable is the P&amp;R binary. The report named its most concrete finding without hedging: 179 BRAM configuration features that 0.9.3 emits and the port does not, &quot;the most concrete bitstream-parity item and the one I would fix first&quot;.</p>
+<p>One day later the same author retracted that sentence. Three days after that, three bitstreams ran on a physical board. Neither of those measurements is mine — I read the artefacts, I did not reproduce a number in them — and together they make one point worth writing down: the difference you can count is not necessarily the difference that matters.</p>
+<h2>The 179 features that change no bits</h2>
+<p>The missing features are real in the FASM text: RAMB18.READ_WIDTH_{A,B}_1, WRITE_WIDTH_{A,B}_1 and RSTREG_PRIORITY_{A,B}_RSTREG, 179 of them in the LiteX design, with RSTREG_PRIORITY_* going 88 → 0, WRITE_WIDTH_B_1 44 → 5 and READ_WIDTH_B_1 40 → 7 between the arms. They are also, all of them, zero-codepoints: their segbits are entirely negated.</p>
+<pre><code>BRAM_L.RAMB18_Y0.READ_WIDTH_A_1  !27_35 !27_36 !27_37
+BRAM_L.RAMB18_Y0.RSTREG_PRIORITY_A_RSTREG  !27_124</code></pre>
+<p>Every bit in the definition is a negation, so writing the feature and not writing it produce the same frame. The retraction rests on three checks that fail independently of each other:</p>
+<ul><li>The segbits themselves, read from the database rather than inferred from the feature names.</li><li>A bit2fasm round trip: the port’s LiteX bitstream reads those same features back off the silicon-side zeros, and re-assembling the readback gives byte-identical frames — 5 576 340 B — for both arms.</li><li>A Vivado ML 2026.1 golden of an SDP-36 RAMB18E1 in both halves of one tile on xc7a50tcsg324-1, which shows Vivado writing READ_WIDTH_A_1 in the Y0 half and READ_WIDTH_A_18 in the Y1 half. The one BRAM utilisation delta anyone had flagged — READ_WIDTH_A_18 at 17 versus 14 — is just which half of the tile each tool put the five SDP-36 blocks in. The is_y1 rule is the same in both trees and matches Vivado.</li></ul>
+<p>So the work item that had been ranked first would have moved nothing in the bitstream for anything LiteX exercises. It was a difference in the text that describes the configuration, not in the configuration.</p>
+<h2>The blocker nobody had counted</h2>
+<p>The thing that actually stopped a bitstream from reaching a board was a routing choice, and it produced no feature-count delta at all. Building a blinky for the lowRISC Sonata (xc7a50tcsg324, board clock on P15 = LIOI3_X0Y23), the port takes the regional clock network out of the pad:</p>
+<pre><code>pad → HCLK_IOI3_X1Y26.HCLK_IOI_IO_PLL_CLK3_DMUX ← I2IOCLK_BOT1
+    → RCLK3 → BUFR divider bypass → CLK_HROW … CK_BUFRCLK_L1 → BUFG</code></pre>
+<p>Deterministically, over eight seeds, with router2 and with the default router. 0.9.3 takes the dedicated CCIO → HCLK_CMT → CLK_HROW → BUFG backbone instead. The fork knows to do this explicitly: Arch::routeClock() treats a single-user net feeding BUFGCTRL.I0 as a global (to_bufg_input, xilinx/arch.cc:1812), with a comment saying that left to the general router the BUFG output is dead and the design freezes. The port’s XilinxImpl::route_clocks() has five forms and none of them is that one.</p>
+<p>What made this hard to see is that the same route fails in two different-looking ways depending on which database revision you have. With the db revision 0.9.3 ships (ab1fc60) that DMUX pip has no segbits entry at all, so fasm2frames rejects the design with a FasmLookupError — which reads like a database gap. With current db master (77e52f10, after prjxray-db#7 merged 2026-08-26) the same key is an all-zero default row, so it assembles cleanly and yields a bitstream — which reads like success.</p>
+<blockquote>…but whether that regional path delivers a working clock to the BUFG is unknown.</blockquote>
+<p>That sentence, written on 2026-08-28, is the honest state of a bitstream that assembles without complaint. Nothing short of silicon could settle it.</p>
+<h2>Three bitstreams, one board</h2>
+<p>On 2026-08-30 the loop closed. Jonathan (jrrk2) ran three Sonata blinky bitstreams on a physical Sonata — same netlist, same XDC, same prjxray back end, only the P&amp;R differing — and all three blink.</p>
+<div class="tw"><table><thead><tr><th>arm</th><th>tree</th><th>router</th><th>clock route</th></tr></thead><tbody><tr><td>A</td><td>nextpnr-xilinx 0.9.3 (68aeeb39, released package)</td><td>router2</td><td>dedicated CCIO → CMT → HROW → BUFG</td></tr><tr><td>B</td><td>himbaechel 2212c004</td><td>router1</td><td>dedicated path (router1 avoids the BUFR datapath)</td></tr><tr><td>C</td><td>himbaechel + openXC7/nextpnr#1 (2bf0e1f9)</td><td>router2</td><td>dedicated path (the PR&#x27;s predicate refuses the BUFR datapath)</td></tr></tbody></table></div>
+<p>Arm C is the one that carries information. That arm previously produced either a FasmLookupError or a clock of unknown liveness, depending on the database; with the merged predicate from openXC7/nextpnr#1 it now blinks with the default router. The claim about what that means for the port was made with its hedge attached, and it is worth quoting rather than paraphrasing:</p>
+<blockquote>B and C are, to our knowledge, its first board-verified bitstreams from an A/B kit against the fork.</blockquote>
+<p>One reproduction note for anyone with the same board: the Sonata is programmed by dropping a UF2 on its bootloader volume, not over JTAG, so the .bit needs a UF2 wrap with family id 0x6ce29e6b.</p>
+<h2>What the fix actually is</h2>
+<p>It is worth being exact about what closed and what did not. openXC7/nextpnr#1 makes a route through the BUFR datapath oblige a BUFR — that is, it teaches the router to refuse a path it cannot honestly assemble, so placement falls back to the dedicated backbone. The regional path itself was not made to work. The related placement problem, putting a pad-fed BUFIO on a site its pad can actually reach, is openXC7/nextpnr-xilinx#168 and is still open; so is #149, the issue that started this line, where BUFIO is not packed and the HCLK_L enables are never emitted.</p>
+<p>The pattern the week produced: a counted difference of 179 features was cosmetic, and an uncounted difference of one routing decision was the thing standing between a port and a board. Feature diffs are cheap to compute and that makes them attractive as a work queue. This one ranked its own items exactly backwards, and the correction came from segbits, a round trip and a Vivado golden — not from a bigger diff.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Not one measurement in this post is mine. The parity table and both corrections are cavearr’s work in #165; the board run is jrrk2’s, on his own Sonata. I opened and read the artefacts; I reproduced nothing in them.</li><li>One board, one die (xc7a50tcsg324), one design class. A blinky says the clock arrives and the fabric toggles. It says nothing about whether a himbaechel LiteX DDR3 bitstream runs on silicon, and nobody has tried.</li><li>The hold-analysis policy is unchanged: the port still exits 1 on hold violations computed from a single DEFAULT speed grade with combinational-only cell timing, after writing the FASM. Whether it should warn instead is an open question in the thread, not a decision.</li><li>fmax remains incomparable across the two trees. A one-LUT, one-FF design reports 2865 MHz on 0.9.3 and 1044 MHz on the port, so no quality-of-result claim between them is supported by anything published so far.</li><li>The BRAM address cascade the port does emit and 0.9.3 never does (CASCOUT_ARD_ACTIVE ×34, CASCOUT_BWR_ACTIVE ×19 in the LiteX design) is legal and accepted by fasm2frames, but has not been checked against a Vivado golden and has not been seen on silicon.</li><li>The regional clock path was routed around, not fixed. #168 and #149 are open, and a pad-fed BUFIO still cannot be placed on a site its pad can reach.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/165">openXC7/nextpnr-xilinx #165 — the parity report itself · OPEN</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/165#issuecomment-5456497915">openXC7/nextpnr-xilinx #165 — the retraction of the BRAM item, 2026-08-28</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/165#issuecomment-5471151263">openXC7/nextpnr-xilinx #165 — the Sonata board results, 2026-08-30</a></li><li><a href="https://github.com/openXC7/nextpnr/pull/1">openXC7/nextpnr #1 — a route through the BUFR datapath obliges a BUFR · MERGED 2026-08-29</a></li><li><a href="https://github.com/openXC7/prjxray-db/pull/7">openXC7/prjxray-db #7 — artix7 HCLK_IOI3 rows and the DMUX default position · MERGED 2026-08-26</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/168">openXC7/nextpnr-xilinx #168 — place a pad-fed BUFIO on a site its pad can reach · OPEN</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/149">openXC7/nextpnr-xilinx #149 — BUFIO is not packed, HCLK_L enables never emitted · OPEN</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/features-that-change-no-bits">Open the interactive version</a><a class="btn sec" href="/ru/blog/features-that-change-no-bits/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Need an FPGA/RTL problem taken to measured hardware?</h2><p>I work contract and part-time on hardware-AI, FPGA/RTL and ML systems — from specification and open toolchains to reproducible measurements.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20179%20features%20that%20change%20no%20bits%2C%20and%20one%20routing%20choice%20that%20did&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9C179%20features%20that%20change%20no%20bits%2C%20and%20one%20routing%20choice%20that%20did%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Ffeatures-that-change-no-bits%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/about/">See how I work</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

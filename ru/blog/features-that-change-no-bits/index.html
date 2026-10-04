@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>179 фич, которые не меняют ни бита, и одно решение маршрутизации, которое меняло · TRINITY</title>
+<meta name="description" content="Отчёт о паритете двух деревьев place-and-route для Xilinx отранжировал собственные задачи наоборот: 179 недостающих фич BRAM оказались нулевыми кодовыми точками, а блокер, не пускавший битстрим на плату, не давал в счётчиках фич никакой разницы." />
+<link rel="canonical" href="https://t27.ai/ru/blog/features-that-change-no-bits/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/features-that-change-no-bits/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/features-that-change-no-bits/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/features-that-change-no-bits/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/features-that-change-no-bits/" />
+<meta property="og:title" content="179 фич, которые не меняют ни бита, и одно решение маршрутизации, которое меняло" />
+<meta property="og:description" content="Отчёт о паритете двух деревьев place-and-route для Xilinx отранжировал собственные задачи наоборот: 179 недостающих фич BRAM оказались нулевыми кодовыми точками, а блокер, не пускавший битстрим на плату, не давал в счётчиках фич никакой разницы." />
+<meta property="og:image" content="https://t27.ai/og-blog-features-that-change-no-bits-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="179 фич, которые не меняют ни бита, и одно решение маршрутизации, которое меняло" />
+<meta name="twitter:description" content="Отчёт о паритете двух деревьев place-and-route для Xilinx отранжировал собственные задачи наоборот: 179 недостающих фич BRAM оказались нулевыми кодовыми точками, а блокер, не пускавший битстрим на плату, не давал в счётчиках фич никакой разницы." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"179 фич, которые не меняют ни бита, и одно решение маршрутизации, которое меняло","description":"Отчёт о паритете двух деревьев place-and-route для Xilinx отранжировал собственные задачи наоборот: 179 недостающих фич BRAM оказались нулевыми кодовыми точками, а блокер, не пускавший битстрим на плату, не давал в счётчиках фич никакой разницы.","url":"https://t27.ai/ru/blog/features-that-change-no-bits/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/features-that-change-no-bits/"},"image":"https://t27.ai/og-blog-features-that-change-no-bits-ru.png","datePublished":"2026-08-31","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"openXC7, FPGA, Bitstream, Upstream, Measurement"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>179 фич, которые не меняют ни бита, и одно решение маршрутизации, которое меняло</h1>
+<p class="meta">2026-08-31 · 7 мин чтения</p>
+<p class="lede">Отчёт о паритете двух деревьев place-and-route для Xilinx отранжировал собственные задачи наоборот: 179 недостающих фич BRAM оказались нулевыми кодовыми точками, а блокер, не пускавший битстрим на плату, не давал в счётчиках фич никакой разницы.</p>
+<figure class="blog-cover"><a href="/og-blog-features-that-change-no-bits-ru.png?v=28f7c5a365b3" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — 179 фич, которые не меняют ни бита, и одно решение маршрутизации, которое меняло"><img src="/og-blog-features-that-change-no-bits-ru.png?v=28f7c5a365b3" alt="Гравюрный триптих к статье: 179 фич, которые не меняют ни бита, и одно решение маршрутизации, которое меняло" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-features-that-change-no-bits-ru.png?v=28f7c5a365b3" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — 179 фич, которые не меняют ни бита, и одно решение маршрутизации, которое меняло">Открыть полный триптих в исходном размере</a></figcaption></figure>
+<div class="tags"><span class="tag">#openXC7</span><span class="tag">#FPGA</span><span class="tag">#Bitstream</span><span class="tag">#Upstream</span><span class="tag">#Measurement</span></div>
+<p>27 августа 2026 в openXC7/nextpnr-xilinx#165 появился отчёт о паритете: два дерева place-and-route — порт himbaechel и выпущенный nextpnr-xilinx 0.9.3 — прогнаны по одним и тем же нетлистам, одному XDC, одной prjxray-db, одному yosys и одному бэкенду, так что единственная переменная — бинарник P&amp;R. Самый конкретный вывод отчёта был назван без оговорок: 179 конфигурационных фич BRAM, которые 0.9.3 выдаёт, а порт нет, — «самый конкретный пункт битстрим-паритета и тот, который я чинил бы первым».</p>
+<p>Через день тот же автор эту фразу отозвал. Ещё через три дня три битстрима запустились на физической плате. Ни одно из этих измерений не моё — я перечитал артефакты, но не воспроизвёл в них ни одного числа, — и вместе они дают один вывод, который стоит записать: разница, которую можно посчитать, не обязательно та разница, которая важна.</p>
+<h2>179 фич, которые не меняют ни бита</h2>
+<p>Отсутствующие фичи реальны в тексте FASM: RAMB18.READ_WIDTH_{A,B}_1, WRITE_WIDTH_{A,B}_1 и RSTREG_PRIORITY_{A,B}_RSTREG, 179 штук в дизайне LiteX, причём RSTREG_PRIORITY_* идёт 88 → 0, WRITE_WIDTH_B_1 44 → 5, READ_WIDTH_B_1 40 → 7 между вариантами. И все они — нулевые кодовые точки: их segbits целиком отрицательные.</p>
+<pre><code>BRAM_L.RAMB18_Y0.READ_WIDTH_A_1  !27_35 !27_36 !27_37
+BRAM_L.RAMB18_Y0.RSTREG_PRIORITY_A_RSTREG  !27_124</code></pre>
+<p>Каждый бит в определении — отрицание, поэтому записать фичу и не записать её дают один и тот же фрейм. Отзыв опирается на три проверки, независимые друг от друга:</p>
+<ul><li>Сами segbits, прочитанные из базы, а не выведенные из названий фич.</li><li>Круговой прогон bit2fasm: битстрим LiteX от порта считывает те же фичи обратно из нулей на стороне кремния, и повторная сборка прочитанного даёт побайтово одинаковые фреймы — 5 576 340 Б — для обоих вариантов.</li><li>Эталон Vivado ML 2026.1 для SDP-36 RAMB18E1 в обеих половинах одного тайла на xc7a50tcsg324-1: Vivado сам пишет READ_WIDTH_A_1 в половине Y0 и READ_WIDTH_A_18 в половине Y1. Единственная замеченная разница в утилизации BRAM — READ_WIDTH_A_18, 17 против 14, — это лишь то, в какую половину тайла каждый инструмент положил пять блоков SDP-36. Правило is_y1 одинаково в обоих деревьях и совпадает с Vivado.</li></ul>
+<p>То есть пункт работы, поставленный первым, не сдвинул бы в битстриме ничего из того, что задействует LiteX. Это разница в тексте, описывающем конфигурацию, а не в самой конфигурации.</p>
+<h2>Блокер, который никто не посчитал</h2>
+<p>То, что на самом деле не давало битстриму дойти до платы, было решением маршрутизации и не давало вообще никакой разницы в счётчиках фич. При сборке blinky для lowRISC Sonata (xc7a50tcsg324, тактовый вход платы на P15 = LIOI3_X0Y23) порт выводит клок с пада через региональную сеть:</p>
+<pre><code>pad → HCLK_IOI3_X1Y26.HCLK_IOI_IO_PLL_CLK3_DMUX ← I2IOCLK_BOT1
+    → RCLK3 → BUFR divider bypass → CLK_HROW … CK_BUFRCLK_L1 → BUFG</code></pre>
+<p>Детерминированно, на восьми сидах, и с router2, и с маршрутизатором по умолчанию. 0.9.3 вместо этого идёт по выделенному хребту CCIO → HCLK_CMT → CLK_HROW → BUFG. Форк умеет это явно: Arch::routeClock() трактует цепь с единственным потребителем, входящую в BUFGCTRL.I0, как глобальную (to_bufg_input, xilinx/arch.cc:1812), с комментарием, что при обычной маршрутизации выход BUFG мёртв и дизайн замирает. У XilinxImpl::route_clocks() в порту пять форм, и ни одна из них не эта.</p>
+<p>Увидеть это было тяжело потому, что один и тот же маршрут ломается двумя по-разному выглядящими способами в зависимости от ревизии базы. С той ревизией, которую везёт 0.9.3 (ab1fc60), у пипа DMUX вообще нет записи segbits, и fasm2frames отвергает дизайн с FasmLookupError — это читается как дыра в базе. С текущим master базы (77e52f10, после prjxray-db#7, влитого 26 августа) тот же ключ — строка default из одних нулей, дизайн собирается без замечаний и даёт битстрим — а это читается как успех.</p>
+<blockquote>…но доставляет ли этот региональный путь работающий клок до BUFG — неизвестно.</blockquote>
+<p>Эта фраза, написанная 28 августа, и есть честное состояние битстрима, который собирается без единой жалобы. Решить вопрос не могло ничто, кроме кремния.</p>
+<h2>Три битстрима, одна плата</h2>
+<p>30 августа круг замкнулся. Джонатан (jrrk2) прогнал три битстрима blinky на физической Sonata — тот же нетлист, тот же XDC, тот же бэкенд prjxray, различается только P&amp;R — и все три мигают.</p>
+<div class="tw"><table><thead><tr><th>плечо</th><th>дерево</th><th>маршрутизатор</th><th>путь клока</th></tr></thead><tbody><tr><td>A</td><td>nextpnr-xilinx 0.9.3 (68aeeb39, выпущенный пакет)</td><td>router2</td><td>выделенный CCIO → CMT → HROW → BUFG</td></tr><tr><td>B</td><td>himbaechel 2212c004</td><td>router1</td><td>выделенный путь (router1 обходит датапат BUFR)</td></tr><tr><td>C</td><td>himbaechel + openXC7/nextpnr#1 (2bf0e1f9)</td><td>router2</td><td>выделенный путь (предикат из PR отказывается от датапата BUFR)</td></tr></tbody></table></div>
+<p>Информацию несёт плечо C. Раньше оно давало либо FasmLookupError, либо клок неизвестной живости — в зависимости от базы; с влитым предикатом из openXC7/nextpnr#1 оно мигает на маршрутизаторе по умолчанию. Утверждение о том, что это значит для порта, было сделано вместе с оговоркой, и его стоит привести дословно, а не пересказывать:</p>
+<blockquote>B и C — насколько нам известно, первые проверенные на плате битстримы порта в A/B-комплекте против форка.</blockquote>
+<p>Одна заметка для тех, у кого такая же плата: Sonata прошивается сбросом файла UF2 на её загрузочный том, а не через JTAG, поэтому .bit нужно завернуть в UF2 с family id 0x6ce29e6b.</p>
+<h2>Что именно починено</h2>
+<p>Стоит быть точным в том, что закрылось, а что нет. openXC7/nextpnr#1 делает так, что маршрут через датапат BUFR обязывает поставить BUFR, — то есть учит маршрутизатор отказываться от пути, который он не может честно собрать, и размещение откатывается на выделенный хребет. Сам региональный путь работать не заставили. Смежная задача размещения — поставить BUFIO, питаемый падом, на сайт, до которого этот пад дотягивается, — это openXC7/nextpnr-xilinx#168, и она открыта; открыт и #149, issue, с которого началась эта линия: BUFIO не пакуется, а разрешения HCLK_L не выдаются никогда.</p>
+<p>Итог недели: посчитанная разница в 179 фич оказалась косметикой, а непосчитанная разница в одном решении маршрутизации и была тем, что стояло между портом и платой. Диффы по фичам дёшево считать, и поэтому они выглядят удобной очередью работ. Эта очередь отранжировала свои пункты ровно наоборот, а поправка пришла из segbits, кругового прогона и эталона Vivado — не из диффа побольше.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Ни одно измерение в этом посте не моё. Таблица паритета и обе поправки — работа cavearr в #165; прогон на плате — jrrk2, на его собственной Sonata. Я открыл и прочитал артефакты; я ничего в них не воспроизвёл.</li><li>Одна плата, один кристалл (xc7a50tcsg324), один класс дизайна. Blinky говорит, что клок доходит и фабрика переключается. Он ничего не говорит о том, работает ли на кремнии битстрим LiteX DDR3 от порта, — этого никто не пробовал.</li><li>Политика анализа hold не изменилась: порт по-прежнему завершается с кодом 1 при нарушениях hold, посчитанных по единственному скоростному градусу DEFAULT и чисто комбинационным задержкам ячеек, уже после записи FASM. Должен ли он вместо этого предупреждать — открытый вопрос в треде, а не решение.</li><li>fmax по-прежнему несопоставим между двумя деревьями. Дизайн из одного LUT и одного триггера показывает 2865 МГц на 0.9.3 и 1044 МГц на порте, так что ни одно утверждение о качестве результата между ними опубликованным пока не подкреплено.</li><li>Каскад адресов BRAM, который порт выдаёт, а 0.9.3 не выдаёт никогда (CASCOUT_ARD_ACTIVE ×34, CASCOUT_BWR_ACTIVE ×19 в дизайне LiteX), легален и принимается fasm2frames, но не сверялся с эталоном Vivado и не проверялся на кремнии.</li><li>Региональный путь клока обошли, а не починили. #168 и #149 открыты, и BUFIO, питаемый падом, по-прежнему нельзя поставить на сайт, до которого этот пад дотягивается.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/165">openXC7/nextpnr-xilinx #165 — the parity report itself · OPEN</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/165#issuecomment-5456497915">openXC7/nextpnr-xilinx #165 — the retraction of the BRAM item, 2026-08-28</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/165#issuecomment-5471151263">openXC7/nextpnr-xilinx #165 — the Sonata board results, 2026-08-30</a></li><li><a href="https://github.com/openXC7/nextpnr/pull/1">openXC7/nextpnr #1 — a route through the BUFR datapath obliges a BUFR · MERGED 2026-08-29</a></li><li><a href="https://github.com/openXC7/prjxray-db/pull/7">openXC7/prjxray-db #7 — artix7 HCLK_IOI3 rows and the DMUX default position · MERGED 2026-08-26</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/168">openXC7/nextpnr-xilinx #168 — place a pad-fed BUFIO on a site its pad can reach · OPEN</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/issues/149">openXC7/nextpnr-xilinx #149 — BUFIO is not packed, HCLK_L enables never emitted · OPEN</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/?lang=ru#/blog/features-that-change-no-bits">Открыть интерактивную версию</a><a class="btn sec" href="/blog/features-that-change-no-bits/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Поработаем вместе</p><h2 id="blog-work-offer-title">Нужно довести FPGA/RTL-задачу до замеров на железе?</h2><p>Работаю по контракту и part-time с hardware-AI, FPGA/RTL и ML-системами — от спецификации и открытого тулчейна до воспроизводимых измерений.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%B4%D0%BB%D1%8F%20T27%20%E2%80%94%20179%20%D1%84%D0%B8%D1%87%2C%20%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D1%8B%D0%B5%20%D0%BD%D0%B5%20%D0%BC%D0%B5%D0%BD%D1%8F%D1%8E%D1%82%20%D0%BD%D0%B8%20%D0%B1%D0%B8%D1%82%D0%B0%2C%20%D0%B8%20%D0%BE%D0%B4%D0%BD%D0%BE%20%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BC%D0%B0%D1%80%D1%88%D1%80%D1%83%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8%2C%20%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D0%BE%D0%B5%20%D0%BC%D0%B5%D0%BD%D1%8F%D0%BB%D0%BE&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%21%20%D0%AF%20%D0%BF%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D0%BB%28%D0%B0%29%20%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8E%20%C2%AB179%20%D1%84%D0%B8%D1%87%2C%20%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D1%8B%D0%B5%20%D0%BD%D0%B5%20%D0%BC%D0%B5%D0%BD%D1%8F%D1%8E%D1%82%20%D0%BD%D0%B8%20%D0%B1%D0%B8%D1%82%D0%B0%2C%20%D0%B8%20%D0%BE%D0%B4%D0%BD%D0%BE%20%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BC%D0%B0%D1%80%D1%88%D1%80%D1%83%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8%2C%20%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D0%BE%D0%B5%20%D0%BC%D0%B5%D0%BD%D1%8F%D0%BB%D0%BE%C2%BB%3A%20https%3A%2F%2Ft27.ai%2Fru%2Fblog%2Ffeatures-that-change-no-bits%2F%0A%0A%D0%9D%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A">Обсудить задачу</a><a class="btn sec" href="/ru/about/">Как я работаю</a></div><nav class="work-links" aria-label="Услуги"><span>Услуги:</span><a href="/ru/verification/">Верификация</a><a href="/ru/ip/">Лицензирование IP</a><a href="/ru/course/">Курсы и воркшопы</a><a href="/ru/about/">Контрактная работа</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

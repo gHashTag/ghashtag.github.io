@@ -199,6 +199,17 @@
       <category>Testing</category>
     </item>
     <item>
+      <title>A measurement number needs its passport</title>
+      <link>https://t27.ai/#/blog/a-measurement-number-needs-a-passport</link>
+      <guid isPermaLink="false">a-measurement-number-needs-a-passport</guid>
+      <pubDate>Sun, 13 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[Measured] An isolated GFTernary decoder is recorded at 66 LUT and 974.66 MHz on an Artix-7 XC7A200T, with its toolchain, seed statistic and same-part baseline. The receipt does not claim tokens per second or system throughput.</description>
+      <category>FPGA</category>
+      <category>Measurement</category>
+      <category>Reproducibility</category>
+      <category>GFTernary</category>
+    </item>
+    <item>
       <title>The FPGA row was corrected before it became evidence</title>
       <link>https://t27.ai/#/blog/the-fpga-row-was-corrected</link>
       <guid isPermaLink="false">the-fpga-row-was-corrected</guid>
@@ -265,6 +276,17 @@
       <category>Reproducibility</category>
     </item>
     <item>
+      <title>A Linux target with no ABI suffix is musl, and a CI gate had been trusting it</title>
+      <link>https://t27.ai/#/blog/a-linux-target-with-no-abi-is-musl</link>
+      <guid isPermaLink="false">a-linux-target-with-no-abi-is-musl</guid>
+      <pubDate>Sun, 06 Sep 2026 12:00:00 GMT</pubDate>
+      <description>[measured] Zig resolves -target x86_64-linux to musl. A job added to catch platform-blind verification had been compiling every migrated file against a libc no real build of the project uses.</description>
+      <category>Zig</category>
+      <category>CI</category>
+      <category>Toolchain</category>
+      <category>Reproducibility</category>
+    </item>
+    <item>
       <title>One saturation rule, five artefacts</title>
       <link>https://t27.ai/#/blog/one-saturation-rule-five-artefacts</link>
       <guid isPermaLink="false">one-saturation-rule-five-artefacts</guid>
@@ -274,6 +296,17 @@
       <category>Conformance</category>
       <category>Reproducibility</category>
       <category>Testing</category>
+    </item>
+    <item>
+      <title>One more reading, then it cleared</title>
+      <link>https://t27.ai/#/blog/one-more-reading-then-it-cleared</link>
+      <guid isPermaLink="false">one-more-reading-then-it-cleared</guid>
+      <pubDate>Sat, 05 Sep 2026 12:00:00 GMT</pubDate>
+      <description>A disk-halt monitor built to require two consecutive recovery readings before clearing got its first real test on a genuine crisis, not a synthetic one, three days after being written.</description>
+      <category>Zig</category>
+      <category>Tooling</category>
+      <category>Reliability</category>
+      <category>Automation</category>
     </item>
     <item>
       <title>The Queen foundation snapshot now has a source contract</title>
@@ -340,6 +373,18 @@
       <category>openXC7</category>
       <category>Project X-Ray</category>
       <category>Hardware</category>
+    </item>
+    <item>
+      <title>179 features that change no bits, and one routing choice that did</title>
+      <link>https://t27.ai/#/blog/features-that-change-no-bits</link>
+      <guid isPermaLink="false">features-that-change-no-bits</guid>
+      <pubDate>Mon, 31 Aug 2026 12:00:00 GMT</pubDate>
+      <description>A parity report between two Xilinx place-and-route trees ranked its own work items backwards: the 179 missing BRAM features were zero-codepoints, and the blocker that kept a bitstream off a board produced no feature-count delta at all.</description>
+      <category>openXC7</category>
+      <category>FPGA</category>
+      <category>Bitstream</category>
+      <category>Upstream</category>
+      <category>Measurement</category>
     </item>
     <item>
       <title>A real value must not travel in an integer container</title>
