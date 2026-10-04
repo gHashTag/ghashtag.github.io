@@ -250,3 +250,32 @@ identical** — the last of those is the one that catches the failure mode above
 rebuild from a source that lacks it, and nothing local would notice — the
 Russian pages would still be perfect and still be filed as duplicates. The gate
 checks both directions and names where the missing half comes from.
+
+### A sitemap lists the pages a site wants indexed, and nothing else
+
+`/leela/classic/` was on the sitemap while its own page said
+`<link rel="canonical" href="https://t27.ai/leela/">` -- a copy, by its own
+account. Offering it asks a crawler to index the page and then tells it not to;
+Search Console files that under "Alternate page with proper canonical tag", and
+a sitemap carrying such entries reads as noise. Removed 2026-10-04, and
+`verify-site.sh` now holds every sitemap URL served from this repository to a
+canonical link naming itself and no `noindex`.
+
+### The home page's preview card is trinity's
+
+`t27.ai/` is trinity's build, and so is its `og:image`
+(`apps/website/public/og-image.png`). `build-og.py` used to write the blog
+index card to `og-image.svg` and render it over that PNG on every publish, so
+every shared link to the home page previewed as the blog, whatever trinity
+shipped. The blog index card is `og-blog.*` now; `build-og.py` refuses to run
+if an `og-image.svg` reappears, and the publisher compares `og-image.png` with
+trinity's byte for byte before it pushes.
+
+### Telling search engines what changed
+
+`indexnow.py` runs after each push and sends the sitemap pages that commit
+changed to IndexNow (Bing, Yandex, Seznam, Naver, Yep share one submission).
+The key is the root `<32 hex>.txt` whose content is its own name. A failed
+submission is a warning, not a failed publish. Google does not take IndexNow;
+for Google the sitemap in `robots.txt` remains the path, and submitting it in
+Search Console is the owner's step, since it needs the owner's account.

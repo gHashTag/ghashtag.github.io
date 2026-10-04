@@ -377,7 +377,7 @@ for block in blocks:
     if loc:
         entries.append((loc.group(1), lm.group(1) if lm else None))
 
-# These URLs are served by separate Pages projects: the three leela surfaces by
+# These URLs are served by separate Pages projects: the two leela surfaces by
 # gHashTag/leela, and /orb/ by gHashTag/orb since 7e8ac690 handed the page to
 # its own site. This checkout cannot ask those repositories when their files
 # changed, and stamping them with this repository's date would turn lastmod into
@@ -386,7 +386,6 @@ for block in blocks:
 # every scheduled publish since 2026-09-08 18:00Z failed on this check.)
 external_without_lastmod = {
     "https://t27.ai/leela/",
-    "https://t27.ai/leela/classic/",
     "https://t27.ai/leela/docs/",
     "https://t27.ai/orb/",
 }
@@ -467,6 +466,39 @@ done
 grep -q "<loc>$SITE/</loc>" sitemap.xml 2>/dev/null \
   && green "sitemap.xml lists the homepage and $(grep -c '<loc>' sitemap.xml) URLs in total" \
   || red "sitemap.xml missing or does not list the homepage"
+
+# A sitemap is a list of the URLs this site wants indexed, so every page on it
+# must say the same thing about itself: a canonical link to its own URL, and no
+# noindex. A page that names another URL as canonical is a copy by its own
+# account; offering it in the sitemap asks a crawler to index it and then tells
+# it not to, and Search Console files it under "Alternate page with proper
+# canonical tag". /leela/classic/ sat here like that until 2026-10-04. Pages
+# served by another repository (/leela/, /orb/) are not on disk and are left to
+# that repository; the check fails if it found nothing to check at all.
+python3 - <<'PYCANON' || red "sitemap lists a page that is not its own canonical"
+import pathlib, re, sys
+site = "https://t27.ai/"
+locs = re.findall(r"<loc>([^<]*)</loc>", open("sitemap.xml", encoding="utf-8").read())
+checked, wrong = 0, []
+for loc in locs:
+    rel = loc[len(site):]
+    page = pathlib.Path(rel, "index.html")
+    if not loc.startswith(site) or not page.is_file():
+        continue
+    checked += 1
+    html = page.read_text(encoding="utf-8")
+    canon = re.findall(r'<link\b[^>]*\brel="canonical"[^>]*\bhref="([^"]*)"', html)
+    robots = " ".join(re.findall(r'<meta\b[^>]*\bname="robots"[^>]*\bcontent="([^"]*)"', html))
+    if canon != [loc]:
+        wrong.append(f"{loc}: canonical {canon or 'missing'}")
+    if "noindex" in robots:
+        wrong.append(f"{loc}: robots says {robots!r}")
+for w in wrong:
+    print(f"  {w}")
+if checked == 0 or wrong:
+    sys.exit(1)
+print(f"  {checked} sitemap pages on disk, each its own canonical and indexable")
+PYCANON
 
 if [ "${1:-}" = "--local" ]; then
   echo

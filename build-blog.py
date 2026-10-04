@@ -608,7 +608,7 @@ def index_page(posts, lang="en"):
         f'</div></div>'
     )
     return shell(url=f"{SITE}{base(lang)}/", title=u["eyebrow"], desc=u["indexDesc"],
-                 og="og-image.png", body=body, lang=lang,
+                 og="og-blog.png", body=body, lang=lang,
                  alt=(f"{SITE}/blog/", f"{SITE}/ru/blog/"))
 
 

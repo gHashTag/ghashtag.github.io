@@ -27,9 +27,18 @@ REPO = Path(__file__).resolve().parent
 FONT = REPO / "fonts" / "Inter-Variable.ttf"
 
 
+# The home page's card is not drawn here. t27.ai/ is trinity's build
+# (apps/website/public/og-image.png, rsynced in before this script runs), and so
+# is its og:image. Until 2026-10-04 the blog index card was written to
+# og-image.svg and rendered over that PNG on every publish, so every link to
+# t27.ai/ previewed as "T27.AI · BLOG / Published here." whatever trinity
+# shipped. The blog index has its own card now, og-blog.svg.
+HOME_CARD = "og-image"
+
+
 def ensure_blog_index_source() -> Path:
     """Создать исходник карточки индекса блога, у которого раньше был только PNG."""
-    path = REPO / "og-image.svg"
+    path = REPO / "og-blog.svg"
     path.write_text(
         f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="T27.AI blog">
   <defs>
@@ -102,6 +111,9 @@ def main() -> int:
     if not shutil.which("rsvg-convert"):
         raise SystemExit("Нет rsvg-convert: установить librsvg2-bin, затем повторить сборку карточек")
 
+    if (REPO / f"{HOME_CARD}.svg").exists():
+        raise SystemExit(f"{HOME_CARD}.svg is here, and rendering it would overwrite the home page's card, "
+                         f"which is trinity's ({HOME_CARD}.png from apps/website/public). Delete it.")
     ensure_blog_index_source()
     svgs = sorted(REPO.glob("og-*.svg"))
     if not svgs:
@@ -119,7 +131,7 @@ def main() -> int:
             print(f"  {svg.name:<56} -> {png.name}")
 
     expected = {svg.stem for svg in svgs}
-    actual = {png.stem for png in REPO.glob("og-*.png")}
+    actual = {png.stem for png in REPO.glob("og-*.png")} - {HOME_CARD}
     if expected != actual:
         raise SystemExit(f"Наборы SVG и PNG расходятся: только SVG={sorted(expected-actual)}, только PNG={sorted(actual-expected)}")
     print(f"Готово: {len(svgs)} карточек Inter размером {W}×{H}.")

@@ -1019,8 +1019,17 @@ def leela_surfaces():
     No `lastmod`, and that is `_lastmod`'s own rule rather than an omission: it
     reads the commit that last touched a file, these files are in another
     repository, and **a fabricated date is worse than none.**
+
+    Two, not three, since 2026-10-04. `classic/` is served, but its own page
+    says `<link rel="canonical" href="https://t27.ai/leela/">`: it declares
+    itself a copy of the board at the root. A sitemap lists the URLs a site
+    wants indexed, and listing one whose page names another as canonical asks a
+    crawler to index both and then tells it not to -- Search Console files it
+    under "Alternate page with proper canonical tag" and the sitemap reads as
+    noise. The page is still reachable from `leela/`; it is just not offered as
+    a page of its own.
     """
-    return ["leela/", "leela/classic/", "leela/docs/"]
+    return ["leela/", "leela/docs/"]
 
 
 def sitemap(slugs):
