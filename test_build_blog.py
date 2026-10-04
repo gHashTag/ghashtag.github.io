@@ -104,6 +104,18 @@ class TriptychTests(unittest.TestCase):
                     self.assertIn("og-art/three-panels.jpg", stderr.getvalue())
                     self.assertIn(blog.localise(self.post, lang)["title"].split()[0], page)
 
+    def test_missing_art_falls_back_to_the_card_the_app_shows(self):
+        # BlogCover.tsx shows og-blog-<slug>[-ru].png for every post; a shared
+        # static link must not be the only place a post has no picture.
+        (self.art / "three-panels.jpg").unlink()
+        (self.root / "og-blog-three-panels.png").write_bytes(b"en card")
+        (self.root / "og-blog-three-panels-ru.png").write_bytes(b"ru card")
+        for lang, name in (("en", "og-blog-three-panels.png"), ("ru", "og-blog-three-panels-ru.png")):
+            with self.subTest(lang=lang):
+                with contextlib.redirect_stderr(io.StringIO()):
+                    page = blog.post_page(self.post, lang)
+                self.assertTrue(Elements(page).all("img")[0]["src"].startswith(f"/{name}?v="))
+
     def test_three_panel_transcription_is_visible_with_explicit_english_fallback(self):
         self.write_captions({"three-panels": {"en": self.panels}})
         for render in (blog.post_page, lambda p, lang: blog.index_page([p], lang)):
@@ -158,6 +170,15 @@ class TerminalBlockTests(unittest.TestCase):
         self.assertIn("Открыть запись на отдельной странице.", ru)
         self.assertIn("<code>tri devkit flow --build</code>", en)
         self.assertIn("tri devkit &lt;flow&gt;", en)
+
+    def test_the_static_page_mounts_the_apps_player(self):
+        html = blog.block_html(self.block)
+        cast = [a for a in Elements(html).all("div") if a.get("class") == "t27-cast"]
+        self.assertEqual(cast[0]["data-src"], "/term/devkit-flow/session.cast")
+        self.assertEqual(cast[0]["data-share"], "https://t27.ai/term/devkit-flow/")
+        page = blog.shell(url="u", title="t", desc="d", og="o.png", body=html)
+        self.assertIn("import { mount } from '/term/player.js'", page)
+        self.assertNotIn("/term/player.js", blog.shell(url="u", title="t", desc="d", og="o.png", body="<p>x</p>"))
 
     def test_without_a_share_page_there_is_no_dead_link(self):
         block = {k: v for k, v in self.block.items() if k != "share"}

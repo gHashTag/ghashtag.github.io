@@ -258,11 +258,20 @@ def cover_figure(p, lang, *, priority=False):
     """
     slug = p["slug"]
     path = ROOT / "og-art" / f"{slug}.jpg"
-    if not path.is_file():
-        print(f"build-blog: missing triptych og-art/{slug}.jpg; no visible cover emitted", file=sys.stderr)
-        return ""
-    version = hashlib.sha256(path.read_bytes()).hexdigest()[:12]
-    src = f"/og-art/{quote(slug, safe='')}.jpg?v={version}"
+    if path.is_file():
+        version = hashlib.sha256(path.read_bytes()).hexdigest()[:12]
+        src = f"/og-art/{quote(slug, safe='')}.jpg?v={version}"
+    else:
+        # No triptych: show the card the app shows (BlogCover.tsx renders
+        # og-blog-<slug>[-ru].png for every post), so a shared link carries the
+        # same picture as the app instead of no picture at all.
+        card = ROOT / (f"og-blog-{slug}.png" if lang == "en" else f"og-blog-{slug}-ru.png")
+        if not card.is_file():
+            print(f"build-blog: missing triptych og-art/{slug}.jpg and {card.name}; no visible cover emitted", file=sys.stderr)
+            return ""
+        print(f"build-blog: missing triptych og-art/{slug}.jpg; showing {card.name}, as the app does", file=sys.stderr)
+        version = hashlib.sha256(card.read_bytes()).hexdigest()[:12]
+        src = f"/{quote(card.name, safe='')}?v={version}"
     u = UI[lang]
     title = localise(p, lang)["title"]
     alt = f"{u['coverAlt']}: {title}"
@@ -371,9 +380,19 @@ def block_html(b, lang="en"):
         # (TerminalCast.tsx); a static page has none, so it names the recording
         # and links to its own page at /term/<id>/, where the player, the .cast
         # and the GIF live. The link text is the app's, in both languages.
+        # Since 2026-10-04 the static page mounts the same player the app uses
+        # (/term/player.js), so a shared link replays the session too; the title
+        # inside the player box stays as the no-JavaScript fallback.
         share, label = b.get("share"), UI[lang]["termOpen"]
         link = f' <a href="{esc(share)}">{esc(label)}</a>' if share else ""
-        return (f'<figure class="term"><p><strong>{esc(b["title"])}</strong></p>'
+        src = "/" + b["src"].lstrip("/") if b.get("src") else ""
+        heading = f'<p><strong>{esc(b["title"])}</strong></p>'
+        player = heading
+        if src:
+            data_share = f' data-share="{esc(share)}"' if share else ""
+            player = (f'<div class="t27-cast" data-src="{esc(src)}" '
+                      f'data-title="{esc(b["title"])}"{data_share}>{heading}</div>')
+        return (f'<figure class="term">{player}'
                 f"<figcaption>{rich(b['caption'])}{link}</figcaption></figure>")
     raise SystemExit(f"build-blog: unknown block kind {k!r} -- add it rather than dropping it")
 
@@ -417,6 +436,15 @@ def article_ld(*, url, title, desc, og, date, lang, tags):
             + "</script>")
 
 
+# Mounts every recorded session on the page with the app's own player.
+PLAYER_BOOT = """<script type="module">
+import { mount } from '/term/player.js'
+for (const el of document.querySelectorAll('.t27-cast[data-src]')) {
+  mount(el, { src: el.dataset.src, title: el.dataset.title, share: el.dataset.share || undefined })
+}
+</script>"""
+
+
 def shell(*, url, title, desc, og, body, lang="en", alt=None, ld=""):
     # Both language versions point at each other and at an x-default, so neither
     # is filed as a duplicate of the other. Each is canonical for itself.
@@ -457,7 +485,7 @@ def shell(*, url, title, desc, og, body, lang="en", alt=None, ld=""):
   <a class="brand" href="/">T27.AI</a>
   <nav class="top">{nav_html()}</nav>
 </header>
-{body}
+{body}{chr(10) + PLAYER_BOOT if 'class="t27-cast"' in body else ""}
 <footer>
   Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
   <a href="https://github.com/gHashTag">GitHub</a> ·
