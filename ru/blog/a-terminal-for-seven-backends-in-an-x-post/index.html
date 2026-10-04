@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Терминал для семи бэкендов t27 внутри поста в X · TRINITY</title>
+<meta name="description" content="[одна спека, hello_world; в браузере работает только JavaScript; нативные результаты получены на одной машине с macOS в один день; в X ничего не опубликовано] В плеере t27 теперь есть терминал: компилятор, работающий в странице как WebAssembly, печатает то, что выдаёт каждый из семи его бэкендов, и запускает тесты спеки. У каждого бэкенда своя страница для ссылок. Каждое слово терминала живёт в спеке. При нативной сборке hello_world в нынешнем виде собирается на двух языках из семи, и пост объясняет почему." />
+<link rel="canonical" href="https://t27.ai/ru/blog/a-terminal-for-seven-backends-in-an-x-post/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/a-terminal-for-seven-backends-in-an-x-post/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/a-terminal-for-seven-backends-in-an-x-post/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/a-terminal-for-seven-backends-in-an-x-post/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/a-terminal-for-seven-backends-in-an-x-post/" />
+<meta property="og:title" content="Терминал для семи бэкендов t27 внутри поста в X" />
+<meta property="og:description" content="[одна спека, hello_world; в браузере работает только JavaScript; нативные результаты получены на одной машине с macOS в один день; в X ничего не опубликовано] В плеере t27 теперь есть терминал: компилятор, работающий в странице как WebAssembly, печатает то, что выдаёт каждый из семи его бэкендов, и запускает тесты спеки. У каждого бэкенда своя страница для ссылок. Каждое слово терминала живёт в спеке. При нативной сборке hello_world в нынешнем виде собирается на двух языках из семи, и пост объясняет почему." />
+<meta property="og:image" content="https://t27.ai/og-blog-a-terminal-for-seven-backends-in-an-x-post-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Терминал для семи бэкендов t27 внутри поста в X" />
+<meta name="twitter:description" content="[одна спека, hello_world; в браузере работает только JavaScript; нативные результаты получены на одной машине с macOS в один день; в X ничего не опубликовано] В плеере t27 теперь есть терминал: компилятор, работающий в странице как WebAssembly, печатает то, что выдаёт каждый из семи его бэкендов, и запускает тесты спеки. У каждого бэкенда своя страница для ссылок. Каждое слово терминала живёт в спеке. При нативной сборке hello_world в нынешнем виде собирается на двух языках из семи, и пост объясняет почему." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Терминал для семи бэкендов t27 внутри поста в X","description":"[одна спека, hello_world; в браузере работает только JavaScript; нативные результаты получены на одной машине с macOS в один день; в X ничего не опубликовано] В плеере t27 теперь есть терминал: компилятор, работающий в странице как WebAssembly, печатает то, что выдаёт каждый из семи его бэкендов, и запускает тесты спеки. У каждого бэкенда своя страница для ссылок. Каждое слово терминала живёт в спеке. При нативной сборке hello_world в нынешнем виде собирается на двух языках из семи, и пост объясняет почему.","url":"https://t27.ai/ru/blog/a-terminal-for-seven-backends-in-an-x-post/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/a-terminal-for-seven-backends-in-an-x-post/"},"image":"https://t27.ai/og-blog-a-terminal-for-seven-backends-in-an-x-post-ru.png","datePublished":"2026-10-04","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"t27, Compiler, Terminal"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Терминал для семи бэкендов t27 внутри поста в X</h1>
+<p class="meta">2026-10-04 · 6 мин чтения</p>
+<p class="lede">[одна спека, hello_world; в браузере работает только JavaScript; нативные результаты получены на одной машине с macOS в один день; в X ничего не опубликовано] В плеере t27 теперь есть терминал: компилятор, работающий в странице как WebAssembly, печатает то, что выдаёт каждый из семи его бэкендов, и запускает тесты спеки. У каждого бэкенда своя страница для ссылок. Каждое слово терминала живёт в спеке. При нативной сборке hello_world в нынешнем виде собирается на двух языках из семи, и пост объясняет почему.</p>
+<figure class="blog-cover"><a href="/og-blog-a-terminal-for-seven-backends-in-an-x-post-ru.png?v=a3b7bc2bb61b" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — Терминал для семи бэкендов t27 внутри поста в X"><img src="/og-blog-a-terminal-for-seven-backends-in-an-x-post-ru.png?v=a3b7bc2bb61b" alt="Гравюрный триптих к статье: Терминал для семи бэкендов t27 внутри поста в X" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-a-terminal-for-seven-backends-in-an-x-post-ru.png?v=a3b7bc2bb61b" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — Терминал для семи бэкендов t27 внутри поста в X">Открыть полный триптих в исходном размере</a></figcaption></figure>
+<div class="tags"><span class="tag">#t27</span><span class="tag">#Compiler</span><span class="tag">#Terminal</span></div>
+<p>В плеере t27, на странице, которая компилирует спеку прямо внутри поста в X, теперь есть терминал. Наберите <code>t27c gen rust</code>, и компилятор t27, работающий в странице как WebAssembly, напечатает Rust, который он выдаёт для спеки в редакторе. <code>t27c test</code> запускает собственные тесты спеки. У каждого из семи бэкендов компилятора своя страница для ссылок, так что ссылка открывает терминал, который уже набирает команду для этого языка. Никуда ничего не отправляется: каждую строку печатает компилятор в странице или JavaScript, который он выдал.</p>
+<figure class="term"><div class="t27-cast" data-src="/term/play-terminal-gates/session.cast" data-title="t27 play · the terminal&#x27;s own gates" data-share="https://t27.ai/term/play-terminal-gates/"><p><strong>t27 play · the terminal&#x27;s own gates</strong></p></div><figcaption>Генератор пересобирает плеер из спеки и проверяет её 14 тестов (43 assert), затем 21 тест прогоняет каждую команду терминала на hello_world: 21 прошёл, 0 упало. 71,3 с в реальности, показано около 13 с; приглашение и набор постановочные, каждый напечатанный байт настоящий. <a href="https://t27.ai/term/play-terminal-gates/">Открыть запись на отдельной странице.</a></figcaption></figure>
+<h2>Семь страниц, по одной на бэкенд</h2>
+<p>Каждая страница лежит по адресу <code>t27.ai/play/hello-world/&lt;backend&gt;/</code> и имеет свою карточку-превью, так что пост показывает, какой язык открывает ссылка. При автозапуске терминал набирает <code>t27c gen &lt;backend&gt;</code> по 45 мс на символ и выполняет команду. Самая длинная из семи, <code>t27c gen verilog_hir</code>, занимает 20 символов, то есть 0,9 с набора. Генератор отвергает демо длиннее 32 символов и проверяет, что 32 символа в этом темпе укладываются в десять секунд, которые X разрешает чему-либо в карточке-плеере запускаться само (<code>AUTOPLAY_LIMIT_MS</code> в спеке).</p>
+<div class="tw"><table><thead><tr><th>Бэкенд</th><th>Страница</th><th>Файл</th><th>Что делает <code>run</code></th></tr></thead><tbody><tr><td>Zig</td><td><code>/zig/</code></td><td><code>hello_world.zig</code></td><td>печатает <code>zig test hello_world.zig</code></td></tr><tr><td>C</td><td><code>/c/</code></td><td><code>hello_world.c</code></td><td>печатает <code>cc -std=c11 -c hello_world.c</code></td></tr><tr><td>Rust</td><td><code>/rust/</code></td><td><code>hello_world.rs</code></td><td>печатает <code>rustc --crate-type lib --edition 2021 hello_world.rs</code></td></tr><tr><td>Verilog</td><td><code>/verilog/</code></td><td><code>HelloWorld.v</code></td><td>печатает <code>iverilog -g2012 -o /dev/null HelloWorld.v</code></td></tr><tr><td>Verilog (HIR)</td><td><code>/verilog-hir/</code></td><td><code>HelloWorld.hir.v</code></td><td>печатает <code>iverilog -g2012 -o /dev/null HelloWorld.hir.v</code></td></tr><tr><td>JavaScript</td><td><code>/js/</code></td><td><code>hello_world.js</code></td><td>импортирует его в страницу и печатает 7 экспортов; ничего не вызывает</td></tr><tr><td>TypeScript</td><td><code>/ts/</code></td><td><code>hello_world.ts</code></td><td>печатает <code>tsc --noEmit --strict hello_world.ts</code></td></tr></tbody></table></div>
+<p>В браузере работает только JavaScript. Для остальных шести бэкендов <code>run</code> говорит, что такого инструмента в странице нет, печатает <code>save &lt;file&gt;</code> и команду для машины, где он есть, и не заявляет никакого результата. Терминал понимает и <code>t27c gen-rust</code>, написание настоящего t27c. На <code>gcc</code>, <code>cargo</code> или <code>yosys</code> он отвечает, что этого инструмента в браузере нет, а не «command not found».</p>
+<h2>Каждое слово — в спеке</h2>
+<p>Всё, что терминал говорит или знает, записано константами в <code>specs/x/player.t27</code>:</p>
+<ul><li>бэкенды, расширения их файлов и локальные команды;</li><li>двенадцать команд и строки их справки;</li><li>стадии компиляции;</li><li>каждое сообщение.</li></ul>
+<p>В JavaScript, который всё это исполняет, <code>public/play/shell.js</code>, нет ни одной собственной английской фразы: он подставляет <code>{names}</code> в шаблоны спеки и выравнивает колонки. Генератор проверяет это в обе стороны. Он отвергает:</p>
+<ul><li>команду без обработчика или обработчик без команды;</li><li>константу <code>SAY_</code>, которую терминал никогда не произносит, или фразу, которую он произносит, а спека не определяет;</li><li>список бэкендов, отличающийся от набора, который компилятор действительно выдаёт.</li></ul>
+<pre><code>pub const BACKENDS : [7]str = [&quot;zig&quot;, &quot;c&quot;, &quot;rust&quot;, &quot;verilog&quot;, &quot;verilog_hir&quot;, &quot;js&quot;, &quot;ts&quot;];
+; The backends whose output this page runs itself.
+pub const RUNS_IN_BROWSER : [1]str = [&quot;js&quot;];
+pub const SAY_WARN_NOT_HERE : str = &quot;{lang} does not run in a browser: this page has no {tool}. On a machine that has it:&quot;;</code></pre>
+<h2>Почему логика пока на JavaScript</h2>
+<p>Слова уже на t27, а поведение пока нет: разбор строки, подстановка в шаблон, выбор имени файла. Эта часть занимает 361 строку, написанную вручную, и причина измерена. <code>gen-js</code> по замыслу переводит только объявления. Задача, которая его создала, t27#4471, говорит: «The emitted module is data. Nothing in it may run.» Для спеки, описывающей сервер, это правило верно. Для спеки, которая сама является терминалом, оно значит, что поведение должно жить рядом со спекой. t27#6101 просит включаемый по флагу перевод тел функций, при котором сегодняшний вывод не меняется ни на байт. Когда он появится, разбор команд и шаблоны переедут в <code>player.t27</code>, а в <code>shell.js</code> останется только связка с DOM.</p>
+<h2>Шесть команд мы запустили сами</h2>
+<p>Терминал, который выдаёт файл и команду, должен знать, что эта команда сделает. Мы запустили каждую на файлах, которые терминал выдаёт для <code>hello_world.t27</code> в том виде, в каком он лежит в репозитории, на одной машине с macOS:</p>
+<div class="tw"><table><thead><tr><th>Бэкенд</th><th>Команда</th><th>Код выхода</th><th>Первая ошибка</th></tr></thead><tbody><tr><td>Zig</td><td><code>zig test</code></td><td>1</td><td><code>hello_world.zig:33:23</code>: error: use of undeclared identifier &#x27;cast&#x27;</td></tr><tr><td>C</td><td><code>cc -std=c11 -c</code></td><td>1</td><td><code>hello_world.c:57:22</code>: error: call to undeclared function &#x27;cast&#x27;</td></tr><tr><td>Rust</td><td><code>rustc --crate-type lib</code></td><td>1</td><td><code>error[E0425]</code>: cannot find function <code>cast</code> in this scope</td></tr><tr><td>Verilog</td><td><code>iverilog -g2012</code></td><td>2</td><td><code>HelloWorld.v:79</code>: error: No function named <code>cast</code> found in this context</td></tr><tr><td>Verilog (HIR)</td><td><code>iverilog -g2012</code></td><td>2</td><td><code>HelloWorld.hir.v:15</code>: syntax error (порт <code>config</code> не экранирован)</td></tr><tr><td>JavaScript</td><td><code>node</code></td><td>0</td><td>нет</td></tr><tr><td>TypeScript</td><td><code>tsc --noEmit --strict</code></td><td>0</td><td>нет</td></tr></tbody></table></div>
+<p>Строка 47 спеки считает площадь как <code>cast(config.width) * cast(config.height)</code>, а <code>cast</code> нигде не объявлен. Проверка типов этот вызов пропускает. Собственный вычислитель тестов в странице считает его преобразованием, поэтому в браузере <code>t27c test</code> сообщает 4 pass, 0 fail, 0 skip. Zig, C и Rust ту же строку отвергают. JavaScript и TypeScript проходят только потому, что выдают объявления, а не саму функцию. Если переписать строку как <code>(config.width as u16) * (config.height as u16)</code>, проходят шесть из семи: <code>zig test</code> сообщает «All 2 tests passed», а HIR-Verilog по-прежнему падает на порту <code>config</code>. Обе проблемы заведены, это t27#6100 и t27#5966. Терминал этого не прячет: он печатает команду и никогда не заявляет её результат.</p>
+<h2>Страница, которую git потерял бы</h2>
+<p>Репозиторий игнорирует любой каталог с именем <code>zig/</code>: это место для скачанных наборов Zig. Под это же правило попал и <code>public/play/hello-world/zig/</code>. Сборка бы прошла, страница существовала бы на машине, которая её собрала, а опубликованный сайт отвечал бы 404 на ссылку для Zig. Это исправляет одна строка-исключение в <code>.gitignore</code>. Теперь тест спрашивает <code>git check-ignore</code> о каждой странице бэкенда, с контрольным путём под тем же правилом, который по-прежнему обязан игнорироваться.</p>
+<h2>Прежде чем это попадёт в X</h2>
+<p>Карточкам-плеерам X запрещено собирать ввод данных. Терминал принимает набранные команды, хотя ничего не покидает страницу. Публиковать ли страницу терминала как карточку-плеер или только как ссылку, решает владелец. Ничего не опубликовано.</p>
+<h2>Попробовать</h2>
+<ul><li>Плеер, терминал на последней вкладке: t27.ai/play/hello-world/</li><li>Терминал, открытый на одном бэкенде: t27.ai/play/hello-world/rust/ (или <code>/zig/</code>, <code>/c/</code>, <code>/verilog/</code>, <code>/verilog-hir/</code>, <code>/js/</code>, <code>/ts/</code>)</li><li>В терминале: <code>help</code>, <code>t27c test</code>, <code>t27c gen zig</code>, <code>run js</code>, <code>run rust</code>, <code>t27c check</code></li></ul>
+<div class="box"><h2>Чего это не решает</h2><ul><li>В браузере работает только JavaScript. Для остальных шести бэкендов страница печатает команду и ничего не заявляет; нативные результаты в посте получены на одной машине с macOS в один день (zig 0.16.0, Apple clang 21.0.0, rustc 1.98.1, Icarus Verilog 12.0, tsc 5.8.3).</li><li>hello_world в нынешнем виде не собирается нативно на пяти языках из семи, а терминал всё равно выдаёт эти файлы вместе с командой. Пока t27#6100 и t27#5966 не исправлены, читатель, который их запустит, получит ошибки из таблицы.</li><li>Вычислитель тестов в странице считает необъявленный cast() преобразованием, поэтому в браузере тесты спеки проходят на строке, которую Zig, C и Rust отвергают.</li><li>Поведение терминала — это 361 строка JavaScript, написанная вручную; в спеке только его слова и факты. Перенос поведения ждёт t27#6101, который меняет то, что обещает gen-js, и может быть отклонён.</li><li>Карточкам-плеерам X запрещено собирать ввод данных. Можно ли публиковать страницу терминала как карточку-плеер, не решено, и ничего не опубликовано.</li><li>Страницы терминала есть у одной спеки. Каждому другому плееру понадобятся свои семь.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://t27.ai/term/play-terminal-gates/">The recording shown in the post: the terminal&#x27;s own gates, 21 pass, 0 fail</a></li><li><a href="https://t27.ai/play/hello-world/">The player, with the terminal as its last tab</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1366">trinity#1366: this work, the terminal, the seven pages and this post</a></li><li><a href="https://github.com/gHashTag/trinity/issues/1365">trinity#1365: a terminal for every t27 backend, one share page per backend (the issue this work closes)</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1359">trinity#1359: typed code shows at once in the spec editor (the base of this work) · MERGED 2026-10-04</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1340">trinity#1340: the X player card, generated from specs/x/player.t27 · MERGED 2026-10-04</a></li><li><a href="https://github.com/gHashTag/t27/issues/6100">t27#6100: hello_world.t27 calls cast(), which nothing declares · OPEN</a></li><li><a href="https://github.com/gHashTag/t27/issues/6101">t27#6101: gen-js, an opt-in lowering of fn bodies · OPEN</a></li><li><a href="https://github.com/gHashTag/t27/issues/5966">t27#5966: gen-verilog and gen-verilog-hir output for hello_world is refused by iverilog · OPEN</a></li><li><a href="https://github.com/gHashTag/t27/issues/4471">t27#4471: the gen-js backend, declarations only, by design · CLOSED 2026-09-20</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/?lang=ru#/blog/a-terminal-for-seven-backends-in-an-x-post">Открыть интерактивную версию</a><a class="btn sec" href="/blog/a-terminal-for-seven-backends-in-an-x-post/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Поработаем вместе</p><h2 id="blog-work-offer-title">Нужно довести FPGA/RTL-задачу до замеров на железе?</h2><p>Работаю по контракту и part-time с hardware-AI, FPGA/RTL и ML-системами — от спецификации и открытого тулчейна до воспроизводимых измерений.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%B4%D0%BB%D1%8F%20T27%20%E2%80%94%20%D0%A2%D0%B5%D1%80%D0%BC%D0%B8%D0%BD%D0%B0%D0%BB%20%D0%B4%D0%BB%D1%8F%20%D1%81%D0%B5%D0%BC%D0%B8%20%D0%B1%D1%8D%D0%BA%D0%B5%D0%BD%D0%B4%D0%BE%D0%B2%20t27%20%D0%B2%D0%BD%D1%83%D1%82%D1%80%D0%B8%20%D0%BF%D0%BE%D1%81%D1%82%D0%B0%20%D0%B2%20X&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%21%20%D0%AF%20%D0%BF%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D0%BB%28%D0%B0%29%20%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8E%20%C2%AB%D0%A2%D0%B5%D1%80%D0%BC%D0%B8%D0%BD%D0%B0%D0%BB%20%D0%B4%D0%BB%D1%8F%20%D1%81%D0%B5%D0%BC%D0%B8%20%D0%B1%D1%8D%D0%BA%D0%B5%D0%BD%D0%B4%D0%BE%D0%B2%20t27%20%D0%B2%D0%BD%D1%83%D1%82%D1%80%D0%B8%20%D0%BF%D0%BE%D1%81%D1%82%D0%B0%20%D0%B2%20X%C2%BB%3A%20https%3A%2F%2Ft27.ai%2Fru%2Fblog%2Fa-terminal-for-seven-backends-in-an-x-post%2F%0A%0A%D0%9D%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A">Обсудить задачу</a><a class="btn sec" href="/ru/about/">Как я работаю</a></div><nav class="work-links" aria-label="Услуги"><span>Услуги:</span><a href="/ru/verification/">Верификация</a><a href="/ru/ip/">Лицензирование IP</a><a href="/ru/course/">Курсы и воркшопы</a><a href="/ru/about/">Контрактная работа</a></nav></section>
+<script type="module">
+import { mount } from '/term/player.js'
+for (const el of document.querySelectorAll('.t27-cast[data-src]')) {
+  mount(el, { src: el.dataset.src, title: el.dataset.title, share: el.dataset.share || undefined })
+}
+</script>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

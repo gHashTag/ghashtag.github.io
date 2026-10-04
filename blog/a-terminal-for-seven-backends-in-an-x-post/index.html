@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A terminal for t27&#x27;s seven backends, inside an X post · TRINITY</title>
+<meta name="description" content="[one spec, hello_world; only JavaScript runs in the browser; the native results are one macOS machine on one day; nothing posted on X] The t27 player now has a terminal: the compiler, as WebAssembly in the page, prints what each of its seven backends emits and runs the spec&#x27;s tests. Each backend has its own share page. Every word the terminal says lives in the spec. Run natively, hello_world as committed builds in two of the seven languages, and the post says why." />
+<link rel="canonical" href="https://t27.ai/blog/a-terminal-for-seven-backends-in-an-x-post/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/a-terminal-for-seven-backends-in-an-x-post/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/a-terminal-for-seven-backends-in-an-x-post/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/a-terminal-for-seven-backends-in-an-x-post/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/a-terminal-for-seven-backends-in-an-x-post/" />
+<meta property="og:title" content="A terminal for t27&#x27;s seven backends, inside an X post" />
+<meta property="og:description" content="[one spec, hello_world; only JavaScript runs in the browser; the native results are one macOS machine on one day; nothing posted on X] The t27 player now has a terminal: the compiler, as WebAssembly in the page, prints what each of its seven backends emits and runs the spec&#x27;s tests. Each backend has its own share page. Every word the terminal says lives in the spec. Run natively, hello_world as committed builds in two of the seven languages, and the post says why." />
+<meta property="og:image" content="https://t27.ai/og-blog-a-terminal-for-seven-backends-in-an-x-post.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="A terminal for t27&#x27;s seven backends, inside an X post" />
+<meta name="twitter:description" content="[one spec, hello_world; only JavaScript runs in the browser; the native results are one macOS machine on one day; nothing posted on X] The t27 player now has a terminal: the compiler, as WebAssembly in the page, prints what each of its seven backends emits and runs the spec&#x27;s tests. Each backend has its own share page. Every word the terminal says lives in the spec. Run natively, hello_world as committed builds in two of the seven languages, and the post says why." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"A terminal for t27's seven backends, inside an X post","description":"[one spec, hello_world; only JavaScript runs in the browser; the native results are one macOS machine on one day; nothing posted on X] The t27 player now has a terminal: the compiler, as WebAssembly in the page, prints what each of its seven backends emits and runs the spec's tests. Each backend has its own share page. Every word the terminal says lives in the spec. Run natively, hello_world as committed builds in two of the seven languages, and the post says why.","url":"https://t27.ai/blog/a-terminal-for-seven-backends-in-an-x-post/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/a-terminal-for-seven-backends-in-an-x-post/"},"image":"https://t27.ai/og-blog-a-terminal-for-seven-backends-in-an-x-post.png","datePublished":"2026-10-04","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"t27, Compiler, Terminal"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>A terminal for t27&#x27;s seven backends, inside an X post</h1>
+<p class="meta">2026-10-04 · 6 min read</p>
+<p class="lede">[one spec, hello_world; only JavaScript runs in the browser; the native results are one macOS machine on one day; nothing posted on X] The t27 player now has a terminal: the compiler, as WebAssembly in the page, prints what each of its seven backends emits and runs the spec&#x27;s tests. Each backend has its own share page. Every word the terminal says lives in the spec. Run natively, hello_world as committed builds in two of the seven languages, and the post says why.</p>
+<figure class="blog-cover"><a href="/og-blog-a-terminal-for-seven-backends-in-an-x-post.png?v=956382d21bc4" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — A terminal for t27&#x27;s seven backends, inside an X post"><img src="/og-blog-a-terminal-for-seven-backends-in-an-x-post.png?v=956382d21bc4" alt="Three-panel engraved illustration for: A terminal for t27&#x27;s seven backends, inside an X post" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-a-terminal-for-seven-backends-in-an-x-post.png?v=956382d21bc4" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — A terminal for t27&#x27;s seven backends, inside an X post">View the complete triptych at full size</a></figcaption></figure>
+<div class="tags"><span class="tag">#t27</span><span class="tag">#Compiler</span><span class="tag">#Terminal</span></div>
+<p>The t27 player, the page that compiles a spec inside an X post, now has a terminal. Type <code>t27c gen rust</code> and the t27 compiler, running as WebAssembly in the page, prints the Rust it emits for the spec in the editor. <code>t27c test</code> runs the spec&#x27;s own tests. Each of the compiler&#x27;s seven backends has its own share page, so a link opens the terminal already typing the command for that language. Nothing is sent anywhere: every line is printed by the compiler in the page, or by the JavaScript it emitted.</p>
+<figure class="term"><div class="t27-cast" data-src="/term/play-terminal-gates/session.cast" data-title="t27 play · the terminal&#x27;s own gates" data-share="https://t27.ai/term/play-terminal-gates/"><p><strong>t27 play · the terminal&#x27;s own gates</strong></p></div><figcaption>The generator rebuilds the player from its spec and checks the spec&#x27;s 14 tests (43 asserts), then 21 tests run every terminal command on hello_world: 21 pass, 0 fail. 71.3 s real, about 13 s shown; the prompt and the typing are staged, every byte printed is real. <a href="https://t27.ai/term/play-terminal-gates/">Open the recording on its own page.</a></figcaption></figure>
+<h2>Seven pages, one per backend</h2>
+<p>Each page lives at <code>t27.ai/play/hello-world/&lt;backend&gt;/</code> and has its own preview card, so a post shows which language the link opens. Opened with autoplay, the terminal types <code>t27c gen &lt;backend&gt;</code> at 45 ms a character and runs it. The longest of the seven, <code>t27c gen verilog_hir</code>, is 20 characters, or 0.9 s of typing. The generator refuses a demo longer than 32 characters and checks that 32 characters at that pace stay inside the ten seconds X allows anything in a player card to start by itself (<code>AUTOPLAY_LIMIT_MS</code> in the spec).</p>
+<div class="tw"><table><thead><tr><th>Backend</th><th>Page</th><th>File</th><th>What <code>run</code> does</th></tr></thead><tbody><tr><td>Zig</td><td><code>/zig/</code></td><td><code>hello_world.zig</code></td><td>prints <code>zig test hello_world.zig</code></td></tr><tr><td>C</td><td><code>/c/</code></td><td><code>hello_world.c</code></td><td>prints <code>cc -std=c11 -c hello_world.c</code></td></tr><tr><td>Rust</td><td><code>/rust/</code></td><td><code>hello_world.rs</code></td><td>prints <code>rustc --crate-type lib --edition 2021 hello_world.rs</code></td></tr><tr><td>Verilog</td><td><code>/verilog/</code></td><td><code>HelloWorld.v</code></td><td>prints <code>iverilog -g2012 -o /dev/null HelloWorld.v</code></td></tr><tr><td>Verilog (HIR)</td><td><code>/verilog-hir/</code></td><td><code>HelloWorld.hir.v</code></td><td>prints <code>iverilog -g2012 -o /dev/null HelloWorld.hir.v</code></td></tr><tr><td>JavaScript</td><td><code>/js/</code></td><td><code>hello_world.js</code></td><td>imports it into the page and prints its 7 exports; calls nothing</td></tr><tr><td>TypeScript</td><td><code>/ts/</code></td><td><code>hello_world.ts</code></td><td>prints <code>tsc --noEmit --strict hello_world.ts</code></td></tr></tbody></table></div>
+<p>Only JavaScript runs in a browser. For the other six backends, <code>run</code> says the page has no such toolchain, prints <code>save &lt;file&gt;</code> and the command for a machine that has one, and claims no result. The terminal also takes <code>t27c gen-rust</code>, the real t27c&#x27;s spelling. <code>gcc</code>, <code>cargo</code> or <code>yosys</code> gets an answer saying the tool is not in the browser, instead of &quot;command not found&quot;.</p>
+<h2>Every word is in the spec</h2>
+<p>Everything the terminal says or knows is a constant in <code>specs/x/player.t27</code>:</p>
+<ul><li>the backends, their file extensions and their local commands;</li><li>the twelve commands and their help lines;</li><li>the compile stages;</li><li>each message.</li></ul>
+<p>The JavaScript that runs it, <code>public/play/shell.js</code>, holds no English of its own: it fills <code>{names}</code> into the spec&#x27;s templates and lays out columns. The generator enforces this in both directions. It refuses:</p>
+<ul><li>a command with no handler, or a handler with no command;</li><li>a <code>SAY_</code> constant the terminal never says, or a phrase it says that the spec does not define;</li><li>a backend list that differs from the set the compiler actually emits.</li></ul>
+<pre><code>pub const BACKENDS : [7]str = [&quot;zig&quot;, &quot;c&quot;, &quot;rust&quot;, &quot;verilog&quot;, &quot;verilog_hir&quot;, &quot;js&quot;, &quot;ts&quot;];
+; The backends whose output this page runs itself.
+pub const RUNS_IN_BROWSER : [1]str = [&quot;js&quot;];
+pub const SAY_WARN_NOT_HERE : str = &quot;{lang} does not run in a browser: this page has no {tool}. On a machine that has it:&quot;;</code></pre>
+<h2>Why the logic is still JavaScript</h2>
+<p>The words are t27, and the behaviour is not yet: dispatching a line, filling a template, choosing a file name. That part is 361 hand-written lines, for a measured reason. <code>gen-js</code> lowers declarations only, by design. The issue that created it, t27#4471, says: &quot;The emitted module is data. Nothing in it may run.&quot; That rule is right for a spec that describes a server. For a spec that is a terminal, it means the behaviour has to live beside the spec. t27#6101 asks for an opt-in lowering of function bodies that leaves today&#x27;s output byte for byte unchanged. Once it exists, the dispatch and the templates move into <code>player.t27</code>, and <code>shell.js</code> shrinks to DOM glue.</p>
+<h2>We ran the six commands ourselves</h2>
+<p>A terminal that hands out a file and a command should know what the command does. We ran each one on the files the terminal gives for <code>hello_world.t27</code>, as committed, on one macOS machine:</p>
+<div class="tw"><table><thead><tr><th>Backend</th><th>Command</th><th>Exit</th><th>First error</th></tr></thead><tbody><tr><td>Zig</td><td><code>zig test</code></td><td>1</td><td><code>hello_world.zig:33:23</code>: error: use of undeclared identifier &#x27;cast&#x27;</td></tr><tr><td>C</td><td><code>cc -std=c11 -c</code></td><td>1</td><td><code>hello_world.c:57:22</code>: error: call to undeclared function &#x27;cast&#x27;</td></tr><tr><td>Rust</td><td><code>rustc --crate-type lib</code></td><td>1</td><td><code>error[E0425]</code>: cannot find function <code>cast</code> in this scope</td></tr><tr><td>Verilog</td><td><code>iverilog -g2012</code></td><td>2</td><td><code>HelloWorld.v:79</code>: error: No function named <code>cast</code> found in this context</td></tr><tr><td>Verilog (HIR)</td><td><code>iverilog -g2012</code></td><td>2</td><td><code>HelloWorld.hir.v:15</code>: syntax error (the port <code>config</code> is not escaped)</td></tr><tr><td>JavaScript</td><td><code>node</code></td><td>0</td><td>none</td></tr><tr><td>TypeScript</td><td><code>tsc --noEmit --strict</code></td><td>0</td><td>none</td></tr></tbody></table></div>
+<p>Line 47 of the spec computes an area with <code>cast(config.width) * cast(config.height)</code>, and nothing declares <code>cast</code>. The typechecker accepts the call. The page&#x27;s own test evaluator treats it as a conversion, so in the browser <code>t27c test</code> reports 4 pass, 0 fail, 0 skip. Zig, C and Rust refuse the same line. JavaScript and TypeScript pass only because they emit declarations, not the function. With the line rewritten as <code>(config.width as u16) * (config.height as u16)</code>, six of the seven pass: <code>zig test</code> reports &quot;All 2 tests passed&quot;, and the HIR Verilog still fails on its <code>config</code> port. Both are filed, as t27#6100 and t27#5966. The terminal does not hide this: it prints the command and never claims the result.</p>
+<h2>A page git would have dropped</h2>
+<p>The repository ignores every directory called <code>zig/</code>, for downloaded Zig toolchains. That rule also matched <code>public/play/hello-world/zig/</code>. The build would have passed, the page would have existed on the machine that made it, and the published site would have answered 404 for the Zig link. One negation line in <code>.gitignore</code> fixes it. A test now asks <code>git check-ignore</code> about every backend page, with a control path under the same rule that must still be ignored.</p>
+<h2>Before it goes on X</h2>
+<p>X&#x27;s player cards may not collect data entry. The terminal takes typed commands, though nothing leaves the page. Whether a terminal page is posted as a player card or only as a link is the owner&#x27;s decision. Nothing has been posted.</p>
+<h2>Try it</h2>
+<ul><li>The player, with the terminal as its last tab: t27.ai/play/hello-world/</li><li>The terminal opened on one backend: t27.ai/play/hello-world/rust/ (or <code>/zig/</code>, <code>/c/</code>, <code>/verilog/</code>, <code>/verilog-hir/</code>, <code>/js/</code>, <code>/ts/</code>)</li><li>In the terminal: <code>help</code>, <code>t27c test</code>, <code>t27c gen zig</code>, <code>run js</code>, <code>run rust</code>, <code>t27c check</code></li></ul>
+<div class="box"><h2>What this does not settle</h2><ul><li>Only JavaScript runs in the browser. For the other six backends the page prints a command and claims nothing; the native results in the post are one macOS machine on one day (zig 0.16.0, Apple clang 21.0.0, rustc 1.98.1, Icarus Verilog 12.0, tsc 5.8.3).</li><li>hello_world as committed does not build natively in five of the seven languages, and the terminal hands out those files anyway, with the command. Until t27#6100 and t27#5966 are fixed, a reader who runs them gets the errors in the table.</li><li>The page&#x27;s test evaluator treats the undeclared cast() as a conversion, so in the browser the spec&#x27;s tests pass on a line that Zig, C and Rust refuse.</li><li>The terminal&#x27;s behaviour is 361 hand-written lines of JavaScript; only its words and facts are in the spec. Moving the behaviour waits on t27#6101, which changes what gen-js promises and may be declined.</li><li>X&#x27;s player cards may not collect data entry. Whether a terminal page can be posted as a player card is not decided, and nothing has been posted.</li><li>One spec has terminal pages. Every other play would need its own seven.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://t27.ai/term/play-terminal-gates/">The recording shown in the post: the terminal&#x27;s own gates, 21 pass, 0 fail</a></li><li><a href="https://t27.ai/play/hello-world/">The player, with the terminal as its last tab</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1366">trinity#1366: this work, the terminal, the seven pages and this post</a></li><li><a href="https://github.com/gHashTag/trinity/issues/1365">trinity#1365: a terminal for every t27 backend, one share page per backend (the issue this work closes)</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1359">trinity#1359: typed code shows at once in the spec editor (the base of this work) · MERGED 2026-10-04</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1340">trinity#1340: the X player card, generated from specs/x/player.t27 · MERGED 2026-10-04</a></li><li><a href="https://github.com/gHashTag/t27/issues/6100">t27#6100: hello_world.t27 calls cast(), which nothing declares · OPEN</a></li><li><a href="https://github.com/gHashTag/t27/issues/6101">t27#6101: gen-js, an opt-in lowering of fn bodies · OPEN</a></li><li><a href="https://github.com/gHashTag/t27/issues/5966">t27#5966: gen-verilog and gen-verilog-hir output for hello_world is refused by iverilog · OPEN</a></li><li><a href="https://github.com/gHashTag/t27/issues/4471">t27#4471: the gen-js backend, declarations only, by design · CLOSED 2026-09-20</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/a-terminal-for-seven-backends-in-an-x-post">Open the interactive version</a><a class="btn sec" href="/ru/blog/a-terminal-for-seven-backends-in-an-x-post/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Need an FPGA/RTL problem taken to measured hardware?</h2><p>I work contract and part-time on hardware-AI, FPGA/RTL and ML systems — from specification and open toolchains to reproducible measurements.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20A%20terminal%20for%20t27%27s%20seven%20backends%2C%20inside%20an%20X%20post&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CA%20terminal%20for%20t27%27s%20seven%20backends%2C%20inside%20an%20X%20post%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fa-terminal-for-seven-backends-in-an-x-post%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/about/">See how I work</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<script type="module">
+import { mount } from '/term/player.js'
+for (const el of document.querySelectorAll('.t27-cast[data-src]')) {
+  mount(el, { src: el.dataset.src, title: el.dataset.title, share: el.dataset.share || undefined })
+}
+</script>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

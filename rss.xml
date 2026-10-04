@@ -28,6 +28,16 @@
       <category>Measurement</category>
     </item>
     <item>
+      <title>A terminal for t27's seven backends, inside an X post</title>
+      <link>https://t27.ai/#/blog/a-terminal-for-seven-backends-in-an-x-post</link>
+      <guid isPermaLink="false">a-terminal-for-seven-backends-in-an-x-post</guid>
+      <pubDate>Sun, 04 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[one spec, hello_world; only JavaScript runs in the browser; the native results are one macOS machine on one day; nothing posted on X] The t27 player now has a terminal: the compiler, as WebAssembly in the page, prints what each of its seven backends emits and runs the spec's tests. Each backend has its own share page. Every word the terminal says lives in the spec. Run natively, hello_world as committed builds in two of the seven languages, and the post says why.</description>
+      <category>t27</category>
+      <category>Compiler</category>
+      <category>Terminal</category>
+    </item>
+    <item>
       <title>The back half of openXC7, from a spec: FASM to frames to bitstream</title>
       <link>https://t27.ai/#/blog/the-back-half-of-openxc7-from-a-spec</link>
       <guid isPermaLink="false">the-back-half-of-openxc7-from-a-spec</guid>
