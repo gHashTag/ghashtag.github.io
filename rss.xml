@@ -6,7 +6,17 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 03 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 04 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Three bits, each one necessary: the MMCM's performance clock on silicon</title>
+      <link>https://t27.ai/#/blog/three-bits-each-necessary</link>
+      <guid isPermaLink="false">three-bits-each-necessary</guid>
+      <pubDate>Sun, 04 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[one clock path on one AX7203 board; LEDs read by eye, no counter readback; built with a nextpnr-xilinx 115 commits behind main, with one merged fix applied locally; the faster loop was timed on one small design] An MMCM output can reach a regional clock buffer through a performance-clock path, and two rows in Project X-Ray's database say which bits switch that path on. With the rows on prjxray-db master, a counter clocked through it does not run on an XC7A200T. With the rows we proposed in openXC7/prjxray-db#30, it runs, and the two bitstreams differ in exactly three bits. Clearing any one of the three stops the counter again, so each is necessary. nextpnr-xilinx main still pins a database with the old rows. Along the way, the edit-to-board loop went from about 104–111 s to about 19–28 s, mostly from a router flag, the t27-spec assembler and a faster JTAG clock.</description>
+      <category>FPGA</category>
+      <category>Open toolchain</category>
+      <category>Verification</category>
+    </item>
     <item>
       <title>The back half of openXC7, from a spec: FASM to frames to bitstream</title>
       <link>https://t27.ai/#/blog/the-back-half-of-openxc7-from-a-spec</link>

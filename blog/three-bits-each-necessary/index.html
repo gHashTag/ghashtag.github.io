@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Three bits, each one necessary: the MMCM&#x27;s performance clock on silicon · TRINITY</title>
+<meta name="description" content="[one clock path on one AX7203 board; LEDs read by eye, no counter readback; built with a nextpnr-xilinx 115 commits behind main, with one merged fix applied locally; the faster loop was timed on one small design] An MMCM output can reach a regional clock buffer through a performance-clock path, and two rows in Project X-Ray&#x27;s database say which bits switch that path on. With the rows on prjxray-db master, a counter clocked through it does not run on an XC7A200T. With the rows we proposed in openXC7/prjxray-db#30, it runs, and the two bitstreams differ in exactly three bits. Clearing any one of the three stops the counter again, so each is necessary. nextpnr-xilinx main still pins a database with the old rows. Along the way, the edit-to-board loop went from about 104–111 s to about 19–28 s, mostly from a router flag, the t27-spec assembler and a faster JTAG clock." />
+<link rel="canonical" href="https://t27.ai/blog/three-bits-each-necessary/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/three-bits-each-necessary/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/three-bits-each-necessary/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/three-bits-each-necessary/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/three-bits-each-necessary/" />
+<meta property="og:title" content="Three bits, each one necessary: the MMCM&#x27;s performance clock on silicon" />
+<meta property="og:description" content="[one clock path on one AX7203 board; LEDs read by eye, no counter readback; built with a nextpnr-xilinx 115 commits behind main, with one merged fix applied locally; the faster loop was timed on one small design] An MMCM output can reach a regional clock buffer through a performance-clock path, and two rows in Project X-Ray&#x27;s database say which bits switch that path on. With the rows on prjxray-db master, a counter clocked through it does not run on an XC7A200T. With the rows we proposed in openXC7/prjxray-db#30, it runs, and the two bitstreams differ in exactly three bits. Clearing any one of the three stops the counter again, so each is necessary. nextpnr-xilinx main still pins a database with the old rows. Along the way, the edit-to-board loop went from about 104–111 s to about 19–28 s, mostly from a router flag, the t27-spec assembler and a faster JTAG clock." />
+<meta property="og:image" content="https://t27.ai/og-blog-three-bits-each-necessary.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Three bits, each one necessary: the MMCM&#x27;s performance clock on silicon" />
+<meta name="twitter:description" content="[one clock path on one AX7203 board; LEDs read by eye, no counter readback; built with a nextpnr-xilinx 115 commits behind main, with one merged fix applied locally; the faster loop was timed on one small design] An MMCM output can reach a regional clock buffer through a performance-clock path, and two rows in Project X-Ray&#x27;s database say which bits switch that path on. With the rows on prjxray-db master, a counter clocked through it does not run on an XC7A200T. With the rows we proposed in openXC7/prjxray-db#30, it runs, and the two bitstreams differ in exactly three bits. Clearing any one of the three stops the counter again, so each is necessary. nextpnr-xilinx main still pins a database with the old rows. Along the way, the edit-to-board loop went from about 104–111 s to about 19–28 s, mostly from a router flag, the t27-spec assembler and a faster JTAG clock." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Three bits, each one necessary: the MMCM's performance clock on silicon","description":"[one clock path on one AX7203 board; LEDs read by eye, no counter readback; built with a nextpnr-xilinx 115 commits behind main, with one merged fix applied locally; the faster loop was timed on one small design] An MMCM output can reach a regional clock buffer through a performance-clock path, and two rows in Project X-Ray's database say which bits switch that path on. With the rows on prjxray-db master, a counter clocked through it does not run on an XC7A200T. With the rows we proposed in openXC7/prjxray-db#30, it runs, and the two bitstreams differ in exactly three bits. Clearing any one of the three stops the counter again, so each is necessary. nextpnr-xilinx main still pins a database with the old rows. Along the way, the edit-to-board loop went from about 104–111 s to about 19–28 s, mostly from a router flag, the t27-spec assembler and a faster JTAG clock.","url":"https://t27.ai/blog/three-bits-each-necessary/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/three-bits-each-necessary/"},"image":"https://t27.ai/og-blog-three-bits-each-necessary.png","datePublished":"2026-10-04","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"FPGA, Open toolchain, Verification"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Three bits, each one necessary: the MMCM&#x27;s performance clock on silicon</h1>
+<p class="meta">2026-10-04 · 6 min read</p>
+<p class="lede">[one clock path on one AX7203 board; LEDs read by eye, no counter readback; built with a nextpnr-xilinx 115 commits behind main, with one merged fix applied locally; the faster loop was timed on one small design] An MMCM output can reach a regional clock buffer through a performance-clock path, and two rows in Project X-Ray&#x27;s database say which bits switch that path on. With the rows on prjxray-db master, a counter clocked through it does not run on an XC7A200T. With the rows we proposed in openXC7/prjxray-db#30, it runs, and the two bitstreams differ in exactly three bits. Clearing any one of the three stops the counter again, so each is necessary. nextpnr-xilinx main still pins a database with the old rows. Along the way, the edit-to-board loop went from about 104–111 s to about 19–28 s, mostly from a router flag, the t27-spec assembler and a faster JTAG clock.</p>
+
+<div class="tags"><span class="tag">#FPGA</span><span class="tag">#OpenToolchain</span><span class="tag">#Verification</span></div>
+<h2>What was measured</h2>
+<p>An MMCM in a Xilinx 7-series clock-management tile can hand an output to the regional clock buffers through a performance-clock path. The path is two muxes: one in the CMT tile (<code>CLK_PERF0</code> to <code>CLK_PERF3</code>) and one in the HCLK_CMT tile above it (<code>PERFCLK0</code> to <code>PERFCLK3</code>). Project X-Ray&#x27;s database has rows that say which configuration bits select each input. For the path used here, the rows on prjxray-db master are short. <code>CLK_PERF2.CLKOUT3</code> is <code>29_994</code> alone, and <code>PERFCLK2.MUXED2</code> is <code>28_176 29_133</code>. The rows we proposed in openXC7/prjxray-db#30, at commit <code>c030ed6</code>, add <code>28_994</code> and <code>29_1022</code> to the first and <code>28_180</code> to the second.</p>
+<p>Those rows came from a population. cavearr ran a campaign of 1083 Vivado specimens, and we re-derived its numbers with our own bit reader before writing the rows. A population says which bits move together, but it does not say a design runs. This post is the board half.</p>
+<h2>The probe</h2>
+<p>The board is an ALINX AX7203 (<code>xc7a200tfbg484-2</code>). The 200 MHz board clock goes through IBUFDS and BUFG into an MMCM. The VCO runs at 1000 MHz and <code>CLKOUT3_DIVIDE = 10</code>, so <code>CLKOUT3</code> is 100 MHz. <code>CLKOUT3</code> goes through <code>CLK_PERF2</code> and <code>PERFCLK2 &lt;- MUXED2</code> into a BUFR in bypass mode, and the BUFR clocks a 27-bit counter. A 28-bit counter on the BUFG is the reference. The top bit of each counter drives an LED, so both LEDs should toggle every 1.34 s, since 2^27 / 100 MHz = 2^28 / 200 MHz. A third LED blinks fast while the MMCM reports <code>LOCKED</code>.</p>
+<p>The counter sits in ordinary fabric, not in the I/O column, so the clock has to leave the BUFR through the horizontal clock spine. An earlier post used the same trick for its one-bit A/B, and this probe also depends on the <code>ENABLE_BUFFER</code> bit that post verified.</p>
+<h2>The A/B: one route, two databases, three bits</h2>
+<p>One place-and-route run produced one FASM file, and <code>fasm2frames</code> assembled it twice. The first time was against prjxray-db master <code>517d66a</code>, and the second against the same checkout with the eight files of <code>c030ed6</code> copied in. Past the sync word, the two bitstreams differ in exactly three bits, and all three are PERF bits: <code>28_994</code> and <code>29_1022</code> in the CMT tile, and <code>28_180</code> in the HCLK_CMT tile.</p>
+<div class="tw"><table><thead><tr><th>rows</th><th>reference LED</th><th>BUFR counter LED</th><th>LOCKED</th></tr></thead><tbody><tr><td>master <code>517d66a</code></td><td>blinks, ~1.3 s</td><td>steady</td><td>locked</td></tr><tr><td><code>c030ed6</code></td><td>blinks, ~1.3 s</td><td>blinks in step with the reference</td><td>locked</td></tr></tbody></table></div>
+<p>The LEDs on this board are active-low, so &quot;steady&quot; means a counter frozen at its reset value. With the master rows, the MMCM locks and the reference runs, but no clock reaches the BUFR.</p>
+<h2>Knockouts: each bit is necessary</h2>
+<p>The counter runs with all three bits set, but that does not show each one is needed, since one could be a passenger. So we took the working frames, cleared exactly one of the three bits, and wrote a bitstream for each, with no new place-and-route. Past the sync word, each knockout differs from the working bitstream in three bytes: the bit itself and the frame&#x27;s ECC word.</p>
+<div class="tw"><table><thead><tr><th>bit cleared</th><th>row it belongs to</th><th>BUFR counter LED</th></tr></thead><tbody><tr><td>none (<code>c030ed6</code> rows)</td><td></td><td>blinks in step with the reference</td></tr><tr><td><code>28_994</code></td><td><code>CLK_PERF2.CLKOUT3</code></td><td>steady</td></tr><tr><td><code>29_1022</code></td><td><code>CLK_PERF2.CLKOUT3</code></td><td>steady</td></tr><tr><td><code>28_180</code></td><td><code>PERFCLK2.MUXED2</code> (used bit)</td><td>steady</td></tr><tr><td>none, re-flashed after the knockouts</td><td></td><td>blinks in step with the reference</td></tr></tbody></table></div>
+<p>Clearing any one bit stops the counter, and the working bitstream still ran when flashed again afterwards, so the board did not change state in between. <code>28_180</code> is a bit that our own earlier version of the rows left out. It is the HCLK &quot;used&quot; bit, <code>(26+p)_180</code> for <code>PERFCLKp</code>. We found it was missing only when our check started counting every bit in a fixed set, instead of only the bits that some row mentioned.</p>
+<figure class="term"><p><strong>perf2.py diff · knockout · the three CLK_PERF2 bits</strong></p><figcaption>The recorded run, 2026-10-04 at 02:53 UTC+7, after the board runs: <code>perf2.py diff</code> names the three bits that separate the two A/B bitstreams, and no master row uses any of them. <code>perf2.py knockout</code> rebuilds the three knockout frames files, each byte-identical to the one that was flashed, and each knockout .bit differs from the working one in 3 bytes past the sync word. The LEDs are not in the recording. Every byte printed is real; the prompt and the typing are staged, and silences over 2 s are shortened. <a href="https://t27.ai/term/perf2-knockouts/">Open the recording on its own page.</a></figcaption></figure>
+<h2>The decode agrees with the board</h2>
+<p>The database is read in two directions: <code>fasm2frames</code> encodes features into bits, and <code>bit2fasm</code> decodes bits back into features. We decoded both bitstreams with both databases and kept the PERF features of the two tiles.</p>
+<div class="tw"><table><thead><tr><th>bitstream</th><th>decoded with master</th><th>decoded with <code>c030ed6</code></th></tr></thead><tbody><tr><td>master rows (counter dead)</td><td><code>CLK_PERF2.CLKOUT3</code>, <code>PERFCLK2.MUXED2</code></td><td>none</td></tr><tr><td><code>c030ed6</code> rows (counter running)</td><td><code>CLK_PERF2.CLKOUT3</code>, <code>PERFCLK2.MUXED2</code></td><td><code>CLK_PERF2.CLKOUT3</code>, <code>PERFCLK2.MUXED2</code></td></tr></tbody></table></div>
+<p>With the master rows, the dead bitstream decodes as if the path were configured. Each master row is a subset of the real one, and all of its bits are present. A decoder built on those rows therefore reports a working clock path that the silicon does not have. With <code>c030ed6</code>, the decode matches the board in both cases.</p>
+<h2>What the open toolchain ships today</h2>
+<p>prjxray-db#30 is open. nextpnr-xilinx main pins prjxray-db at <code>6b8695e</code>, which is cavearr&#x27;s prjxray-db#13, merged on 7 September. At that commit, <code>CLK_PERF2.CLKOUT3</code> is <code>29_994</code> and <code>PERFCLK2.MUXED2</code> is <code>28_176 29_133</code>, the same rows as master <code>517d66a</code>, which left the counter dead here. We read the rows at that commit. We did not build nextpnr-xilinx main or run the probe through it.</p>
+<h2>How the build was set up, and what was stale</h2>
+<p>The router did not choose this path. Left alone, nextpnr routes <code>CLKOUT3</code> through <code>CLK_PERF0</code>, which has no rows on master at all. A pip blacklist removed the alternatives, so the route had to take <code>CLK_PERF2 &lt;- CLKOUT3</code> and <code>PERFCLK2 &lt;- MUXED2</code>.</p>
+<p>We placed and routed with classic nextpnr-xilinx. The local himbaechel chip database for the xc7a200t had been generated from a db without the PERF rows, so those pips had no configuration bits and were dropped.</p>
+<p>The classic binary was stale. It was built from <code>b608fd2c</code>, which is 115 commits behind openXC7/nextpnr-xilinx main. We found that out only after the first board runs, through two symptoms:</p>
+<ul><li><strong>The MMCM.</strong> With <code>MMCME2_BASE</code>, it never locked, because the FASM had no <code>ZINV_RST</code> or <code>ZINV_PWRDWN</code>. AssassinK786 fixed this in nextpnr-xilinx#191, merged on 9 September. We instantiated <code>MMCME2_ADV</code> instead, which writes both bits.</li><li><strong>The BUFR&#x27;s clock enable.</strong> The counter was dead with both row sets, because the regional clock enable in the HCLK tile, <code>00_31</code>, was never written. That is our own nextpnr-xilinx#205, merged on 24 September and missing from this build. We applied it locally. Routing stayed identical, the FASM gained three lines, and both A/B bitstreams carry them.</li></ul>
+<p>The lesson we wrote down is to check <code>git log HEAD..origin/main</code> before blaming a tool. An earlier draft of this report said classic nextpnr-xilinx had never received a fix that it had in fact received, and the fix was ours.</p>
+<h2>A faster loop</h2>
+<p>Each knockout needs a flash and a look at the LEDs, so the time from an edit to the board matters. At the start, one cycle took about 104–111 s. By the end, it took about 19–28 s. Synthesis is not in the table, because it was not timed here.</p>
+<div class="tw"><table><thead><tr><th>step</th><th>before</th><th>after</th><th>what changed</th></tr></thead><tbody><tr><td>place and route</td><td>49 s</td><td>13.2 s</td><td><code>--router router1</code> instead of router2</td></tr><tr><td>FASM to frames</td><td>37–39 s</td><td>0.43–1.72 s</td><td>bitwalk, the t27-spec assembler, instead of <code>fasm2frames</code></td></tr><tr><td>frames to bitstream</td><td>0.8 s</td><td>0.8 s</td><td>unchanged (<code>xc7frames2bit</code>)</td></tr><tr><td>flash to SRAM</td><td>17.5–22.6 s</td><td>4.5–12.2 s</td><td><code>openFPGALoader --freq 30000000</code></td></tr><tr><td><strong>total</strong></td><td><strong>~104–111 s</strong></td><td><strong>~19–28 s</strong></td><td></td></tr></tbody></table></div>
+<p>Router2&#x27;s log says it spent 38.1 s, but the per-net times it reports add up to about 1.5 s, so most of that time went to something other than routing nets. Router1 finished routing in 2.53 s. The two routes differ in 225 lines of FASM but take the same PERF path. We flashed the router1 bitstream, and the two LEDs blink together. Both routes report a maximum frequency above 270 MHz on both clocks, against the default 12 MHz target, so timing was never under pressure.</p>
+<p>bitwalk wrote frames byte-identical to <code>fasm2frames</code> for both databases. The knockouts skipped place-and-route entirely: a frame edit, frames to bitstream, then a flash, which takes about 6–14 s. At 30 MHz, the flash took anywhere from 4.5 to 12.2 s for bitstreams of the same size, and we do not know why.</p>
+<p>One more cycle was recorded after the board work. Its place-and-route took 5.95 s, not 13.2 s, and its frames-to-bitstream step took 2.11 s, not 0.8 s. Other jobs kept the laptop at a load average of about 110 the whole time, so a single timing here moves by that much, and neither number is a better estimate than the other.</p>
+<figure class="term"><p><strong>perf2.py loop --flash · place and route to SRAM, timed</strong></p><figcaption>The recorded run, 2026-10-04 at 02:54 UTC+7: <code>perf2.py loop --flash</code> places and routes the probe with router1, assembles it with bitwalk and <code>xc7frames2bit</code>, checks that the result is identical past the sync word to the bitstream that ran on the board, and loads it into SRAM. In this recording: place and route 5.95 s (router1 reports 0.78 s of it), FASM to frames 1.14 s, frames to bitstream 2.11 s, SRAM load 9.85 s, 19.06 s in total, with other jobs holding the laptop at a load average of about 110 on 8 cores. Synthesis is not in it. Every byte printed is real; the prompt and the typing are staged, and silences over 2 s are shortened. <a href="https://t27.ai/term/perf2-loop/">Open the recording on its own page.</a></figcaption></figure>
+<p>The previous post said nothing there pointed to a faster place-and-route. This is not one either, in the sense that post meant: it is a router flag, measured on a design with a few hundred wires. We did not measure whether router1 holds up on the 121,587-line design from that post, which takes 70.1 s to place and route.</p>
+<h2>What this does not show</h2>
+<ul><li><strong>Sufficiency.</strong> On this path the three bits are enough, together with the bits nextpnr already wrote. The knockouts show only that each one is necessary here.</li><li><strong>Any other path.</strong> That includes the other <code>CLK_PERF</code> muxes, the other MMCM outputs, the other <code>PERFCLK</code>s, the left side of the die, and other parts and families.</li><li><strong>The frequency beyond what the eye sees.</strong> The two LEDs stay in step over a few periods, and there is no counter readback.</li><li><strong>himbaechel nextpnr.</strong> Its chip database would have to be regenerated from a db with the PERF rows.</li><li><strong>The full round trip.</strong> The decode was compared on the PERF features of two tiles only.</li><li><strong>Published artefacts.</strong> The two recordings show the commands and their real output. The script they run, the bitstreams, the frames and the logs are on one laptop and are not published.</li></ul>
+<div class="box"><h2>What this does not settle</h2><ul><li>One clock path on one board, with LEDs read by eye. The knockouts show that each bit is necessary here, not that the three are sufficient on other paths.</li><li>nextpnr-xilinx main pins rows that left this counter dead. Whether main routes a design through this path at all was not tested.</li><li>router1 was timed on a design with a few hundred wires. On a large design it may be slower than router2 or fail to route.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/openXC7/prjxray-db/pull/30">openXC7/prjxray-db#30: the CLK_PERF and PERFCLK rows, c030ed6 (open)</a></li><li><a href="https://github.com/openXC7/nextpnr/issues/24">openXC7/nextpnr#24: where the rows are discussed</a></li><li><a href="https://gist.github.com/gHashTag/3c9216880b77946385dfc5bea317d927">The verification scripts behind the rows</a></li><li><a href="https://github.com/cavearr/prjxray/releases/tag/perfclk-campaign-2026-10">cavearr&#x27;s perfclk campaign, 1083 Vivado specimens</a></li><li><a href="https://github.com/openXC7/prjxray-db/pull/13">openXC7/prjxray-db#13: the rows nextpnr-xilinx main pins · MERGED 2026-09-07</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/191">openXC7/nextpnr-xilinx#191: the MMCM RST/PWRDWN fix · MERGED 2026-09-09</a></li><li><a href="https://github.com/openXC7/nextpnr-xilinx/pull/205">openXC7/nextpnr-xilinx#205: the BUFR regional clock enables · MERGED 2026-09-24</a></li><li><a href="https://t27.ai/#/blog/two-bitstreams-one-bit-apart">Two bitstreams, one bit apart (the earlier one-bit A/B)</a></li><li><a href="https://t27.ai/#/blog/the-fpga-flow-layer-by-layer">The FPGA flow, layer by layer (the previous timing post)</a></li><li><a href="https://t27.ai/term/perf2-knockouts/">The recording: the three bits and the knockout bitstreams</a></li><li><a href="https://t27.ai/term/perf2-loop/">The recording: one cycle from place-and-route to SRAM, timed</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/three-bits-each-necessary">Open the interactive version</a><a class="btn sec" href="/ru/blog/three-bits-each-necessary/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20Three%20bits%2C%20each%20one%20necessary%3A%20the%20MMCM%27s%20performance%20clock%20on%20silicon&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CThree%20bits%2C%20each%20one%20necessary%3A%20the%20MMCM%27s%20performance%20clock%20on%20silicon%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fthree-bits-each-necessary%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
