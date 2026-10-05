@@ -43,6 +43,24 @@ RUNNABLE = {"verification", "cases"}
 # not route agents/vibee, so the button would land on the SPA's fallback.
 NO_SAMPLE = {"agents/vibee"}
 NO_APP_LINK = {"agents/vibee"}
+# APP_ROUTE — a page whose SPA twin lives at a route other than its own slug.
+# /#/course became the free 30-lesson course (trinity specs/course/course.t27);
+# the paid training this landing describes moved to /#/fpga-training (trinity
+# apps/website/src/main.tsx). Pointing "Open the interactive site" at /#/course
+# sent a reader of the paid page to a different course.
+APP_ROUTE = {"course": "fpga-training"}
+# SEE_ALSO — one visible line under the lede pointing at a related page, so two
+# pages that answer the same query say which one the reader is looking for.
+SEE_ALSO = {
+    "course": {
+        "en": ("Looking for the free 30-lesson course?",
+               "From zero to a chip: FPGA programming with t27",
+               f"{SITE}/learn/"),
+        "ru": ("Ищете бесплатный курс из 30 уроков?",
+               "«С нуля до чипа: программирование FPGA на t27»",
+               f"{SITE}/ru/learn/"),
+    },
+}
 # An external product this page is about, rendered as the primary button.
 EXTERNAL = {
     "agents/vibee": (
@@ -700,6 +718,11 @@ def render(slug, p, lang="en"):
             )
         body.append("</div>")
     sections = "\n".join(body)
+    see_also = ""
+    if slug in SEE_ALSO:
+        lead, label, href = SEE_ALSO[slug]["ru" if ru else "en"]
+        see_also = (f'<p class="lede">{html.escape(lead)} '
+                    f'<a href="{href}">{html.escape(label)}</a></p>\n')
 
     # Each language is canonical for itself and both name each other, or a search
     # engine files one as a duplicate of the other and the translation earns
@@ -745,7 +768,7 @@ def render(slug, p, lang="en"):
 <p class="eyebrow">{html.escape(p['eyebrow'])}</p>
 <h1>{html.escape(p['h1'])}</h1>
 <p class="lede">{html.escape(p['lede'])}</p>
-
+{see_also}
 {sections}
 
 <div class="cta">
@@ -753,7 +776,7 @@ def render(slug, p, lang="en"):
   <div class="btns">
     {ext_btn}{run_btn}<a class="btn sec" href="mailto:{EMAIL}?subject={html.escape(p['title'])}">{EMAIL}</a>
     {"" if slug in NO_SAMPLE else f'<a class="btn sec" href="{SAMPLE}">{RU_UI["sample"] if ru else "Read a sample report"}</a>'}
-    {"" if slug in NO_APP_LINK else f'<a class="btn sec" href="{"/?lang=ru#/" if ru else "/#/"}{slug}">{RU_UI["app"] if ru else "Open the interactive site"}</a>'}
+    {"" if slug in NO_APP_LINK else f'<a class="btn sec" href="{"/?lang=ru#/" if ru else "/#/"}{APP_ROUTE.get(slug, slug)}">{RU_UI["app"] if ru else "Open the interactive site"}</a>'}
     <a class="btn sec" href="{('/' + slug + '/') if ru else ('/ru/' + slug + '/')}" hreflang="{'en' if ru else 'ru'}" lang="{'en' if ru else 'ru'}">{RU_UI["other"] if ru else "Читать по-русски"}</a>
   </div>
 </div>

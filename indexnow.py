@@ -11,12 +11,16 @@ Which URLs: the pages the publish commit touched, and only those the sitemap
 lists. The sitemap is the list of URLs this site wants indexed (verify-site.sh
 holds every one of them to a self-canonical, indexable page), so a file that
 changed but is not on it -- an asset, a feed, a redirect stub -- is not sent.
+"The sitemap" is every sitemap this site serves: /sitemap.xml, plus
+/learn/sitemap.xml when the rsync brought one in (trinity generates the course's
+static pages and their sitemap; robots.txt lists both). Reading only the first
+left the course pages out of every ping.
 
     python3 indexnow.py --self-test          checks, no network
     python3 indexnow.py --dry-run            print what would be sent
     python3 indexnow.py                      send the pages HEAD changed
     python3 indexnow.py --since <rev>        send the pages changed since <rev>
-    python3 indexnow.py --all                send every sitemap URL (once, by hand)
+    python3 indexnow.py --all                send every URL of every sitemap (once, by hand)
 
 Exit 0 when the engines accepted the list or there was nothing to send, 1 when
 the request failed. The publisher runs this after the push and reports a failure
@@ -39,6 +43,9 @@ SITE = f"https://{HOST}/"
 ENDPOINT = "https://api.indexnow.org/indexnow"
 MAX_URLS = 10_000  # the protocol's limit per request
 KEY_NAME = re.compile(r"^[0-9a-f]{32}\.txt$")
+# Every sitemap this site serves, relative to the root. The first must exist;
+# the others are read when present.
+SITEMAPS = ("sitemap.xml", "learn/sitemap.xml")
 
 
 def find_key(root: Path) -> str:
@@ -52,6 +59,19 @@ def find_key(root: Path) -> str:
 
 def sitemap_urls(text: str) -> list[str]:
     return re.findall(r"<loc>([^<]*)</loc>", text)
+
+
+def listed_urls(root: Path) -> list[str]:
+    """Every <loc> of every sitemap at root, in order, without duplicates."""
+    out: list[str] = []
+    for i, name in enumerate(SITEMAPS):
+        path = root / name
+        if i and not path.exists():
+            continue
+        for u in sitemap_urls(path.read_text(encoding="utf-8")):
+            if u not in out:
+                out.append(u)
+    return out
 
 
 def url_of(path: str) -> str | None:
@@ -125,6 +145,23 @@ def self_test() -> int:
             assert "found 2" in str(e)
         else:
             raise AssertionError("two keys must stop the send: which one the engines checked is a guess")
+    with tempfile.TemporaryDirectory() as d:
+        root = Path(d)
+        (root / "sitemap.xml").write_text(f"<urlset><url><loc>{SITE}</loc></url>"
+                                          f"<url><loc>{SITE}blog/</loc></url></urlset>")
+        assert listed_urls(root) == [SITE, f"{SITE}blog/"], "no learn/sitemap.xml is not an error"
+        (root / "learn").mkdir()
+        (root / "learn" / "sitemap.xml").write_text(
+            f'<urlset><url><loc>{SITE}learn/</loc>'
+            f'<xhtml:link rel="alternate" hreflang="ru" href="{SITE}ru/learn/"/></url>'
+            f"<url><loc>{SITE}learn/bits-and-trits/</loc></url>"
+            f"<url><loc>{SITE}blog/</loc></url></urlset>")
+        both = listed_urls(root)
+        assert both == [SITE, f"{SITE}blog/", f"{SITE}learn/", f"{SITE}learn/bits-and-trits/"], both
+        # A course page that changed is sent; an alternate href is not a <loc>.
+        assert changed_pages(["learn/bits-and-trits/index.html", "learn/bits-and-trits/card.png",
+                              "learn/sitemap.xml"], both) == [f"{SITE}learn/bits-and-trits/"]
+        assert f"{SITE}ru/learn/" not in both, "hreflang alternates are not read as URLs"
     assert find_key(REPO), "this repository serves exactly one key"
     print("indexnow self-test: ok")
     return 0
@@ -134,7 +171,7 @@ def main(argv: list[str]) -> int:
     if "--self-test" in argv:
         return self_test()
     key = find_key(REPO)
-    listed = sitemap_urls((REPO / "sitemap.xml").read_text(encoding="utf-8"))
+    listed = listed_urls(REPO)
     if "--all" in argv:
         urls = listed
     else:
