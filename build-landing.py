@@ -1120,8 +1120,12 @@ if __name__ == "__main__":
         # /docs-legacy/ is the retired GOLDEN SUNFLOWERS book: kept so old links
         # resolve, marked noindex on every page, and excluded here so a crawler
         # does not spend its budget on pages that ask not to be indexed.
+        # learn/sitemap.xml lists the course's static pages; trinity generates
+        # it (scripts/course-pages.mjs) and the rsync brings it in. Listed only
+        # when it is on disk, so robots.txt never points at a 404.
+        sitemaps = ["sitemap.xml"] + [p for p in ["learn/sitemap.xml"] if os.path.exists(p)]
         fh.write(
             "User-agent: *\nAllow: /\nDisallow: /docs-legacy/\n\n"
-            f"Sitemap: {SITE}/sitemap.xml\n"
+            + "".join(f"Sitemap: {SITE}/{p}\n" for p in sitemaps)
         )
     print("wrote sitemap.xml, robots.txt")
