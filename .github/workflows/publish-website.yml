@@ -45,6 +45,10 @@ on:
 
 permissions:
   contents: write
+  # For the deploy at the end of the publish job: deploy-pages asks GitHub for
+  # an OIDC token (id-token) and creates the Pages deployment (pages).
+  pages: write
+  id-token: write
 
 concurrency:
   group: publish-website
@@ -119,6 +123,7 @@ jobs:
           npm run build
 
       - name: Publish, but only if the bytes changed
+        id: publish
         run: |
           set -uo pipefail
           say() { echo "$1"; echo "$1" >> "$GITHUB_STEP_SUMMARY"; }
@@ -341,14 +346,89 @@ jobs:
             exit 0
           fi
           git commit -q -m "Publish $NEW from trinity $SRC_SHA"
-          git push -q
+          # Checked, because this step runs without -e: an unchecked push that
+          # failed would still have reported PASS, and the deploy below would
+          # have shipped a commit that is not on main.
+          if ! git push -q; then
+            say "- **FAIL** push to main was rejected"
+            exit 1
+          fi
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           say "- **PASS** published \`$NEW\` from trinity \`$SRC_SHA\`"
 
-          # Tell the search engines which pages this commit changed (IndexNow:
-          # Bing, Yandex, Seznam, Naver, Yep). After the push, because the URLs
-          # must already serve the new page when an engine fetches them. A
-          # failure is a warning, not a failed publish: the site is live, and
-          # an unsent ping only leaves the pages to the crawler's own schedule.
+      # Deploy from this job instead of waiting for the one GitHub starts.
+      #
+      # A push to main used to be the end of it: the push started GitHub's own
+      # "pages build and deployment" run, which needs two more runners, one for
+      # its build job and one for its deploy job. On 2026-10-04 the Actions
+      # queue for this owner was saturated. Pages runs that took 39-45 s at
+      # night took 1038-2615 s by morning, and in runs 1039, 1041 and 1042
+      # the build finished but the deploy job never got a runner: no runner
+      # name, no steps, then "cancelled" when the next publish push started a
+      # newer Pages run. trinity#1340 merged at 08:39Z; t27.ai served it from
+      # 10:32Z, when run 1043 was finally allowed to finish.
+      #
+      # This job already holds a runner, so it deploys the commit it just
+      # pushed itself: git archive of that sha (tracked files only, the same
+      # tree the legacy builder uploads, hidden files included), then uploads
+      # and deploys it: 18 s and 18 s in run 1043 once it had its runners.
+      # Pages stays on "Deploy from a branch". deploy-pages allows that when
+      # the run comes from the source branch, main, which is the only branch
+      # the github-pages environment admits anyway. If anything here fails,
+      # the legacy run the push started is still the fallback, so these steps
+      # warn rather than fail the publish.
+      - name: Stage the pushed commit for Pages
+        id: stage
+        if: steps.publish.outputs.pushed == 'true'
+        continue-on-error: true
+        env:
+          SHA: ${{ steps.publish.outputs.sha }}
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/site"
+          mkdir -p "$RUNNER_TEMP/site"
+          git archive "$SHA" | tar -x -C "$RUNNER_TEMP/site"
+          echo "- staged \`${SHA:0:12}\`: $(find "$RUNNER_TEMP/site" -type f | wc -l | tr -d ' ') files" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the Pages artifact
+        id: upload
+        if: steps.stage.outcome == 'success'
+        continue-on-error: true
+        # v3, as GitHub's own Pages builder uses: v4 and later drop hidden
+        # files by default, and this site serves .nojekyll and dot-directories.
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/site
+
+      - name: Deploy to Pages
+        id: deploy
+        if: steps.upload.outcome == 'success'
+        continue-on-error: true
+        uses: actions/deploy-pages@v5
+
+      - name: Report the deploy
+        if: steps.publish.outputs.pushed == 'true'
+        env:
+          OUTCOME: ${{ steps.deploy.outcome }}
+          PAGE_URL: ${{ steps.deploy.outputs.page_url }}
+        run: |
+          if [ "$OUTCOME" = success ]; then
+            echo "- **PASS** deployed from this job: $PAGE_URL" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- **WARN** in-job deploy: ${OUTCOME:-skipped}; GitHub's own Pages run for this push is the fallback" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      # Tell the search engines which pages this commit changed (IndexNow:
+      # Bing, Yandex, Seznam, Naver, Yep). After the deploy, because the URLs
+      # must already serve the new page when an engine fetches them. A failure
+      # is a warning, not a failed publish: the site is live, and an unsent
+      # ping only leaves the pages to the crawler's own schedule.
+      - name: Ping IndexNow
+        if: steps.publish.outputs.pushed == 'true'
+        run: |
+          set -uo pipefail
+          say() { echo "$1"; echo "$1" >> "$GITHUB_STEP_SUMMARY"; }
           if python3 indexnow.py --self-test >/dev/null && python3 indexnow.py >/tmp/indexnow.txt 2>&1; then
             say "- $(tail -1 /tmp/indexnow.txt)"
           else
