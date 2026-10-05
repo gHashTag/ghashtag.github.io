@@ -3,3 +3,4 @@ Allow: /
 Disallow: /docs-legacy/
 
 Sitemap: https://t27.ai/sitemap.xml
+Sitemap: https://t27.ai/learn/sitemap.xml
