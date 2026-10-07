@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 06 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 07 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>A course PR now carries its blog post</title>
+      <link>https://t27.ai/#/blog/a-course-pr-carries-its-post</link>
+      <guid isPermaLink="false">a-course-pr-carries-its-post</guid>
+      <pubDate>Wed, 07 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[open PR, not merged; binds only PRs opened or pushed after the merge; checks that a post file changed, not what it says] The T27 work report check now refuses a trinity PR that changes a course without adding or modifying a blog post body in the same PR. The rule's words live only in a t27 spec, specs/policy/course_post.t27, which the checker reads and fails closed on. Renamed lessons count by old and new path, renamed posts do not count, and an incomplete file list is reported as not decided. Seven planted mutants each failed their own test.</description>
+      <category>CI</category>
+      <category>Courses</category>
+      <category>Blog</category>
+      <category>Mutation testing</category>
+    </item>
     <item>
       <title>One outlier, 23 zeros: a course module on the OCP MX block</title>
       <link>https://t27.ai/#/blog/one-outlier-twenty-three-zeros</link>

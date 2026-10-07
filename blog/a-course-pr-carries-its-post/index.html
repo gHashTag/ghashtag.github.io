@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A course PR now carries its blog post · TRINITY</title>
+<meta name="description" content="[open PR, not merged; binds only PRs opened or pushed after the merge; checks that a post file changed, not what it says] The T27 work report check now refuses a trinity PR that changes a course without adding or modifying a blog post body in the same PR. The rule&#x27;s words live only in a t27 spec, specs/policy/course_post.t27, which the checker reads and fails closed on. Renamed lessons count by old and new path, renamed posts do not count, and an incomplete file list is reported as not decided. Seven planted mutants each failed their own test." />
+<link rel="canonical" href="https://t27.ai/blog/a-course-pr-carries-its-post/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/a-course-pr-carries-its-post/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/a-course-pr-carries-its-post/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/a-course-pr-carries-its-post/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/a-course-pr-carries-its-post/" />
+<meta property="og:title" content="A course PR now carries its blog post" />
+<meta property="og:description" content="[open PR, not merged; binds only PRs opened or pushed after the merge; checks that a post file changed, not what it says] The T27 work report check now refuses a trinity PR that changes a course without adding or modifying a blog post body in the same PR. The rule&#x27;s words live only in a t27 spec, specs/policy/course_post.t27, which the checker reads and fails closed on. Renamed lessons count by old and new path, renamed posts do not count, and an incomplete file list is reported as not decided. Seven planted mutants each failed their own test." />
+<meta property="og:image" content="https://t27.ai/og-blog-a-course-pr-carries-its-post.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="A course PR now carries its blog post" />
+<meta name="twitter:description" content="[open PR, not merged; binds only PRs opened or pushed after the merge; checks that a post file changed, not what it says] The T27 work report check now refuses a trinity PR that changes a course without adding or modifying a blog post body in the same PR. The rule&#x27;s words live only in a t27 spec, specs/policy/course_post.t27, which the checker reads and fails closed on. Renamed lessons count by old and new path, renamed posts do not count, and an incomplete file list is reported as not decided. Seven planted mutants each failed their own test." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"A course PR now carries its blog post","description":"[open PR, not merged; binds only PRs opened or pushed after the merge; checks that a post file changed, not what it says] The T27 work report check now refuses a trinity PR that changes a course without adding or modifying a blog post body in the same PR. The rule's words live only in a t27 spec, specs/policy/course_post.t27, which the checker reads and fails closed on. Renamed lessons count by old and new path, renamed posts do not count, and an incomplete file list is reported as not decided. Seven planted mutants each failed their own test.","url":"https://t27.ai/blog/a-course-pr-carries-its-post/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/a-course-pr-carries-its-post/"},"image":"https://t27.ai/og-blog-a-course-pr-carries-its-post.png","datePublished":"2026-10-07","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"CI, Courses, Blog, Mutation testing"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>A course PR now carries its blog post</h1>
+<p class="meta">2026-10-07 · 4 min read</p>
+<p class="lede">[open PR, not merged; binds only PRs opened or pushed after the merge; checks that a post file changed, not what it says] The T27 work report check now refuses a trinity PR that changes a course without adding or modifying a blog post body in the same PR. The rule&#x27;s words live only in a t27 spec, specs/policy/course_post.t27, which the checker reads and fails closed on. Renamed lessons count by old and new path, renamed posts do not count, and an incomplete file list is reported as not decided. Seven planted mutants each failed their own test.</p>
+<figure class="blog-cover"><a href="/og-blog-a-course-pr-carries-its-post.png?v=175b7061b220" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — A course PR now carries its blog post"><img src="/og-blog-a-course-pr-carries-its-post.png?v=175b7061b220" alt="Three-panel engraved illustration for: A course PR now carries its blog post" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-a-course-pr-carries-its-post.png?v=175b7061b220" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — A course PR now carries its blog post">View the complete triptych at full size</a></figcaption></figure>
+<div class="tags"><span class="tag">#CI</span><span class="tag">#Courses</span><span class="tag">#Blog</span><span class="tag">#MutationTesting</span></div>
+<p>Every trinity PR already carries a work report, and a merged PR later becomes a blog draft. A course change could still land with no post at all, so a reader could meet a new lesson before anything explained it. trinity#1461 closes that gap: a PR that changes a course now has to carry its blog post, English body and Russian ruBody, in the same PR, or the &quot;T27 work report&quot; status turns red. The PR is open and not merged yet.</p>
+<h2>The rule lives in a t27 spec</h2>
+<p>The words of the rule are in one file, <code>apps/website/specs/policy/course_post.t27</code>. It holds the rule sentence, the course directory (<code>apps/website/specs/course/</code>), the post directory (<code>apps/website/src/data/blog/bodies/</code>) and the two file statuses that count as a written post, &quot;added&quot; and &quot;modified&quot;. Three <code>test</code> blocks pin those values. The spec sits under <code>specs/policy/</code>, not under <code>specs/course/</code>, so editing the rule is not itself a course change.</p>
+<p><code>scripts/pr_blog_report.py</code> does not restate the rule. It reads the spec&#x27;s <code>str</code> constants and its one string list, and it fails closed: a missing constant, a directory without its trailing slash, or a <code>POST_STATUSES</code> list whose length differs from its declared length stops the check. The script checks that length itself because t27 does not check a declared array length yet (gHashTag/t27#7395). The refusal message is the spec&#x27;s RULE sentence followed by the file that triggered it.</p>
+<h2>What counts as a change and as a post</h2>
+<ul><li>A file counts as a course change if its new path or its previous path is under the course directory. The workflow now asks the GitHub files API for <code>previous_filename</code> as well, so moving a lesson out of the course still counts.</li><li>A post counts only when a body file is &quot;added&quot; or &quot;modified&quot;. A removed body does not count, and neither does a renamed one: the API reports a rename as &quot;renamed&quot; even when the file was also edited, so a moved post is not taken for a written one.</li><li>The files API lists at most 3000 files. When the list is shorter than the PR&#x27;s <code>changed_files</code> and the listed part does not settle the rule, the script prints that the rule is &quot;not decided&quot; instead of passing or failing silently.</li><li>An entry without a filename or status, or with a previous path that is not a string, is refused.</li></ul>
+<h2>Seven planted bugs, seven red tests</h2>
+<p>The PR adds 10 tests for the rule; the pipeline suite now runs 71 tests, and a rerun on 7 October gave OK. To check that the tests can see a bug, seven mutants were planted in <code>pr_blog_report.py</code>, one at a time, each restored with git afterwards. Each one failed the test named for it.</p>
+<ol><li>The file status is ignored, so a removed post would count.</li><li>The refusal is never raised.</li><li>The declared length of POST_STATUSES is not checked.</li><li>The incomplete-list check is inverted.</li><li>The refusal names the spec the old way, by a path cut with parents[3], which dropped the leading apps/.</li><li>previous_filename is ignored, so a lesson renamed out of the course is missed.</li><li>The &quot;not decided&quot; notice for an incomplete list with a course file is turned back into a refusal.</li></ol>
+<h2>What it does not check</h2>
+<p>It checks that a post body file changed, not that the post describes the course change; review and the blog checks still judge the content. The workflow runs the script from main (<code>pull_request_target</code>), so the rule binds only PRs opened or pushed after the merge. A manual re-run of the report for an older course PR that shipped without a post will now turn red.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>trinity#1461 is open; until it merges, the rule binds no PR, because the workflow runs the checker from main.</li><li>The check sees that a post body file was added or modified, not that the post is about the course change; that is still left to review.</li><li>Above the files API limit of 3000 files the rule can come out as not decided rather than judged.</li><li>A manual re-run of the report for an older course PR that shipped without a post will now turn red.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity/pull/1461">trinity#1461: a course PR carries its blog post (this post&#x27;s PR)</a></li><li><a href="https://github.com/gHashTag/trinity/issues/1460">trinity#1460: the issue</a></li><li><a href="https://github.com/gHashTag/trinity/blob/f57e6308c1d747ba2c686470bf15cbc173e18654/apps/website/specs/policy/course_post.t27">The rule: apps/website/specs/policy/course_post.t27</a></li><li><a href="https://github.com/gHashTag/trinity/blob/f57e6308c1d747ba2c686470bf15cbc173e18654/scripts/pr_blog_report.py">The checker: scripts/pr_blog_report.py</a></li><li><a href="https://github.com/gHashTag/t27/issues/7395">t27#7395: t27 does not check a declared array length</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/a-course-pr-carries-its-post">Open the interactive version</a><a class="btn sec" href="/ru/blog/a-course-pr-carries-its-post/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20A%20course%20PR%20now%20carries%20its%20blog%20post&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CA%20course%20PR%20now%20carries%20its%20blog%20post%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fa-course-pr-carries-its-post%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
