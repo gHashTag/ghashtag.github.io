@@ -68,6 +68,16 @@
       <category>GoldenFloat</category>
     </item>
     <item>
+      <title>Course 3: verifying hardware with t27, in 27 lessons</title>
+      <link>https://t27.ai/#/blog/course-three-verifying-hardware</link>
+      <guid isPermaLink="false">course-three-verifying-hardware</guid>
+      <pubDate>Wed, 07 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[the browser runner cannot execute testbench test blocks yet (trinity#1477); three lesson specs were swapped for clean siblings; specs/fpga/coverage.t27 lands in gHashTag/t27 separately] The fourth t27 course answers the question the other three left open: how do you know the design works? 27 lessons in 9 modules of 3 -- testbenches, waveforms, vectors, cosimulation, coverage, formal, mutation, sign-off -- each opening one working widget and one t27 spec, with every number on the page measured by the widget it sits beside.</description>
+      <category>t27</category>
+      <category>Course</category>
+      <category>FPGA</category>
+    </item>
+    <item>
       <title>One outlier, 23 zeros: a course module on the OCP MX block</title>
       <link>https://t27.ai/#/blog/one-outlier-twenty-three-zeros</link>
       <guid isPermaLink="false">one-outlier-twenty-three-zeros</guid>

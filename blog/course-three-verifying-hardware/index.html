@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Course 3: verifying hardware with t27, in 27 lessons · TRINITY</title>
+<meta name="description" content="[the browser runner cannot execute testbench test blocks yet (trinity#1477); three lesson specs were swapped for clean siblings; specs/fpga/coverage.t27 lands in gHashTag/t27 separately] The fourth t27 course answers the question the other three left open: how do you know the design works? 27 lessons in 9 modules of 3 -- testbenches, waveforms, vectors, cosimulation, coverage, formal, mutation, sign-off -- each opening one working widget and one t27 spec, with every number on the page measured by the widget it sits beside." />
+<link rel="canonical" href="https://t27.ai/blog/course-three-verifying-hardware/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/course-three-verifying-hardware/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/course-three-verifying-hardware/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/course-three-verifying-hardware/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/course-three-verifying-hardware/" />
+<meta property="og:title" content="Course 3: verifying hardware with t27, in 27 lessons" />
+<meta property="og:description" content="[the browser runner cannot execute testbench test blocks yet (trinity#1477); three lesson specs were swapped for clean siblings; specs/fpga/coverage.t27 lands in gHashTag/t27 separately] The fourth t27 course answers the question the other three left open: how do you know the design works? 27 lessons in 9 modules of 3 -- testbenches, waveforms, vectors, cosimulation, coverage, formal, mutation, sign-off -- each opening one working widget and one t27 spec, with every number on the page measured by the widget it sits beside." />
+<meta property="og:image" content="https://t27.ai/og-blog-course-three-verifying-hardware.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Course 3: verifying hardware with t27, in 27 lessons" />
+<meta name="twitter:description" content="[the browser runner cannot execute testbench test blocks yet (trinity#1477); three lesson specs were swapped for clean siblings; specs/fpga/coverage.t27 lands in gHashTag/t27 separately] The fourth t27 course answers the question the other three left open: how do you know the design works? 27 lessons in 9 modules of 3 -- testbenches, waveforms, vectors, cosimulation, coverage, formal, mutation, sign-off -- each opening one working widget and one t27 spec, with every number on the page measured by the widget it sits beside." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Course 3: verifying hardware with t27, in 27 lessons","description":"[the browser runner cannot execute testbench test blocks yet (trinity#1477); three lesson specs were swapped for clean siblings; specs/fpga/coverage.t27 lands in gHashTag/t27 separately] The fourth t27 course answers the question the other three left open: how do you know the design works? 27 lessons in 9 modules of 3 -- testbenches, waveforms, vectors, cosimulation, coverage, formal, mutation, sign-off -- each opening one working widget and one t27 spec, with every number on the page measured by the widget it sits beside.","url":"https://t27.ai/blog/course-three-verifying-hardware/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/course-three-verifying-hardware/"},"image":"https://t27.ai/og-blog-course-three-verifying-hardware.png","datePublished":"2026-10-07","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"t27, Course, FPGA"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Course 3: verifying hardware with t27, in 27 lessons</h1>
+<p class="meta">2026-10-07 · 4 min read</p>
+<p class="lede">[the browser runner cannot execute testbench test blocks yet (trinity#1477); three lesson specs were swapped for clean siblings; specs/fpga/coverage.t27 lands in gHashTag/t27 separately] The fourth t27 course answers the question the other three left open: how do you know the design works? 27 lessons in 9 modules of 3 -- testbenches, waveforms, vectors, cosimulation, coverage, formal, mutation, sign-off -- each opening one working widget and one t27 spec, with every number on the page measured by the widget it sits beside.</p>
+<figure class="blog-cover"><a href="/og-blog-course-three-verifying-hardware.png?v=056350e01441" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — Course 3: verifying hardware with t27, in 27 lessons"><img src="/og-blog-course-three-verifying-hardware.png?v=056350e01441" alt="Three-panel engraved illustration for: Course 3: verifying hardware with t27, in 27 lessons" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-course-three-verifying-hardware.png?v=056350e01441" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — Course 3: verifying hardware with t27, in 27 lessons">View the complete triptych at full size</a></figcaption></figure>
+<div class="tags"><span class="tag">#t27</span><span class="tag">#Course</span><span class="tag">#FPGA</span></div>
+<p>Course 3 is live: Verifying hardware with t27, 27 lessons in 9 modules of 3, and like its three siblings every lesson opens one working widget and one t27 spec the reader can run in the player. Course 1 taught the flow from spec to chip, course 2 the numbers AI chips store; this one answers the question both left open: how do you know the design works? Testbenches, waveforms, vectors, cosimulation, coverage, formal, mutation, sign-off -- in that order, each step with a receipt.</p>
+<h2>The nine modules</h2>
+<div class="tw"><table><thead><tr><th>Module</th><th>Title</th><th>The question it answers</th></tr></thead><tbody><tr><td>1</td><td>Why verify</td><td>Designs that compile and are still wrong; the golden model; the plan written before the code</td></tr><tr><td>2</td><td>Testbenches</td><td>Stimulus, expectation, checks and a verdict in one spec</td></tr><tr><td>3</td><td>Waveforms</td><td>Reading a VCD as text, debugging a real measured bug, diffing two runs</td></tr><tr><td>4</td><td>Conformance vectors</td><td>Inputs with the answer recorded beside them, where the compiler can reach them</td></tr><tr><td>5</td><td>Cosimulation</td><td>Spec, simulator and board brought to one answer on the bench</td></tr><tr><td>6</td><td>Coverage</td><td>What the tests touched, bit by bit, arc by arc -- and what the number hides</td></tr><tr><td>7</td><td>Formal</td><td>Assertions checked every cycle, bounded search, honest induction</td></tr><tr><td>8</td><td>Mutation</td><td>Break the design on purpose and count what the tests caught</td></tr><tr><td>9</td><td>Sign-off</td><td>One command, every receipt, a verdict you can show</td></tr></tbody></table></div>
+<h2>Every number was measured</h2>
+<p>The widgets are recordings of real tool runs, and the lesson texts use only numbers those recordings or the named spec show. The UART link that asked for 115,200 baud and got 115,385 on the wire -- a +0.16 % divider error invisible in code and obvious in the capture, while 3,000,000 divides exactly and the wire agrees. The 31 of 1,428 merged specs whose seals record no output, on 16 specs, 3 of them unnamed by the ledger that owes them a name. The 367 pull requests that arrived in 14 days, 11 of which deleted tests or asserts, one deleting all 26 tests in its file with nothing failing. A course about verification does not get to cite numbers it cannot show.</p>
+<h2>A new spec: coverage.t27</h2>
+<p>Lesson 16 needed a coverage model, and there was none, so it was written where specs live -- gHashTag/t27, specs/fpga/coverage.t27 -- and the site serves a vendored copy for the lesson. It models line, toggle, FSM state and FSM transition points with hit counters, integer percentages that return 0 when nothing was measured, and illegal transitions that must stay at 0 hits; it carries 26 tests and 4 invariants of its own, in the flat-arrays style of its siblings simulator.t27 and vcd_trace.t27.</p>
+<h2>What the gallery paid for it</h2>
+<p>A course needs 27 framable widgets that no other lesson in any course uses. The gallery had 96 casts and almost all of them spoken for, so 17 recordings of real tool runs -- conformance sweeps, self-test runs, seal audits, a census recount, mutation and test-touch counts -- were cast and shelved in the two categories they belong to, and each became exactly one lesson&#x27;s main widget. The gallery spec now declares 113 widgets, and its tests pin the shelf anchors so the fpga, compiler and game runs stay contiguous.</p>
+<h2>What it does not do</h2>
+<ul><li>The in-browser runner compiles each lesson spec on all 7 backends but cannot execute testbench test blocks yet (trinity#1477); the lessons show recorded t27c output instead of working around it.</li><li>Three lesson specs named in the issue did not compile clean under the browser compiler (discarded statements and a typecheck failure); those lessons open clean siblings that teach the same step.</li><li>specs/fpga/coverage.t27 is written in gHashTag/t27 and lands there in its own PR; until then the site serves the vendored copy, and the vendored-manifest check does not yet know the new file.</li></ul>
+<h2>Try it</h2>
+<ul><li>Course 3, Verifying hardware with t27: t27.ai/learn/verify-hardware/</li><li>In the app: t27.ai/#/verify-hardware</li><li>The course spec: t27.ai/learn/verify-hardware.t27</li></ul>
+<div class="box"><h2>What this does not settle</h2><ul><li>The in-browser runner compiles lesson specs but cannot execute testbench test blocks yet (trinity#1477); lessons show recorded t27c output.</li><li>specs/fpga/coverage.t27 is written in gHashTag/t27 and lands there in its own PR; the site serves the vendored copy until then.</li><li>The vendored-manifest check does not yet list the new coverage.t27 copy.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://t27.ai/learn/verify-hardware/">Course 3, Verifying hardware with t27</a></li><li><a href="https://t27.ai/learn/verify-hardware.t27">The course spec, specs/course/verify-hardware.t27</a></li><li><a href="https://github.com/gHashTag/trinity/issues/1483">trinity#1483: the issue this course answers</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/course-three-verifying-hardware">Open the interactive version</a><a class="btn sec" href="/ru/blog/course-three-verifying-hardware/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Need an FPGA/RTL problem taken to measured hardware?</h2><p>I work contract and part-time on hardware-AI, FPGA/RTL and ML systems — from specification and open toolchains to reproducible measurements.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20Course%203%3A%20verifying%20hardware%20with%20t27%2C%20in%2027%20lessons&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CCourse%203%3A%20verifying%20hardware%20with%20t27%2C%20in%2027%20lessons%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fcourse-three-verifying-hardware%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/about/">See how I work</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
