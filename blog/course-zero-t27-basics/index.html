@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Course 0: t27 basics in 27 lessons, each with an infographic · TRINITY</title>
+<meta name="description" content="[the browser runner skips invariant and bench blocks; the lesson specs are not yet in gHashTag/t27] A new course comes before the FPGA and AI numbers courses: 27 lessons on the t27 language, each with a black-and-white table or diagram drawn from its own spec and a lesson spec that compiles on all 7 backends." />
+<link rel="canonical" href="https://t27.ai/blog/course-zero-t27-basics/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/course-zero-t27-basics/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/course-zero-t27-basics/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/course-zero-t27-basics/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/course-zero-t27-basics/" />
+<meta property="og:title" content="Course 0: t27 basics in 27 lessons, each with an infographic" />
+<meta property="og:description" content="[the browser runner skips invariant and bench blocks; the lesson specs are not yet in gHashTag/t27] A new course comes before the FPGA and AI numbers courses: 27 lessons on the t27 language, each with a black-and-white table or diagram drawn from its own spec and a lesson spec that compiles on all 7 backends." />
+<meta property="og:image" content="https://t27.ai/og-blog-course-zero-t27-basics.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Course 0: t27 basics in 27 lessons, each with an infographic" />
+<meta name="twitter:description" content="[the browser runner skips invariant and bench blocks; the lesson specs are not yet in gHashTag/t27] A new course comes before the FPGA and AI numbers courses: 27 lessons on the t27 language, each with a black-and-white table or diagram drawn from its own spec and a lesson spec that compiles on all 7 backends." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Course 0: t27 basics in 27 lessons, each with an infographic","description":"[the browser runner skips invariant and bench blocks; the lesson specs are not yet in gHashTag/t27] A new course comes before the FPGA and AI numbers courses: 27 lessons on the t27 language, each with a black-and-white table or diagram drawn from its own spec and a lesson spec that compiles on all 7 backends.","url":"https://t27.ai/blog/course-zero-t27-basics/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/course-zero-t27-basics/"},"image":"https://t27.ai/og-blog-course-zero-t27-basics.png","datePublished":"2026-10-07","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"t27, Course"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Course 0: t27 basics in 27 lessons, each with an infographic</h1>
+<p class="meta">2026-10-07 · 5 min read</p>
+<p class="lede">[the browser runner skips invariant and bench blocks; the lesson specs are not yet in gHashTag/t27] A new course comes before the FPGA and AI numbers courses: 27 lessons on the t27 language, each with a black-and-white table or diagram drawn from its own spec and a lesson spec that compiles on all 7 backends.</p>
+<figure class="blog-cover"><a href="/og-blog-course-zero-t27-basics.png?v=44ae6d38aab8" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — Course 0: t27 basics in 27 lessons, each with an infographic"><img src="/og-blog-course-zero-t27-basics.png?v=44ae6d38aab8" alt="Three-panel engraved illustration for: Course 0: t27 basics in 27 lessons, each with an infographic" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-course-zero-t27-basics.png?v=44ae6d38aab8" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — Course 0: t27 basics in 27 lessons, each with an infographic">View the complete triptych at full size</a></figcaption></figure>
+<div class="tags"><span class="tag">#t27</span><span class="tag">#Course</span></div>
+<p>The t27 courses started at the chip: course 1 teaches an FPGA and course 2 the numbers AI chips store. Both expect the reader to read a .t27 spec already. Course 0 comes before them and teaches that: 27 lessons on the language itself, each a module of its own, ending where course 1 starts.</p>
+<h2>What each lesson opens</h2>
+<p>Every lesson opens one infographic and one spec. The infographic is a black-and-white table, and in 11 of the 27 lessons also a flow diagram; its words and rows live in a .t27 widget spec (specs/widgets/basics-&lt;lesson&gt;.t27), and a widget spec test checks that the table has whole rows. The lesson spec lives under specs/basics/ and compiles clean on all 7 backends in the browser, with its tests passing; the course generator refuses to build if one of them does not.</p>
+<p>The tables are real HTML tables with a caption and header cells, and the diagrams are SVG with a title, so a screen reader reads both. On a phone the table turns into one card per row.</p>
+<h2>The 27 lessons</h2>
+<div class="tw"><table><thead><tr><th>Lesson</th><th>Title</th><th>Infographic</th></tr></thead><tbody><tr><td>1</td><td>What a spec is</td><td>table + flow diagram: The parts of a spec, top to bottom</td></tr><tr><td>2</td><td>The module line</td><td>table: Module lines, as the compiler answered</td></tr><tr><td>3</td><td>Comments and prose lines</td><td>table: Notes in a spec, as the compiler answered</td></tr><tr><td>4</td><td>Constants</td><td>table: pub const WIDTH : u8 = 8;</td></tr><tr><td>5</td><td>Whole numbers and their widths</td><td>table + flow diagram: Integer types</td></tr><tr><td>6</td><td>True, false and text</td><td>table: bool and str</td></tr><tr><td>7</td><td>Arrays</td><td>table: pub const PRIMES : [5]u8 = [2, 3, 5, 7, 11];</td></tr><tr><td>8</td><td>Trits: minus one, zero, one</td><td>table + flow diagram: A trit as i8 constants</td></tr><tr><td>9</td><td>Expressions</td><td>table: A = 17, B = 5</td></tr><tr><td>10</td><td>A test block</td><td>table + flow diagram: test a_year_is_52_weeks_and_a_day</td></tr><tr><td>11</td><td>Many tests in one spec</td><td>table: The tests of the lesson spec</td></tr><tr><td>12</td><td>Functions</td><td>table: fn add(a: u8, b: u8) -&gt; u8</td></tr><tr><td>13</td><td>Local names: let and var</td><td>table: Three kinds of names</td></tr><tr><td>14</td><td>Choices: if, else and switch</td><td>table + flow diagram: Choice forms, as the compiler answered</td></tr><tr><td>15</td><td>Loops: while and for</td><td>table + flow diagram: Loop forms, as the compiler answered</td></tr><tr><td>16</td><td>pub or private</td><td>table: pub and private constants through gen-ts</td></tr><tr><td>17</td><td>Structs</td><td>table: The structs of the lesson spec</td></tr><tr><td>18</td><td>Enums</td><td>table: The enums of the lesson spec</td></tr><tr><td>19</td><td>Using other modules</td><td>table: use base::types;</td></tr><tr><td>20</td><td>Invariants and benches</td><td>table: Checking blocks and the site test runner</td></tr><tr><td>21</td><td>gen-ts: a spec becomes TypeScript</td><td>table + flow diagram: gen-ts on the lesson spec</td></tr><tr><td>22</td><td>Seven backends</td><td>table: Backends on the lesson spec</td></tr><tr><td>23</td><td>The stages of t27c</td><td>table + flow diagram: Stages on the lesson spec</td></tr><tr><td>24</td><td>tri: the command line</td><td>table + flow diagram: tri commands, from scripts/tri</td></tr><tr><td>25</td><td>Reading compiler errors</td><td>table: Mistakes, as the compiler answered</td></tr><tr><td>26</td><td>A small complete program</td><td>table + flow diagram: gen-verilog on the lesson spec</td></tr><tr><td>27</td><td>Where to go next</td><td>table + flow diagram: The courses, in order</td></tr></tbody></table></div>
+<h2>What it does not do yet</h2>
+<ul><li>The browser runner skips invariant and bench blocks, so the lessons that show them describe them and do not run them.</li><li>A use line is checked by the compiler, but the browser does not load the module it names.</li><li>The lesson specs live in the site copy of the t27 spec tree; they are not yet in gHashTag/t27 itself.</li></ul>
+<h2>Try it</h2>
+<ul><li>Course 0, t27 basics: t27.ai/learn/</li><li>Course 1, From zero to a chip: t27.ai/learn/course/</li><li>Course 2, AI numbers with t27: t27.ai/learn/ai-numbers/</li><li>In the app: t27.ai/#/t27-basics</li></ul>
+<div class="box"><h2>What this does not settle</h2><ul><li>The browser runner skips invariant and bench blocks, so lessons that show them do not run them.</li><li>The lesson specs live in the site copy of the spec tree and are not yet in gHashTag/t27.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://t27.ai/learn/">Course 0, t27 basics</a></li><li><a href="https://t27.ai/learn/t27-basics.t27">The course spec, specs/course/t27-basics.t27</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1456">trinity#1456: the split into two courses, which this course stacks on</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/course-zero-t27-basics">Open the interactive version</a><a class="btn sec" href="/ru/blog/course-zero-t27-basics/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Need an FPGA/RTL problem taken to measured hardware?</h2><p>I work contract and part-time on hardware-AI, FPGA/RTL and ML systems — from specification and open toolchains to reproducible measurements.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20Course%200%3A%20t27%20basics%20in%2027%20lessons%2C%20each%20with%20an%20infographic&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CCourse%200%3A%20t27%20basics%20in%2027%20lessons%2C%20each%20with%20an%20infographic%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fcourse-zero-t27-basics%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/about/">See how I work</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>tri test now runs the tests · TRINITY</title>
+<meta name="description" content="[t27#7400 is open, not merged; the demo is one spec on the t27c lab; t27c test-report still exits 0 on a failing test (t27#7370); the MCP tool tri.test is still vacuous] Until now tri test only listed a spec&#x27;s tests and printed that they passed, so a planted bug stayed green. t27#7400 makes it run them, read the report and exit non-zero on a failure, a BLOCKED spec or zero tests. It also adds tri mutate plant: one recorded mutant on a copy, a clean baseline first, the failing tests named, the original&#x27;s hash checked. Nine lessons of the AI numbers course wait on these two commands for their recordings." />
+<link rel="canonical" href="https://t27.ai/blog/tri-test-now-runs-the-tests/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/tri-test-now-runs-the-tests/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/tri-test-now-runs-the-tests/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/tri-test-now-runs-the-tests/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/tri-test-now-runs-the-tests/" />
+<meta property="og:title" content="tri test now runs the tests" />
+<meta property="og:description" content="[t27#7400 is open, not merged; the demo is one spec on the t27c lab; t27c test-report still exits 0 on a failing test (t27#7370); the MCP tool tri.test is still vacuous] Until now tri test only listed a spec&#x27;s tests and printed that they passed, so a planted bug stayed green. t27#7400 makes it run them, read the report and exit non-zero on a failure, a BLOCKED spec or zero tests. It also adds tri mutate plant: one recorded mutant on a copy, a clean baseline first, the failing tests named, the original&#x27;s hash checked. Nine lessons of the AI numbers course wait on these two commands for their recordings." />
+<meta property="og:image" content="https://t27.ai/og-blog-tri-test-now-runs-the-tests.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="tri test now runs the tests" />
+<meta name="twitter:description" content="[t27#7400 is open, not merged; the demo is one spec on the t27c lab; t27c test-report still exits 0 on a failing test (t27#7370); the MCP tool tri.test is still vacuous] Until now tri test only listed a spec&#x27;s tests and printed that they passed, so a planted bug stayed green. t27#7400 makes it run them, read the report and exit non-zero on a failure, a BLOCKED spec or zero tests. It also adds tri mutate plant: one recorded mutant on a copy, a clean baseline first, the failing tests named, the original&#x27;s hash checked. Nine lessons of the AI numbers course wait on these two commands for their recordings." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"tri test now runs the tests","description":"[t27#7400 is open, not merged; the demo is one spec on the t27c lab; t27c test-report still exits 0 on a failing test (t27#7370); the MCP tool tri.test is still vacuous] Until now tri test only listed a spec's tests and printed that they passed, so a planted bug stayed green. t27#7400 makes it run them, read the report and exit non-zero on a failure, a BLOCKED spec or zero tests. It also adds tri mutate plant: one recorded mutant on a copy, a clean baseline first, the failing tests named, the original's hash checked. Nine lessons of the AI numbers course wait on these two commands for their recordings.","url":"https://t27.ai/blog/tri-test-now-runs-the-tests/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/tri-test-now-runs-the-tests/"},"image":"https://t27.ai/og-blog-tri-test-now-runs-the-tests.png","datePublished":"2026-10-07","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"t27, tri, Mutation testing, Courses"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>tri test now runs the tests</h1>
+<p class="meta">2026-10-07 · 4 min read</p>
+<p class="lede">[t27#7400 is open, not merged; the demo is one spec on the t27c lab; t27c test-report still exits 0 on a failing test (t27#7370); the MCP tool tri.test is still vacuous] Until now tri test only listed a spec&#x27;s tests and printed that they passed, so a planted bug stayed green. t27#7400 makes it run them, read the report and exit non-zero on a failure, a BLOCKED spec or zero tests. It also adds tri mutate plant: one recorded mutant on a copy, a clean baseline first, the failing tests named, the original&#x27;s hash checked. Nine lessons of the AI numbers course wait on these two commands for their recordings.</p>
+<figure class="blog-cover"><a href="/og-blog-tri-test-now-runs-the-tests.png?v=bc24652c50bc" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — tri test now runs the tests"><img src="/og-blog-tri-test-now-runs-the-tests.png?v=bc24652c50bc" alt="Three-panel engraved illustration for: tri test now runs the tests" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-tri-test-now-runs-the-tests.png?v=bc24652c50bc" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — tri test now runs the tests">View the complete triptych at full size</a></figcaption></figure>
+<div class="tags"><span class="tag">#t27</span><span class="tag">#tri</span><span class="tag">#MutationTesting</span><span class="tag">#Courses</span></div>
+<p>Until now, <code>tri test &lt;spec&gt;</code> did not run a spec&#x27;s tests. It called <code>t27c test</code>, which only lists them, and then printed &quot;tests passed&quot; whatever they did. A planted bug stayed green. gHashTag/t27#7400 changes that: <code>tri test</code> now runs the tests, and a new command, <code>tri mutate plant</code>, records one hand-written mutation and names the tests it turns red. #7400 is open and not merged yet.</p>
+<h2>What tri test does now</h2>
+<p>It runs <code>t27c test-report &lt;spec&gt;</code>, prints the report, then one line, <code>tests: N, pass: P, fail: F (names)</code>. It exits non-zero when a test fails, when the spec is BLOCKED, or when zero tests ran; a spec with only invariants is told that an invariant is not a test.</p>
+<p>The verdict is read from the report&#x27;s text, because <code>t27c test-report</code> itself exits 0 even when tests fail. That exit code is a separate issue, t27#7370, still open. The parser fails closed: a report with no totals, totals that do not add up, or a FAIL count that disagrees with the FAIL names is an error, not a pass.</p>
+<p>In the PR&#x27;s demo on the t27c lab, <code>gft_relu.t27</code> passes 4 of 4. A scratch copy with line 12 changed so that a negative input is returned instead of 0 gives 3 of 4, <code>negz</code> fails, and the command exits 1.</p>
+<h2>tri mutate plant</h2>
+<p><code>tri mutate plant --file &lt;spec&gt; --line &lt;N&gt; --from &lt;old&gt; --to &lt;new&gt; [--expect &lt;test&gt;]</code> makes one mutant and reports it:</p>
+<ul><li>The mutant is a copy in the work directory <code>tri mutate spec</code> already uses, so <code>use</code> still resolves. The original is not edited.</li><li>&lt;old&gt; must occur exactly once on line N; an empty --from, --from equal to --to, a newline in --to, or a line out of range is refused.</li><li>It prints the one-line diff and runs a clean baseline copy first. A spec that is red before the plant is refused, because the mutant would mean nothing.</li><li>It names the tests that fail on the mutant. A mutant that is BLOCKED is reported as unviable, not killed.</li><li>The original&#x27;s sha256 is taken before and after; if it changed, the command fails with ORIGINAL CHANGED whatever the verdict.</li><li>With --expect it exits 0 only if the failing set equals the expected set; without it, 0 if at least one test fails.</li></ul>
+<p>In the demo, the relu mutant with <code>--expect negz</code> prints &quot;KILLED as expected by: negz&quot; and exits 0. The same mutant with <code>--expect pos</code> exits 1 and says which test was expected but passed and which failed unexpectedly. The original file&#x27;s hash is the same before and after both runs.</p>
+<h2>How the change itself was checked</h2>
+<p>The PR&#x27;s Rust tests for <code>mutate::</code> ran on the lab: 43 passed, 0 failed, 9 of them new. Two mutants were planted in the change and reverted with git: making the green rule ignore FAIL turned 3 tests red, and skipping the restore check turned 1 red. After both reverts, 43 passed again.</p>
+<h2>Why the course waits on it</h2>
+<p>Lessons 13 to 21 of the &quot;AI numbers&quot; course (gft_smul, gft_sadd, gft_signed_mac, gft_relu, gft_exp2, gft_argmax4, gft_nll, gft_sgd_step and gft_xornet) each end with a recording: the spec&#x27;s tests pass, one line is changed, and exactly one named test fails. The recording runs <code>tri test</code> and <code>tri mutate plant</code>. Before #7400 the first could not show a failure at all, and the second did not exist. Until #7400 merges, those nine lessons open a placeholder that says the recording is pending and shows no run.</p>
+<p>Not in #7400: the MCP tool <code>tri.test</code> in <code>cli/tri-mcp</code> still calls <code>t27c test</code> and is still vacuous, and the exit code of <code>t27c test-report</code> is left to t27#7370.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>t27#7400 is open. Until it merges, tri test on master still only lists tests, and lessons 13 to 21 stay placeholders.</li><li>The acceptance demo covers one spec, gft_relu.t27, on the t27c lab; the nine course recordings have not been made yet.</li><li>t27c test-report still exits 0 when tests fail (t27#7370), so any caller that reads only its exit code is still vacuous.</li><li>The MCP tool tri.test in cli/tri-mcp still calls t27c test and is not changed by #7400.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/t27/pull/7400">t27#7400: tri test runs the tests; tri mutate plant · OPEN</a></li><li><a href="https://github.com/gHashTag/t27/issues/7369">t27#7369: the issue #7400 closes</a></li><li><a href="https://github.com/gHashTag/t27/issues/7370">t27#7370: t27c test-report exits 0 when tests FAIL or the report is BLOCKED · OPEN</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1456">trinity#1456: the AI numbers course, with lessons 13 to 21 waiting on #7400 (this post&#x27;s PR)</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/tri-test-now-runs-the-tests">Open the interactive version</a><a class="btn sec" href="/ru/blog/tri-test-now-runs-the-tests/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20tri%20test%20now%20runs%20the%20tests&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9Ctri%20test%20now%20runs%20the%20tests%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Ftri-test-now-runs-the-tests%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
