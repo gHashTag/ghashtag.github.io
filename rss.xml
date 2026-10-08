@@ -28,6 +28,16 @@
       <category>FPGA</category>
     </item>
     <item>
+      <title>An eye on the board: a camera found the wrong board, and a t27 spec put the right one on the network</title>
+      <link>https://t27.ai/#/blog/an-eye-on-the-board</link>
+      <guid isPermaLink="false">an-eye-on-the-board</guid>
+      <pubDate>Thu, 08 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[one board on one desk; received over Wi-Fi; the beacon only transmits, no ARP or ping yet] A USB camera now watches our FPGA bench. Its first frame read &quot;ALINX&quot; off a board our notes had called a QMTech Wukong for months: the same chip in a different package, so every pin we had probed was the wrong pin. Rebuilt for the ALINX AX7203, a beacon written in t27 put the board on the network. A Mac received 2929 of 3168 of its UDP frames over seven minutes, at the 7.45 a second the spec's timing predicts, and the board's LEDs, which the spec drives, showed link, gigabit and a heartbeat.</description>
+      <category>t27</category>
+      <category>FPGA</category>
+      <category>Ethernet</category>
+    </item>
+    <item>
       <title>A course PR now carries its blog post</title>
       <link>https://t27.ai/#/blog/a-course-pr-carries-its-post</link>
       <guid isPermaLink="false">a-course-pr-carries-its-post</guid>
