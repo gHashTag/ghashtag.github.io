@@ -1,5 +1,581 @@
 [
  {
+  "slug": "buses-and-peripherals",
+  "title": "Buses and peripherals with t27, in 27 lessons",
+  "summary": "Course 7 of the catalog: UART frame by frame, SPI mode by mode, the APB handshake, the five AXI4 channels, memory maps, the packet bridge, Ethernet frames and RGMII timing, and the bench IO discipline -- every lesson opens one widget and one t27 spec, and 31 of the widgets are new recordings of native t27c on a real machine.",
+  "date": "2026-10-08",
+  "readingMinutes": 4,
+  "tags": [
+   "t27",
+   "Course",
+   "FPGA"
+  ],
+  "receipts": [
+   {
+    "label": "Course, Buses and peripherals with t27",
+    "href": "https://t27.ai/learn/buses-and-peripherals/"
+   },
+   {
+    "label": "The course spec, specs/course/buses-and-peripherals.t27",
+    "href": "https://t27.ai/learn/buses-and-peripherals.t27"
+   },
+   {
+    "label": "trinity#1484: the issue this course answers",
+    "href": "https://github.com/gHashTag/trinity/issues/1484"
+   },
+   {
+    "label": "gHashTag/t27#7626: the two Ethernet specs, landed in the compiler repo first",
+    "href": "https://github.com/gHashTag/t27/pull/7626"
+   }
+  ],
+  "openQuestions": [
+   "The in-browser runner still skips test and invariant blocks (trinity#1477, fix open as PR 1495); lessons show recorded t27c output.",
+   "Six of the seven bus specs are BLOCKED in the native runner for comptime resolution; their recordings show check, gen-verilog and debug-hir, never a claimed test run.",
+   "The RGMII and CRC constants that are not from IEEE 802.3 are labelled assumptions in the spec headers, not board measurements."
+  ],
+  "published": true,
+  "ru": {
+   "title": "Шины и периферия на t27 за 27 уроков",
+   "summary": "Курс 7 из каталога: UART покадрово, SPI по режимам, рукопожатие APB, пять каналов AXI4, карты памяти, пакетный мост, кадры Ethernet и тайминг RGMII, дисциплина IO на стенде -- в каждом уроке открывается один виджет и одна спека t27, а 31 виджет -- новые записи нативного t27c на настоящей машине.",
+   "openQuestions": [
+    "Раннер в браузере по-прежнему пропускает блоки test и invariant (trinity#1477, исправление открыто как PR 1495); уроки показывают записанный вывод t27c.",
+    "Шесть из семи спек шин BLOCKED в нативном раннере по comptime-разрешению; их записи показывают check, gen-verilog и debug-hir, но не заявленный прогон тестов.",
+    "Константы RGMII и CRC, взятые не из IEEE 802.3, помечены как допущения в шапках спек, а не измерения на плате."
+   ],
+   "body": [
+    {
+     "kind": "p",
+     "text": "В каталоге теперь семь курсов. «Шины и периферия» — 27 уроков в 9 модулях по 3, он сцеплен с курсом о тактах: капстоун того курса ссылается вперёд, урок 1 — назад. Предмет — середина любого настоящего дизайна: как блоки разговаривают. UART покадрово, SPI по режимам, рукопожатие APB, пять каналов AXI4, карты памяти, пакетный мост между шинами, кадры Ethernet и тайминг RGMII, дисциплина IO на стенде, к которой весь трек вёл."
+    },
+    {
+     "kind": "h",
+     "text": "Девять модулей"
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Модуль",
+      "Чему учит"
+     ],
+     "rows": [
+      [
+       "1, Что такое шина",
+       "Зачем общим проводам нужен согласованный разговор; UART как двухпроводный архетип, SPI как разговор под тактом, APB как шина регистров с ролями."
+      ],
+      [
+       "2, UART",
+       "Кадр (старт, 8 бит данных, стоп, покой вверх), делитель 100,000,000 / 115,200, коды статуса, которые опрашивает драйвер, и FIFO глубиной 16."
+      ],
+      [
+       "3, SPI",
+       "CPOL и CPHA как четыре режима, лестница предделителей от одного такта 50 МГц, тайминг выбора кристалла 100 нс и ширины данных до 32 бит."
+      ],
+      [
+       "4, APB",
+       "Фазы setup и access у PSEL и PENABLE, байты строоба для 32-битных и 16-битных записей и сколько адресных бит стоят 1, 4 или 8 периферий."
+      ],
+      [
+       "5, AXI4",
+       "Пять каналов с их ширинами (адрес 32, данные 32, строуб 4, ID 4, LEN 8, SIZE 3), что выбрасывает Lite и что покупает ID у пакета."
+      ],
+      [
+       "6, Память",
+       "Карта памяти как «кто живёт по какому адресу»: типы, до 8 портов, ROM только-для-чтения, отвергающий порт записи, и задержка, которую должно покрывать ожидание."
+      ],
+      [
+       "7, Мосты",
+       "Почему в дизайне вырастает несколько шин и пакетный мост с буферами RX и TX по 256 байт, SPI-буфером 64, пакетами 128 и таймаутом 10,000 тактов."
+      ],
+      [
+       "8, Ethernet",
+       "Контрольная сумма кадра как CRC-32, RGMII, переносящий полубайт на обоих фронтах на 125 МГц, и заранее зарегистрированный план запуска, читаемый по шагам."
+      ],
+      [
+       "9, Стенд",
+       "Кто сейчас держит IO (tri fpga-ioclients), взятие и возврат захвата и капстоун, открывающий весь дизайн: 8 MAC-блоков и 19 тестов."
+      ]
+     ]
+    },
+    {
+     "kind": "h",
+     "text": "Тридцать три записи — и что они честно показывают"
+    },
+    {
+     "kind": "p",
+     "text": "Курсу нужен виджет для каждого урока, и он отчеканил 33 новые записи. Большинство прогоняет нативный t27c 0.4.0 на ноутбуке по спекам шин. Но нативный раннер не берёт большинство этих спек целиком: uart, spi, apb_bridge, axi4, bridge и top_level BLOCKED по comptime-разрешению, которое раннер не завершает. Четыре проходят нативно чисто: memory.t27 — 15 тестов и 6 инвариантов, доказанных comptime, spi_tb.t27 — 7 тестов и обе новые спеки Ethernet: eth_crc.t27 с 8 тестами и rgmii.t27 с 7 тестами и comptime-инвариантом. Поэтому записи показывают то, что компилятор доводит до конца на каждой спеке: t27c check (0 ошибок, 0 предупреждений), t27c gen-verilog (синтезируемый модуль, его порты, его провода) и t27c debug-hir (взгляд аппаратного IR). Тексты уроков говорят, что есть что; ни одна запись не утверждает прогон тестов, которого не было."
+    },
+    {
+     "kind": "p",
+     "text": "Модуль стенда записывает живые инструменты: tri fpga-ioclients читает зарегистрированных клиентов IO, tri fpga-claim и tri fpga-release берут и возвращают захват подряд, tri fpga-next читает, что запускается дальше, а план запуска Ethernet из tri fpga-steps E3 зарегистрирован по шагам заранее. Капстоун опускает весь дизайн: top_level.t27 несёт CLK_FREQ_HZ 100,000,000, SYSTICK_HZ 1000, NUM_MAC_UNITS 8 и четыре кода операций (CMD_NOP, CMD_MAC_MULT, CMD_MAC_DOT, CMD_UART_SEND) на 19 тестах."
+    },
+    {
+     "kind": "h",
+     "text": "Две новые спеки — сначала в репозитории компилятора"
+    },
+    {
+     "kind": "p",
+     "text": "Модулю Ethernet нужны были спеки, которых в дереве не было. specs/fpga/eth_crc.t27 несёт CRC-32, который вычисляет контрольная сумма кадра, а specs/fpga/rgmii.t27 — тайминговую арифметику с двойной скоростью данных, 125 МГц для гигабита и одинарное понижение для 10 и 100. Обе написаны в gHashTag/t27 (PR 7626) и вендорены в дерево файлов сайта — в ту сторону, куда указывает правило собственного языка: спека живёт в репозитории, которому принадлежит язык, а сайт отдаёт копию, которую умеет доказать идентичной. Каждая константа в них, взятая не из IEEE 802.3, помечена в шапке спеки как допущение — рядом с документом, из которого её нет. Первая версия CRC-спеки была неверна так, что её собственный CI этого не видел: гейты проверяют, что спека компилируется, а не что её asserts держатся, и нативно падали 6 тестов из 8 — каждый неудачный assert сравнивал бегущий регистр с проинвертированными значениями zlib, а тест приёмника утверждал возврат регистра к пресету, чего CRC-32 из 802.3 не делает. Теперь спека несёт физическую модель: FCS — это проинвертированный регистр, а приёмник, переваривший кадр с FCS, приходит к остатку 0xDEBB20E3, вычисленному тем же Python zlib, который шапка называет оракулом. Все 8 тестов проходят, пустых — нет."
+    },
+    {
+     "kind": "h",
+     "text": "Четыре спеки, которые только выглядели компилирующимися"
+    },
+    {
+     "kind": "p",
+     "text": "Последний гейт, который прогоняет курс, считает выброшенные токены, и четыре спеки уроков его не прошли, хотя отчитались, что компилируются: uart, spi, bridge и top_level несли тела тестов и инвариантов, которые парсер молча выбрасывал, -- голый оператор там, где ждали клаузу, условие implies в assert-телах, вызов несуществующего метода, комментарии внутри клауз. Компилятор говорил, что с файлами всё в порядке; читателю никто не сообщал, что его тесты даже не читались (дефект заведён как gHashTag/t27#2474, починка парсера заморожена стадией stage0, поэтому спеки переписаны в подмножество, которое парсер уже потребляет, -- gHashTag/t27 PR 7659, там же записана дивергенция wasm и нативного компилятора на записи в массив bridge). Каждый урок, который говорит вот спека, и она компилируется, теперь указывает на спеку, которая парсится до конца."
+    },
+    {
+     "kind": "h",
+     "text": "Чего это не показывает"
+    },
+    {
+     "kind": "ul",
+     "items": [
+      "Браузерный плеер по-прежнему пропускает блоки test и invariant (trinity#1477, исправление открыто как PR 1495), поэтому каждый записанный вердикт идёт нативно, и урок говорит об этом.",
+      "Шесть из семи спек шин BLOCKED в нативном раннере по comptime-разрешению; их записи показывают check, gen-verilog и debug-hir — никогда не заявленный прогон тестов.",
+      "t27c test-report возвращает 0 на заблокированной спеке (t27#7370), поэтому конвейер чеканки читал статус из текста прогона, а не из кода возврата.",
+      "CI в t27 не поймал неверный CRC: он доказывает, что спека компилируется, а не что её asserts держатся. Падение 6 из 8 нашлось нативным прогоном спеки перед записью и исправлено в ветке PR (t27#7626) до того, как отчеканен хоть один каст.",
+      "Числа RGMII и CRC — собственная модель спек с помеченными в шапке допущениями, а не измерения на плате; шаги запуска E3 зарегистрированы заранее, и не выполнившиеся шаги записаны как не выполнившиеся.",
+      "Русский бандл покрывает все 27 уроков (контракт отвергает недостающее поле), но строки виджетов остаются английскими: каждый виджет — своя спека t27."
+     ]
+    },
+    {
+     "kind": "h",
+     "text": "Попробуйте"
+    },
+    {
+     "kind": "ul",
+     "items": [
+      "Курс: t27.ai/learn/buses-and-peripherals/",
+      "Кадр, от старта до стопа: t27.ai/learn/the-frame/",
+      "Спека, которую нативный раннер берёт целиком: t27.ai/learn/memory-maps/",
+      "В приложении: t27.ai/#/buses-and-peripherals"
+     ]
+    }
+   ]
+  },
+  "body": [
+   {
+    "kind": "p",
+    "text": "The catalog holds seven courses now. \"Buses and peripherals\" is 27 lessons in 9 modules of 3, chained after the clocks course: the capstone of that course links forward, lesson 1 links back. The subject is the middle of every real design -- how blocks talk. UART frame by frame, SPI mode by mode, the APB handshake, the five AXI4 channels, memory maps, the packet bridge between buses, Ethernet frames and RGMII timing, and the bench IO discipline that guards the hardware the whole track has been building toward."
+   },
+   {
+    "kind": "h",
+    "text": "Nine modules"
+   },
+   {
+    "kind": "table",
+    "head": [
+     "Module",
+     "What it teaches"
+    ],
+    "rows": [
+     [
+      "1, What a bus is",
+      "Why shared wires need an agreed conversation; the UART as the two-wire archetype, SPI as the clocked answer, APB as the register bus with roles."
+     ],
+     [
+      "2, UART",
+      "The frame (start, 8 data, stop, idle high), the divisor 100,000,000 / 115,200, the status codes a driver polls and the 16-deep FIFOs."
+     ],
+     [
+      "3, SPI",
+      "CPOL and CPHA as four modes, the prescaler ladder from the one 50 MHz clock, chip-select timing of 100 ns and data widths up to 32 bits."
+     ],
+     [
+      "4, APB",
+      "The setup and access phases of PSEL and PENABLE, strobe bytes for 32-bit and 16-bit writes, and how many address bits 1, 4 or 8 peripherals cost."
+     ],
+     [
+      "5, AXI4",
+      "The five channels with their widths (address 32, data 32, strobe 4, ID 4, LEN 8, SIZE 3), what Lite drops, and what an ID buys a burst."
+     ],
+     [
+      "6, Memory",
+      "The memory map as who lives at which address: kinds, up to 8 ports, read-only ROM refusing a write port, and latency a wait state must cover."
+     ],
+     [
+      "7, Bridges",
+      "Why one design grows several buses, and the packet bridge with its 256-byte RX and TX buffers, 64-byte SPI buffer, 128-byte packets and 10,000-cycle timeout."
+     ],
+     [
+      "8, Ethernet",
+      "The frame check sequence as a CRC-32, RGMII moving a nibble on both edges at 125 MHz, and a pre-registered bring-up plan read step by step."
+     ],
+     [
+      "9, The bench",
+      "Who holds the IO right now (tri fpga-ioclients), taking and returning the claim, and the capstone that opens the whole design, 8 MAC units and 19 tests."
+     ]
+    ]
+   },
+   {
+    "kind": "h",
+    "text": "Thirty-three recordings, and what they honestly show"
+   },
+   {
+    "kind": "p",
+    "text": "The course needed a framable widget for every lesson, and minted 33 new cast recordings. Most of them run native t27c 0.4.0 on a laptop against the bus specs. But the native runner cannot take most of these specs whole: uart, spi, apb_bridge, axi4, bridge and top_level are BLOCKED for comptime resolution the runner cannot finish. Four of them run clean natively: memory.t27 -- 15 tests and 6 invariants proved comptime -- spi_tb.t27 with 7 tests, and the two new Ethernet specs, eth_crc.t27 with 8 tests and rgmii.t27 with 7 tests plus its comptime invariant. So the recordings show what the compiler does complete on every spec: t27c check (0 errors, 0 warnings), t27c gen-verilog (the synthesizable module, its port list, its wires), and t27c debug-hir (the hardware IR view). The lesson texts say which is which; no recording claims a test run that did not happen."
+   },
+   {
+    "kind": "p",
+    "text": "The bench module records the live tools instead: tri fpga-ioclients reading the registered IO clients, tri fpga-claim and tri fpga-release taken and given back back-to-back, tri fpga-next reading what runs next, and the Ethernet bring-up plan of tri fpga-steps E3, pre-registered step by step. The capstone lesson lowers the whole design: top_level.t27 carries CLK_FREQ_HZ 100,000,000, SYSTICK_HZ 1000, NUM_MAC_UNITS 8 and the four opcodes (CMD_NOP, CMD_MAC_MULT, CMD_MAC_DOT, CMD_UART_SEND) over 19 tests."
+   },
+   {
+    "kind": "h",
+    "text": "Two new specs, landed in the compiler repo first"
+   },
+   {
+    "kind": "p",
+    "text": "The Ethernet module needed specs the tree did not have. specs/fpga/eth_crc.t27 carries the CRC-32 the frame check sequence computes, and specs/fpga/rgmii.t27 the double-data-rate timing arithmetic, 125 MHz for gigabit and the single-data-rate downshift for 10 and 100. Both were written in gHashTag/t27 (PR 7626), then vendored into the website files tree -- the direction the own-language rule wants: the spec lives in the repo that owns the language, the site serves a copy it can prove identical. Every constant in them that is not from IEEE 802.3 is labelled as an assumption in the spec header, with the document it is not from. The first version of the CRC spec was wrong in a way its own CI could not see: the gates check that a spec compiles, not that its asserts hold, and 6 of its 8 tests failed natively -- every failing assert compared the running register against zlib post-inverted values, and the receiver test claimed the register returns to its preset, which no 802.3 CRC-32 does. The spec now carries the physical model: the FCS is the post-inverted register, and a receiver digesting frame plus FCS lands on the residue 0xDEBB20E3, computed with the same Python zlib the header names as oracle. All 8 tests pass, none vacuous."
+   },
+   {
+    "kind": "h",
+    "text": "Four specs that only looked compiled"
+   },
+   {
+    "kind": "p",
+    "text": "The last gate the course runs counts discarded tokens, and four lesson specs failed it while reporting that they compiled: uart, spi, bridge and top_level carried test and invariant bodies the parser silently threw away -- a bare statement where a clause was expected, implies conditions in assert bodies, a call to a method that does not exist, comments inside clauses. The compiler said these files were fine; a reader was never told their tests were not even being read (the defect is filed as gHashTag/t27#2474, and the parser repair is stage0-frozen, so the specs were rewritten into the subset the parser already consumes -- gHashTag/t27 PR 7659, with the wasm/native divergence on bridge array writes recorded in it). Every lesson that says here is the spec and it compiles now points at a spec that parses to the end."
+   },
+   {
+    "kind": "h",
+    "text": "What this does not show"
+   },
+   {
+    "kind": "ul",
+    "items": [
+     "The browser player still skips test and invariant blocks (trinity#1477, fix open as PR 1495), so every recorded verdict runs natively and the lesson says so.",
+     "Six of the seven bus specs are BLOCKED in the native runner for comptime resolution; their recordings show check, gen-verilog and debug-hir, never a claimed test run.",
+     "t27c test-report exits 0 on a blocked spec (t27#7370), so the minting pipeline screened status from the run text, not exit codes.",
+     "The t27 CI gates caught nothing of the wrong CRC: they prove a spec compiles, not that its asserts hold. The 6-of-8 failure was found by running the spec natively before recording it, and fixed on the PR branch (t27#7626) before either cast was minted.",
+     "The RGMII and CRC numbers are the specs' own model with header-labelled assumptions, not board measurements; the E3 bring-up steps are pre-registered, and steps that did not run are recorded as not run.",
+     "The Russian bundle covers all 27 lessons (the contract refuses a missing field), but widget strings stay English: each widget is its own t27 spec."
+    ]
+   },
+   {
+    "kind": "h",
+    "text": "Try it"
+   },
+   {
+    "kind": "ul",
+    "items": [
+     "Course: t27.ai/learn/buses-and-peripherals/",
+     "The frame, start to stop: t27.ai/learn/the-frame/",
+     "A spec the native runner takes whole: t27.ai/learn/memory-maps/",
+     "In the app: t27.ai/#/buses-and-peripherals"
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "clocks-resets-and-cdc",
+  "title": "Clocks, resets and clock-domain crossings, in 27 lessons",
+  "summary": "The clocks course teaches clock trees, reset strategy and crossing clock domains in 27 lessons, and every lesson opens a widget no other lesson uses, three of them minted for this course. The post body has sat unregistered in the tree since the course PR; this entry wires it up.",
+  "date": "2026-10-08",
+  "readingMinutes": 4,
+  "tags": [
+   "t27",
+   "Course",
+   "FPGA"
+  ],
+  "receipts": [
+   {
+    "label": "Course, Clocking, resets and CDC",
+    "href": "https://t27.ai/learn/clocks-and-cdc/"
+   },
+   {
+    "label": "The course spec, specs/course/clocks-and-cdc.t27",
+    "href": "https://t27.ai/learn/clocks-and-cdc.t27"
+   },
+   {
+    "label": "trinity#1482: the issue this course answers",
+    "href": "https://github.com/gHashTag/trinity/issues/1482"
+   },
+   {
+    "label": "trinity#1498: the course PR that committed this body",
+    "href": "https://github.com/gHashTag/trinity/pull/1498"
+   }
+  ],
+  "openQuestions": [
+   "The in-browser runner compiles lesson specs but cannot execute test blocks yet (trinity#1477); lessons show recorded t27c output.",
+   "The E3 timing numbers are a model over the SDF nextpnr writes for the routed design, not measurements on the AX7203 board.",
+   "This post was committed with the course body but never registered in postsIndex; it publishes with the buses course PR (Refs #1482)."
+  ],
+  "published": true,
+  "ru": {
+   "title": "Тактирование, сброс и пересечения тактовых доменов за 27 уроков",
+   "summary": "Курс о тактах учит деревьям тактового сигнала, стратегии сбросов и пересечениям тактовых доменов в 27 уроках, и каждый урок открывает виджет, который не открывает ни один другой урок; три из них отчеканены для этого курса. Тело поста лежало в дереве незарегистрированным со времён PR курса; эта запись его подключает.",
+   "openQuestions": [
+    "Раннер в браузере компилирует спеки уроков, но пока не исполняет тест-блоки (trinity#1477); уроки показывают записанный вывод t27c.",
+    "Числа тайминга E3 -- модель по SDF nextpnr о разведённом дизайне, а не измерения на плате AX7203.",
+    "Этот пост был закоммичен вместе с телом курса, но не зарегистрирован в postsIndex; публикуется с PR курса шин (Refs #1482)."
+   ],
+   "body": [
+    {
+     "kind": "p",
+     "text": "Появился третий курс t27. Курс 3, «Тактирование, сброс и пересечения тактовых доменов», — 27 уроков в 9 модулях по 3, он сцеплен с курсом по ИИ-числам так же, как тот сцеплен с FPGA-курсом: последний урок предыдущего курса ссылается вперёд, а урок 1 — назад. Каждый урок открывает один виджет и одну спеку t27 в браузерном плеере, а где браузерный раннер спеку ещё не исполняет, урок говорит об этом прямо, и виджет — запись нативного t27c на настоящей машине."
+    },
+    {
+     "kind": "h",
+     "text": "Девять модулей"
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Модуль",
+      "Чему учит"
+     ],
+     "rows": [
+      [
+       "1, Что такое тактовый сигнал",
+       "Тактовый домен как все триггеры, делящие один фронт; период, джиттер и место, где тактовый сигнал платы входит в кристалл."
+      ],
+      [
+       "2, Деревья тактового сигнала",
+       "Перекос и задержка прохождения, сеть глобальных буферов и почему стробирование клока логикой тихо чеканит новый домен."
+      ],
+      [
+       "3, PLL и MMCM",
+       "Умножить и поделить один тактовый сигнал в другой, фаза шагами 1/56 периода VCO и какие тактовые сигналы анализатор считает родственными."
+      ],
+      [
+       "4, Сбросы",
+       "Ассертировать асинхронно, снимать синхронно: три вида сброса, конвейер снятия и дерево сброса."
+      ],
+      [
+       "5, Метастабильность",
+       "Окно setup-hold, MTBF в целочисленной арифметике log2 и двухтриггерный синхронизатор."
+      ],
+      [
+       "6, Пересечение многих бит",
+       "Почему двоичная шина рвётся при сэмплировании в другом домене, почему код Грея нет, и рукопожатия для импульсов."
+      ],
+      [
+       "7, Асинхронный FIFO",
+       "Указатели, флаги и глубина: буфер, переносящий поток между двумя тактовыми сигналами."
+      ],
+      [
+       "8, Ограничения",
+       "create_clock, false path и max delay, и тайминг выводов против клока, которым ведёт другая микросхема."
+      ],
+      [
+       "9, На плате",
+       "Отчёт CDC, одно пересечение, захваченное на RX-триггерах разведённого дизайна E3, и дифф битстрима, замыкающий курс."
+      ]
+     ]
+    },
+    {
+     "kind": "h",
+     "text": "Три новые спеки"
+    },
+    {
+     "kind": "p",
+     "text": "Курсу понадобились модели, которых в дереве не было, и он добавляет три спеки. specs/fpga/mmcm.t27 моделирует MMCME2: 16 тестов и 4 инварианта покрывают окно VCO, диапазоны M/D/O, дробное умножение в восьмых долях, шаг фазы 1/56 и модель захвата. specs/fpga/reset_sync.t27 называет три вида сброса: 16 тестов и 3 инварианта. specs/fpga/mtbf.t27 считает MTBF в целочисленном log2 с 10 дробными битами, потому что честный ответ переполняет любой целочисленный счёт секунд: 15 тестов и 4 инварианта. Каждая константа, взятая не из документа, помечена в шапке спеки как допущение — рядом с документом, из которого её нет."
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Спека",
+      "Тесты",
+      "Инварианты",
+      "Что помечает шапка"
+     ],
+     "rows": [
+      [
+       "mmcm.t27",
+       "16",
+       "4",
+       "Диапазоны DIVCLK, MULT, CLKOUT и шаг фазы 1/56 из UG472; окно VCO и окно захвата помечены как допущения — точные числа по степеням скорости лежат в UG472 и DS181."
+      ],
+      [
+       "reset_sync.t27",
+       "16",
+       "3",
+       "Рекомендуемая форма (асинхронный ассерт, синхронное снятие) и числа ступеней, которые она принимает."
+      ],
+      [
+       "mtbf.t27",
+       "15",
+       "4",
+       "Форма уравнения из WP323; tau 50 пс и W 10 пс помечены как допущения — вендоры публикуют параметры триггеров лишь частично."
+      ]
+     ]
+    },
+    {
+     "kind": "h",
+     "text": "Что показывают записи"
+    },
+    {
+     "kind": "p",
+     "text": "В галерее шестнадцать новых карточек-кастов, по одной записи на записанный урок, снятых нативным t27c 0.4.0 на ноутбуке. Запись показывает запуск, который важен, и читает вердикт из текста. Урок MTBF показывает, как одна ступень оставляет -200 пс запаса и log2-MTBF -19513 в Q10, а две ступени — 9800 пс и 275887. Запись мутации MMCM расширяет нижнюю границу окна VCO с 800000 до 400000 кГц одной строкой sed, и падает ровно тот тест, который называет число, что он отвергает. Запись мутации FIFO меняет инкремент указателя головы с + 1 на + 3, и все тесты по-прежнему проходят, потому что набор утверждает заполнение и флаги, но никогда значения указателей: та самая дыра, в которую проскользнул бы разорванный многобитный указатель."
+    },
+    {
+     "kind": "p",
+     "text": "Числа о плате — настоящие запуски, каждый назван в источниках данных виджета, который его показывает. Урок спеки платы запускает её нативно: 15 тестов, 11 инвариантов, а кольцевой генератор CFGMCLK измерен на 70770, 68490 и 67200 кГц на трёх подключенных кристаллах через JTAG — против номинала 65 МГц, который UG470 даёт как коридор 50-80 МГц. Урок тайминга выводов читает два записанных прогона разведённого дизайна E3 для платы AX7203: минимальный TX hold 3445 пс на eth_txd[1], минимальный запас между полубайтами 10900 пс на rxctl_n — и оба это модель по собственному SDF nextpnr о разведённом дизайне, а не измерение на плате, о чём и сказано. Урок захвата запускает tri fpga-rxcap на том же SDF: hold 10900 пс на rxctl_n при RXC на 2,4 нс позади своих данных через BUFG."
+    },
+    {
+     "kind": "h",
+     "text": "Чего это не показывает"
+    },
+    {
+     "kind": "ul",
+     "items": [
+      "Браузерный плеер по-прежнему пропускает блоки test и invariant, поэтому каждый записанный вердикт идёт нативно. Работа над раннером — задача trinity#1477, она не влита.",
+      "Числа тайминга E3 — модель по SDF nextpnr о разведённом дизайне, а не измерения на плате AX7203, и уроки говорят об этом прямо.",
+      "Окно VCO, окно захвата, tau и W помечены как допущения в шапках спек; настоящий дизайн читает свои числа из своего отчёта тайминга или из отчёта CDC вендора.",
+      "Урок тестбенча FIFO открывает fifo.t27 с записью дисциплины мутаций вместо спеки тестбенча: дерева fifo_tb.t27 ещё нет, и текст урока говорит именно это.",
+      "Три новые спеки живут в вендоренном дереве файлов сайта; их ещё нет в gHashTag/t27, и пока их не перенесли, вендоренная копия — единственная.",
+      "t27c test-report возвращает 0, когда тест падает (t27#7370), поэтому записи читают вердикты из текста, а не из кодов возврата."
+     ]
+    },
+    {
+     "kind": "h",
+     "text": "Попробуйте"
+    },
+    {
+     "kind": "ul",
+     "items": [
+      "Курс 3, «Тактирование, сброс и CDC»: t27.ai/learn/clocks-and-cdc/",
+      "Урок 14, среднее время между отказами: t27.ai/learn/mtbf/",
+      "Урок 27, поменяй и сравни: t27.ai/learn/capstone-diff/",
+      "В приложении: t27.ai/#/clocks-and-cdc"
+     ]
+    }
+   ]
+  },
+  "body": [
+   {
+    "kind": "p",
+    "text": "There is a third t27 course. Course 3, \"Clocking, resets and clock-domain crossings\", is 27 lessons in 9 modules of 3, chained after the AI numbers course the way that one is chained after the FPGA course: the last lesson of the course before links forward, and lesson 1 links back. Every lesson opens one widget and one t27 spec in the browser player, and where the browser runner cannot execute the spec yet, the lesson says so plainly and the widget is a recording of the native t27c on a real machine."
+   },
+   {
+    "kind": "h",
+    "text": "Nine modules"
+   },
+   {
+    "kind": "table",
+    "head": [
+     "Module",
+     "What it teaches"
+    ],
+    "rows": [
+     [
+      "1, What a clock is",
+      "A clock domain as every flop that shares one edge; period, jitter, and where a board clock enters the chip."
+     ],
+     [
+      "2, Clock trees",
+      "Skew and insertion delay, the global buffer network, and why gating a clock with logic quietly mints a new domain."
+     ],
+     [
+      "3, PLL and MMCM",
+      "Multiply and divide one clock into another, phase in 1/56 steps of the VCO period, and which clocks a timer calls related."
+     ],
+     [
+      "4, Resets",
+      "Assert asynchronous, release synchronous: the three reset kinds, the release pipe, and the reset tree."
+     ],
+     [
+      "5, Metastability",
+      "The setup-hold window, MTBF in integer log2 arithmetic, and the two-flop synchronizer."
+     ],
+     [
+      "6, Crossing many bits",
+      "Why a binary bus tears when sampled in another domain, why Gray code does not, and handshakes for pulses."
+     ],
+     [
+      "7, The asynchronous FIFO",
+      "Pointers, flags and depth: the buffer that carries a stream between two clocks."
+     ],
+     [
+      "8, Constraints",
+      "create_clock, false path and max delay, and I/O timing against a clock another chip drives."
+     ],
+     [
+      "9, On the board",
+      "A CDC report, one crossing captured on the RX flops of a routed E3 design, and a bitstream diff to close."
+     ]
+    ]
+   },
+   {
+    "kind": "h",
+    "text": "Three new specs"
+   },
+   {
+    "kind": "p",
+    "text": "The course needed models the tree did not have, so it adds three specs. specs/fpga/mmcm.t27 models an MMCME2: 16 tests and 4 invariants cover the VCO window, M/D/O ranges, fractional multiply in eighths, the 1/56 phase step and the lock model. specs/fpga/reset_sync.t27 names the three reset kinds: 16 tests and 3 invariants. specs/fpga/mtbf.t27 computes MTBF in integer log2 with 10 fractional bits, because the honest answer overflows any integer seconds count: 15 tests and 4 invariants. Every constant that is not from a document is labelled in the spec header as an assumption, with the document it is not."
+   },
+   {
+    "kind": "table",
+    "head": [
+     "Spec",
+     "Tests",
+     "Invariants",
+     "What the header labels"
+    ],
+    "rows": [
+     [
+      "mmcm.t27",
+      "16",
+      "4",
+      "DIVCLK, MULT, CLKOUT ranges and the 1/56 phase step from UG472; the VCO window and lock window are labelled assumptions, UG472 and DS181 hold the per-speed-grade numbers."
+     ],
+     [
+      "reset_sync.t27",
+      "16",
+      "3",
+      "The recommended form (async assert, sync release) and the stage counts it accepts."
+     ],
+     [
+      "mtbf.t27",
+      "15",
+      "4",
+      "The WP323 form of the equation; tau 50 ps and W 10 ps are labelled assumptions, vendors publish flop parameters only partially."
+     ]
+    ]
+   },
+   {
+    "kind": "h",
+    "text": "What the recordings show"
+   },
+   {
+    "kind": "p",
+    "text": "Sixteen new cast widgets join the gallery, one recording per recorded lesson, made with native t27c 0.4.0 on a laptop. A recording shows the run that matters and reads its verdict from the text. The MTBF lesson shows one flop leaving -200 ps of slack and a log2-MTBF of -19513 in Q10, and two flops leaving 9800 ps and 275887. The MMCM mutation recording widens the VCO window floor from 800000 to 400000 kHz with one sed line, and the one test that fails is the one that names the number it rejects. The FIFO mutation recording changes the head pointer increment from + 1 to + 3 and every test still passes, because the suite asserts fill counts and flags, never pointer values: the exact hole a torn multi-bit pointer would slip through."
+   },
+   {
+    "kind": "p",
+    "text": "The board numbers are real runs, each named in the widget that shows it. The board-spec lesson runs the Wukong board spec natively: 15 tests, 11 invariants, and the CFGMCLK ring oscillator measured at 70770, 68490 and 67200 kHz on three attached dice over JTAG, against the 65 MHz nominal that UG470 states as a 50-80 MHz envelope. The I/O timing lesson reads the two recorded runs of the routed E3 design for the AX7203 board: smallest TX hold 3445 ps on eth_txd[1], smallest mid-nibble margin 10900 ps on rxctl_n, and both are a model over the SDF nextpnr writes for the routed design, not a board measurement, and say so. The capture lesson runs tri fpga-rxcap on the same SDF: hold 10900 ps on rxctl_n with RXC 2.4 ns behind its data through a BUFG."
+   },
+   {
+    "kind": "h",
+    "text": "What this does not show"
+   },
+   {
+    "kind": "ul",
+    "items": [
+     "The browser player still skips test and invariant blocks, so every recorded verdict runs natively. The runner work is issue trinity#1477 and is not merged.",
+     "The E3 timing numbers are a model over the SDF nextpnr writes for the routed design, not measurements on the AX7203 board, and the lessons say so.",
+     "The VCO window, the lock window, tau and W are labelled assumptions in the spec headers; a real design reads its own numbers from its own timing report or the vendor CDC report.",
+     "The FIFO testbench lesson opens fifo.t27 with a recording of mutation discipline instead of a testbench spec: the tree has no fifo_tb.t27 yet, and the lesson text says exactly that.",
+     "The three new specs live in the website vendored files tree; they are not yet in gHashTag/t27, and until they are, the vendored copy is the only copy.",
+     "t27c test-report exits 0 when a test fails (t27#7370), so the recordings read verdicts from text, not exit codes."
+    ]
+   },
+   {
+    "kind": "h",
+    "text": "Try it"
+   },
+   {
+    "kind": "ul",
+    "items": [
+     "Course 3, Clocking, resets and CDC: t27.ai/learn/clocks-and-cdc/",
+     "Lesson 14, mean time between failures: t27.ai/learn/mtbf/",
+     "Lesson 27, change one thing and diff: t27.ai/learn/capstone-diff/",
+     "In the app: t27.ai/#/clocks-and-cdc"
+    ]
+   }
+  ]
+ },
+ {
   "slug": "course-three-verifying-hardware",
   "title": "Course 3: verifying hardware with t27, in 27 lessons",
   "summary": "[the browser runner cannot execute testbench test blocks yet (trinity#1477); three lesson specs were swapped for clean siblings; specs/fpga/coverage.t27 lands in gHashTag/t27 separately] The fourth t27 course answers the question the other three left open: how do you know the design works? 27 lessons in 9 modules of 3 -- testbenches, waveforms, vectors, cosimulation, coverage, formal, mutation, sign-off -- each opening one working widget and one t27 spec, with every number on the page measured by the widget it sits beside.",

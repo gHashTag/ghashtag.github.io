@@ -6,7 +6,27 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 07 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Clocks, resets and clock-domain crossings, in 27 lessons</title>
+      <link>https://t27.ai/#/blog/clocks-resets-and-cdc</link>
+      <guid isPermaLink="false">clocks-resets-and-cdc</guid>
+      <pubDate>Thu, 08 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The clocks course teaches clock trees, reset strategy and crossing clock domains in 27 lessons, and every lesson opens a widget no other lesson uses, three of them minted for this course. The post body has sat unregistered in the tree since the course PR; this entry wires it up.</description>
+      <category>t27</category>
+      <category>Course</category>
+      <category>FPGA</category>
+    </item>
+    <item>
+      <title>Buses and peripherals with t27, in 27 lessons</title>
+      <link>https://t27.ai/#/blog/buses-and-peripherals</link>
+      <guid isPermaLink="false">buses-and-peripherals</guid>
+      <pubDate>Thu, 08 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Course 7 of the catalog: UART frame by frame, SPI mode by mode, the APB handshake, the five AXI4 channels, memory maps, the packet bridge, Ethernet frames and RGMII timing, and the bench IO discipline -- every lesson opens one widget and one t27 spec, and 31 of the widgets are new recordings of native t27c on a real machine.</description>
+      <category>t27</category>
+      <category>Course</category>
+      <category>FPGA</category>
+    </item>
     <item>
       <title>A course PR now carries its blog post</title>
       <link>https://t27.ai/#/blog/a-course-pr-carries-its-post</link>

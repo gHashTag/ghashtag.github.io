@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Тактирование, сброс и пересечения тактовых доменов за 27 уроков · TRINITY</title>
+<meta name="description" content="Курс о тактах учит деревьям тактового сигнала, стратегии сбросов и пересечениям тактовых доменов в 27 уроках, и каждый урок открывает виджет, который не открывает ни один другой урок; три из них отчеканены для этого курса. Тело поста лежало в дереве незарегистрированным со времён PR курса; эта запись его подключает." />
+<link rel="canonical" href="https://t27.ai/ru/blog/clocks-resets-and-cdc/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/clocks-resets-and-cdc/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/clocks-resets-and-cdc/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/clocks-resets-and-cdc/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/clocks-resets-and-cdc/" />
+<meta property="og:title" content="Тактирование, сброс и пересечения тактовых доменов за 27 уроков" />
+<meta property="og:description" content="Курс о тактах учит деревьям тактового сигнала, стратегии сбросов и пересечениям тактовых доменов в 27 уроках, и каждый урок открывает виджет, который не открывает ни один другой урок; три из них отчеканены для этого курса. Тело поста лежало в дереве незарегистрированным со времён PR курса; эта запись его подключает." />
+<meta property="og:image" content="https://t27.ai/og-blog-clocks-resets-and-cdc-ru.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Тактирование, сброс и пересечения тактовых доменов за 27 уроков" />
+<meta name="twitter:description" content="Курс о тактах учит деревьям тактового сигнала, стратегии сбросов и пересечениям тактовых доменов в 27 уроках, и каждый урок открывает виджет, который не открывает ни один другой урок; три из них отчеканены для этого курса. Тело поста лежало в дереве незарегистрированным со времён PR курса; эта запись его подключает." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Тактирование, сброс и пересечения тактовых доменов за 27 уроков","description":"Курс о тактах учит деревьям тактового сигнала, стратегии сбросов и пересечениям тактовых доменов в 27 уроках, и каждый урок открывает виджет, который не открывает ни один другой урок; три из них отчеканены для этого курса. Тело поста лежало в дереве незарегистрированным со времён PR курса; эта запись его подключает.","url":"https://t27.ai/ru/blog/clocks-resets-and-cdc/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/clocks-resets-and-cdc/"},"image":"https://t27.ai/og-blog-clocks-resets-and-cdc-ru.png","datePublished":"2026-10-08","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"t27, Course, FPGA"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Тактирование, сброс и пересечения тактовых доменов за 27 уроков</h1>
+<p class="meta">2026-10-08 · 4 мин чтения</p>
+<p class="lede">Курс о тактах учит деревьям тактового сигнала, стратегии сбросов и пересечениям тактовых доменов в 27 уроках, и каждый урок открывает виджет, который не открывает ни один другой урок; три из них отчеканены для этого курса. Тело поста лежало в дереве незарегистрированным со времён PR курса; эта запись его подключает.</p>
+<figure class="blog-cover"><a href="/og-blog-clocks-resets-and-cdc-ru.png?v=a431d62d5ec1" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — Тактирование, сброс и пересечения тактовых доменов за 27 уроков"><img src="/og-blog-clocks-resets-and-cdc-ru.png?v=a431d62d5ec1" alt="Гравюрный триптих к статье: Тактирование, сброс и пересечения тактовых доменов за 27 уроков" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-clocks-resets-and-cdc-ru.png?v=a431d62d5ec1" target="_blank" rel="noopener" aria-label="Открыть полный триптих в исходном размере — Тактирование, сброс и пересечения тактовых доменов за 27 уроков">Открыть полный триптих в исходном размере</a></figcaption></figure>
+<div class="tags"><span class="tag">#t27</span><span class="tag">#Course</span><span class="tag">#FPGA</span></div>
+<p>Появился третий курс t27. Курс 3, «Тактирование, сброс и пересечения тактовых доменов», — 27 уроков в 9 модулях по 3, он сцеплен с курсом по ИИ-числам так же, как тот сцеплен с FPGA-курсом: последний урок предыдущего курса ссылается вперёд, а урок 1 — назад. Каждый урок открывает один виджет и одну спеку t27 в браузерном плеере, а где браузерный раннер спеку ещё не исполняет, урок говорит об этом прямо, и виджет — запись нативного t27c на настоящей машине.</p>
+<h2>Девять модулей</h2>
+<div class="tw"><table><thead><tr><th>Модуль</th><th>Чему учит</th></tr></thead><tbody><tr><td>1, Что такое тактовый сигнал</td><td>Тактовый домен как все триггеры, делящие один фронт; период, джиттер и место, где тактовый сигнал платы входит в кристалл.</td></tr><tr><td>2, Деревья тактового сигнала</td><td>Перекос и задержка прохождения, сеть глобальных буферов и почему стробирование клока логикой тихо чеканит новый домен.</td></tr><tr><td>3, PLL и MMCM</td><td>Умножить и поделить один тактовый сигнал в другой, фаза шагами 1/56 периода VCO и какие тактовые сигналы анализатор считает родственными.</td></tr><tr><td>4, Сбросы</td><td>Ассертировать асинхронно, снимать синхронно: три вида сброса, конвейер снятия и дерево сброса.</td></tr><tr><td>5, Метастабильность</td><td>Окно setup-hold, MTBF в целочисленной арифметике log2 и двухтриггерный синхронизатор.</td></tr><tr><td>6, Пересечение многих бит</td><td>Почему двоичная шина рвётся при сэмплировании в другом домене, почему код Грея нет, и рукопожатия для импульсов.</td></tr><tr><td>7, Асинхронный FIFO</td><td>Указатели, флаги и глубина: буфер, переносящий поток между двумя тактовыми сигналами.</td></tr><tr><td>8, Ограничения</td><td>create_clock, false path и max delay, и тайминг выводов против клока, которым ведёт другая микросхема.</td></tr><tr><td>9, На плате</td><td>Отчёт CDC, одно пересечение, захваченное на RX-триггерах разведённого дизайна E3, и дифф битстрима, замыкающий курс.</td></tr></tbody></table></div>
+<h2>Три новые спеки</h2>
+<p>Курсу понадобились модели, которых в дереве не было, и он добавляет три спеки. specs/fpga/mmcm.t27 моделирует MMCME2: 16 тестов и 4 инварианта покрывают окно VCO, диапазоны M/D/O, дробное умножение в восьмых долях, шаг фазы 1/56 и модель захвата. specs/fpga/reset_sync.t27 называет три вида сброса: 16 тестов и 3 инварианта. specs/fpga/mtbf.t27 считает MTBF в целочисленном log2 с 10 дробными битами, потому что честный ответ переполняет любой целочисленный счёт секунд: 15 тестов и 4 инварианта. Каждая константа, взятая не из документа, помечена в шапке спеки как допущение — рядом с документом, из которого её нет.</p>
+<div class="tw"><table><thead><tr><th>Спека</th><th>Тесты</th><th>Инварианты</th><th>Что помечает шапка</th></tr></thead><tbody><tr><td>mmcm.t27</td><td>16</td><td>4</td><td>Диапазоны DIVCLK, MULT, CLKOUT и шаг фазы 1/56 из UG472; окно VCO и окно захвата помечены как допущения — точные числа по степеням скорости лежат в UG472 и DS181.</td></tr><tr><td>reset_sync.t27</td><td>16</td><td>3</td><td>Рекомендуемая форма (асинхронный ассерт, синхронное снятие) и числа ступеней, которые она принимает.</td></tr><tr><td>mtbf.t27</td><td>15</td><td>4</td><td>Форма уравнения из WP323; tau 50 пс и W 10 пс помечены как допущения — вендоры публикуют параметры триггеров лишь частично.</td></tr></tbody></table></div>
+<h2>Что показывают записи</h2>
+<p>В галерее шестнадцать новых карточек-кастов, по одной записи на записанный урок, снятых нативным t27c 0.4.0 на ноутбуке. Запись показывает запуск, который важен, и читает вердикт из текста. Урок MTBF показывает, как одна ступень оставляет -200 пс запаса и log2-MTBF -19513 в Q10, а две ступени — 9800 пс и 275887. Запись мутации MMCM расширяет нижнюю границу окна VCO с 800000 до 400000 кГц одной строкой sed, и падает ровно тот тест, который называет число, что он отвергает. Запись мутации FIFO меняет инкремент указателя головы с + 1 на + 3, и все тесты по-прежнему проходят, потому что набор утверждает заполнение и флаги, но никогда значения указателей: та самая дыра, в которую проскользнул бы разорванный многобитный указатель.</p>
+<p>Числа о плате — настоящие запуски, каждый назван в источниках данных виджета, который его показывает. Урок спеки платы запускает её нативно: 15 тестов, 11 инвариантов, а кольцевой генератор CFGMCLK измерен на 70770, 68490 и 67200 кГц на трёх подключенных кристаллах через JTAG — против номинала 65 МГц, который UG470 даёт как коридор 50-80 МГц. Урок тайминга выводов читает два записанных прогона разведённого дизайна E3 для платы AX7203: минимальный TX hold 3445 пс на eth_txd[1], минимальный запас между полубайтами 10900 пс на rxctl_n — и оба это модель по собственному SDF nextpnr о разведённом дизайне, а не измерение на плате, о чём и сказано. Урок захвата запускает tri fpga-rxcap на том же SDF: hold 10900 пс на rxctl_n при RXC на 2,4 нс позади своих данных через BUFG.</p>
+<h2>Чего это не показывает</h2>
+<ul><li>Браузерный плеер по-прежнему пропускает блоки test и invariant, поэтому каждый записанный вердикт идёт нативно. Работа над раннером — задача trinity#1477, она не влита.</li><li>Числа тайминга E3 — модель по SDF nextpnr о разведённом дизайне, а не измерения на плате AX7203, и уроки говорят об этом прямо.</li><li>Окно VCO, окно захвата, tau и W помечены как допущения в шапках спек; настоящий дизайн читает свои числа из своего отчёта тайминга или из отчёта CDC вендора.</li><li>Урок тестбенча FIFO открывает fifo.t27 с записью дисциплины мутаций вместо спеки тестбенча: дерева fifo_tb.t27 ещё нет, и текст урока говорит именно это.</li><li>Три новые спеки живут в вендоренном дереве файлов сайта; их ещё нет в gHashTag/t27, и пока их не перенесли, вендоренная копия — единственная.</li><li>t27c test-report возвращает 0, когда тест падает (t27#7370), поэтому записи читают вердикты из текста, а не из кодов возврата.</li></ul>
+<h2>Попробуйте</h2>
+<ul><li>Курс 3, «Тактирование, сброс и CDC»: t27.ai/learn/clocks-and-cdc/</li><li>Урок 14, среднее время между отказами: t27.ai/learn/mtbf/</li><li>Урок 27, поменяй и сравни: t27.ai/learn/capstone-diff/</li><li>В приложении: t27.ai/#/clocks-and-cdc</li></ul>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Раннер в браузере компилирует спеки уроков, но пока не исполняет тест-блоки (trinity#1477); уроки показывают записанный вывод t27c.</li><li>Числа тайминга E3 -- модель по SDF nextpnr о разведённом дизайне, а не измерения на плате AX7203.</li><li>Этот пост был закоммичен вместе с телом курса, но не зарегистрирован в postsIndex; публикуется с PR курса шин (Refs #1482).</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://t27.ai/learn/clocks-and-cdc/">Course, Clocking, resets and CDC</a></li><li><a href="https://t27.ai/learn/clocks-and-cdc.t27">The course spec, specs/course/clocks-and-cdc.t27</a></li><li><a href="https://github.com/gHashTag/trinity/issues/1482">trinity#1482: the issue this course answers</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1498">trinity#1498: the course PR that committed this body</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/?lang=ru#/blog/clocks-resets-and-cdc">Открыть интерактивную версию</a><a class="btn sec" href="/blog/clocks-resets-and-cdc/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Поработаем вместе</p><h2 id="blog-work-offer-title">Нужно довести FPGA/RTL-задачу до замеров на железе?</h2><p>Работаю по контракту и part-time с hardware-AI, FPGA/RTL и ML-системами — от спецификации и открытого тулчейна до воспроизводимых измерений.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%B4%D0%BB%D1%8F%20T27%20%E2%80%94%20%D0%A2%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%2C%20%D1%81%D0%B1%D1%80%D0%BE%D1%81%20%D0%B8%20%D0%BF%D0%B5%D1%80%D0%B5%D1%81%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D1%8F%20%D1%82%D0%B0%D0%BA%D1%82%D0%BE%D0%B2%D1%8B%D1%85%20%D0%B4%D0%BE%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%20%D0%B7%D0%B0%2027%20%D1%83%D1%80%D0%BE%D0%BA%D0%BE%D0%B2&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%21%20%D0%AF%20%D0%BF%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D0%BB%28%D0%B0%29%20%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8E%20%C2%AB%D0%A2%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%2C%20%D1%81%D0%B1%D1%80%D0%BE%D1%81%20%D0%B8%20%D0%BF%D0%B5%D1%80%D0%B5%D1%81%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D1%8F%20%D1%82%D0%B0%D0%BA%D1%82%D0%BE%D0%B2%D1%8B%D1%85%20%D0%B4%D0%BE%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%20%D0%B7%D0%B0%2027%20%D1%83%D1%80%D0%BE%D0%BA%D0%BE%D0%B2%C2%BB%3A%20https%3A%2F%2Ft27.ai%2Fru%2Fblog%2Fclocks-resets-and-cdc%2F%0A%0A%D0%9D%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A">Обсудить задачу</a><a class="btn sec" href="/ru/about/">Как я работаю</a></div><nav class="work-links" aria-label="Услуги"><span>Услуги:</span><a href="/ru/verification/">Верификация</a><a href="/ru/ip/">Лицензирование IP</a><a href="/ru/course/">Курсы и воркшопы</a><a href="/ru/about/">Контрактная работа</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

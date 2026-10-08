@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Clocks, resets and clock-domain crossings, in 27 lessons · TRINITY</title>
+<meta name="description" content="The clocks course teaches clock trees, reset strategy and crossing clock domains in 27 lessons, and every lesson opens a widget no other lesson uses, three of them minted for this course. The post body has sat unregistered in the tree since the course PR; this entry wires it up." />
+<link rel="canonical" href="https://t27.ai/blog/clocks-resets-and-cdc/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/clocks-resets-and-cdc/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/clocks-resets-and-cdc/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/clocks-resets-and-cdc/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/clocks-resets-and-cdc/" />
+<meta property="og:title" content="Clocks, resets and clock-domain crossings, in 27 lessons" />
+<meta property="og:description" content="The clocks course teaches clock trees, reset strategy and crossing clock domains in 27 lessons, and every lesson opens a widget no other lesson uses, three of them minted for this course. The post body has sat unregistered in the tree since the course PR; this entry wires it up." />
+<meta property="og:image" content="https://t27.ai/og-blog-clocks-resets-and-cdc.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Clocks, resets and clock-domain crossings, in 27 lessons" />
+<meta name="twitter:description" content="The clocks course teaches clock trees, reset strategy and crossing clock domains in 27 lessons, and every lesson opens a widget no other lesson uses, three of them minted for this course. The post body has sat unregistered in the tree since the course PR; this entry wires it up." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Clocks, resets and clock-domain crossings, in 27 lessons","description":"The clocks course teaches clock trees, reset strategy and crossing clock domains in 27 lessons, and every lesson opens a widget no other lesson uses, three of them minted for this course. The post body has sat unregistered in the tree since the course PR; this entry wires it up.","url":"https://t27.ai/blog/clocks-resets-and-cdc/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/clocks-resets-and-cdc/"},"image":"https://t27.ai/og-blog-clocks-resets-and-cdc.png","datePublished":"2026-10-08","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"t27, Course, FPGA"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>Clocks, resets and clock-domain crossings, in 27 lessons</h1>
+<p class="meta">2026-10-08 · 4 min read</p>
+<p class="lede">The clocks course teaches clock trees, reset strategy and crossing clock domains in 27 lessons, and every lesson opens a widget no other lesson uses, three of them minted for this course. The post body has sat unregistered in the tree since the course PR; this entry wires it up.</p>
+<figure class="blog-cover"><a href="/og-blog-clocks-resets-and-cdc.png?v=bdb0ab81002c" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — Clocks, resets and clock-domain crossings, in 27 lessons"><img src="/og-blog-clocks-resets-and-cdc.png?v=bdb0ab81002c" alt="Three-panel engraved illustration for: Clocks, resets and clock-domain crossings, in 27 lessons" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-clocks-resets-and-cdc.png?v=bdb0ab81002c" target="_blank" rel="noopener" aria-label="View the complete triptych at full size — Clocks, resets and clock-domain crossings, in 27 lessons">View the complete triptych at full size</a></figcaption></figure>
+<div class="tags"><span class="tag">#t27</span><span class="tag">#Course</span><span class="tag">#FPGA</span></div>
+<p>There is a third t27 course. Course 3, &quot;Clocking, resets and clock-domain crossings&quot;, is 27 lessons in 9 modules of 3, chained after the AI numbers course the way that one is chained after the FPGA course: the last lesson of the course before links forward, and lesson 1 links back. Every lesson opens one widget and one t27 spec in the browser player, and where the browser runner cannot execute the spec yet, the lesson says so plainly and the widget is a recording of the native t27c on a real machine.</p>
+<h2>Nine modules</h2>
+<div class="tw"><table><thead><tr><th>Module</th><th>What it teaches</th></tr></thead><tbody><tr><td>1, What a clock is</td><td>A clock domain as every flop that shares one edge; period, jitter, and where a board clock enters the chip.</td></tr><tr><td>2, Clock trees</td><td>Skew and insertion delay, the global buffer network, and why gating a clock with logic quietly mints a new domain.</td></tr><tr><td>3, PLL and MMCM</td><td>Multiply and divide one clock into another, phase in 1/56 steps of the VCO period, and which clocks a timer calls related.</td></tr><tr><td>4, Resets</td><td>Assert asynchronous, release synchronous: the three reset kinds, the release pipe, and the reset tree.</td></tr><tr><td>5, Metastability</td><td>The setup-hold window, MTBF in integer log2 arithmetic, and the two-flop synchronizer.</td></tr><tr><td>6, Crossing many bits</td><td>Why a binary bus tears when sampled in another domain, why Gray code does not, and handshakes for pulses.</td></tr><tr><td>7, The asynchronous FIFO</td><td>Pointers, flags and depth: the buffer that carries a stream between two clocks.</td></tr><tr><td>8, Constraints</td><td>create_clock, false path and max delay, and I/O timing against a clock another chip drives.</td></tr><tr><td>9, On the board</td><td>A CDC report, one crossing captured on the RX flops of a routed E3 design, and a bitstream diff to close.</td></tr></tbody></table></div>
+<h2>Three new specs</h2>
+<p>The course needed models the tree did not have, so it adds three specs. specs/fpga/mmcm.t27 models an MMCME2: 16 tests and 4 invariants cover the VCO window, M/D/O ranges, fractional multiply in eighths, the 1/56 phase step and the lock model. specs/fpga/reset_sync.t27 names the three reset kinds: 16 tests and 3 invariants. specs/fpga/mtbf.t27 computes MTBF in integer log2 with 10 fractional bits, because the honest answer overflows any integer seconds count: 15 tests and 4 invariants. Every constant that is not from a document is labelled in the spec header as an assumption, with the document it is not.</p>
+<div class="tw"><table><thead><tr><th>Spec</th><th>Tests</th><th>Invariants</th><th>What the header labels</th></tr></thead><tbody><tr><td>mmcm.t27</td><td>16</td><td>4</td><td>DIVCLK, MULT, CLKOUT ranges and the 1/56 phase step from UG472; the VCO window and lock window are labelled assumptions, UG472 and DS181 hold the per-speed-grade numbers.</td></tr><tr><td>reset_sync.t27</td><td>16</td><td>3</td><td>The recommended form (async assert, sync release) and the stage counts it accepts.</td></tr><tr><td>mtbf.t27</td><td>15</td><td>4</td><td>The WP323 form of the equation; tau 50 ps and W 10 ps are labelled assumptions, vendors publish flop parameters only partially.</td></tr></tbody></table></div>
+<h2>What the recordings show</h2>
+<p>Sixteen new cast widgets join the gallery, one recording per recorded lesson, made with native t27c 0.4.0 on a laptop. A recording shows the run that matters and reads its verdict from the text. The MTBF lesson shows one flop leaving -200 ps of slack and a log2-MTBF of -19513 in Q10, and two flops leaving 9800 ps and 275887. The MMCM mutation recording widens the VCO window floor from 800000 to 400000 kHz with one sed line, and the one test that fails is the one that names the number it rejects. The FIFO mutation recording changes the head pointer increment from + 1 to + 3 and every test still passes, because the suite asserts fill counts and flags, never pointer values: the exact hole a torn multi-bit pointer would slip through.</p>
+<p>The board numbers are real runs, each named in the widget that shows it. The board-spec lesson runs the Wukong board spec natively: 15 tests, 11 invariants, and the CFGMCLK ring oscillator measured at 70770, 68490 and 67200 kHz on three attached dice over JTAG, against the 65 MHz nominal that UG470 states as a 50-80 MHz envelope. The I/O timing lesson reads the two recorded runs of the routed E3 design for the AX7203 board: smallest TX hold 3445 ps on eth_txd[1], smallest mid-nibble margin 10900 ps on rxctl_n, and both are a model over the SDF nextpnr writes for the routed design, not a board measurement, and say so. The capture lesson runs tri fpga-rxcap on the same SDF: hold 10900 ps on rxctl_n with RXC 2.4 ns behind its data through a BUFG.</p>
+<h2>What this does not show</h2>
+<ul><li>The browser player still skips test and invariant blocks, so every recorded verdict runs natively. The runner work is issue trinity#1477 and is not merged.</li><li>The E3 timing numbers are a model over the SDF nextpnr writes for the routed design, not measurements on the AX7203 board, and the lessons say so.</li><li>The VCO window, the lock window, tau and W are labelled assumptions in the spec headers; a real design reads its own numbers from its own timing report or the vendor CDC report.</li><li>The FIFO testbench lesson opens fifo.t27 with a recording of mutation discipline instead of a testbench spec: the tree has no fifo_tb.t27 yet, and the lesson text says exactly that.</li><li>The three new specs live in the website vendored files tree; they are not yet in gHashTag/t27, and until they are, the vendored copy is the only copy.</li><li>t27c test-report exits 0 when a test fails (t27#7370), so the recordings read verdicts from text, not exit codes.</li></ul>
+<h2>Try it</h2>
+<ul><li>Course 3, Clocking, resets and CDC: t27.ai/learn/clocks-and-cdc/</li><li>Lesson 14, mean time between failures: t27.ai/learn/mtbf/</li><li>Lesson 27, change one thing and diff: t27.ai/learn/capstone-diff/</li><li>In the app: t27.ai/#/clocks-and-cdc</li></ul>
+<div class="box"><h2>What this does not settle</h2><ul><li>The in-browser runner compiles lesson specs but cannot execute test blocks yet (trinity#1477); lessons show recorded t27c output.</li><li>The E3 timing numbers are a model over the SDF nextpnr writes for the routed design, not measurements on the AX7203 board.</li><li>This post was committed with the course body but never registered in postsIndex; it publishes with the buses course PR (Refs #1482).</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://t27.ai/learn/clocks-and-cdc/">Course, Clocking, resets and CDC</a></li><li><a href="https://t27.ai/learn/clocks-and-cdc.t27">The course spec, specs/course/clocks-and-cdc.t27</a></li><li><a href="https://github.com/gHashTag/trinity/issues/1482">trinity#1482: the issue this course answers</a></li><li><a href="https://github.com/gHashTag/trinity/pull/1498">trinity#1498: the course PR that committed this body</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/clocks-resets-and-cdc">Open the interactive version</a><a class="btn sec" href="/ru/blog/clocks-resets-and-cdc/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Need an FPGA/RTL problem taken to measured hardware?</h2><p>I work contract and part-time on hardware-AI, FPGA/RTL and ML systems — from specification and open toolchains to reproducible measurements.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20Clocks%2C%20resets%20and%20clock-domain%20crossings%2C%20in%2027%20lessons&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CClocks%2C%20resets%20and%20clock-domain%20crossings%2C%20in%2027%20lessons%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fclocks-resets-and-cdc%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/about/">See how I work</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
