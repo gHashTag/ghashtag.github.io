@@ -12,6 +12,7 @@ SVG остаются читаемыми исходниками карточек,
 """
 from __future__ import annotations
 
+import hashlib
 import os
 import re
 import shutil
@@ -105,6 +106,46 @@ def render(svg: Path, png: Path, env: dict[str, str]) -> None:
             raise RuntimeError(f"{svg.name}: получен размер {image.size}, ожидался {(W, H)}")
 
 
+# A card's address is <name>.png?v=<the picture's hash>. X, Telegram and
+# LinkedIn keep a card's image by its URL, so a picture redrawn under the same
+# address kept showing the old one: on 2026-10-08 X still drew the blog index
+# card under t27.ai, four days after the home card was trinity's again. The
+# pages are written before the pictures are drawn (regen-blog.py runs first),
+# so the one who draws them stamps their addresses, here, after drawing.
+CARD_URL = re.compile(r"(https://t27\.ai/|/)(og-[a-z0-9-]+\.png)(\?v=[0-9a-f]{12})?(?=[\"'\s&)])")
+SKIP_DIRS = {"assets", "node_modules", ".git", ".src"}
+
+
+def card_versions() -> dict[str, str]:
+    """Every card's version: the first 12 hex of its picture's sha256."""
+    return {
+        png.name: hashlib.sha256(png.read_bytes()).hexdigest()[:12]
+        for png in REPO.glob("og-*.png")
+    }
+
+
+def stamp(text: str, versions: dict[str, str]) -> str:
+    """Each card address in a page, pointed at the picture as it is now."""
+    def at(m: re.Match) -> str:
+        name = m.group(2)
+        return f"{m.group(1)}{name}?v={versions[name]}" if name in versions else m.group(0)
+    return CARD_URL.sub(at, text)
+
+
+def stamp_pages(versions: dict[str, str]) -> int:
+    """Rewrite every page whose card addresses moved; the count of pages changed."""
+    changed = 0
+    for page in REPO.rglob("*.html"):
+        if SKIP_DIRS & set(page.relative_to(REPO).parts):
+            continue
+        text = page.read_text(encoding="utf-8")
+        new = stamp(text, versions)
+        if new != text:
+            page.write_text(new, encoding="utf-8")
+            changed += 1
+    return changed
+
+
 def main() -> int:
     if not FONT.is_file():
         raise SystemExit(f"Нет {FONT.relative_to(REPO)}: добавить Inter вместе с лицензией нельзя пропускать")
@@ -135,6 +176,8 @@ def main() -> int:
     if expected != actual:
         raise SystemExit(f"Наборы SVG и PNG расходятся: только SVG={sorted(expected-actual)}, только PNG={sorted(actual-expected)}")
     print(f"Готово: {len(svgs)} карточек Inter размером {W}×{H}.")
+    pages = stamp_pages(card_versions())
+    print(f"Card addresses stamped with their pictures' hashes: {pages} page(s) changed.")
     return 0
 
 
