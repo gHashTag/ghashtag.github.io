@@ -93,6 +93,10 @@ for p in $PAGES; do
   # indistinguishable from having no card at all.
   ogsrc=$(grep -o 'property="og:image" content="[^"]*"' "$f" | head -1 | sed 's/.*content="//;s/"$//')
   ogfile="${ogsrc#$SITE/}"
+  # build-og.py stamps every card address with its picture's hash (?v=...), so
+  # a redrawn card is a new address to X and Telegram. The file on disk is the
+  # address without that version.
+  ogfile="${ogfile%%\?*}"
   if [ -z "$ogsrc" ]; then
     red "$p/ has no og:image content"
   elif [ ! -f "$ogfile" ]; then
