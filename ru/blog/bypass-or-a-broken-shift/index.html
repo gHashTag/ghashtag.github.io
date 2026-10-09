@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BYPASS или сломанный сдвиг: решают два бита захвата IR в JTAG · TRINITY</title>
+<meta name="description" content="[одно правило из IEEE 1149.1; значение IR в записи введено руками, а не прочитано с кабеля] Наш декодер JTAG называл BYPASS любое чётное слово данных, что бы ни происходило на проводе. Способ различить уже был в стандарте: при Capture-IR каждая совместимая микросхема загружает 01 в две младшие ячейки регистра инструкций. Теперь tdo_verdict.t27 проверяет эти два бита раньше, чем смотрит на бит 0 слова данных, — 8 тестов и мутант, проваливающий 6 из них. Новый виджет выполняет те же пять проверок на любом введённом чтении." />
+<link rel="canonical" href="https://t27.ai/ru/blog/bypass-or-a-broken-shift/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/bypass-or-a-broken-shift/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/bypass-or-a-broken-shift/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/bypass-or-a-broken-shift/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/bypass-or-a-broken-shift/" />
+<meta property="og:title" content="BYPASS или сломанный сдвиг: решают два бита захвата IR в JTAG" />
+<meta property="og:description" content="[одно правило из IEEE 1149.1; значение IR в записи введено руками, а не прочитано с кабеля] Наш декодер JTAG называл BYPASS любое чётное слово данных, что бы ни происходило на проводе. Способ различить уже был в стандарте: при Capture-IR каждая совместимая микросхема загружает 01 в две младшие ячейки регистра инструкций. Теперь tdo_verdict.t27 проверяет эти два бита раньше, чем смотрит на бит 0 слова данных, — 8 тестов и мутант, проваливающий 6 из них. Новый виджет выполняет те же пять проверок на любом введённом чтении." />
+<meta property="og:image" content="https://t27.ai/og-blog-bypass-or-a-broken-shift-ru.png?v=5707a1cff3f5" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="BYPASS или сломанный сдвиг: решают два бита захвата IR в JTAG" />
+<meta name="twitter:description" content="[одно правило из IEEE 1149.1; значение IR в записи введено руками, а не прочитано с кабеля] Наш декодер JTAG называл BYPASS любое чётное слово данных, что бы ни происходило на проводе. Способ различить уже был в стандарте: при Capture-IR каждая совместимая микросхема загружает 01 в две младшие ячейки регистра инструкций. Теперь tdo_verdict.t27 проверяет эти два бита раньше, чем смотрит на бит 0 слова данных, — 8 тестов и мутант, проваливающий 6 из них. Новый виджет выполняет те же пять проверок на любом введённом чтении." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"BYPASS или сломанный сдвиг: решают два бита захвата IR в JTAG","description":"[одно правило из IEEE 1149.1; значение IR в записи введено руками, а не прочитано с кабеля] Наш декодер JTAG называл BYPASS любое чётное слово данных, что бы ни происходило на проводе. Способ различить уже был в стандарте: при Capture-IR каждая совместимая микросхема загружает 01 в две младшие ячейки регистра инструкций. Теперь tdo_verdict.t27 проверяет эти два бита раньше, чем смотрит на бит 0 слова данных, — 8 тестов и мутант, проваливающий 6 из них. Новый виджет выполняет те же пять проверок на любом введённом чтении.","url":"https://t27.ai/ru/blog/bypass-or-a-broken-shift/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/bypass-or-a-broken-shift/"},"image":"https://t27.ai/og-blog-bypass-or-a-broken-shift-ru.png?v=5707a1cff3f5","datePublished":"2026-10-09","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"t27, FPGA, JTAG"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>BYPASS или сломанный сдвиг: решают два бита захвата IR в JTAG</h1>
+<p class="meta">2026-10-09 · 4 мин чтения</p>
+<p class="lede">[одно правило из IEEE 1149.1; значение IR в записи введено руками, а не прочитано с кабеля] Наш декодер JTAG называл BYPASS любое чётное слово данных, что бы ни происходило на проводе. Способ различить уже был в стандарте: при Capture-IR каждая совместимая микросхема загружает 01 в две младшие ячейки регистра инструкций. Теперь tdo_verdict.t27 проверяет эти два бита раньше, чем смотрит на бит 0 слова данных, — 8 тестов и мутант, проваливающий 6 из них. Новый виджет выполняет те же пять проверок на любом введённом чтении.</p>
+<figure class="blog-cover"><a href="/og-blog-bypass-or-a-broken-shift-ru.png?v=5707a1cff3f5" target="_blank" rel="noopener" aria-label="Открыть титульную карточку в исходном размере — BYPASS или сломанный сдвиг: решают два бита захвата IR в JTAG"><img src="/og-blog-bypass-or-a-broken-shift-ru.png?v=5707a1cff3f5" alt="Титульная карточка статьи, иллюстрации пока нет: BYPASS или сломанный сдвиг: решают два бита захвата IR в JTAG" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-bypass-or-a-broken-shift-ru.png?v=5707a1cff3f5" target="_blank" rel="noopener" aria-label="Открыть титульную карточку в исходном размере — BYPASS или сломанный сдвиг: решают два бита захвата IR в JTAG">Открыть титульную карточку в исходном размере</a></figcaption></figure>
+<div class="tags"><span class="tag">#t27</span><span class="tag">#FPGA</span><span class="tag">#JTAG</span></div>
+<p>Декодер JTAG читает из микросхемы 32 бита и должен сказать, что они значат. Вопрос в X точно указал на наше слабое место: если у вернувшегося слова бит 0 сброшен, как отличить <strong>BYPASS</strong> от сдвига, который просто сломан? До сегодняшнего дня никак. Декодер смотрел только на слово данных, и чётное слово выглядело как BYPASS, что бы ни происходило на проводе.</p>
+<h2>Правило, которое уже было в стандарте</h2>
+<p>IEEE 1149.1 фиксирует для любого TAP одну вещь: при Capture-IR регистр инструкций загружает в две младшие ячейки двоичное 01. Значит, первые два бита из TDO после сдвига IR на любой совместимой микросхеме — 1, затем 0. Биты выше принадлежат производителю. У Xilinx 7-й серии IR шириной 6 бит, и в BSDL-файлах значение захвата записано как <code>XXXX01</code>, где старшие четыре — статус. Как пример такой формы мы берём 0x35 (двоичное 110101); это не значение, прочитанное с кабеля в этой сессии.</p>
+<p>Отсюда проверка, которой не нужно знать микросхему. Если захват IR не заканчивается на 01, сдвиг сломан: такт, последовательность TMS или путь TDO. Тогда слово данных пока ничего не значит, и назвать его BYPASS — значит отправить человека загружать инструкцию по линии, которая не умеет сдвигать.</p>
+<figure><svg viewBox="0 0 720 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Одно и то же слово DR 0x13636092 при двух захватах IR: 0x35 даёт BYPASS, 0x34 даёт сломанный сдвиг" style="width:100%;height:auto;font-family:inherit"><text x="10" y="22" font-size="15" font-weight="700" fill="currentColor">слово DR 0x13636092 (бит 0 = 0)</text><rect x="10" y="40" width="340" height="160" rx="12" fill="none" stroke="#ffd700" stroke-width="2"/><text x="26" y="64" font-size="13" fill="currentColor" fill-opacity="0.7">захват IR 0x35 · младшие биты 01</text><rect x="26" y="78" width="28" height="32" rx="5" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"/><text x="40" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="currentColor">1</text><rect x="60" y="78" width="28" height="32" rx="5" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"/><text x="74" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="currentColor">1</text><rect x="94" y="78" width="28" height="32" rx="5" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"/><text x="108" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="currentColor">0</text><rect x="128" y="78" width="28" height="32" rx="5" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"/><text x="142" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="currentColor">1</text><rect x="162" y="78" width="28" height="32" rx="5" fill="none" stroke="#ffd700" stroke-opacity="1" stroke-width="2"/><text x="176" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="#ffd700">0</text><rect x="196" y="78" width="28" height="32" rx="5" fill="none" stroke="#ffd700" stroke-opacity="1" stroke-width="2"/><text x="210" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="#ffd700">1</text><text x="26" y="150" font-size="26" font-weight="800" fill="#ffd700">BYPASS</text><text x="26" y="178" font-size="13" fill="currentColor" fill-opacity="0.8">TAP сдвигает; IDCODE не загружен</text><rect x="370" y="40" width="340" height="160" rx="12" fill="none" stroke="#ff5c5c" stroke-width="2"/><text x="386" y="64" font-size="13" fill="currentColor" fill-opacity="0.7">захват IR 0x34 · младшие биты 00</text><rect x="386" y="78" width="28" height="32" rx="5" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"/><text x="400" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="currentColor">1</text><rect x="420" y="78" width="28" height="32" rx="5" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"/><text x="434" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="currentColor">1</text><rect x="454" y="78" width="28" height="32" rx="5" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"/><text x="468" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="currentColor">0</text><rect x="488" y="78" width="28" height="32" rx="5" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"/><text x="502" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="currentColor">1</text><rect x="522" y="78" width="28" height="32" rx="5" fill="none" stroke="#ff5c5c" stroke-opacity="1" stroke-width="2"/><text x="536" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="#ff5c5c">0</text><rect x="556" y="78" width="28" height="32" rx="5" fill="none" stroke="#ff5c5c" stroke-opacity="1" stroke-width="2"/><text x="570" y="100" font-size="16" font-weight="700" text-anchor="middle" fill="#ff5c5c">0</text><text x="386" y="150" font-size="26" font-weight="800" fill="#ff5c5c">сломанный сдвиг</text><text x="386" y="178" font-size="13" fill="currentColor" fill-opacity="0.8">слово DR пока ничего не значит</text></svg><figcaption>Одно и то же чётное слово данных, прочитанное дважды. Если захват IR заканчивается на 01, это BYPASS: линия работает, инструкция IDCODE не загружена. Если на 00 — сломанный сдвиг. Решают два выделенных бита.</figcaption></figure>
+<h2>Пять проверок в строгом порядке</h2>
+<ol><li><strong>залипание в 1</strong>: слово данных из одних единиц, TDO никто не ведёт.</li><li><strong>залипание в 0</strong>: и слово данных, и захват IR равны 0.</li><li><strong>сломанный сдвиг</strong>: захват IR не заканчивается на 01.</li><li><strong>BYPASS</strong>: захват IR заканчивается на 01, а бит 0 слова данных равен 0.</li><li><strong>IDCODE</strong>: всё остальное. Только теперь слово ищут как идентификатор микросхемы.</li></ol>
+<p>Весь смысл в порядке. Залипания проверяются первыми, потому что это более точный диагноз: при TDO, залипшем в 1, IR тоже читается как 0x3F, и проверка IR назвала бы это просто сломанным сдвигом, не сказав почему. Правило IR стоит раньше бита 0, поэтому чётное слово называется BYPASS только после того, как линия доказала, что умеет сдвигать.</p>
+<h2>Где живёт правило</h2>
+<p>Правило — спецификация t27: <code>specs/port/tools/jtag/tdo_verdict.t27</code>, маска 0x3, ожидаемое значение 0x1 и 8 тестов на случаи выше (gHashTag/t27#8032). Команда стенда <code>tri fpga-jtag --decode WORD --ir CAPTURE</code> печатает тот же вердикт и возвращает 0 только для настоящего IDCODE. В записи ниже — три вердикта, самопроверка, собственные тесты спецификации, а затем мутант: проверка захвата заменена на <code>return true</code>. Для мутанта проверка сообщает о 6 провалах, то есть тесты действительно смотрят на эту строку.</p>
+<figure class="term"><div class="t27-cast" data-src="/term/tri-fpga-jtag-ir/session.cast" data-title="tri fpga-jtag --ir · захват IR должен заканчиваться на 01" data-share="https://t27.ai/term/tri-fpga-jtag-ir/"><p><strong>tri fpga-jtag --ir · захват IR должен заканчиваться на 01</strong></p></div><figcaption>Семь команд за 30.2 с; каждая строка оболочки возвращает 0. Сам декодер печатает exit 0 для настоящего IDCODE и exit 1 для BYPASS и сломанного сдвига. Дальше самопроверка; tdo_verdict.t27 — 8 тестов и 8 утверждений без ошибок; мутант, который проваливает 6 проверок. <a href="https://t27.ai/term/tri-fpga-jtag-ir/">Открыть запись на отдельной странице.</a></figcaption></figure>
+<h2>Проверьте на своём чтении</h2>
+<p>Виджет <strong>JTAG verdict</strong> на t27.ai/widgets/jtag-verdict/ выполняет те же пять проверок прямо на странице. Введите захват IR и слово данных, которые прочитал ваш пробник, или выберите один из семи тестовых векторов спецификации — виджет покажет, какая проверка решила, на какие биты она смотрела, и команду <code>tri</code>, которая печатает тот же ответ. Значения остаются на странице, с кабеля ничего не читается. Для слова, прошедшего как IDCODE, виджет ведёт в декодер IDCODE, который разбирает 32 бита по полям.</p>
+<h2>Чего это не показывает</h2>
+<ul><li>Чистый вердикт значит, что сдвиг выглядит здоровым. Он не значит, что микросхема сконфигурирована или проект исправен.</li><li>Значение IR в записи введено руками, а не прочитано с нашей платы в этой сессии. IDCODE платы, 0x13636093, — настоящее чтение от 2026-10-04.</li><li>Команда <code>tri</code> стенда лежит в локальной папке инструментов, ещё не в публичном репозитории; спецификация и виджет публичны.</li></ul>
+<div class="box"><h2>Чего это не решает</h2><ul><li>В этой сессии захват IR с нашей платы не читали; 0x35 — пример формы XXXX01 у 7-й серии, а её старшие четыре бита — статус, который проверка не смотрит.</li><li>Команда стенда tri fpga-jtag лежит в локальной папке инструментов; публичны только спецификация и виджет.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/t27/pull/8032">t27#8032: the IR-capture check in tdo_verdict.t27, 8 tests</a></li><li><a href="https://t27.ai/term/tri-fpga-jtag-ir/">The recording: seven commands, the mutant fails 6 checks</a></li><li><a href="https://t27.ai/widgets/jtag-verdict/">The JTAG verdict widget</a></li><li><a href="https://t27.ai/widgets/idcode/">The IDCODE decoder widget, for a word that passes</a></li><li><a href="https://x.com/pratiksharda2/status/2108421182601240809">The question on X that prompted this</a></li><li><a href="https://github.com/gHashTag/trinity/issues/1566">trinity#1566: this post&#x27;s issue</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/?lang=ru#/blog/bypass-or-a-broken-shift">Открыть интерактивную версию</a><a class="btn sec" href="/blog/bypass-or-a-broken-shift/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Поработаем вместе</p><h2 id="blog-work-offer-title">Нужно довести FPGA/RTL-задачу до замеров на железе?</h2><p>Работаю по контракту и part-time с hardware-AI, FPGA/RTL и ML-системами — от спецификации и открытого тулчейна до воспроизводимых измерений.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%B4%D0%BB%D1%8F%20T27%20%E2%80%94%20BYPASS%20%D0%B8%D0%BB%D0%B8%20%D1%81%D0%BB%D0%BE%D0%BC%D0%B0%D0%BD%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B4%D0%B2%D0%B8%D0%B3%3A%20%D1%80%D0%B5%D1%88%D0%B0%D1%8E%D1%82%20%D0%B4%D0%B2%D0%B0%20%D0%B1%D0%B8%D1%82%D0%B0%20%D0%B7%D0%B0%D1%85%D0%B2%D0%B0%D1%82%D0%B0%20IR%20%D0%B2%20JTAG&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%21%20%D0%AF%20%D0%BF%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D0%BB%28%D0%B0%29%20%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8E%20%C2%ABBYPASS%20%D0%B8%D0%BB%D0%B8%20%D1%81%D0%BB%D0%BE%D0%BC%D0%B0%D0%BD%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B4%D0%B2%D0%B8%D0%B3%3A%20%D1%80%D0%B5%D1%88%D0%B0%D1%8E%D1%82%20%D0%B4%D0%B2%D0%B0%20%D0%B1%D0%B8%D1%82%D0%B0%20%D0%B7%D0%B0%D1%85%D0%B2%D0%B0%D1%82%D0%B0%20IR%20%D0%B2%20JTAG%C2%BB%3A%20https%3A%2F%2Ft27.ai%2Fru%2Fblog%2Fbypass-or-a-broken-shift%2F%0A%0A%D0%9D%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A">Обсудить задачу</a><a class="btn sec" href="/ru/about/">Как я работаю</a></div><nav class="work-links" aria-label="Услуги"><span>Услуги:</span><a href="/ru/verification/">Верификация</a><a href="/ru/ip/">Лицензирование IP</a><a href="/ru/course/">Курсы и воркшопы</a><a href="/ru/about/">Контрактная работа</a></nav></section>
+<script type="module">
+import { mount } from '/term/player.js'
+for (const el of document.querySelectorAll('.t27-cast[data-src]')) {
+  mount(el, { src: el.dataset.src, title: el.dataset.title, share: el.dataset.share || undefined })
+}
+</script>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

@@ -18,6 +18,16 @@
       <category>Verification</category>
     </item>
     <item>
+      <title>BYPASS or a broken shift: two bits of the JTAG IR capture decide</title>
+      <link>https://t27.ai/#/blog/bypass-or-a-broken-shift</link>
+      <guid isPermaLink="false">bypass-or-a-broken-shift</guid>
+      <pubDate>Fri, 09 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[one rule from IEEE 1149.1; the IR value in the recording is typed, not read off a cable] Our JTAG decoder called every even data word BYPASS, whatever had happened on the wire. The standard already gave a way to tell: on Capture-IR every compliant chip loads 01 into the two lowest instruction-register cells. tdo_verdict.t27 now checks those two bits before it looks at bit 0 of the data word, with 8 tests and a mutant that fails 6 of them. A new widget runs the same five checks on any reading you type.</description>
+      <category>t27</category>
+      <category>FPGA</category>
+      <category>JTAG</category>
+    </item>
+    <item>
       <title>Clocks, resets and clock-domain crossings, in 27 lessons</title>
       <link>https://t27.ai/#/blog/clocks-resets-and-cdc</link>
       <guid isPermaLink="false">clocks-resets-and-cdc</guid>
