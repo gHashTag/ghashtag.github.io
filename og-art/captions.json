@@ -1086,5 +1086,101 @@
         "caption": "Set: blinking. Clear: frozen."
       }
     ]
+  },
+  "a-small-agent-needs-an-exact-judge": {
+    "en": [
+      {
+        "heading": "ONE BOARD",
+        "caption": "One chip holds a small model."
+      },
+      {
+        "heading": "THE SMALL AGENT",
+        "caption": "Wrong most of the time."
+      },
+      {
+        "heading": "THE JUDGE",
+        "caption": "The compiler checks every answer."
+      }
+    ]
+  },
+  "golden-ratio-weights-ran-on-the-board": {
+    "en": [
+      {
+        "heading": "GOLDEN WEIGHTS",
+        "caption": "Each weight is a trit times phi."
+      },
+      {
+        "heading": "THE FIBONACCI STEP",
+        "caption": "Phi costs one add per output."
+      },
+      {
+        "heading": "ON THE BOARD",
+        "caption": "Every receipt verified."
+      }
+    ]
+  },
+  "mask-over-scale-ternary-drafts-that-compile": {
+    "en": [
+      {
+        "heading": "THE SCOPE MASK",
+        "caption": "Only declared names may follow."
+      },
+      {
+        "heading": "NO REPEATS",
+        "caption": "Repetition cascades are banned."
+      },
+      {
+        "heading": "THE DRAFT",
+        "caption": "A draft for a verifier."
+      }
+    ]
+  },
+  "the-seed-moved-it-the-pins-moved-it-more": {
+    "en": [
+      {
+        "heading": "TWENTY SEEDS",
+        "caption": "Fmax is a range, not a number."
+      },
+      {
+        "heading": "SPREAD PINS",
+        "caption": "The same netlist ran far slower."
+      },
+      {
+        "heading": "WHO ANSWERED",
+        "caption": "Read the chain, never program it."
+      }
+    ]
+  },
+  "trained-weights-ran-receipts-were-not-checked": {
+    "en": [
+      {
+        "heading": "UNREAD RECEIPTS",
+        "caption": "Counted, but never compared."
+      },
+      {
+        "heading": "THE FIXED CLERK",
+        "caption": "Every tag recomputed."
+      },
+      {
+        "heading": "THE NARROW PIPE",
+        "caption": "Bytes lost in a full buffer."
+      }
+    ]
+  },
+  "tri-mined-not-sold": {
+    "en": [
+      {
+        "heading": "ZERO PRE-MINE",
+        "caption": "No coins before the work."
+      },
+      {
+        "heading": "THE QUORUM",
+        "caption": "Many signatures mint one coin."
+      },
+      {
+        "heading": "NOT DEPLOYED",
+        "caption": "No contract on any live network."
+      }
+    ]
   }
 }
