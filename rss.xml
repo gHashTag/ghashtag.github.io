@@ -6,7 +6,17 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 08 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 09 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Three dies, one verdict: a silicon check you run once</title>
+      <link>https://t27.ai/#/blog/three-dies-one-verdict</link>
+      <guid isPermaLink="false">three-dies-one-verdict</guid>
+      <pubDate>Fri, 09 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[one spec so far; two of the three receipts share an operator; CI does not yet skip silicon checks by receipt] One t27 spec, ternary_link, was checked on three different FPGA chips on three machines, one of them driven from 410 ms away, and the answers agree. Each chip is named by its device DNA and signed its answer to one challenge; run-record calls the run citable (INDEP_DIES). A second chip found a bug the first could not. The point: with a citable hardware verdict, the rule in reuse.t27 lets a silicon check run once per spec version and toolchain, and everyone else check the receipts in seconds.</description>
+      <category>t27</category>
+      <category>FPGA</category>
+      <category>Verification</category>
+    </item>
     <item>
       <title>Clocks, resets and clock-domain crossings, in 27 lessons</title>
       <link>https://t27.ai/#/blog/clocks-resets-and-cdc</link>

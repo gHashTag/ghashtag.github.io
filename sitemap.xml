@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://t27.ai/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://t27.ai/</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://t27.ai/gft/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/verification/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/proof/</loc><lastmod>2026-10-08</lastmod></url>
@@ -32,7 +32,7 @@
   <url><loc>https://t27.ai/ru/proof/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/resources/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/verification/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://t27.ai/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-10-08</lastmod></url>
@@ -121,6 +121,7 @@
   <url><loc>https://t27.ai/blog/the-tail-that-had-never-run/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/thirty-epochs-exposed-a-failure-rate-blind-spot/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/three-bits-each-necessary/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://t27.ai/blog/three-dies-one-verdict/</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://t27.ai/blog/trained-weights-ran-receipts-were-not-checked/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/tri-cast-from-command-to-card/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/tri-claw-an-agent-you-can-audit/</loc><lastmod>2026-10-08</lastmod></url>
@@ -130,7 +131,7 @@
   <url><loc>https://t27.ai/blog/twenty-three-reference-models/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/two-bitstreams-one-bit-apart/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/two-courses-twenty-seven-lessons-each/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-10-08</lastmod></url>
@@ -219,6 +220,7 @@
   <url><loc>https://t27.ai/ru/blog/the-tail-that-had-never-run/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/thirty-epochs-exposed-a-failure-rate-blind-spot/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/three-bits-each-necessary/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/three-dies-one-verdict/</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/trained-weights-ran-receipts-were-not-checked/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/tri-cast-from-command-to-card/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/tri-claw-an-agent-you-can-audit/</loc><lastmod>2026-10-08</lastmod></url>
