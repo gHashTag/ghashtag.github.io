@@ -125,6 +125,16 @@ jobs:
           echo "## Publish website" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
 
+          # A post without og-art/<slug>.jpg shows its title card (build-blog.py
+          # cover_figure). Said on every run, before any early exit, as a warning:
+          # publishing goes on until the art exists (#43).
+          NOART=$(python3 -c 'import json, os; p = json.load(open("blog-posts.json")); m = [x["slug"] for x in p if not os.path.isfile("og-art/" + x["slug"] + ".jpg")]; print(len(m), len(p), *m)')
+          read -r NOART_N NOART_OF NOART_SLUGS <<< "$NOART"
+          if [ "${NOART_N:-0}" -gt 0 ]; then
+            echo "::warning title=Posts without a triptych::$NOART_N of $NOART_OF posts show the title card instead of og-art/<slug>.jpg: $NOART_SLUGS"
+            say "- **WARN** $NOART_N of $NOART_OF posts have no og-art triptych and show the title card: $NOART_SLUGS"
+          fi
+
           SRC_SHA=$(git -C .src rev-parse --short HEAD)
           NEW=$(grep -o 'assets/index-[A-Za-z0-9_-]*\.js' .src/apps/website/dist/index.html | head -1)
           OLD=$(grep -o 'assets/index-[A-Za-z0-9_-]*\.js' index.html | head -1)

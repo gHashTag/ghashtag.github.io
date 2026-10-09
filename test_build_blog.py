@@ -110,11 +110,19 @@ class TriptychTests(unittest.TestCase):
         (self.art / "three-panels.jpg").unlink()
         (self.root / "og-blog-three-panels.png").write_bytes(b"en card")
         (self.root / "og-blog-three-panels-ru.png").write_bytes(b"ru card")
+        self.write_captions({"three-panels": {"en": self.panels}})
         for lang, name in (("en", "og-blog-three-panels.png"), ("ru", "og-blog-three-panels-ru.png")):
             with self.subTest(lang=lang):
                 with contextlib.redirect_stderr(io.StringIO()):
                     page = blog.post_page(self.post, lang)
-                self.assertTrue(Elements(page).all("img")[0]["src"].startswith(f"/{name}?v="))
+                image = Elements(page).all("img")[0]
+                self.assertTrue(image["src"].startswith(f"/{name}?v="))
+                # The card is text, not the engraving: never call it a triptych.
+                ui, cover = blog.UI[lang], page[page.index('<figure class="blog-cover">'):]
+                self.assertTrue(image["alt"].startswith(ui["cardAlt"]))
+                for claim in (ui["coverAlt"], ui["coverFull"], "cover-panels", self.panels[0]["heading"]):
+                    self.assertNotIn(claim, cover)
+                self.assertIn(ui["cardFull"], cover)
 
     def test_three_panel_transcription_is_visible_with_explicit_english_fallback(self):
         self.write_captions({"three-panels": {"en": self.panels}})
