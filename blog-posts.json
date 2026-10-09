@@ -289,6 +289,13 @@
      "text": "Плата Фила стоит на ПК с Windows без инструментов для ПЛИС. Вместо того чтобы ставить их там, Linux-лаборатория оператора B взяла только его JTAG-кабель, по USB/IP внутри закрытой сети Tailscale. Сначала на это открыто согласились Фил, его собственный Claude и владелец (t27#7669). При задержке 410 мс загрузка битстрима шла около 70 минут, весь прогон — около 2,5 часа. Первая попытка увидела пустую JTAG-цепочку: плата была подключена по USB, но без блока питания на 12 В."
     },
     {
+     "kind": "terminal",
+     "src": "term/tri-fpga-jtag/session.cast",
+     "share": "https://t27.ai/term/tri-fpga-jtag/",
+     "title": "tri fpga-jtag · which chip answered the cable",
+     "caption": "tri fpga-jtag, записано на нашем стенде 3 октября, до этого прогона: команда расшифровывает IDCODE без платы (0x03636093 — это XC7A200T, чётный код — вовсе не IDCODE), и её самопроверка проходит 17 из 17, среди них проверка пустой цепочки. 13,5 с; битстрим она не загружает."
+    },
+    {
      "kind": "h",
      "text": "Второй кристалл нашёл ошибку, которую первый найти не мог"
     },
@@ -346,6 +353,13 @@
    {
     "kind": "p",
     "text": "Phil's board sits on a Windows PC with no FPGA toolchain. Instead of building one there, operator B's Linux lab borrowed only his JTAG cable, over USB/IP inside a private Tailscale network. Phil, his own Claude and the owner all agreed to this in the open first (t27#7669). The bitstream took about 70 minutes to load at a 410 ms round trip, and the whole run took about 2.5 hours. The first attempt found an empty JTAG chain: the board had USB power but not its 12 V supply."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/tri-fpga-jtag/session.cast",
+    "share": "https://t27.ai/term/tri-fpga-jtag/",
+    "title": "tri fpga-jtag · which chip answered the cable",
+    "caption": "tri fpga-jtag, recorded on our bench on 3 October, before this run: it decodes IDCODEs offline (0x03636093 is an XC7A200T, an even code is no IDCODE at all), and its self-test passes 17 of 17, the empty-chain check among them. 13.5 s; it loads no bitstream."
    },
    {
     "kind": "h",
@@ -448,6 +462,13 @@
      "text": "На первом кадре на плате читалось «ALINX». Наши записи о железе несколько месяцев называли эту плату QMTech Wukong, то есть кристалл XC7A200T в корпусе FGG676. На деле это ALINX AX7203: тот же кристалл XC7A200T, но в корпусе FBG484. По JTAG кристалл сообщает один и тот же код, 0x3636093, в обоих корпусах, поэтому ни один инструмент в цепочке не мог их различить."
     },
     {
+     "kind": "terminal",
+     "src": "term/tri-fpga-jtag/session.cast",
+     "share": "https://t27.ai/term/tri-fpga-jtag/",
+     "title": "tri fpga-jtag · which chip answered the cable",
+     "caption": "tri fpga-jtag называет по IDCODE кристалл и ревизию, но не корпус: 0x03636093 расшифровывается как XC7A200T, в корпусе FGG676 или FBG484 — всё равно. Записано 3 октября, за пять дней до первого кадра камеры; самопроверка проходит 17 из 17. 13,5 с."
+    },
+    {
      "kind": "p",
      "text": "[измерено] Вопрос закрыл битстрим, собранный раньше для AX7203. От генератора 200 МГц этой платы он ответил по её последовательному порту 512 из 512 сложений, совпавших до бита."
     },
@@ -462,6 +483,13 @@
     {
      "kind": "p",
      "text": "specs/fpga/eth_beacon.t27 собирает один широковещательный UDP-кадр байт за байтом: преамбулу, широковещательный адрес, заголовок IPv4 с контрольной суммой, заголовок UDP, полезную нагрузку «T27E» со счётчиком кадров и контрольную сумму Ethernet (CRC-32). Его 9 тестов закрепляют контрольную сумму IPv4, байты заголовка, CRC строки «123456789» и последние четыре байта кадров 0 и 1. Эти четыре байта сначала посчитали через zlib, ещё до того как спецификация была написана."
+    },
+    {
+     "kind": "terminal",
+     "src": "term/t27c-eth-crc/session.cast",
+     "share": "https://t27.ai/term/t27c-eth-crc/",
+     "title": "t27c on eth_crc.t27 -- the FCS, native",
+     "caption": "Это не сама спецификация маячка, а specs/fpga/eth_crc.t27 — контрольная сумма кадра Ethernet отдельно: t27c test-report нативно прогоняет 8 из 8 тестов, ни один не пустой, среди них check_value_123456789 и receiver_residue_is_the_magic. Записано 8 октября; 9,7 с."
     },
     {
      "kind": "p",
@@ -527,6 +555,13 @@
     "text": "The first frame read \"ALINX\" on the circuit board. Our hardware notes had called this board a QMTech Wukong for months, an XC7A200T chip in an FGG676 package. It is an ALINX AX7203: the same XC7A200T chip in an FBG484 package. Over JTAG the chip reports the same ID code, 0x3636093, in both packages, so no tool in the flow could tell them apart."
    },
    {
+    "kind": "terminal",
+    "src": "term/tri-fpga-jtag/session.cast",
+    "share": "https://t27.ai/term/tri-fpga-jtag/",
+    "title": "tri fpga-jtag · which chip answered the cable",
+    "caption": "tri fpga-jtag names a die and a revision from an IDCODE, never a package: 0x03636093 decodes to an XC7A200T whether the chip sits in an FGG676 or an FBG484 package. Recorded on 3 October, five days before the camera's first frame; the self-test passes 17 of 17. 13.5 s."
+   },
+   {
     "kind": "p",
     "text": "[measured] A bitstream made earlier for the AX7203 settled it. Clocked from the AX7203's 200 MHz oscillator, it answered 512 of 512 additions bit-exact over the AX7203's serial port."
    },
@@ -541,6 +576,13 @@
    {
     "kind": "p",
     "text": "specs/fpga/eth_beacon.t27 builds one UDP broadcast frame, byte by byte: the preamble, the broadcast address, an IPv4 header with its checksum, a UDP header, a payload of \"T27E\" and a frame counter, and the Ethernet checksum (CRC-32). Its 9 tests pin the IPv4 checksum, the header bytes, the CRC of \"123456789\" and the last four bytes of frames 0 and 1. Those four bytes were first computed with zlib, before the spec was written."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/t27c-eth-crc/session.cast",
+    "share": "https://t27.ai/term/t27c-eth-crc/",
+    "title": "t27c on eth_crc.t27 -- the FCS, native",
+    "caption": "Not the beacon spec itself but specs/fpga/eth_crc.t27, the Ethernet frame check sequence on its own: t27c test-report runs 8 of 8 tests natively, none vacuous, among them check_value_123456789 and receiver_residue_is_the_magic. Recorded on 8 October; 9.7 s."
    },
    {
     "kind": "p",
@@ -698,6 +740,13 @@
      "text": "Курсу нужен виджет для каждого урока, и он отчеканил 33 новые записи. Большинство прогоняет нативный t27c 0.4.0 на ноутбуке по спекам шин. Но нативный раннер не берёт большинство этих спек целиком: uart, spi, apb_bridge, axi4, bridge и top_level BLOCKED по comptime-разрешению, которое раннер не завершает. Четыре проходят нативно чисто: memory.t27 — 15 тестов и 6 инвариантов, доказанных comptime, spi_tb.t27 — 7 тестов и обе новые спеки Ethernet: eth_crc.t27 с 8 тестами и rgmii.t27 с 7 тестами и comptime-инвариантом. Поэтому записи показывают то, что компилятор доводит до конца на каждой спеке: t27c check (0 ошибок, 0 предупреждений), t27c gen-verilog (синтезируемый модуль, его порты, его провода) и t27c debug-hir (взгляд аппаратного IR). Тексты уроков говорят, что есть что; ни одна запись не утверждает прогон тестов, которого не было."
     },
     {
+     "kind": "terminal",
+     "src": "term/t27c-verilog-uart/session.cast",
+     "share": "https://t27.ai/term/t27c-verilog-uart/",
+     "title": "t27c gen-verilog on uart.t27 -- spec to RTL",
+     "caption": "t27c gen-verilog на uart.t27: модуль ZeroDSP_UART с его портами, а делитель 100,000,000 / 115,200 и FIFO глубиной 16 — в виде localparam. В нативном раннере тестов uart.t27 BLOCKED, поэтому запись показывает Verilog, а не прогон тестов. 3,3 с."
+    },
+    {
      "kind": "p",
      "text": "Модуль стенда записывает живые инструменты: tri fpga-ioclients читает зарегистрированных клиентов IO, tri fpga-claim и tri fpga-release берут и возвращают захват подряд, tri fpga-next читает, что запускается дальше, а план запуска Ethernet из tri fpga-steps E3 зарегистрирован по шагам заранее. Капстоун опускает весь дизайн: top_level.t27 несёт CLK_FREQ_HZ 100,000,000, SYSTICK_HZ 1000, NUM_MAC_UNITS 8 и четыре кода операций (CMD_NOP, CMD_MAC_MULT, CMD_MAC_DOT, CMD_UART_SEND) на 19 тестах."
     },
@@ -708,6 +757,13 @@
     {
      "kind": "p",
      "text": "Модулю Ethernet нужны были спеки, которых в дереве не было. specs/fpga/eth_crc.t27 несёт CRC-32, который вычисляет контрольная сумма кадра, а specs/fpga/rgmii.t27 — тайминговую арифметику с двойной скоростью данных, 125 МГц для гигабита и одинарное понижение для 10 и 100. Обе написаны в gHashTag/t27 (PR 7626) и вендорены в дерево файлов сайта — в ту сторону, куда указывает правило собственного языка: спека живёт в репозитории, которому принадлежит язык, а сайт отдаёт копию, которую умеет доказать идентичной. Каждая константа в них, взятая не из IEEE 802.3, помечена в шапке спеки как допущение — рядом с документом, из которого её нет. Первая версия CRC-спеки была неверна так, что её собственный CI этого не видел: гейты проверяют, что спека компилируется, а не что её asserts держатся, и нативно падали 6 тестов из 8 — каждый неудачный assert сравнивал бегущий регистр с проинвертированными значениями zlib, а тест приёмника утверждал возврат регистра к пресету, чего CRC-32 из 802.3 не делает. Теперь спека несёт физическую модель: FCS — это проинвертированный регистр, а приёмник, переваривший кадр с FCS, приходит к остатку 0xDEBB20E3, вычисленному тем же Python zlib, который шапка называет оракулом. Все 8 тестов проходят, пустых — нет."
+    },
+    {
+     "kind": "terminal",
+     "src": "term/t27c-eth-crc/session.cast",
+     "share": "https://t27.ai/term/t27c-eth-crc/",
+     "title": "t27c on eth_crc.t27 -- the FCS, native",
+     "caption": "Спека CRC в том виде, в каком она влита: t27c test-report нативно прогоняет все 8 тестов, ни один не пустой; receiver_residue_is_the_magic — тот самый тест приёмника, о котором абзац выше. 9,7 с."
     },
     {
      "kind": "h",
@@ -810,6 +866,13 @@
     "text": "The course needed a framable widget for every lesson, and minted 33 new cast recordings. Most of them run native t27c 0.4.0 on a laptop against the bus specs. But the native runner cannot take most of these specs whole: uart, spi, apb_bridge, axi4, bridge and top_level are BLOCKED for comptime resolution the runner cannot finish. Four of them run clean natively: memory.t27 -- 15 tests and 6 invariants proved comptime -- spi_tb.t27 with 7 tests, and the two new Ethernet specs, eth_crc.t27 with 8 tests and rgmii.t27 with 7 tests plus its comptime invariant. So the recordings show what the compiler does complete on every spec: t27c check (0 errors, 0 warnings), t27c gen-verilog (the synthesizable module, its port list, its wires), and t27c debug-hir (the hardware IR view). The lesson texts say which is which; no recording claims a test run that did not happen."
    },
    {
+    "kind": "terminal",
+    "src": "term/t27c-verilog-uart/session.cast",
+    "share": "https://t27.ai/term/t27c-verilog-uart/",
+    "title": "t27c gen-verilog on uart.t27 -- spec to RTL",
+    "caption": "t27c gen-verilog on uart.t27: the module ZeroDSP_UART with its ports, and the divisor 100,000,000 / 115,200 and the 16-deep FIFO as localparams. uart.t27 is BLOCKED in the native test runner, so this recording shows Verilog, not a test run. 3.3 s."
+   },
+   {
     "kind": "p",
     "text": "The bench module records the live tools instead: tri fpga-ioclients reading the registered IO clients, tri fpga-claim and tri fpga-release taken and given back back-to-back, tri fpga-next reading what runs next, and the Ethernet bring-up plan of tri fpga-steps E3, pre-registered step by step. The capstone lesson lowers the whole design: top_level.t27 carries CLK_FREQ_HZ 100,000,000, SYSTICK_HZ 1000, NUM_MAC_UNITS 8 and the four opcodes (CMD_NOP, CMD_MAC_MULT, CMD_MAC_DOT, CMD_UART_SEND) over 19 tests."
    },
@@ -820,6 +883,13 @@
    {
     "kind": "p",
     "text": "The Ethernet module needed specs the tree did not have. specs/fpga/eth_crc.t27 carries the CRC-32 the frame check sequence computes, and specs/fpga/rgmii.t27 the double-data-rate timing arithmetic, 125 MHz for gigabit and the single-data-rate downshift for 10 and 100. Both were written in gHashTag/t27 (PR 7626), then vendored into the website files tree -- the direction the own-language rule wants: the spec lives in the repo that owns the language, the site serves a copy it can prove identical. Every constant in them that is not from IEEE 802.3 is labelled as an assumption in the spec header, with the document it is not from. The first version of the CRC spec was wrong in a way its own CI could not see: the gates check that a spec compiles, not that its asserts hold, and 6 of its 8 tests failed natively -- every failing assert compared the running register against zlib post-inverted values, and the receiver test claimed the register returns to its preset, which no 802.3 CRC-32 does. The spec now carries the physical model: the FCS is the post-inverted register, and a receiver digesting frame plus FCS lands on the residue 0xDEBB20E3, computed with the same Python zlib the header names as oracle. All 8 tests pass, none vacuous."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/t27c-eth-crc/session.cast",
+    "share": "https://t27.ai/term/t27c-eth-crc/",
+    "title": "t27c on eth_crc.t27 -- the FCS, native",
+    "caption": "The CRC spec as it landed: t27c test-report runs all 8 tests natively and none is vacuous; receiver_residue_is_the_magic is the receiver test the paragraph above describes. 9.7 s."
    },
    {
     "kind": "h",
@@ -994,12 +1064,26 @@
      ]
     },
     {
+     "kind": "terminal",
+     "src": "term/t27c-mtbf/session.cast",
+     "share": "https://t27.ai/term/t27c-mtbf/",
+     "title": "t27c on mtbf.t27 -- MTBF in integer log2, native",
+     "caption": "t27c 0.4.0 на ноутбуке: mtbf.t27 нативно проходит 15 из 15 тестов, ни один не пустой, 4 инварианта доказаны при компиляции; grep показывает строки заголовка, где постоянная разрешения и апертура помечены как допущения. 12,7 с."
+    },
+    {
      "kind": "h",
      "text": "Что показывают записи"
     },
     {
      "kind": "p",
-     "text": "В галерее шестнадцать новых карточек-кастов, по одной записи на записанный урок, снятых нативным t27c 0.4.0 на ноутбуке. Запись показывает запуск, который важен, и читает вердикт из текста. Урок MTBF показывает, как одна ступень оставляет -200 пс запаса и log2-MTBF -19513 в Q10, а две ступени — 9800 пс и 275887. Запись мутации MMCM расширяет нижнюю границу окна VCO с 800000 до 400000 кГц одной строкой sed, и падает ровно тот тест, который называет число, что он отвергает. Запись мутации FIFO меняет инкремент указателя головы с + 1 на + 3, и все тесты по-прежнему проходят, потому что набор утверждает заполнение и флаги, но никогда значения указателей: та самая дыра, в которую проскользнул бы разорванный многобитный указатель."
+     "text": "В галерее шестнадцать новых карточек-кастов, по одной записи на записанный урок, снятых нативным t27c 0.4.0 на ноутбуке. Запись показывает запуск, который важен, и читает вердикт из текста. Урок MTBF показывает, как одна ступень оставляет -200 пс запаса и log2-MTBF -19513 в Q10, а две ступени — 9800 пс и 275887. Запись мутации MMCM расширяет нижнюю границу окна VCO с 800000 до 400000 кГц одной строкой sed, и падают ровно два теста — те, что проверяют конфигурацию на 500 МГц, которую окно теперь пропускает. Запись мутации FIFO меняет инкремент указателя головы с + 1 на + 3, и все тесты по-прежнему проходят, потому что набор утверждает заполнение и флаги, но никогда значения указателей: та самая дыра, в которую проскользнул бы разорванный многобитный указатель."
+    },
+    {
+     "kind": "terminal",
+     "src": "term/t27c-mmcm-mutate/session.cast",
+     "share": "https://t27.ai/term/t27c-mmcm-mutate/",
+     "title": "t27c on mmcm.t27 -- widen the VCO window, two tests object",
+     "caption": "Одна строка sed опускает нижнюю границу VCO с 800000 до 400000 кГц: 14 из 16 тестов по-прежнему проходят, а два упавших, vco_below_the_window_is_rejected и vco_out_of_range_is_an_error, оба проверяют конфигурацию на 500 МГц, которую более широкое окно теперь пропускает; git возвращает спеку. 26,6 с."
     },
     {
      "kind": "p",
@@ -1127,12 +1211,26 @@
     ]
    },
    {
+    "kind": "terminal",
+    "src": "term/t27c-mtbf/session.cast",
+    "share": "https://t27.ai/term/t27c-mtbf/",
+    "title": "t27c on mtbf.t27 -- MTBF in integer log2, native",
+    "caption": "t27c 0.4.0 on a laptop: mtbf.t27 passes 15 of 15 tests natively, none vacuous, with 4 invariants proved at compile time; the grep shows the header lines that label the resolve time constant and the aperture as assumptions. 12.7 s."
+   },
+   {
     "kind": "h",
     "text": "What the recordings show"
    },
    {
     "kind": "p",
-    "text": "Sixteen new cast widgets join the gallery, one recording per recorded lesson, made with native t27c 0.4.0 on a laptop. A recording shows the run that matters and reads its verdict from the text. The MTBF lesson shows one flop leaving -200 ps of slack and a log2-MTBF of -19513 in Q10, and two flops leaving 9800 ps and 275887. The MMCM mutation recording widens the VCO window floor from 800000 to 400000 kHz with one sed line, and the one test that fails is the one that names the number it rejects. The FIFO mutation recording changes the head pointer increment from + 1 to + 3 and every test still passes, because the suite asserts fill counts and flags, never pointer values: the exact hole a torn multi-bit pointer would slip through."
+    "text": "Sixteen new cast widgets join the gallery, one recording per recorded lesson, made with native t27c 0.4.0 on a laptop. A recording shows the run that matters and reads its verdict from the text. The MTBF lesson shows one flop leaving -200 ps of slack and a log2-MTBF of -19513 in Q10, and two flops leaving 9800 ps and 275887. The MMCM mutation recording widens the VCO window floor from 800000 to 400000 kHz with one sed line, and the two tests that fail are the two that check the 500 MHz configuration it now lets in. The FIFO mutation recording changes the head pointer increment from + 1 to + 3 and every test still passes, because the suite asserts fill counts and flags, never pointer values: the exact hole a torn multi-bit pointer would slip through."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/t27c-mmcm-mutate/session.cast",
+    "share": "https://t27.ai/term/t27c-mmcm-mutate/",
+    "title": "t27c on mmcm.t27 -- widen the VCO window, two tests object",
+    "caption": "One sed lowers the VCO floor from 800000 to 400000 kHz: 14 of 16 tests still pass, and the two that fail, vco_below_the_window_is_rejected and vco_out_of_range_is_an_error, both check the 500 MHz configuration the wider window now admits; git restores the spec. 26.6 s."
    },
    {
     "kind": "p",
@@ -1280,6 +1378,20 @@
      "text": "Виджеты -- это записи настоящих прогонов инструментов, а тексты уроков используют только числа, которые показывают эти записи или названный в них spec. Линк UART, запросивший 115,200 бод и получивший на проводе 115,385 -- ошибку делителя +0.16 %, невидимую в коде и очевидную в захвате; 3,000,000 делится нацело, и провод согласен. 31 из 1,428 слитых spec, чьи печати не записывают вывода, на 16 spec, и 3 из них не названы журналом, который им это имя должен. 367 pull request'ов, пришедших за 14 дней, из которых 11 удалили тесты или ассерты, а один удалил все 26 тестов своего файла -- и ничего не упало. Курс о проверке не имеет права цитировать числа, которые не может показать."
     },
     {
+     "kind": "terminal",
+     "src": "term/tri-fpga-wire/session.cast",
+     "share": "https://t27.ai/term/tri-fpga-wire/",
+     "title": "tri fpga-wire · the baud rate actually on the wire",
+     "caption": "tri fpga-wire на CP2102N стенда, подключённом без хаба: запрос 115,200 даёт на проводе 115,385 (+0.16 %), 921,600 даёт 923,077, а 3,000,000 — ровно. 6,5 с."
+    },
+    {
+     "kind": "terminal",
+     "src": "term/t27-tri-seals/session.cast",
+     "share": "https://t27.ai/term/t27-tri-seals/",
+     "title": "tri seals: hollow seals that pass every check",
+     "caption": "tri seals hollow на дереве t27: 31 печать из 1,428 не записывает сгенерированный вывод, за ними 16 разных спек, и 3 из них нет в реестре, где записан этот долг. 4,9 с."
+    },
+    {
      "kind": "h",
      "text": "Новый spec: coverage.t27"
     },
@@ -1392,6 +1504,20 @@
    {
     "kind": "p",
     "text": "The widgets are recordings of real tool runs, and the lesson texts use only numbers those recordings or the named spec show. The UART link that asked for 115,200 baud and got 115,385 on the wire -- a +0.16 % divider error invisible in code and obvious in the capture, while 3,000,000 divides exactly and the wire agrees. The 31 of 1,428 merged specs whose seals record no output, on 16 specs, 3 of them unnamed by the ledger that owes them a name. The 367 pull requests that arrived in 14 days, 11 of which deleted tests or asserts, one deleting all 26 tests in its file with nothing failing. A course about verification does not get to cite numbers it cannot show."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/tri-fpga-wire/session.cast",
+    "share": "https://t27.ai/term/tri-fpga-wire/",
+    "title": "tri fpga-wire · the baud rate actually on the wire",
+    "caption": "tri fpga-wire on the bench's CP2102N, plugged in with no hub: 115,200 requested puts 115,385 on the wire (+0.16 %), 921,600 puts 923,077, and 3,000,000 is exact. 6.5 s."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/t27-tri-seals/session.cast",
+    "share": "https://t27.ai/term/t27-tri-seals/",
+    "title": "tri seals: hollow seals that pass every check",
+    "caption": "tri seals hollow on the t27 tree: 31 of 1,428 seals record no generated output, on 16 distinct specs, and 3 of those are missing from the ledger that records the debt. 4.9 s."
    },
    {
     "kind": "h",
@@ -1669,6 +1795,13 @@
      ]
     },
     {
+     "kind": "terminal",
+     "src": "term/t27c-tnf17/session.cast",
+     "share": "https://t27.ai/term/t27c-tnf17/",
+     "title": "t27c on tnf17.t27 -- a 17-bit ternary-exponent float, native",
+     "caption": "Это не урок этого курса, а tnf17.t27 из курса «AI numbers». Его TNF17e тоже хранит порядок в сбалансированных тритах: их четыре там, где у GF-T16 шесть. t27c нативно прогоняет 34 из 34 тестов, ни один не пустой; замена XOR на OR в tnf_negate роняет ровно один тест, negate_is_an_involution; git возвращает спеку. 30,3 с."
+    },
+    {
      "kind": "h",
      "text": "Чего этот курс не утверждает"
     },
@@ -1873,6 +2006,13 @@
     ]
    },
    {
+    "kind": "terminal",
+    "src": "term/t27c-tnf17/session.cast",
+    "share": "https://t27.ai/term/t27c-tnf17/",
+    "title": "t27c on tnf17.t27 -- a 17-bit ternary-exponent float, native",
+    "caption": "Not a lesson of this course: tnf17.t27, from the AI numbers course. Its TNF17e also keeps the exponent in balanced trits, four of them where GF-T16 uses six. t27c runs 34 of 34 tests natively, none vacuous; XOR swapped for OR in tnf_negate fails exactly one, negate_is_an_involution; git restores the spec. 30.3 s."
+   },
+   {
     "kind": "h",
     "text": "What this course does not claim"
    },
@@ -1990,6 +2130,13 @@
     {
      "kind": "p",
      "text": "Генератор курса читает каталог и отказывается собирать курс, у которого число модулей или уроков в модуле расходится с каталогом или урок стоит не в модуле floor(i / 3). Если вернуть MODULES_PER_COURSE = 27, проверка курса краснеет; если вернуть файл, снова зеленеет."
+    },
+    {
+     "kind": "terminal",
+     "src": "term/t27c-gft-xornet/session.cast",
+     "share": "https://t27.ai/term/t27c-gft-xornet/",
+     "title": "t27c on gft_xornet.t27 -- XOR needs a bend, native",
+     "caption": "Тот же приём на спеке урока: запись урока 21 курса 2, xor-needs-a-bend, последнего урока модуля 7. t27c test-report проходит 4 из 4 на gft_xornet.t27, ни один не пустой; одна строка sed убирает relu из h1, и падает ровно один тест, x00; git checkout возвращает строку, и sha256sum печатает хеш, который был до правки. 27,5 с."
     }
    ]
   },
@@ -2071,6 +2218,13 @@
    {
     "kind": "p",
     "text": "The course generator reads the catalog and refuses to build a course whose module count or lessons per module differ from it, or whose lesson does not sit in module floor(i / 3). Setting MODULES_PER_COURSE back to 27 turns the course check red; restoring the file turns it green again."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/t27c-gft-xornet/session.cast",
+    "share": "https://t27.ai/term/t27c-gft-xornet/",
+    "title": "t27c on gft_xornet.t27 -- XOR needs a bend, native",
+    "caption": "The same move on a lesson spec: the recording of lesson 21 of course 2, xor-needs-a-bend, the last lesson of module 7. t27c test-report passes 4 of 4 on gft_xornet.t27, none vacuous; one sed removes relu from h1 and exactly one test, x00, fails; git checkout puts the line back and sha256sum prints the hash from before the edit. 27.5 s."
    }
   ]
  },
@@ -2122,6 +2276,13 @@
     {
      "kind": "p",
      "text": "Каждый урок открывает одну инфографику и одну спеку. Инфографика — чёрно-белая таблица, а в 11 из 27 уроков ещё и схема; её слова и строки живут в спеке виджета .t27 (specs/widgets/basics-<урок>.t27), и тест спеки проверяет, что строки таблицы целые. Спека урока лежит в specs/basics/ и чисто собирается всеми 7 бэкендами прямо в браузере, а её тесты проходят; генератор курса отказывается собирать курс, если хоть одна не собирается."
+    },
+    {
+     "kind": "terminal",
+     "src": "term/t27c-hello-world/session.cast",
+     "share": "https://t27.ai/term/t27c-hello-world/",
+     "title": "t27c on hello_world.t27",
+     "caption": "Шаг после этого курса, как его записывает курс 1 в уроке 11: нативный t27c 0.4.0 на specs/demos/hello_world.t27 печатает spec-status IMPLEMENTED, два теста и два инварианта, которые выдаёт бэкенд Zig, и модуль Verilog, который сам говорит, что у него нет портов данных. 13,7 с."
     },
     {
      "kind": "p",
@@ -2315,6 +2476,13 @@
    {
     "kind": "p",
     "text": "Every lesson opens one infographic and one spec. The infographic is a black-and-white table, and in 11 of the 27 lessons also a flow diagram; its words and rows live in a .t27 widget spec (specs/widgets/basics-<lesson>.t27), and a widget spec test checks that the table has whole rows. The lesson spec lives under specs/basics/ and compiles clean on all 7 backends in the browser, with its tests passing; the course generator refuses to build if one of them does not."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/t27c-hello-world/session.cast",
+    "share": "https://t27.ai/term/t27c-hello-world/",
+    "title": "t27c on hello_world.t27",
+    "caption": "The step after this course, as course 1 records it in lesson 11: native t27c 0.4.0 on specs/demos/hello_world.t27 prints spec-status IMPLEMENTED, the two tests and two invariants the Zig backend emits, and a Verilog module that says it has no data ports. 13.7 s."
    },
    {
     "kind": "p",
@@ -2564,6 +2732,13 @@
      "text": "В демонстрации PR на лаборатории t27c `gft_relu.t27` проходит 4 из 4. Черновая копия, где строка 12 изменена так, что отрицательный вход возвращается вместо 0, даёт 3 из 4, падает `negz`, и команда возвращает 1."
     },
     {
+     "kind": "terminal",
+     "src": "term/t27c-gft-relu/session.cast",
+     "share": "https://t27.ai/term/t27c-gft-relu/",
+     "title": "t27c on gft_relu.t27 -- a bend at zero, native",
+     "caption": "Ошибка из демонстрации, записанная позже и без #7400: t27c test-report проходит 4 из 4 на gft_relu.t27, ни один не пустой; одна строка sed заставляет строку 12 возвращать x для отрицательного входа, и падает ровно negz; git checkout возвращает строку, а sha256sum печатает исходный хеш. t27c 0.5.1; вердикт читается из текста отчёта, потому что test-report по-прежнему возвращает 0. 28,8 с."
+    },
+    {
      "kind": "h",
      "text": "tri mutate plant"
     },
@@ -2628,6 +2803,13 @@
    {
     "kind": "p",
     "text": "In the PR's demo on the t27c lab, `gft_relu.t27` passes 4 of 4. A scratch copy with line 12 changed so that a negative input is returned instead of 0 gives 3 of 4, `negz` fails, and the command exits 1."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/t27c-gft-relu/session.cast",
+    "share": "https://t27.ai/term/t27c-gft-relu/",
+    "title": "t27c on gft_relu.t27 -- a bend at zero, native",
+    "caption": "The demo's bug, recorded later and without #7400: t27c test-report passes 4 of 4 on gft_relu.t27, none vacuous; one sed makes line 12 return x for a negative input, and exactly negz fails; git checkout restores the line and sha256sum prints the original hash. t27c 0.5.1; the verdict is read from the report text, since test-report still exits 0. 28.8 s."
    },
    {
     "kind": "h",
@@ -2892,6 +3074,13 @@
      "text": "Записи уроков с 13 по 21 ещё не готовы. Их девяти спекам (gft_smul, gft_sadd, gft_signed_mac, gft_relu, gft_exp2, gft_argmax4, gft_nll, gft_sgd_step и gft_xornet) нужны команды tri test и tri mutate plant из t27#7400, который ещё не смержен. До тех пор каждый из этих уроков открывает страницу-заглушку, где сказано, что запись ещё не готова, и нет никакого запуска; текст урока говорит то же. Уроки с 22 по 27 открывают свои записи уже сейчас."
     },
     {
+     "kind": "terminal",
+     "src": "term/t27c-bitnet-mlp/session.cast",
+     "share": "https://t27.ai/term/t27c-bitnet-mlp/",
+     "title": "t27c on bitnet_mlp.t27 -- A whole ternary network, native",
+     "caption": "Запись урока 27, маленькой сети, которой заканчивается курс 2: bitnet_mlp.t27 нативно проходит 4 из 4 тестов на лаборатории t27c; одна строка sed пишет третий трит pack3 на бит ниже, падает ровно pack3_zzz, и git возвращает спеку. 32,0 с."
+    },
+    {
      "kind": "p",
      "text": "Обновление от 9 октября 2026: девять записей теперь есть, без #7400, который так и не смержен. Каждая запускает t27c test-report на своей спеке, где все тесты проходят и ни один не пустой, затем одну строку sed, которая сажает ошибку из таблицы ниже, затем снова t27c test-report, где падает ровно названный тест, и в конце git checkout, после которого sha256sum печатает тот же хеш, что был у спеки до правки. Записи сделаны с t27c 0.5.1 и zig 0.16.0 в облачном контейнере Claude Code, на t27 в 72f793357, и в каждой из девяти упал именно тот тест, который называет таблица. t27c test-report по-прежнему выходит с кодом 0, когда тест падает (t27#7370), поэтому вердикт в каждой записи читается из текста отчёта."
     },
@@ -3011,6 +3200,13 @@
        "pack3_zzz"
       ]
      ]
+    },
+    {
+     "kind": "terminal",
+     "src": "term/t27c-gft-smul/session.cast",
+     "share": "https://t27.ai/term/t27c-gft-smul/",
+     "title": "t27c on gft_smul.t27 -- a sign is one bit, native",
+     "caption": "Одна из девяти, урок 13: gft_smul.t27 проходит 3 из 3, ни один не пустой; sed, после которого знак всегда 0, роняет ровно m2, где 1.0 умножается на -1.0; git checkout возвращает спеку, и sha256sum печатает тот же хеш. t27c 0.5.1 и zig 0.16.0, t27 на 72f793357. 35,4 с."
     },
     {
      "kind": "p",
@@ -3322,6 +3518,13 @@
     "text": "Recordings pending for lessons 13 to 21. Their nine specs (gft_smul, gft_sadd, gft_signed_mac, gft_relu, gft_exp2, gft_argmax4, gft_nll, gft_sgd_step and gft_xornet) are recorded with tri test and tri mutate plant from t27#7400, which is not merged yet. Until it is, each of those lessons opens a placeholder page that says the recording is pending and shows no run; the lesson text says so too. Lessons 22 to 27 open their recordings now."
    },
    {
+    "kind": "terminal",
+    "src": "term/t27c-bitnet-mlp/session.cast",
+    "share": "https://t27.ai/term/t27c-bitnet-mlp/",
+    "title": "t27c on bitnet_mlp.t27 -- A whole ternary network, native",
+    "caption": "Lesson 27's recording, the small network that closes course 2: bitnet_mlp.t27 passes 4 of 4 tests natively on the t27c lab; one sed writes pack3's third trit one bit low, exactly pack3_zzz fails, and git restores the spec. 32.0 s."
+   },
+   {
     "kind": "p",
     "text": "Update, 9 October 2026: the nine recordings exist now, without #7400, which is still not merged. Each one runs t27c test-report on its spec, where every test passes and none is vacuous, then one sed line that plants the bug in the table below, then t27c test-report again, where exactly the named test fails, and finally git checkout, after which sha256sum prints the hash the spec had before the edit. They were recorded with t27c 0.5.1 and zig 0.16.0 in a Claude Code cloud container, on t27 at 72f793357, and every one of the nine failed the test this table names. t27c test-report still exits 0 when a test fails (t27#7370), so the verdict in each recording is read from the report text."
    },
@@ -3441,6 +3644,13 @@
       "pack3_zzz"
      ]
     ]
+   },
+   {
+    "kind": "terminal",
+    "src": "term/t27c-gft-smul/session.cast",
+    "share": "https://t27.ai/term/t27c-gft-smul/",
+    "title": "t27c on gft_smul.t27 -- a sign is one bit, native",
+    "caption": "One of the nine, lesson 13: gft_smul.t27 passes 3 of 3, none vacuous; a sed that makes the sign always 0 fails exactly m2, which multiplies 1.0 by -1.0; git checkout restores the spec and sha256sum prints the same hash. t27c 0.5.1 and zig 0.16.0, t27 at 72f793357. 35.4 s."
    },
    {
     "kind": "p",
@@ -3715,6 +3925,13 @@
      "text": "У каждого PR в trinity уже есть отчёт о работе, а влитый PR потом становится черновиком поста в блоге. Но изменение курса всё ещё могло попасть в main совсем без поста, и читатель встречал новый урок раньше, чем что-нибудь его объясняло. trinity#1461 закрывает эту дыру: PR, который меняет курс, обязан нести свой пост — английское body и русское ruBody — в том же PR, иначе статус «T27 work report» краснеет. PR открыт и ещё не влит."
     },
     {
+     "kind": "terminal",
+     "src": "term/tri-blog-list/session.cast",
+     "share": "https://t27.ai/term/tri-blog-list/",
+     "title": "tri blog list: every t27.ai post and its receipt state",
+     "caption": "tri blog list, записано 3 октября: 73 опубликованных поста, сначала новые, у каждого дата, язык и ревизия. По этому правилу изменение курса и пост, который его объясняет, попадают в этот список вместе. 2,4 с."
+    },
+    {
      "kind": "h",
      "text": "Правило живёт в спеке t27"
     },
@@ -3773,6 +3990,13 @@
    {
     "kind": "p",
     "text": "Every trinity PR already carries a work report, and a merged PR later becomes a blog draft. A course change could still land with no post at all, so a reader could meet a new lesson before anything explained it. trinity#1461 closes that gap: a PR that changes a course now has to carry its blog post, English body and Russian ruBody, in the same PR, or the \"T27 work report\" status turns red. The PR is open and not merged yet."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/tri-blog-list/session.cast",
+    "share": "https://t27.ai/term/tri-blog-list/",
+    "title": "tri blog list: every t27.ai post and its receipt state",
+    "caption": "tri blog list, recorded on 3 October: 73 published posts, newest first, each with its date, its language and its revision. Under this rule a course change and the post that explains it reach this list together. 2.4 s."
    },
    {
     "kind": "h",
@@ -8066,6 +8290,13 @@
      ]
     },
     {
+     "kind": "terminal",
+     "src": "term/perf2-knockouts/session.cast",
+     "share": "https://t27.ai/term/perf2-knockouts/",
+     "title": "Three PERF2 bits, and one knockout bitstream per bit",
+     "caption": "Биты за prjxray-db#30, на xc7a200tfbg484-2 платы AX7203: кадры дизайна с BUFR в старой и новой сборке различаются ровно в 3 битах, в CLK_PERF2 и PERFCLK2 — строках, которые есть в коммите базы c030ed6 и нет в master. Каждый нокаут сбрасывает один бит, и xc7frames2bit превращает его в .bit, отличающийся от рабочего на 3 байта. 26,2 с."
+    },
+    {
      "kind": "p",
      "text": "После мержа #170 и #171 cavearr прогнал по ним свой регрессионный набор из 23 дизайнов: не сдвинулись ни статус, ни LUT/FF, ни Fmax, а все 36 эталонных FASM-выходов совпали байт в байт."
     },
@@ -8223,6 +8454,13 @@
       "open"
      ]
     ]
+   },
+   {
+    "kind": "terminal",
+    "src": "term/perf2-knockouts/session.cast",
+    "share": "https://t27.ai/term/perf2-knockouts/",
+    "title": "Three PERF2 bits, and one knockout bitstream per bit",
+    "caption": "The bits behind prjxray-db#30, on the AX7203's xc7a200tfbg484-2: the BUFR design's frames differ in exactly 3 bits between the old and the new build, in CLK_PERF2 and PERFCLK2, rows that database commit c030ed6 has and master does not. Each knockout clears one bit, and xc7frames2bit turns it into a .bit 3 bytes away from the working one. 26.2 s."
    },
    {
     "kind": "p",
@@ -8442,6 +8680,13 @@
      "text": "fpga-jtag читает IDCODE и никогда ничего не прошивает. Она работает с двумя семействами кабелей. Xilinx Platform Cable USB II (или клон DLC10; USB VID 0x03fd) поднимается как 0x0013 без прошивки. С --load команда загружает прошивку через fxload, без sudo, и ждёт, пока кабель переподключится как 0x0008. Затем она запускает xc3sprog и печатает версии прошивки и CPLD и каждое устройство в цепочке — по имени и ревизии. Для кабелей FTDI она спрашивает у openFPGALoader, какой зонд подключён, и запускает --detect. --expect XC7A100T превращает результат в код выхода: 0 при совпадении, 1 если цепочки нет или чип другой, 2 если нет кабеля."
     },
     {
+     "kind": "terminal",
+     "src": "term/tri-fpga-jtag/session.cast",
+     "share": "https://t27.ai/term/tri-fpga-jtag/",
+     "title": "tri fpga-jtag · which chip answered the cable",
+     "caption": "tri fpga-jtag без обращения к кабелю: --decode называет 0x03636093 кристаллом XC7A200T, а 0x13631093 — XC7A100T, чётный код отвергает как вовсе не IDCODE, и --self-test проходит 17 из 17. 13,5 с."
+    },
+    {
      "kind": "p",
      "text": "На нашем стенде этот код выхода сделал свою работу. Единственным подключённым сегодня кабелем был FTDI-зонд AX7203, и fpga-jtag --expect XC7A100T сообщила loc 0: 0x03636093 XC7A200T и вышла с кодом 1. Для этой платы это правильный чип, а для шага, который мы собирались сделать, — неправильный. Такой шаг лучше остановить на несовпадении, чем на ошибке прошивки."
     },
@@ -8460,6 +8705,13 @@
     {
      "kind": "p",
      "text": "У каждой команды есть --self-test, который гоняет её разборщики на записанном выводе: 17 проверок для jtag (имена IDCODE, строки прошивки, вердикты TDO «все единицы» и «все нули», маска ревизии openFPGALoader) и 11 для seeds (незаконченные логи, несколько клоков, разные нетлисты). tri fpga-tools запускает все самопроверки board-loop вместе и сообщает 14 из 14. Повторный разбор логов, стоящих за таблицей выше, воспроизводит составленные вручную CSV значение в значение."
+    },
+    {
+     "kind": "terminal",
+     "src": "term/tri-fpga-tools/session.cast",
+     "share": "https://t27.ai/term/tri-fpga-tools/",
+     "title": "tri fpga-tools · 14 bench tools test themselves",
+     "caption": "tri fpga-tools прогоняет самопроверки всех инструментов стенда за один проход: 14 из 14 проходят, среди них jtag со своими 17 проверками и seeds со своими 11. 5,8 с."
     }
    ]
   },
@@ -8530,6 +8782,13 @@
     "text": "fpga-jtag reads IDCODEs and never programs. It handles two cable families. For a Xilinx Platform Cable USB II (or a DLC10 clone; USB VID 0x03fd), the cable comes up as 0x0013 with no firmware. With --load the command loads the firmware with fxload, without sudo, and waits for it to re-enumerate as 0x0008. It then runs xc3sprog and prints the firmware and CPLD versions and every device on the chain, by name and revision. For FTDI cables it asks openFPGALoader which probe is attached and runs --detect. --expect XC7A100T turns the result into an exit code: 0 for a match, 1 for no chain or a different chip, 2 for no cable."
    },
    {
+    "kind": "terminal",
+    "src": "term/tri-fpga-jtag/session.cast",
+    "share": "https://t27.ai/term/tri-fpga-jtag/",
+    "title": "tri fpga-jtag · which chip answered the cable",
+    "caption": "tri fpga-jtag, offline: --decode names 0x03636093 an XC7A200T and 0x13631093 an XC7A100T, refuses an even code as no IDCODE at all, and --self-test passes 17 of 17. 13.5 s."
+   },
+   {
     "kind": "p",
     "text": "On our bench that exit code did its job. The only cable attached today was the FTDI probe of the AX7203, and fpga-jtag --expect XC7A100T reported loc 0: 0x03636093 XC7A200T and exited 1. That is the right chip for that board and the wrong chip for the step we were about to take. It is a step we would rather have stopped at a mismatch than at a programming error."
    },
@@ -8548,6 +8807,13 @@
    {
     "kind": "p",
     "text": "Each command carries a --self-test that runs its parsers on recorded output: 17 checks for jtag (IDCODE names, firmware lines, the stuck-high and stuck-low TDO verdicts, the openFPGALoader revision mask) and 11 for seeds (unfinished logs, multiple clocks, differing netlists). tri fpga-tools runs every board-loop self-test together; it reports 14 of 14. Re-parsing the logs behind the table above reproduces the hand-made CSVs value for value."
+   },
+   {
+    "kind": "terminal",
+    "src": "term/tri-fpga-tools/session.cast",
+    "share": "https://t27.ai/term/tri-fpga-tools/",
+    "title": "tri fpga-tools · 14 bench tools test themselves",
+    "caption": "tri fpga-tools runs every bench tool's own self-test in one sweep: 14 of 14 pass, jtag with its 17 checks and seeds with its 11 among them. 5.8 s."
    }
   ]
  },
@@ -8648,6 +8914,11 @@
      "text": "Для масштаба: модель на 100M с плавающими весами на том же бенчмарке даёт 7.4% pass@10, её тернарная пара — 2.3% (обе — после такого же t27-файнтюна, то есть сравнение честное), и разрыв вырос с 1.5x до 3.2x при учетверении данных. Тернарность дорога для кода; этот результат тоже опубликован, и этот пост — не спор с ним, а честный отчёт о том, для чего на самом деле нужна тернарная модель-board-размера."
     },
     {
+     "kind": "figure",
+     "svg": "<svg viewBox='0 0 720 206' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Покрытие компиляцией по рычагам и компиляция против прохождения за всю петлю' style='width:100%;height:auto;font-family:inherit'><text x='10' y='20' font-size='12' fill='currentColor' fill-opacity='0.7'>Айтемы, которые компилируются, объединение трёх веток (30 айтемов)</text><text x='10' y='122' font-size='12' fill='currentColor' fill-opacity='0.7'>Полная строгая петля (391 айтем, 30 раундов)</text><text x='10' y='48' font-size='13' fill='currentColor'>3 температуры, 1 правило маски</text><rect x='300' y='34' width='340' height='18' fill='currentColor' fill-opacity='0.06' rx='2'/><rect x='300' y='34' width='34.0' height='18' fill='currentColor' fill-opacity='0.35' rx='2'/><text x='340.0' y='48' font-size='12' fill='currentColor'>3 из 30</text><text x='10' y='78' font-size='13' fill='currentColor'>3 правила маски, 1 температура</text><rect x='300' y='64' width='340' height='18' fill='currentColor' fill-opacity='0.06' rx='2'/><rect x='300' y='64' width='170.0' height='18' fill='#d4af37' rx='2'/><text x='476.0' y='78' font-size='12' fill='currentColor'>15 из 30</text><text x='10' y='150' font-size='13' fill='currentColor'>тело, которое компилируется</text><rect x='300' y='136' width='340' height='18' fill='currentColor' fill-opacity='0.06' rx='2'/><rect x='300' y='136' width='246.1' height='18' fill='#d4af37' rx='2'/><text x='552.1' y='150' font-size='12' fill='currentColor'>283 (72%)</text><text x='10' y='180' font-size='13' fill='currentColor'>тело, которое проходит тесты</text><rect x='300' y='166' width='340' height='18' fill='currentColor' fill-opacity='0.06' rx='2'/><rect x='300' y='166' width='3.5' height='18' fill='currentColor' fill-opacity='0.35' rx='2'/><text x='309.5' y='180' font-size='12' fill='currentColor'>4 (1,0%)</text></svg>",
+     "caption": "По числам из этого поста: три правила маски при одной температуре покрывают при компиляции 15 айтемов из 30, три температуры при одном правиле — 3 из 30; за всю петлю 283 из 391 строгого айтема получили тело, которое компилируется, и 4 — тело, которое проходит тесты."
+    },
+    {
      "kind": "h",
      "text": "Пакет"
     },
@@ -8701,6 +8972,11 @@
    {
     "kind": "p",
     "text": "For scale, the 100M fp model on the same bench scores 7.4% pass@10 while its ternary twin scores 2.3% -- both after the same t27 finetune, so the comparison is apples to apples -- and the gap grew from 1.5x to 3.2x as data quadrupled. Ternarity is expensive for code; that result is published too, and this post is not an argument against it -- it is the honest account of what a board-sized ternary model is actually for."
+   },
+   {
+    "kind": "figure",
+    "svg": "<svg viewBox='0 0 720 206' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Compile cover by lever, and compile against pass over the full loop' style='width:100%;height:auto;font-family:inherit'><text x='10' y='20' font-size='12' fill='currentColor' fill-opacity='0.7'>Items that compile, union of three arms (30 items)</text><text x='10' y='122' font-size='12' fill='currentColor' fill-opacity='0.7'>Full strict loop (391 items, 30 rounds)</text><text x='10' y='48' font-size='13' fill='currentColor'>3 temperatures, 1 mask rule</text><rect x='300' y='34' width='340' height='18' fill='currentColor' fill-opacity='0.06' rx='2'/><rect x='300' y='34' width='34.0' height='18' fill='currentColor' fill-opacity='0.35' rx='2'/><text x='340.0' y='48' font-size='12' fill='currentColor'>3 of 30</text><text x='10' y='78' font-size='13' fill='currentColor'>3 mask rules, 1 temperature</text><rect x='300' y='64' width='340' height='18' fill='currentColor' fill-opacity='0.06' rx='2'/><rect x='300' y='64' width='170.0' height='18' fill='#d4af37' rx='2'/><text x='476.0' y='78' font-size='12' fill='currentColor'>15 of 30</text><text x='10' y='150' font-size='13' fill='currentColor'>a body that compiles</text><rect x='300' y='136' width='340' height='18' fill='currentColor' fill-opacity='0.06' rx='2'/><rect x='300' y='136' width='246.1' height='18' fill='#d4af37' rx='2'/><text x='552.1' y='150' font-size='12' fill='currentColor'>283 (72%)</text><text x='10' y='180' font-size='13' fill='currentColor'>a body that passes the tests</text><rect x='300' y='166' width='340' height='18' fill='currentColor' fill-opacity='0.06' rx='2'/><rect x='300' y='166' width='3.5' height='18' fill='currentColor' fill-opacity='0.35' rx='2'/><text x='309.5' y='180' font-size='12' fill='currentColor'>4 (1.0%)</text></svg>",
+    "caption": "From the numbers in this post: three mask rules at one temperature cover 15 of 30 items at compile, three temperatures at one rule 3 of 30; over the full loop, 283 of the 391 strict items got a body that compiles and 4 got one that passes."
    },
    {
     "kind": "h",
