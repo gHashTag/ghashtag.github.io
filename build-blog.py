@@ -112,6 +112,8 @@ UI = {
         "other": "Читать по-русски", "otherLang": "ru",
         "coverAlt": "Three-panel engraved illustration for",
         "coverFull": "View the complete triptych at full size",
+        "cardAlt": "Title card, no illustration yet, for",
+        "cardFull": "View the title card at full size",
         "coverPanels": "Three panels, left to right",
         "coverEnglish": "The image captions are in English.",
         "termOpen": "Open the recording on its own page.",
@@ -156,6 +158,8 @@ UI = {
         "other": "Read in English", "otherLang": "en",
         "coverAlt": "Гравюрный триптих к статье",
         "coverFull": "Открыть полный триптих в исходном размере",
+        "cardAlt": "Титульная карточка статьи, иллюстрации пока нет",
+        "cardFull": "Открыть титульную карточку в исходном размере",
         "coverPanels": "Три панели, слева направо",
         "coverEnglish": "Подписи на изображении — на английском.",
         "termOpen": "Открыть запись на отдельной странице.",
@@ -250,7 +254,7 @@ def cover_panels(slug, lang):
 
 
 def cover_figure(p, lang, *, priority=False):
-    """Show the real, whole triptych, never a fallback OG title card.
+    """Show the whole triptych; without one, the title card, called a title card.
 
     The byte hash changes when artwork changes without putting arbitrary
     versions on article URLs. A missing asset is reported, but does not block
@@ -258,7 +262,8 @@ def cover_figure(p, lang, *, priority=False):
     """
     slug = p["slug"]
     path = ROOT / "og-art" / f"{slug}.jpg"
-    if path.is_file():
+    triptych = path.is_file()
+    if triptych:
         version = hashlib.sha256(path.read_bytes()).hexdigest()[:12]
         src = f"/og-art/{quote(slug, safe='')}.jpg?v={version}"
     else:
@@ -274,9 +279,11 @@ def cover_figure(p, lang, *, priority=False):
         src = f"/{quote(card.name, safe='')}?v={version}"
     u = UI[lang]
     title = localise(p, lang)["title"]
-    alt = f"{u['coverAlt']}: {title}"
-    full_size_label = f"{u['coverFull']} — {title}"
-    panels, panel_lang = cover_panels(slug, lang)
+    # The fallback is a text card, not artwork: say so, and transcribe no panels.
+    alt_key, full_key = ("coverAlt", "coverFull") if triptych else ("cardAlt", "cardFull")
+    alt = f"{u[alt_key]}: {title}"
+    full_size_label = f"{u[full_key]} — {title}"
+    panels, panel_lang = cover_panels(slug, lang) if triptych else ([], lang)
     transcription = ""
     if panels:
         language_note = (
@@ -296,7 +303,7 @@ def cover_figure(p, lang, *, priority=False):
         f'<img src="{esc(src)}" alt="{esc(alt)}" width="1200" height="630" '
         f'loading="{"eager" if priority else "lazy"}" decoding="async" /></a>'
         f'<figcaption>{transcription}<a href="{esc(src)}" target="_blank" '
-        f'rel="noopener" aria-label="{esc(full_size_label)}">{esc(u["coverFull"])}</a></figcaption></figure>'
+        f'rel="noopener" aria-label="{esc(full_size_label)}">{esc(u[full_key])}</a></figcaption></figure>'
     )
 
 
