@@ -1,5 +1,286 @@
 [
  {
+  "slug": "rebuild-only-what-changed",
+  "title": "Rebuild only what changed: t27 reuses a spec's verdict until something it depends on moves",
+  "summary": "[software verdicts only; 570 of 1811 specs still need their own fixes] t27c now keeps a seal next to each verified spec and reuses its verdict while the spec, its imports, its generated code, its test tools and its configuration are unchanged. On master t27c frontier reuses 1241 of 1811 specs, up from 2 on 9 October; an audit reruns one reused spec in 16 per round, and four rounds found no disagreement.",
+  "date": "2026-10-11",
+  "readingMinutes": 4,
+  "tags": [
+   "t27",
+   "Verification",
+   "Build"
+  ],
+  "receipts": [
+   {
+    "label": "t27#8314: the loop's ledger, a frontier measurement at every step · OPEN",
+    "href": "https://github.com/gHashTag/t27/issues/8314"
+   },
+   {
+    "label": "t27#8095: epic, rebuild only what is not yet verified · OPEN",
+    "href": "https://github.com/gHashTag/t27/issues/8095"
+   },
+   {
+    "label": "t27#8110: seal v2 and t27c frontier · MERGED 2026-10-09",
+    "href": "https://github.com/gHashTag/t27/pull/8110"
+   },
+   {
+    "label": "t27#8372: second re-mint, 727 specs · MERGED 2026-10-09",
+    "href": "https://github.com/gHashTag/t27/pull/8372"
+   },
+   {
+    "label": "t27#8385: frontier resolves item-level use and module-less seals · MERGED 2026-10-09",
+    "href": "https://github.com/gHashTag/t27/pull/8385"
+   },
+   {
+    "label": "t27#8392: t27c frontier --reseal · MERGED 2026-10-10",
+    "href": "https://github.com/gHashTag/t27/pull/8392"
+   },
+   {
+    "label": "t27#8700: --reseal tries never-sealed specs · MERGED 2026-10-10",
+    "href": "https://github.com/gHashTag/t27/pull/8700"
+   },
+   {
+    "label": "t27#8374: a verdict needs at least one check that ran · MERGED 2026-10-09",
+    "href": "https://github.com/gHashTag/t27/pull/8374"
+   },
+   {
+    "label": "t27#8709: a fully vacuous suite is no verdict · MERGED 2026-10-10",
+    "href": "https://github.com/gHashTag/t27/pull/8709"
+   },
+   {
+    "label": "t27#8577: seal --save refuses a regression · MERGED 2026-10-10",
+    "href": "https://github.com/gHashTag/t27/pull/8577"
+   },
+   {
+    "label": "t27#8559: t27c frontier --audit · MERGED 2026-10-10",
+    "href": "https://github.com/gHashTag/t27/pull/8559"
+   },
+   {
+    "label": "t27#8667: gen-zig: pointer and slice parameters, 173 specs moved, 74 passing unchanged · MERGED 2026-10-10",
+    "href": "https://github.com/gHashTag/t27/pull/8667"
+   },
+   {
+    "label": "t27#8155: an agent next to each board · MERGED 2026-10-09",
+    "href": "https://github.com/gHashTag/t27/pull/8155"
+   },
+   {
+    "label": "t27#8296: t27c silicon reuses its bitstream · MERGED 2026-10-09",
+    "href": "https://github.com/gHashTag/t27/pull/8296"
+   }
+  ],
+  "openQuestions": [
+   "A reused verdict is only as good as what its seal records: an input the seal does not name, or a test that passes by luck, is missed until the audit reruns that spec.",
+   "Seals written before t27#8709 carry no vacuous count, so a suite of 0-assert tests sealed earlier is reused until the audit or a re-seal finds it.",
+   "570 of 1811 specs are not reused: 308 have no seal or import a spec that has none, mostly because they do not compile, and 111 have a seal that records a failure or a block. They need their own fixes.",
+   "Hardware verdicts are outside this count: a silicon run still needs the owner's word on the bench, and loading a shared bitstream on a board without a toolchain (P8) is a spec only.",
+   "Twice a pull request of this work merged with a check red that it caused (t27#8415, t27#8667); both were repaired by follow-ups (t27#8418, t27#8672)."
+  ],
+  "published": true,
+  "ru": {
+   "title": "Пересобирать только изменившееся: t27 повторно использует вердикт спеки, пока не сдвинулось то, от чего он зависит",
+   "summary": "[только программные вердикты; 570 спек из 1811 ещё требуют собственных исправлений] t27c теперь хранит печать рядом с каждой проверенной спекой и повторно использует её вердикт, пока не изменились сама спека, её импорты, сгенерированный код, инструменты тестов и конфигурация. На master t27c frontier повторно использует 1241 спеку из 1811 — 9 октября было 2; аудит за раунд перепроверяет одну такую спеку из 16, и четыре раунда расхождений не нашли.",
+   "openQuestions": [
+    "Повторный вердикт хорош ровно настолько, насколько полно его печать записывает входы: вход, которого печать не называет, или тест, проходящий случайно, останется незамеченным, пока аудит не перепроверит эту спеку.",
+    "Печати, записанные до t27#8709, не хранят число пустых тестов, поэтому набор тестов без единой проверки, запечатанный раньше, используется повторно, пока его не найдёт аудит или перепечатка.",
+    "570 спек из 1811 повторно не используются: у 308 нет печати или они импортируют спеку без печати, в основном потому, что не компилируются, а у 111 печать записывает провал или блокировку. Им нужны собственные исправления.",
+    "Вердикты железа в этот счёт не входят: прогон на кремнии по-прежнему требует слова владельца у стенда, а загрузка общего битстрима на плату без инструментов (P8) пока существует только как спека.",
+    "Дважды pull request этой работы слился с красной проверкой, которую сам вызвал (t27#8415, t27#8667); оба раза её исправили следующими PR (t27#8418, t27#8672)."
+   ],
+   "body": [
+    {
+     "kind": "p",
+     "text": "В t27 около 1800 спек, и проверить одну — значит скомпилировать её и прогнать её тесты. Большинство спек между двумя коммитами не меняется, но каждая проверка начиналась с нуля. С 9 октября t27c хранит рядом с каждой проверенной спекой печать (seal) и использует её вердикт повторно, если ничего, от чего он зависит, не изменилось. Сейчас на master так повторно используются 1241 спека из 1811; два дня назад — 2."
+    },
+    {
+     "kind": "h",
+     "text": "Что записано в печати"
+    },
+    {
+     "kind": "p",
+     "text": "Вердикт — это факт о спеке, о спеках, которые она импортирует, о коде, который t27c для неё сгенерировал, об инструментах, прогнавших тесты, и о конфигурации. Печать v2 записывает каждую из этих частей, а `t27c frontier` обходит граф импортов и для каждой спеки отвечает: REUSE или первая часть, которая отличается. Инструменты судятся по результату, а не по версии: если изменение компилятора оставило сгенерированный код спеки байт в байт прежним, её вердикт остаётся в силе."
+    },
+    {
+     "kind": "figure",
+     "svg": "<svg viewBox=\"0 0 720 300\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Спеки, чей вердикт t27c frontier использует повторно: от 2 до 1241 из примерно 1800\" style=\"width:100%;height:auto;font-family:inherit\"><text x=\"10\" y=\"22\" font-size=\"15\" font-weight=\"700\" fill=\"currentColor\">Спеки, которые не перепроверяются заново</text><line x1=\"60\" y1=\"250\" x2=\"670\" y2=\"250\" stroke=\"currentColor\" stroke-opacity=\"0.12\"/><text x=\"52\" y=\"254\" font-size=\"11\" text-anchor=\"end\" fill=\"currentColor\" fill-opacity=\"0.6\">0</text><line x1=\"60\" y1=\"183.33333333333331\" x2=\"670\" y2=\"183.33333333333331\" stroke=\"currentColor\" stroke-opacity=\"0.12\"/><text x=\"52\" y=\"187.33333333333331\" font-size=\"11\" text-anchor=\"end\" fill=\"currentColor\" fill-opacity=\"0.6\">600</text><line x1=\"60\" y1=\"116.66666666666666\" x2=\"670\" y2=\"116.66666666666666\" stroke=\"currentColor\" stroke-opacity=\"0.12\"/><text x=\"52\" y=\"120.66666666666666\" font-size=\"11\" text-anchor=\"end\" fill=\"currentColor\" fill-opacity=\"0.6\">1200</text><line x1=\"60\" y1=\"50\" x2=\"670\" y2=\"50\" stroke=\"currentColor\" stroke-opacity=\"0.12\"/><text x=\"52\" y=\"54\" font-size=\"11\" text-anchor=\"end\" fill=\"currentColor\" fill-opacity=\"0.6\">1800</text><polyline fill=\"none\" stroke=\"#ffd700\" stroke-width=\"3\" points=\"60,249.77777777777777 147.14285714285714,202.88888888888889 234.28571428571428,126.11111111111111 321.42857142857144,120.77777777777777 408.57142857142856,122.88888888888889 495.7142857142857,119.66666666666666 582.8571428571429,117 670,112.11111111111111\"/><circle cx=\"60\" cy=\"249.77777777777777\" r=\"5\" fill=\"#ffd700\"/><text x=\"60\" y=\"237.77777777777777\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">2</text><text x=\"60\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">9 окт</text><circle cx=\"147.14285714285714\" cy=\"202.88888888888889\" r=\"5\" fill=\"#ffd700\"/><text x=\"147.14285714285714\" y=\"190.88888888888889\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">424</text><text x=\"147.14285714285714\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">9 окт 20:18</text><circle cx=\"234.28571428571428\" cy=\"126.11111111111111\" r=\"5\" fill=\"#ffd700\"/><text x=\"234.28571428571428\" y=\"114.11111111111111\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">1115</text><text x=\"234.28571428571428\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">9 окт 21:42</text><circle cx=\"321.42857142857144\" cy=\"120.77777777777777\" r=\"5\" fill=\"#ffd700\"/><text x=\"321.42857142857144\" y=\"108.77777777777777\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">1163</text><text x=\"321.42857142857144\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">9 окт 23:00</text><circle cx=\"408.57142857142856\" cy=\"122.88888888888889\" r=\"5\" fill=\"#ff5c5c\"/><text x=\"408.57142857142856\" y=\"110.88888888888889\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">1144</text><text x=\"408.57142857142856\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">10 окт 12:05</text><circle cx=\"495.7142857142857\" cy=\"119.66666666666666\" r=\"5\" fill=\"#ffd700\"/><text x=\"495.7142857142857\" y=\"107.66666666666666\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">1173</text><text x=\"495.7142857142857\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">10 окт 12:30</text><circle cx=\"582.8571428571429\" cy=\"117\" r=\"5\" fill=\"#ffd700\"/><text x=\"582.8571428571429\" y=\"105\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">1197</text><text x=\"582.8571428571429\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">10 окт 15:50</text><circle cx=\"670\" cy=\"112.11111111111111\" r=\"5\" fill=\"#ffd700\"/><text x=\"670\" y=\"100.11111111111111\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">1241</text><text x=\"670\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">10 окт 17:20</text><text x=\"408.57142857142856\" y=\"148.88888888888889\" font-size=\"11\" text-anchor=\"middle\" fill=\"#ff5c5c\">другие правки 86 спек</text></svg>",
+     "caption": "Спеки, чей вердикт t27c frontier повторно использует на master, измеренные на каждом шаге цикла (журнал t27#8314). Провал в 12:05 10 октября — чужая работа: 86 спек изменили и не запечатали заново. Время — UTC."
+    },
+    {
+     "kind": "h",
+     "text": "Что сдвинуло число"
+    },
+    {
+     "kind": "table",
+     "head": [
+      "Шаг",
+      "Повторно",
+      "PR"
+     ],
+     "rows": [
+      [
+       "Печать v2 и t27c frontier",
+       "2 из 1712",
+       "t27#8110"
+      ],
+      [
+       "Две спеки-узла, которые импортируют все остальные (types, constants)",
+       "424 из 1743",
+       "t27#8177, t27#8209"
+      ],
+      [
+       "Новая печать для каждой спеки, чьи тесты проходят",
+       "1115 из 1751",
+       "t27#8372"
+      ],
+      [
+       "frontier правильно читает `use a::b::Item` и спеки без module",
+       "1151",
+       "t27#8385"
+      ],
+      [
+       "`t27c frontier --reseal`: перепечатка одной командой",
+       "1173",
+       "t27#8392, t27#8554"
+      ],
+      [
+       "Спеки, которые проходили, но их просто ни разу не запечатали",
+       "1241 из 1811",
+       "t27#8700"
+      ]
+     ]
+    },
+    {
+     "kind": "p",
+     "text": "Шесть исправлений перевода t27 в Zig (t27#8415, t27#8418, t27#8566, t27#8617, t27#8636, t27#8667) провели каждое от 2 до 9 спек мимо одной ошибки компиляции. Каждое измерено по всем .t27 в репозитории, и каждое в том же pull request заново запечатало спеки, которые сдвинуло. Один #8667 изменил сгенерированный код 173 спек; 74 из них, которые уже проходили, прогнаны до и после — с одинаковым результатом."
+    },
+    {
+     "kind": "h",
+     "text": "Что держит повторный вердикт честным"
+    },
+    {
+     "kind": "ul",
+     "items": [
+      "Нет вердикта из ничего: спека без тестов и без инвариантов повторно не используется (t27#8374), как и набор тестов, где каждый выполнил 0 проверок (t27#8709).",
+      "`t27c seal --save` отказывается заменить проходящую печать на печать спеки, которая не компилируется, если это не сделано намеренно (t27#8577). Регрессия — не перепечатка.",
+      "`t27c frontier --audit` за раунд заново прогоняет одну повторно используемую спеку из 16 и отравляет печать, если результат расходится (t27#8559). Четыре раунда 10 октября прогнали 259 вердиктов; все совпали.",
+      "Перепечатка, которая перезаписала бы файл печати другой спеки, возвращает его на место (t27#8392; сквозной прогон нашёл пять таких файлов, t27#8540)."
+     ]
+    },
+    {
+     "kind": "h",
+     "text": "На плате"
+    },
+    {
+     "kind": "p",
+     "text": "Та же идея работает на кремнии. Агент рядом с каждой платой (t27#8155) заменяет управление платой по сети: кристалл C, прогнанный для R3-3 через USB/IP, занял около 2,5 часа, а первый прогон агента, на кристалле A, — 42 секунды. Кэш битстрима (t27#8296) сокращает повторную сборку с 39 секунд до 4–5, причём каждое десятое попадание пересобирается и сравнивается байт в байт. Плата по-прежнему работает каждый раз; повторно используется только сборка."
+    },
+    {
+     "kind": "h",
+     "text": "Чего это не показывает"
+    },
+    {
+     "kind": "p",
+     "text": "Повторный вердикт хорош ровно настолько, насколько полно его печать записывает входы: вход, которого она не называет, или тест, проходящий случайно, останутся незамеченными — поэтому аудит постоянно перепроверяет выборку. 570 спек из 1811 всё ещё не используются повторно, и большинству нужны собственные исправления, а не новые инструменты. Дважды за эту работу pull request слился с красной проверкой, которую сам и вызвал (t27#8415, t27#8667); оба раза её исправили следующими PR (t27#8418, t27#8672)."
+    }
+   ]
+  },
+  "body": [
+   {
+    "kind": "p",
+    "text": "t27 has about 1800 specs, and checking one means compiling it and running its tests. Most of them do not change between two commits, yet every check used to start from zero. Since 9 October, t27c keeps a seal next to each verified spec and reuses the verdict when nothing it depends on has changed. On master it now reuses 1241 of 1811 specs; two days ago it reused 2."
+   },
+   {
+    "kind": "h",
+    "text": "What a seal records"
+   },
+   {
+    "kind": "p",
+    "text": "A verdict is a fact about a spec, the specs it imports, the code t27c generated for it, the tools that ran the tests, and the configuration. A v2 seal records each of these, and `t27c frontier` walks the import graph and answers, for every spec, REUSE or the first part that differs. The toolchain is judged by output, not by version: if a compiler change leaves a spec's generated code byte-identical, its verdict stands."
+   },
+   {
+    "kind": "figure",
+    "svg": "<svg viewBox=\"0 0 720 300\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Specs whose verdict t27c frontier reuses, from 2 to 1241 of about 1800\" style=\"width:100%;height:auto;font-family:inherit\"><text x=\"10\" y=\"22\" font-size=\"15\" font-weight=\"700\" fill=\"currentColor\">Specs reused without running again</text><line x1=\"60\" y1=\"250\" x2=\"670\" y2=\"250\" stroke=\"currentColor\" stroke-opacity=\"0.12\"/><text x=\"52\" y=\"254\" font-size=\"11\" text-anchor=\"end\" fill=\"currentColor\" fill-opacity=\"0.6\">0</text><line x1=\"60\" y1=\"183.33333333333331\" x2=\"670\" y2=\"183.33333333333331\" stroke=\"currentColor\" stroke-opacity=\"0.12\"/><text x=\"52\" y=\"187.33333333333331\" font-size=\"11\" text-anchor=\"end\" fill=\"currentColor\" fill-opacity=\"0.6\">600</text><line x1=\"60\" y1=\"116.66666666666666\" x2=\"670\" y2=\"116.66666666666666\" stroke=\"currentColor\" stroke-opacity=\"0.12\"/><text x=\"52\" y=\"120.66666666666666\" font-size=\"11\" text-anchor=\"end\" fill=\"currentColor\" fill-opacity=\"0.6\">1200</text><line x1=\"60\" y1=\"50\" x2=\"670\" y2=\"50\" stroke=\"currentColor\" stroke-opacity=\"0.12\"/><text x=\"52\" y=\"54\" font-size=\"11\" text-anchor=\"end\" fill=\"currentColor\" fill-opacity=\"0.6\">1800</text><polyline fill=\"none\" stroke=\"#ffd700\" stroke-width=\"3\" points=\"60,249.77777777777777 147.14285714285714,202.88888888888889 234.28571428571428,126.11111111111111 321.42857142857144,120.77777777777777 408.57142857142856,122.88888888888889 495.7142857142857,119.66666666666666 582.8571428571429,117 670,112.11111111111111\"/><circle cx=\"60\" cy=\"249.77777777777777\" r=\"5\" fill=\"#ffd700\"/><text x=\"60\" y=\"237.77777777777777\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">2</text><text x=\"60\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">9 Oct</text><circle cx=\"147.14285714285714\" cy=\"202.88888888888889\" r=\"5\" fill=\"#ffd700\"/><text x=\"147.14285714285714\" y=\"190.88888888888889\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">424</text><text x=\"147.14285714285714\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">9 Oct 20:18</text><circle cx=\"234.28571428571428\" cy=\"126.11111111111111\" r=\"5\" fill=\"#ffd700\"/><text x=\"234.28571428571428\" y=\"114.11111111111111\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">1115</text><text x=\"234.28571428571428\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">9 Oct 21:42</text><circle cx=\"321.42857142857144\" cy=\"120.77777777777777\" r=\"5\" fill=\"#ffd700\"/><text x=\"321.42857142857144\" y=\"108.77777777777777\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">1163</text><text x=\"321.42857142857144\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">9 Oct 23:00</text><circle cx=\"408.57142857142856\" cy=\"122.88888888888889\" r=\"5\" fill=\"#ff5c5c\"/><text x=\"408.57142857142856\" y=\"110.88888888888889\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">1144</text><text x=\"408.57142857142856\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">10 Oct 12:05</text><circle cx=\"495.7142857142857\" cy=\"119.66666666666666\" r=\"5\" fill=\"#ffd700\"/><text x=\"495.7142857142857\" y=\"107.66666666666666\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">1173</text><text x=\"495.7142857142857\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">10 Oct 12:30</text><circle cx=\"582.8571428571429\" cy=\"117\" r=\"5\" fill=\"#ffd700\"/><text x=\"582.8571428571429\" y=\"105\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">1197</text><text x=\"582.8571428571429\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">10 Oct 15:50</text><circle cx=\"670\" cy=\"112.11111111111111\" r=\"5\" fill=\"#ffd700\"/><text x=\"670\" y=\"100.11111111111111\" font-size=\"12\" font-weight=\"700\" text-anchor=\"middle\" fill=\"currentColor\">1241</text><text x=\"670\" y=\"268\" font-size=\"10\" text-anchor=\"middle\" fill=\"currentColor\" fill-opacity=\"0.6\">10 Oct 17:20</text><text x=\"408.57142857142856\" y=\"148.88888888888889\" font-size=\"11\" text-anchor=\"middle\" fill=\"#ff5c5c\">others edited 86 specs</text></svg>",
+    "caption": "Specs whose verdict t27c frontier reuses on master, measured at each step of the loop (ledger t27#8314). The dip at 12:05 on 10 October is other work: 86 specs were edited without being sealed again. Times are UTC."
+   },
+   {
+    "kind": "h",
+    "text": "What moved the number"
+   },
+   {
+    "kind": "table",
+    "head": [
+     "Step",
+     "Reused",
+     "PR"
+    ],
+    "rows": [
+     [
+      "Seal v2 and t27c frontier",
+      "2 of 1712",
+      "t27#8110"
+     ],
+     [
+      "The two hub specs every other spec imports (types, constants)",
+      "424 of 1743",
+      "t27#8177, t27#8209"
+     ],
+     [
+      "A re-mint of every spec whose tests pass",
+      "1115 of 1751",
+      "t27#8372"
+     ],
+     [
+      "frontier reads `use a::b::Item` and module-less specs correctly",
+      "1151",
+      "t27#8385"
+     ],
+     [
+      "`t27c frontier --reseal`: the re-mint as one command",
+      "1173",
+      "t27#8392, t27#8554"
+     ],
+     [
+      "Specs that passed and had simply never been sealed",
+      "1241 of 1811",
+      "t27#8700"
+     ]
+    ]
+   },
+   {
+    "kind": "p",
+    "text": "Six fixes to how t27 is translated to Zig (t27#8415, t27#8418, t27#8566, t27#8617, t27#8636, t27#8667) each moved 2 to 9 specs past one compile error. Each one was measured over every .t27 in the repository, and each re-sealed the specs it moved in the same pull request. #8667 alone changed the generated code of 173 specs; the 74 of them that already passed were tested before and after, with identical results."
+   },
+   {
+    "kind": "h",
+    "text": "What keeps a reused verdict honest"
+   },
+   {
+    "kind": "ul",
+    "items": [
+     "No verdict from nothing: a spec with no test and no invariant is never reused (t27#8374), nor is a suite whose every test ran 0 asserts (t27#8709).",
+     "`t27c seal --save` refuses to replace a passing seal with one that does not compile, unless forced (t27#8577). A regression is not a re-seal.",
+     "`t27c frontier --audit` reruns one reused spec in 16 per round and poisons any seal that disagrees (t27#8559). Four rounds on 10 October reran 259 reused verdicts; all agreed.",
+     "A re-mint that would overwrite another spec's seal file writes it back (t27#8392, after the end-to-end run found five such files, t27#8540)."
+    ]
+   },
+   {
+    "kind": "h",
+    "text": "On the board"
+   },
+   {
+    "kind": "p",
+    "text": "The same idea runs on silicon. An agent next to each board (t27#8155) replaces driving a board over the network: die C, run over USB/IP for R3-3, took about 2.5 hours, and the first agent run, on die A, took 42 seconds. A cached bitstream (t27#8296) takes a repeat build from 39 seconds to 4 or 5, with every tenth hit rebuilt and compared byte for byte. The board still runs every time; only the build is reused."
+   },
+   {
+    "kind": "h",
+    "text": "What this does not show"
+   },
+   {
+    "kind": "p",
+    "text": "A reused verdict is only as good as what its seal records: an input it does not name, or a test that passes by luck, would be missed, which is why the audit keeps rerunning a sample. 570 of 1811 specs are still not reused, and most of them need their own fixes, not more tooling. Twice in this work a pull request merged with a check red that it had caused itself (t27#8415, t27#8667); both were repaired by follow-ups (t27#8418, t27#8672)."
+   }
+  ]
+ },
+ {
   "slug": "two-keys-one-verdict",
   "title": "Two keys, one verdict: a second lab signed the same t27 run",
   "summary": "[two keys and two machines under one operator; the 3-of-4 rule exists only in the MVP model] Two t27b labs ran the same t27 commit, a16231329d13, and signed it with different registered Ed25519 keys. The input, verdict and output roots of the two receipts are byte-identical, and t27c corpus-receipt compare judged the pair EQUIVALENT, exit 0. Until today one lab signed every receipt, so in practice it was a chief validator; this is the first real 2-of-2.",

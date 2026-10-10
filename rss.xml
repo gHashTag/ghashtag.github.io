@@ -6,7 +6,17 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 11 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Rebuild only what changed: t27 reuses a spec's verdict until something it depends on moves</title>
+      <link>https://t27.ai/#/blog/rebuild-only-what-changed</link>
+      <guid isPermaLink="false">rebuild-only-what-changed</guid>
+      <pubDate>Sun, 11 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[software verdicts only; 570 of 1811 specs still need their own fixes] t27c now keeps a seal next to each verified spec and reuses its verdict while the spec, its imports, its generated code, its test tools and its configuration are unchanged. On master t27c frontier reuses 1241 of 1811 specs, up from 2 on 9 October; an audit reruns one reused spec in 16 per round, and four rounds found no disagreement.</description>
+      <category>t27</category>
+      <category>Verification</category>
+      <category>Build</category>
+    </item>
     <item>
       <title>Two keys, one verdict: a second lab signed the same t27 run</title>
       <link>https://t27.ai/#/blog/two-keys-one-verdict</link>
