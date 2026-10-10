@@ -6,7 +6,17 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 09 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Two keys, one verdict: a second lab signed the same t27 run</title>
+      <link>https://t27.ai/#/blog/two-keys-one-verdict</link>
+      <guid isPermaLink="false">two-keys-one-verdict</guid>
+      <pubDate>Sat, 10 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[two keys and two machines under one operator; the 3-of-4 rule exists only in the MVP model] Two t27b labs ran the same t27 commit, a16231329d13, and signed it with different registered Ed25519 keys. The input, verdict and output roots of the two receipts are byte-identical, and t27c corpus-receipt compare judged the pair EQUIVALENT, exit 0. Until today one lab signed every receipt, so in practice it was a chief validator; this is the first real 2-of-2.</description>
+      <category>t27</category>
+      <category>Verification</category>
+      <category>Receipts</category>
+    </item>
     <item>
       <title>Three dies, one verdict: a silicon check you run once</title>
       <link>https://t27.ai/#/blog/three-dies-one-verdict</link>

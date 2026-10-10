@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://t27.ai/</loc><lastmod>2026-10-09</lastmod></url>
+  <url><loc>https://t27.ai/</loc><lastmod>2026-10-10</lastmod></url>
   <url><loc>https://t27.ai/gft/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/verification/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/proof/</loc><lastmod>2026-10-08</lastmod></url>
@@ -32,7 +32,7 @@
   <url><loc>https://t27.ai/ru/proof/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/resources/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/verification/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-10-09</lastmod></url>
+  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-10-10</lastmod></url>
   <url><loc>https://t27.ai/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-10-08</lastmod></url>
@@ -132,7 +132,8 @@
   <url><loc>https://t27.ai/blog/twenty-three-reference-models/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/two-bitstreams-one-bit-apart/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/two-courses-twenty-seven-lessons-each/</loc><lastmod>2026-10-09</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-10-09</lastmod></url>
+  <url><loc>https://t27.ai/blog/two-keys-one-verdict/</loc><lastmod>2026-10-10</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-10-10</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-correct-gate-with-a-manual-remedy/</loc><lastmod>2026-10-08</lastmod></url>
@@ -232,6 +233,7 @@
   <url><loc>https://t27.ai/ru/blog/twenty-three-reference-models/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/two-bitstreams-one-bit-apart/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/two-courses-twenty-seven-lessons-each/</loc><lastmod>2026-10-09</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/two-keys-one-verdict/</loc><lastmod>2026-10-10</lastmod></url>
   <url><loc>https://t27.ai/leela/</loc></url>
   <url><loc>https://t27.ai/leela/docs/</loc></url>
 </urlset>

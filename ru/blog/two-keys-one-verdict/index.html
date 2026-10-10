@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Два ключа, один вердикт: вторая лаборатория подписала тот же прогон t27 · TRINITY</title>
+<meta name="description" content="[два ключа и две машины у одного оператора; правило 3 из 4 пока есть только в модели MVP] Две лаборатории t27b прогнали один и тот же коммит t27, a16231329d13, и подписали его разными зарегистрированными Ed25519-ключами. Корни входов, вердиктов и выходов двух квитанций совпадают байт в байт, и t27c corpus-receipt compare признал пару равнозначной: EQUIVALENT, код выхода 0. До сегодняшнего дня все квитанции подписывала одна лаборатория, то есть по сути она была главным валидатором; это первое настоящее совпадение 2 из 2." />
+<link rel="canonical" href="https://t27.ai/ru/blog/two-keys-one-verdict/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/two-keys-one-verdict/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/two-keys-one-verdict/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/two-keys-one-verdict/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/two-keys-one-verdict/" />
+<meta property="og:title" content="Два ключа, один вердикт: вторая лаборатория подписала тот же прогон t27" />
+<meta property="og:description" content="[два ключа и две машины у одного оператора; правило 3 из 4 пока есть только в модели MVP] Две лаборатории t27b прогнали один и тот же коммит t27, a16231329d13, и подписали его разными зарегистрированными Ed25519-ключами. Корни входов, вердиктов и выходов двух квитанций совпадают байт в байт, и t27c corpus-receipt compare признал пару равнозначной: EQUIVALENT, код выхода 0. До сегодняшнего дня все квитанции подписывала одна лаборатория, то есть по сути она была главным валидатором; это первое настоящее совпадение 2 из 2." />
+<meta property="og:image" content="https://t27.ai/og-blog-two-keys-one-verdict-ru.png?v=b8cdcec3cdd9" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Два ключа, один вердикт: вторая лаборатория подписала тот же прогон t27" />
+<meta name="twitter:description" content="[два ключа и две машины у одного оператора; правило 3 из 4 пока есть только в модели MVP] Две лаборатории t27b прогнали один и тот же коммит t27, a16231329d13, и подписали его разными зарегистрированными Ed25519-ключами. Корни входов, вердиктов и выходов двух квитанций совпадают байт в байт, и t27c corpus-receipt compare признал пару равнозначной: EQUIVALENT, код выхода 0. До сегодняшнего дня все квитанции подписывала одна лаборатория, то есть по сути она была главным валидатором; это первое настоящее совпадение 2 из 2." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Два ключа, один вердикт: вторая лаборатория подписала тот же прогон t27","description":"[два ключа и две машины у одного оператора; правило 3 из 4 пока есть только в модели MVP] Две лаборатории t27b прогнали один и тот же коммит t27, a16231329d13, и подписали его разными зарегистрированными Ed25519-ключами. Корни входов, вердиктов и выходов двух квитанций совпадают байт в байт, и t27c corpus-receipt compare признал пару равнозначной: EQUIVALENT, код выхода 0. До сегодняшнего дня все квитанции подписывала одна лаборатория, то есть по сути она была главным валидатором; это первое настоящее совпадение 2 из 2.","url":"https://t27.ai/ru/blog/two-keys-one-verdict/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/two-keys-one-verdict/"},"image":"https://t27.ai/og-blog-two-keys-one-verdict-ru.png?v=b8cdcec3cdd9","datePublished":"2026-10-10","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"t27, Verification, Receipts"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Два ключа, один вердикт: вторая лаборатория подписала тот же прогон t27</h1>
+<p class="meta">2026-10-10 · 3 мин чтения</p>
+<p class="lede">[два ключа и две машины у одного оператора; правило 3 из 4 пока есть только в модели MVP] Две лаборатории t27b прогнали один и тот же коммит t27, a16231329d13, и подписали его разными зарегистрированными Ed25519-ключами. Корни входов, вердиктов и выходов двух квитанций совпадают байт в байт, и t27c corpus-receipt compare признал пару равнозначной: EQUIVALENT, код выхода 0. До сегодняшнего дня все квитанции подписывала одна лаборатория, то есть по сути она была главным валидатором; это первое настоящее совпадение 2 из 2.</p>
+<figure class="blog-cover"><a href="/og-blog-two-keys-one-verdict-ru.png?v=b8cdcec3cdd9" target="_blank" rel="noopener" aria-label="Открыть титульную карточку в исходном размере — Два ключа, один вердикт: вторая лаборатория подписала тот же прогон t27"><img src="/og-blog-two-keys-one-verdict-ru.png?v=b8cdcec3cdd9" alt="Титульная карточка статьи, иллюстрации пока нет: Два ключа, один вердикт: вторая лаборатория подписала тот же прогон t27" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-two-keys-one-verdict-ru.png?v=b8cdcec3cdd9" target="_blank" rel="noopener" aria-label="Открыть титульную карточку в исходном размере — Два ключа, один вердикт: вторая лаборатория подписала тот же прогон t27">Открыть титульную карточку в исходном размере</a></figcaption></figure>
+<div class="tags"><span class="tag">#t27</span><span class="tag">#Verification</span><span class="tag">#Receipts</span></div>
+<p>До сегодняшнего дня каждую квитанцию в сети t27 подписывала одна лаборатория одним ключом. Теперь вторая лаборатория со своим зарегистрированным ключом прогнала тот же коммит и подписала квитанцию, у которой корни входов, вердиктов и выходов совпадают с первой байт в байт. t27c признал пару равнозначной: EQUIVALENT, код выхода 0. Это первый результат t27, который не держится на одном подписанте.</p>
+<h2>Что прогоняли</h2>
+<p>Лаборатория t27b прогоняет весь корпус спецификаций на одном коммите и пишет квитанцию: хеш каждого входного файла (1787), вердикт по каждому файлу (1787) и хеш каждого выхода (1276), по одному корневому хешу на каждый список, и всё это подписано Ed25519-ключом лаборатории. Обе лаборатории прогнали коммит gHashTag/t27 <code>a16231329d13</code> одними и теми же сборками t27b и t27c: в обеих квитанциях записан один и тот же SHA-256 для каждой.</p>
+<div class="tw"><table><thead><tr><th></th><th>t27b-lab</th><th>t27b-lab-2</th></tr></thead><tbody><tr><td>Ключ</td><td><code>a05db80f53c317f6</code></td><td><code>fed03daa6459a7fa</code>, зарегистрирован в t27#8626</td></tr><tr><td>Машина</td><td>24 vCPU</td><td>8 vCPU, отдельный сервис и том на Railway</td></tr><tr><td>Квитанцию отдаёт</td><td>t27b-lab-production.up.railway.app</td><td>t27b-lab-2-production.up.railway.app</td></tr><tr><td>Корни входов, вердиктов, выходов</td><td><code>5aa97d70…</code>, <code>dac9eb29…</code>, <code>9e7f322c…</code></td><td>те же, байт в байт</td></tr></tbody></table></div>
+<h2>Прогон сравнения</h2>
+<p><code>t27c corpus-receipt compare</code> читает две квитанции, сообщает про каждую, подписана ли она и привязаны ли её листья к её корням, а затем сравнивает итоги, входы, вердикты и выходы. На t27b-lab, для её собственной квитанции и квитанции, скачанной с t27b-lab-2, команда напечатала:</p>
+<pre><code>base &quot;a16231329d134aaaf8922cd7b65ef8890084ac77&quot; AUTH_MISSING_NONE AUTHOR leaves-bound true
+head &quot;a16231329d134aaaf8922cd7b65ef8890084ac77&quot; AUTH_MISSING_NONE AUTHOR leaves-bound true
+totals true inputs true verdicts true outputs true: EQUIVALENT
+exit=0</code></pre>
+<figure class="term"><div class="t27-cast" data-src="/term/t27c-receipt-compare-two-labs/session.cast" data-title="t27c corpus-receipt compare · two labs, two keys, one verdict" data-share="https://t27.ai/term/t27c-receipt-compare-two-labs/"><p><strong>t27c corpus-receipt compare · two labs, two keys, one verdict</strong></p></div><figcaption>Записано на t27b-lab по ssh 10 октября в 16:46 UTC: квитанция второй лаборатории заново скачивается по её публичному адресу, grep показывает два разных ключа над одними и теми же тремя корнями, а compare печатает EQUIVALENT, код выхода 0. 44 с; приглашение и набор команд поставлены, вывод — то, что напечатала лаборатория. <a href="https://t27.ai/term/t27c-receipt-compare-two-labs/">Открыть запись на отдельной странице.</a></figcaption></figure>
+<h2>Почему важен второй подписант</h2>
+<p>Белая книга GOLDEN CHAIN (golden-chain-international#140) открывает свои правила пунктом S1: никаких главных валидаторов; власть — у протокола, а не у человека. В сети, где каждую квитанцию подписывает одна лаборатория, главный валидатор есть, что бы ни было написано в документах: если этот единственный ключ ошибается, утерян или нечестен, никто этого не заметит. Второй ключ, который на своей машине приходит к тем же корням, — самый маленький шаг прочь от этого.</p>
+<p>MVP сети, specs/network/mvp.t27 (t27#8638), описывает следующий шаг: прогон принимается только при совпадающих квитанциях 3 подписантов из 4, а подписанта, чья квитанция расходится, штрафуют (slashing). До сих пор такое совпадение было только в модели. Это первое настоящее, 2 из 2.</p>
+<h2>Чего это не показывает</h2>
+<p>Обе лаборатории работают под одним аккаунтом Railway и у одного оператора, так что это два ключа и две машины, а не два оператора. Обе прогоняли одни и те же сборки t27b и t27c, поэтому совпадение показывает, что прогон воспроизводится на второй машине, а не что инструменты правы. И в квитанции второй лаборатории нет одноразового запроса (nonce), поэтому она показывает, что было подписано, но не когда.</p>
+<p>Дальше: внешний оператор, который запустит тот же образ (contrib/railway/t27b-lab в gHashTag/t27) под своим аккаунтом, правило k из n, проверяемое на настоящих квитанциях, а не в модели, и привязка дайджестов квитанций к журналу прозрачности (Rekor), чтобы подписанную квитанцию нельзя было тихо подменить. Все три пункта открыты в t27#8606.</p>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Обе лаборатории работают под одним аккаунтом Railway и у одного оператора: два ключа и две машины, а не два оператора.</li><li>Обе лаборатории прогоняли одни и те же сборки t27b и t27c, поэтому совпадение показывает, что прогон воспроизводится, а не что инструменты правы.</li><li>В квитанции второй лаборатории нет одноразового запроса (nonce), поэтому она показывает, что было подписано, но не когда.</li><li>Правило k из n описано в specs/network/mvp.t27, но ещё не проверяется на настоящих квитанциях, а дайджесты квитанций ещё не привязаны к журналу прозрачности (Rekor).</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/t27/issues/8606#issuecomment-6099696509">t27#8606: the record of the 2-of-2 run, comment of 2026-10-10 · OPEN</a></li><li><a href="https://t27b-lab-production.up.railway.app/runs/a16231329d134aaaf8922cd7b65ef8890084ac77.receipt.json">Receipt from t27b-lab, key a05db80f53c317f6</a></li><li><a href="https://t27b-lab-2-production.up.railway.app/runs/a16231329d134aaaf8922cd7b65ef8890084ac77.receipt.json">Receipt from t27b-lab-2, key fed03daa6459a7fa</a></li><li><a href="https://t27.ai/term/t27c-receipt-compare-two-labs/">The recording: compare prints EQUIVALENT, exit 0</a></li><li><a href="https://github.com/gHashTag/t27/pull/8626">t27#8626: register the second lab signer, key fed03daa6459a7fa · MERGED 2026-10-10</a></li><li><a href="https://github.com/gHashTag/t27/pull/8638">t27#8638: the network MVP, specs/network/mvp.t27 · MERGED 2026-10-10</a></li><li><a href="https://github.com/gHashTag/golden-chain-international/pull/140">golden-chain-international#140: the white paper v0.9, rule S1 · MERGED 2026-10-10</a></li><li><a href="https://github.com/gHashTag/t27/commit/a16231329d134aaaf8922cd7b65ef8890084ac77">The commit both labs ran, a16231329d13</a></li><li><a href="https://github.com/gHashTag/t27/tree/master/contrib/railway/t27b-lab">contrib/railway/t27b-lab: the lab image an outside operator would run</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/?lang=ru#/blog/two-keys-one-verdict">Открыть интерактивную версию</a><a class="btn sec" href="/blog/two-keys-one-verdict/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Поработаем вместе</p><h2 id="blog-work-offer-title">Хотите так же проверить собственный дизайн?</h2><p>Я аудирую RTL и строю независимые побитово точные модели, затем провожу результат через синтез и, когда это полезно, проверяю на плате Artix-7. Первый модуль проверки — бесплатно.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%B4%D0%BB%D1%8F%20T27%20%E2%80%94%20%D0%94%D0%B2%D0%B0%20%D0%BA%D0%BB%D1%8E%D1%87%D0%B0%2C%20%D0%BE%D0%B4%D0%B8%D0%BD%20%D0%B2%D0%B5%D1%80%D0%B4%D0%B8%D0%BA%D1%82%3A%20%D0%B2%D1%82%D0%BE%D1%80%D0%B0%D1%8F%20%D0%BB%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%B8%D1%8F%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%B0%D0%BB%D0%B0%20%D1%82%D0%BE%D1%82%20%D0%B6%D0%B5%20%D0%BF%D1%80%D0%BE%D0%B3%D0%BE%D0%BD%20t27&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%21%20%D0%AF%20%D0%BF%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D0%BB%28%D0%B0%29%20%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8E%20%C2%AB%D0%94%D0%B2%D0%B0%20%D0%BA%D0%BB%D1%8E%D1%87%D0%B0%2C%20%D0%BE%D0%B4%D0%B8%D0%BD%20%D0%B2%D0%B5%D1%80%D0%B4%D0%B8%D0%BA%D1%82%3A%20%D0%B2%D1%82%D0%BE%D1%80%D0%B0%D1%8F%20%D0%BB%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%B8%D1%8F%20%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D0%B0%D0%BB%D0%B0%20%D1%82%D0%BE%D1%82%20%D0%B6%D0%B5%20%D0%BF%D1%80%D0%BE%D0%B3%D0%BE%D0%BD%20t27%C2%BB%3A%20https%3A%2F%2Ft27.ai%2Fru%2Fblog%2Ftwo-keys-one-verdict%2F%0A%0A%D0%9D%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A">Обсудить задачу</a><a class="btn sec" href="/ru/verification/">Услуга верификации</a></div><nav class="work-links" aria-label="Услуги"><span>Услуги:</span><a href="/ru/verification/">Верификация</a><a href="/ru/ip/">Лицензирование IP</a><a href="/ru/course/">Курсы и воркшопы</a><a href="/ru/about/">Контрактная работа</a></nav></section>
+<script type="module">
+import { mount } from '/term/player.js'
+for (const el of document.querySelectorAll('.t27-cast[data-src]')) {
+  mount(el, { src: el.dataset.src, title: el.dataset.title, share: el.dataset.share || undefined })
+}
+</script>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
