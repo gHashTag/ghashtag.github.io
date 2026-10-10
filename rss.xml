@@ -28,6 +28,17 @@
       <category>Receipts</category>
     </item>
     <item>
+      <title>Actors beat the loop on recovery, not everywhere: seven measured changes to the Queen runtime</title>
+      <link>https://t27.ai/#/blog/actors-beat-the-loop-on-recovery-not-everywhere</link>
+      <guid isPermaLink="false">actors-beat-the-loop-on-recovery-not-everywhere</guid>
+      <pubDate>Sat, 10 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[simulated: reviewer, concurrency, turn stop, dispatcher; measured: node-link chaos and waits on PostgreSQL 16, decision replay, the simulation gate; FPGA: synthesis only; nothing in production] On one seeded input the Queen's actor runtime cuts the worst recovery from 1181 s to 27 s and finishes 18.7% more reviews under overload, but it does not win everywhere. Seven changes from a competitor study landed behind flags on 2026-10-09, each with a t27 spec and a benchmark against the code it would replace: a decision log that replays 73,435 decisions with 0 mismatches, turns that really stop, waits as Postgres rows (GitHub reads 180 to 24), a fenced node link (lost mail 21 to 0), and a seeded simulation gate that runs in 33.5 s and found a real runtime bug first. Most of the dispatcher's gain came from a 60-minute turn bound, not from actors, and adaptive concurrency loses with 3 lanes. On an XC7A200T the card as written costs 26,737 LUT and 13 functions do not synthesize; memory, not logic, caps it at about 37,000 actors a board.</description>
+      <category>t27</category>
+      <category>Queen</category>
+      <category>Measurement</category>
+      <category>FPGA</category>
+    </item>
+    <item>
       <title>Three dies, one verdict: a silicon check you run once</title>
       <link>https://t27.ai/#/blog/three-dies-one-verdict</link>
       <guid isPermaLink="false">three-dies-one-verdict</guid>
