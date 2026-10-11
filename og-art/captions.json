@@ -1182,5 +1182,21 @@
         "caption": "No contract on any live network."
       }
     ]
+  },
+  "a-3-mb-compiler-spec-to-aarch64-in-5-ms": {
+    "en": [
+      {
+        "heading": "ONE BINARY",
+        "caption": "Three megabytes, no linker."
+      },
+      {
+        "heading": "MILLISECONDS",
+        "caption": "A spec compiled in about 5 ms."
+      },
+      {
+        "heading": "THE LIMIT",
+        "caption": "Exact on every test, -O0 in speed."
+      }
+    ]
   }
 }
