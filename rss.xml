@@ -60,6 +60,16 @@
       <category>Course</category>
     </item>
     <item>
+      <title>Arithmetic and DSP on the FPGA: 27 lessons, and a widget in each one that runs a t27 spec</title>
+      <link>https://t27.ai/#/blog/arithmetic-and-dsp-a-widget-per-lesson</link>
+      <guid isPermaLink="false">arithmetic-and-dsp-a-widget-per-lesson</guid>
+      <pubDate>Sun, 11 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[every widget runs fn bodies of a t27 spec compiled to wasm; delays in lessons 1 and 26 are the reader's inputs, not device timing] Course 9 teaches the arithmetic an FPGA spends its area on, from the carry chain to a filter: adders, Booth multipliers and the DSP48E1 slice, fixed point, CORDIC, sampling, FIR and CIC filters, the FFT, and a capstone filter computed bit for bit. Five new specs in gHashTag/t27 carry the logic of 26 widgets, with 43 tests and 33 negative controls; the 27th runs the correlator of the existing modem spec.</description>
+      <category>t27</category>
+      <category>FPGA</category>
+      <category>DSP</category>
+    </item>
+    <item>
       <title>Two keys, one verdict: a second lab signed the same t27 run</title>
       <link>https://t27.ai/#/blog/two-keys-one-verdict</link>
       <guid isPermaLink="false">two-keys-one-verdict</guid>
