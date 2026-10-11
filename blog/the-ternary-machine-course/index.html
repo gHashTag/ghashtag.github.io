@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The ternary machine: a course where every widget is a compiled t27 spec · TRINITY</title>
+<meta name="description" content="[the widgets run in the browser; the TRI-27 modules follow the pinned emulator, the rest teaches with small numbers] Course 8 on t27.ai: 27 lessons from why base 3 is cheapest (39 against 40 for every number up to 999999) through balanced ternary, Kleene logic, adders, multiplying without a multiplier, five trits in a byte, the TRI-27 instruction word and a ternary machine, to neurons with weights -1, 0, +1." />
+<link rel="canonical" href="https://t27.ai/blog/the-ternary-machine-course/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-ternary-machine-course/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-ternary-machine-course/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-ternary-machine-course/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/the-ternary-machine-course/" />
+<meta property="og:title" content="The ternary machine: a course where every widget is a compiled t27 spec" />
+<meta property="og:description" content="[the widgets run in the browser; the TRI-27 modules follow the pinned emulator, the rest teaches with small numbers] Course 8 on t27.ai: 27 lessons from why base 3 is cheapest (39 against 40 for every number up to 999999) through balanced ternary, Kleene logic, adders, multiplying without a multiplier, five trits in a byte, the TRI-27 instruction word and a ternary machine, to neurons with weights -1, 0, +1." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-ternary-machine-course.png?v=efc7186bfc29" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The ternary machine: a course where every widget is a compiled t27 spec" />
+<meta name="twitter:description" content="[the widgets run in the browser; the TRI-27 modules follow the pinned emulator, the rest teaches with small numbers] Course 8 on t27.ai: 27 lessons from why base 3 is cheapest (39 against 40 for every number up to 999999) through balanced ternary, Kleene logic, adders, multiplying without a multiplier, five trits in a byte, the TRI-27 instruction word and a ternary machine, to neurons with weights -1, 0, +1." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The ternary machine: a course where every widget is a compiled t27 spec","description":"[the widgets run in the browser; the TRI-27 modules follow the pinned emulator, the rest teaches with small numbers] Course 8 on t27.ai: 27 lessons from why base 3 is cheapest (39 against 40 for every number up to 999999) through balanced ternary, Kleene logic, adders, multiplying without a multiplier, five trits in a byte, the TRI-27 instruction word and a ternary machine, to neurons with weights -1, 0, +1.","url":"https://t27.ai/blog/the-ternary-machine-course/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/the-ternary-machine-course/"},"image":"https://t27.ai/og-blog-the-ternary-machine-course.png?v=efc7186bfc29","datePublished":"2026-10-11","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"t27, Ternary, Course"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>The ternary machine: a course where every widget is a compiled t27 spec</h1>
+<p class="meta">2026-10-11 · 4 min read</p>
+<p class="lede">[the widgets run in the browser; the TRI-27 modules follow the pinned emulator, the rest teaches with small numbers] Course 8 on t27.ai: 27 lessons from why base 3 is cheapest (39 against 40 for every number up to 999999) through balanced ternary, Kleene logic, adders, multiplying without a multiplier, five trits in a byte, the TRI-27 instruction word and a ternary machine, to neurons with weights -1, 0, +1.</p>
+<figure class="blog-cover"><a href="/og-blog-the-ternary-machine-course.png?v=efc7186bfc29" target="_blank" rel="noopener" aria-label="View the title card at full size — The ternary machine: a course where every widget is a compiled t27 spec"><img src="/og-blog-the-ternary-machine-course.png?v=efc7186bfc29" alt="Title card, no illustration yet, for: The ternary machine: a course where every widget is a compiled t27 spec" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-the-ternary-machine-course.png?v=efc7186bfc29" target="_blank" rel="noopener" aria-label="View the title card at full size — The ternary machine: a course where every widget is a compiled t27 spec">View the title card at full size</a></figcaption></figure>
+<div class="tags"><span class="tag">#t27</span><span class="tag">#Ternary</span><span class="tag">#Course</span></div>
+<p>t27.ai has a new course, the eighth: The ternary machine. It starts from why base 3 at all and ends with neurons whose weights are -1, 0 and +1, in 27 lessons of 9 modules. Each lesson opens a widget to press, and every number a widget shows is computed by a t27 spec compiled to WebAssembly in your browser, not written into the page.</p>
+<h2>Why three, and what the argument leaves out</h2>
+<p>Price a digit by how many states it must tell apart, and a number costs base times digits. The first widget runs radix_economy.t27: every number up to 999999 costs 39 in base 3 and 40 in bases 2 and 4, because b / ln b is smallest at e and 3 is the nearest whole base. The lesson also says what that model omits: binary won because two-state parts are cheap, fast and robust.</p>
+<h2>Balanced ternary does arithmetic without special cases</h2>
+<p>With digits -1, 0 and +1 a number needs no sign, negation flips every trit, and cutting trits is already rounding. Adding is a full adder per place; the figure below is the ripple-carry widget&#x27;s opening case, drawn from the same compiled trits.t27 the widget runs.</p>
+<figure><svg viewBox='0 0 520 230' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='13 + 1 in balanced ternary: the carry ripples through three places, +++ becomes +---, which is 14' style='width:100%;height:auto;font-family:inherit'><text x='0' y='46' fill='currentColor' font-size='13'>carry in</text><rect x='130' y='20' width='50' height='40' rx='8' fill='none' stroke='currentColor' stroke-width='2'/><text x='155' y='47' text-anchor='middle' font-size='20' font-weight='700' fill='currentColor'>0</text><rect x='192' y='20' width='50' height='40' rx='8' fill='none' stroke='currentColor' stroke-width='2'/><text x='217' y='47' text-anchor='middle' font-size='20' font-weight='700' fill='currentColor'>0</text><rect x='254' y='20' width='50' height='40' rx='8' fill='none' stroke='#00ff88' stroke-width='2'/><text x='279' y='47' text-anchor='middle' font-size='20' font-weight='700' fill='#00ff88'>+</text><rect x='316' y='20' width='50' height='40' rx='8' fill='none' stroke='#00ff88' stroke-width='2'/><text x='341' y='47' text-anchor='middle' font-size='20' font-weight='700' fill='#00ff88'>+</text><rect x='378' y='20' width='50' height='40' rx='8' fill='none' stroke='#00ff88' stroke-width='2'/><text x='403' y='47' text-anchor='middle' font-size='20' font-weight='700' fill='#00ff88'>+</text><rect x='440' y='20' width='50' height='40' rx='8' fill='none' stroke='currentColor' stroke-width='2'/><text x='465' y='47' text-anchor='middle' font-size='20' font-weight='700' fill='currentColor'>0</text><text x='0' y='96' fill='currentColor' font-size='13'>x = 13</text><rect x='130' y='70' width='50' height='40' rx='8' fill='none' stroke='currentColor' stroke-width='2'/><text x='155' y='97' text-anchor='middle' font-size='20' font-weight='700' fill='currentColor'>0</text><rect x='192' y='70' width='50' height='40' rx='8' fill='none' stroke='currentColor' stroke-width='2'/><text x='217' y='97' text-anchor='middle' font-size='20' font-weight='700' fill='currentColor'>0</text><rect x='254' y='70' width='50' height='40' rx='8' fill='none' stroke='currentColor' stroke-width='2'/><text x='279' y='97' text-anchor='middle' font-size='20' font-weight='700' fill='currentColor'>0</text><rect x='316' y='70' width='50' height='40' rx='8' fill='none' stroke='#00ff88' stroke-width='2'/><text x='341' y='97' text-anchor='middle' font-size='20' font-weight='700' fill='#00ff88'>+</text><rect x='378' y='70' width='50' height='40' rx='8' fill='none' stroke='#00ff88' stroke-width='2'/><text x='403' y='97' text-anchor='middle' font-size='20' font-weight='700' fill='#00ff88'>+</text><rect x='440' y='70' width='50' height='40' rx='8' fill='none' stroke='#00ff88' stroke-width='2'/><text x='465' y='97' text-anchor='middle' font-size='20' font-weight='700' fill='#00ff88'>+</text><text x='0' y='146' fill='currentColor' font-size='13'>y = 1</text><rect x='130' y='120' width='50' height='40' rx='8' fill='none' stroke='currentColor' stroke-width='2'/><text x='155' y='147' text-anchor='middle' font-size='20' font-weight='700' fill='currentColor'>0</text><rect x='192' y='120' width='50' height='40' rx='8' fill='none' stroke='currentColor' stroke-width='2'/><text x='217' y='147' text-anchor='middle' font-size='20' font-weight='700' fill='currentColor'>0</text><rect x='254' y='120' width='50' height='40' rx='8' fill='none' stroke='currentColor' stroke-width='2'/><text x='279' y='147' text-anchor='middle' font-size='20' font-weight='700' fill='currentColor'>0</text><rect x='316' y='120' width='50' height='40' rx='8' fill='none' stroke='currentColor' stroke-width='2'/><text x='341' y='147' text-anchor='middle' font-size='20' font-weight='700' fill='currentColor'>0</text><rect x='378' y='120' width='50' height='40' rx='8' fill='none' stroke='currentColor' stroke-width='2'/><text x='403' y='147' text-anchor='middle' font-size='20' font-weight='700' fill='currentColor'>0</text><rect x='440' y='120' width='50' height='40' rx='8' fill='none' stroke='#00ff88' stroke-width='2'/><text x='465' y='147' text-anchor='middle' font-size='20' font-weight='700' fill='#00ff88'>+</text><text x='0' y='196' fill='currentColor' font-size='13'>sum = 14</text><rect x='130' y='170' width='50' height='40' rx='8' fill='none' stroke='currentColor' stroke-width='2'/><text x='155' y='197' text-anchor='middle' font-size='20' font-weight='700' fill='currentColor'>0</text><rect x='192' y='170' width='50' height='40' rx='8' fill='none' stroke='currentColor' stroke-width='2'/><text x='217' y='197' text-anchor='middle' font-size='20' font-weight='700' fill='currentColor'>0</text><rect x='254' y='170' width='50' height='40' rx='8' fill='none' stroke='#00ff88' stroke-width='2'/><text x='279' y='197' text-anchor='middle' font-size='20' font-weight='700' fill='#00ff88'>+</text><rect x='316' y='170' width='50' height='40' rx='8' fill='none' stroke='#ff4d6d' stroke-width='2'/><text x='341' y='197' text-anchor='middle' font-size='20' font-weight='700' fill='#ff4d6d'>−</text><rect x='378' y='170' width='50' height='40' rx='8' fill='none' stroke='#ff4d6d' stroke-width='2'/><text x='403' y='197' text-anchor='middle' font-size='20' font-weight='700' fill='#ff4d6d'>−</text><rect x='440' y='170' width='50' height='40' rx='8' fill='none' stroke='#ff4d6d' stroke-width='2'/><text x='465' y='197' text-anchor='middle' font-size='20' font-weight='700' fill='#ff4d6d'>−</text><text x='465' y='224' text-anchor='middle' font-size='11' fill='currentColor' opacity='0.6'>1</text><text x='403' y='224' text-anchor='middle' font-size='11' fill='currentColor' opacity='0.6'>3</text><text x='341' y='224' text-anchor='middle' font-size='11' fill='currentColor' opacity='0.6'>9</text><text x='279' y='224' text-anchor='middle' font-size='11' fill='currentColor' opacity='0.6'>27</text><text x='217' y='224' text-anchor='middle' font-size='11' fill='currentColor' opacity='0.6'>81</text><text x='155' y='224' text-anchor='middle' font-size='11' fill='currentColor' opacity='0.6'>243</text></svg><figcaption>13 + 1 in balanced ternary, six places: the ones place makes 2 = 3 - 1, a carry of +1 ripples through three places, and +++ becomes +---, which is 14. Every tile is trit_at(), carry_into() or full_sum() of the compiled trits.t27.</figcaption></figure>
+<p>Multiplying by a trit is a switch: copy, drop or flip. That is the reason ternary neural networks are cheap in hardware, and the course ends there: a MAC that only adds and subtracts, a neuron that can answer not sure, a bar detector and a small layer.</p>
+<h2>The TRI-27 machine, as the emulator really runs it</h2>
+<p>Two modules leave the toy world. The instruction word is the 32-bit word the pinned Trinity emulator decodes: 47 of 256 opcode bytes mean something and the other 209 decode as NOP. The widgets call encode(), opcode_of() and the rest from specs/isa/ternary_encoding.t27. A ternary machine of three 9-trit registers then runs a loop that ends itself on a three-way jump.</p>
+<h2>How it is built</h2>
+<p>The logic is two new specs in gHashTag/t27, trits.t27 and radix_economy.t27: 21 tests, every one executing its asserts, 8 negative controls caught. They read balanced trits through the offset 111...1 in base 3, so no signed division is needed. The 27 widgets share one drawing kit that computes nothing; scripts/widget-logic.mjs holds every compiled logic.js to the spec beside it. Lesson texts quote only numbers the specs or widgets produce, and where a lesson spec is a different machine, such as the binary adders built from ternary neurons, the text says so.</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Radix economy prices a digit by its states; it is a model, not a transistor count, and the lesson says binary won for other reasons.</li><li>The widgets&#x27; machine is a teaching machine with five instructions; only the instruction-word module follows the pinned TRI-27 emulator.</li><li>Two lesson specs, ternary_full_adder.t27 and ternary_ripple_adder.t27, are binary adders built from ternary neurons; the lessons say so.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/t27/pull/8979">t27#8979: trits.t27 and radix_economy.t27 -- 21 tests, 8 of 8 negative controls caught</a></li><li><a href="https://t27.ai/learn/ternary-computing/">The course: The ternary machine</a></li><li><a href="https://t27.ai/widgets/tc-ripple-carry/">The ripple-carry widget</a></li><li><a href="https://t27.ai/widgets/tc-opcode-map/">The opcode map widget</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/the-ternary-machine-course">Open the interactive version</a><a class="btn sec" href="/ru/blog/the-ternary-machine-course/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Need arithmetic built for your constraints?</h2><p>I design low-precision and ternary formats, synthesizable RTL, independent reference models and bit-exact vectors. Existing measured cores can also be licensed.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20The%20ternary%20machine%3A%20a%20course%20where%20every%20widget%20is%20a%20compiled%20t27%20spec&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CThe%20ternary%20machine%3A%20a%20course%20where%20every%20widget%20is%20a%20compiled%20t27%20spec%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fthe-ternary-machine-course%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/ip/">See IP and custom arithmetic</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

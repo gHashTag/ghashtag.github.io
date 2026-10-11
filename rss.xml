@@ -50,6 +50,16 @@
       <category>Signal integrity</category>
     </item>
     <item>
+      <title>The ternary machine: a course where every widget is a compiled t27 spec</title>
+      <link>https://t27.ai/#/blog/the-ternary-machine-course</link>
+      <guid isPermaLink="false">the-ternary-machine-course</guid>
+      <pubDate>Sun, 11 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[the widgets run in the browser; the TRI-27 modules follow the pinned emulator, the rest teaches with small numbers] Course 8 on t27.ai: 27 lessons from why base 3 is cheapest (39 against 40 for every number up to 999999) through balanced ternary, Kleene logic, adders, multiplying without a multiplier, five trits in a byte, the TRI-27 instruction word and a ternary machine, to neurons with weights -1, 0, +1.</description>
+      <category>t27</category>
+      <category>Ternary</category>
+      <category>Course</category>
+    </item>
+    <item>
       <title>Two keys, one verdict: a second lab signed the same t27 run</title>
       <link>https://t27.ai/#/blog/two-keys-one-verdict</link>
       <guid isPermaLink="false">two-keys-one-verdict</guid>
