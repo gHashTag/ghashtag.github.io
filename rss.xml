@@ -18,6 +18,17 @@
       <category>Build</category>
     </item>
     <item>
+      <title>A 3 MB compiler that turns a spec into AArch64 code in 5 ms, and where it still loses</title>
+      <link>https://t27.ai/#/blog/a-3-mb-compiler-spec-to-aarch64-in-5-ms</link>
+      <guid isPermaLink="false">a-3-mb-compiler-spec-to-aarch64-in-5-ms</guid>
+      <pubDate>Sun, 11 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[measured on a shared Railway lab; run times are qemu emulation, instruction counts are exact; t27b's code is -O0 class] t27b 0.2.0, released with the signed receipt of the very binary it ships, compiles a t27 spec with its tests in about 4.8 ms as a native x86_64 cross-compiler: 8.8x faster than gen-c plus gcc -O0 and about 640x faster than zig Debug per spec, in 5.3 MiB of memory, from one binary of about 3 MB, and it agrees with the reference on all 8,344 tests both ran. It is not a breakthrough in generated code: it executes 3.4x the instructions of gcc -O2 and 4.5x those of zig ReleaseFast, its code is up to 2x larger, and on Linux it is a JIT test runner that cannot yet write an ELF binary. Over the week its share of the reference's passing specs rose from 8.6% to 98.9%.</description>
+      <category>t27</category>
+      <category>Compiler</category>
+      <category>Measurement</category>
+      <category>Verification</category>
+    </item>
+    <item>
       <title>Two keys, one verdict: a second lab signed the same t27 run</title>
       <link>https://t27.ai/#/blog/two-keys-one-verdict</link>
       <guid isPermaLink="false">two-keys-one-verdict</guid>
