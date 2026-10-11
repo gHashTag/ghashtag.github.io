@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Три виджета о физике под шиной: отражения, закрывающийся глаз, слово ECC · TRINITY</title>
+<meta name="description" content="[логика каждого виджета — спека t27, собранная в wasm; линия без потерь, канал с одним полюсом, значения введены руками, с платы ничего не читалось] Ступенька 1 В от драйвера 25 Ом в открытую линию 50 Ом приходит на дальний конец как 1,333, 0,889, 1,037, 0,988 В и только потом устанавливается на 1 В; один RC-полюс оставляет четверть глаза при T = TAU и закрывает его при TAU ln 2; 13-битное слово SECDED исправляет любую одиночную ошибку и ловит любые две. Три новых виджета показывают это, каждый исполняет тела функций своей спеки t27; за ними 20 тестов спек и 15 отрицательных контролей." />
+<link rel="canonical" href="https://t27.ai/ru/blog/three-widgets-under-the-bus/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/three-widgets-under-the-bus/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/three-widgets-under-the-bus/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/three-widgets-under-the-bus/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/three-widgets-under-the-bus/" />
+<meta property="og:title" content="Три виджета о физике под шиной: отражения, закрывающийся глаз, слово ECC" />
+<meta property="og:description" content="[логика каждого виджета — спека t27, собранная в wasm; линия без потерь, канал с одним полюсом, значения введены руками, с платы ничего не читалось] Ступенька 1 В от драйвера 25 Ом в открытую линию 50 Ом приходит на дальний конец как 1,333, 0,889, 1,037, 0,988 В и только потом устанавливается на 1 В; один RC-полюс оставляет четверть глаза при T = TAU и закрывает его при TAU ln 2; 13-битное слово SECDED исправляет любую одиночную ошибку и ловит любые две. Три новых виджета показывают это, каждый исполняет тела функций своей спеки t27; за ними 20 тестов спек и 15 отрицательных контролей." />
+<meta property="og:image" content="https://t27.ai/og-blog-three-widgets-under-the-bus-ru.png?v=43706a58289d" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Три виджета о физике под шиной: отражения, закрывающийся глаз, слово ECC" />
+<meta name="twitter:description" content="[логика каждого виджета — спека t27, собранная в wasm; линия без потерь, канал с одним полюсом, значения введены руками, с платы ничего не читалось] Ступенька 1 В от драйвера 25 Ом в открытую линию 50 Ом приходит на дальний конец как 1,333, 0,889, 1,037, 0,988 В и только потом устанавливается на 1 В; один RC-полюс оставляет четверть глаза при T = TAU и закрывает его при TAU ln 2; 13-битное слово SECDED исправляет любую одиночную ошибку и ловит любые две. Три новых виджета показывают это, каждый исполняет тела функций своей спеки t27; за ними 20 тестов спек и 15 отрицательных контролей." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Три виджета о физике под шиной: отражения, закрывающийся глаз, слово ECC","description":"[логика каждого виджета — спека t27, собранная в wasm; линия без потерь, канал с одним полюсом, значения введены руками, с платы ничего не читалось] Ступенька 1 В от драйвера 25 Ом в открытую линию 50 Ом приходит на дальний конец как 1,333, 0,889, 1,037, 0,988 В и только потом устанавливается на 1 В; один RC-полюс оставляет четверть глаза при T = TAU и закрывает его при TAU ln 2; 13-битное слово SECDED исправляет любую одиночную ошибку и ловит любые две. Три новых виджета показывают это, каждый исполняет тела функций своей спеки t27; за ними 20 тестов спек и 15 отрицательных контролей.","url":"https://t27.ai/ru/blog/three-widgets-under-the-bus/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/three-widgets-under-the-bus/"},"image":"https://t27.ai/og-blog-three-widgets-under-the-bus-ru.png?v=43706a58289d","datePublished":"2026-10-11","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"t27, FPGA, Signal integrity"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Три виджета о физике под шиной: отражения, закрывающийся глаз, слово ECC</h1>
+<p class="meta">2026-10-11 · 4 мин чтения</p>
+<p class="lede">[логика каждого виджета — спека t27, собранная в wasm; линия без потерь, канал с одним полюсом, значения введены руками, с платы ничего не читалось] Ступенька 1 В от драйвера 25 Ом в открытую линию 50 Ом приходит на дальний конец как 1,333, 0,889, 1,037, 0,988 В и только потом устанавливается на 1 В; один RC-полюс оставляет четверть глаза при T = TAU и закрывает его при TAU ln 2; 13-битное слово SECDED исправляет любую одиночную ошибку и ловит любые две. Три новых виджета показывают это, каждый исполняет тела функций своей спеки t27; за ними 20 тестов спек и 15 отрицательных контролей.</p>
+<figure class="blog-cover"><a href="/og-blog-three-widgets-under-the-bus-ru.png?v=43706a58289d" target="_blank" rel="noopener" aria-label="Открыть титульную карточку в исходном размере — Три виджета о физике под шиной: отражения, закрывающийся глаз, слово ECC"><img src="/og-blog-three-widgets-under-the-bus-ru.png?v=43706a58289d" alt="Титульная карточка статьи, иллюстрации пока нет: Три виджета о физике под шиной: отражения, закрывающийся глаз, слово ECC" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-three-widgets-under-the-bus-ru.png?v=43706a58289d" target="_blank" rel="noopener" aria-label="Открыть титульную карточку в исходном размере — Три виджета о физике под шиной: отражения, закрывающийся глаз, слово ECC">Открыть титульную карточку в исходном размере</a></figcaption></figure>
+<div class="tags"><span class="tag">#t27</span><span class="tag">#FPGA</span><span class="tag">#SignalIntegrity</span></div>
+<p>Курс про шины учит протоколам: UART, SPI, APB, AXI4, Ethernet. Под каждым из них физика, о которой протокол молчит: провод — это линия передачи, быстрый фронт приходит не один раз, короткий бит не успевает дорасти, а ячейка памяти может перевернуться. Три новых виджета показывают эти три вещи, и ни один не считает ничего сам: их логика — тела функций спеки t27, собранные в WebAssembly, поэтому страница рисует ровно то, что утверждают тесты спеки.</p>
+<h2>Ступенька по линии приходит не один раз</h2>
+<p>line-bounce исполняет specs/fpga/line_bounce.t27: драйвер с сопротивлением RS посылает ступеньку в линию с импедансом Z0; каждый конец отражает с коэффициентом (R - Z0) / (R + Z0). С учебными значениями Джонсона и Грэма — ступенька 1 В, RS 25 Ом, Z0 50 Ом, открытый конец — дальний конец показывает 1,333 В при первом приходе, затем 0,889, 1,037, 0,988 и устанавливается на 1 В. Коэффициенты отражения разных знаков, поэтому сигнал звенит. Последовательный резистор, при котором RS равно Z0, приводит к 1 В с первого прихода; нагрузка 50 Ом на дальнем конце убирает отражение совсем.</p>
+<figure><svg viewBox='0 0 720 210' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='дальний конец (нагрузка): 1,333, 0,889, 1,037, 0,988' style='width:100%;height:auto;font-family:inherit'><line x1='60' x2='680' y1='73.5' y2='73.5' stroke='currentColor' stroke-opacity='0.5' stroke-dasharray='5 5'/><line x1='60' x2='680' y1='170.0' y2='170.0' stroke='currentColor' stroke-opacity='0.25'/><path d='M60.0,105.6H137.5V62.7H215.0V77.0H292.5V72.3H370.0V73.8H447.5V73.3H525.0V73.5H602.5V73.4H680' fill='none' stroke='#d4af37' stroke-width='2'/><path d='M60.0,170.0H98.8V41.3H176.3V84.2H253.8V69.9H331.3V74.6H408.8V73.1H486.3V73.6H563.8V73.4H641.3V73.5H680' fill='none' stroke='currentColor' stroke-width='2.5'/><text x='102.8' y='35.3' font-size='12' fill='currentColor'>1,333</text><text x='180.3' y='78.2' font-size='12' fill='currentColor'>0,889</text><text x='257.8' y='63.9' font-size='12' fill='currentColor'>1,037</text><text x='335.3' y='68.6' font-size='12' fill='currentColor'>0,988</text><text x='470' y='24' font-size='12' fill='currentColor'>— дальний конец (нагрузка)</text><text x='470' y='40' font-size='12' fill='#d4af37'>— ближний конец (драйвер)</text><text x='470' y='56' font-size='12' fill='currentColor' fill-opacity='0.7'>- - устанавливается на 1,000 В</text><text x='680' y='200' font-size='11' text-anchor='end' fill='currentColor' fill-opacity='0.7'>время, в задержках TD</text></svg><figcaption>Дальний (белый) и ближний (золотой) концы для ступеньки 1 В от драйвера 25 Ом в открытую линию 50 Ом, посчитанные собранной line_bounce.t27, которую исполняет виджет: 1,333, 0,889, 1,037, 0,988 В, установление на 1 В.</figcaption></figure>
+<h2>Короткий бит не успевает дорасти</h2>
+<p>eye-isi исполняет specs/fpga/eye_isi.t27: один RC-полюс с постоянной TAU, взятый в конце каждого бита, даёт y[n] = a y[n-1] + (1 - a) x[n], где a = exp(-T/TAU). Худшая единица доходит до 1 - a, худший ноль остаётся на a, поэтому глаз равен 1 - 2a: четверть размаха при T = TAU и закрыт при T = TAU ln 2. Виджет пропускает через канал два периода PRBS7 и мерит нарисованный глаз: 26,5% при T = TAU против худшего случая формулы 26,4% (у PRBS7 нет бесконечно длинной серии). При T = 0,6 TAU глаз закрыт; отвод de-emphasis 25% открывает его до 21,6%. Сама exp тоже в спеке — рядом, с тестами.</p>
+<h2>Одну ошибку исправит, две поймает</h2>
+<p>ecc-secded исполняет specs/fpga/secded.t27: 8 бит данных, проверочные биты Хэмминга на позициях 1, 2, 4 и 8 и общий бит чётности на 0 — та же конструкция, что у памяти с ECC на словах по 72 бита. Нажмите любой бит, чтобы перевернуть его: синдром — это номер бита в двоичном виде, и байт возвращается. Переверните два — чётность остаётся чётной, а синдром не ноль: обнаружено, не исправлено. Тесты спеки проверяют каждый байт, каждую одиночную и каждую пару ошибок трёх слов.</p>
+<h2>Чего это не показывает</h2>
+<ul><li>Линия без потерь, нагрузка — резистор, фронт идеальный; у настоящей дорожки есть потери, переходные отверстия и ёмкость вывода.</li><li>Один полюс — это механизм межсимвольной интерференции, а не бюджет линка: нет джиттера, перекрёстных помех и шума приёмника.</li><li>Три и больше ошибок в SECDED могут выглядеть как одна и исправиться неверно; виджет говорит об этом.</li></ul>
+<h2>Попробовать</h2>
+<ul><li>t27.ai/widgets/line-bounce/</li><li>t27.ai/widgets/eye-isi/</li><li>t27.ai/widgets/ecc-secded/</li><li>Спеки: gHashTag/t27 specs/fpga/line_bounce.t27, eye_isi.t27, secded.t27</li></ul>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Линия без потерь, нагрузка — резистор; ни одна дорожка нашей платы для этого поста не мерилась.</li><li>Один полюс — механизм межсимвольной интерференции, а не бюджет линка: нет джиттера, перекрёстных помех и шума приёмника.</li><li>Три и больше ошибок в SECDED могут выглядеть как одна; виджет это говорит, тесты этого не покрывают.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/t27/pull/8931">t27#8931: line_bounce.t27, eye_isi.t27, secded.t27 -- 20 tests, 15 of 15 negative controls caught</a></li><li><a href="https://t27.ai/widgets/line-bounce/">The line bounce widget</a></li><li><a href="https://t27.ai/widgets/eye-isi/">The eye and ISI widget</a></li><li><a href="https://t27.ai/widgets/ecc-secded/">The ECC SECDED widget</a></li><li><a href="https://t27.ai/learn/buses-and-peripherals/">The buses course, where the three sit beside their lessons</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/?lang=ru#/blog/three-widgets-under-the-bus">Открыть интерактивную версию</a><a class="btn sec" href="/blog/three-widgets-under-the-bus/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Поработаем вместе</p><h2 id="blog-work-offer-title">Нужно довести FPGA/RTL-задачу до замеров на железе?</h2><p>Работаю по контракту и part-time с hardware-AI, FPGA/RTL и ML-системами — от спецификации и открытого тулчейна до воспроизводимых измерений.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%B4%D0%BB%D1%8F%20T27%20%E2%80%94%20%D0%A2%D1%80%D0%B8%20%D0%B2%D0%B8%D0%B4%D0%B6%D0%B5%D1%82%D0%B0%20%D0%BE%20%D1%84%D0%B8%D0%B7%D0%B8%D0%BA%D0%B5%20%D0%BF%D0%BE%D0%B4%20%D1%88%D0%B8%D0%BD%D0%BE%D0%B9%3A%20%D0%BE%D1%82%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%2C%20%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D0%B2%D0%B0%D1%8E%D1%89%D0%B8%D0%B9%D1%81%D1%8F%20%D0%B3%D0%BB%D0%B0%D0%B7%2C%20%D1%81%D0%BB%D0%BE%D0%B2%D0%BE%20ECC&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%21%20%D0%AF%20%D0%BF%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D0%BB%28%D0%B0%29%20%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8E%20%C2%AB%D0%A2%D1%80%D0%B8%20%D0%B2%D0%B8%D0%B4%D0%B6%D0%B5%D1%82%D0%B0%20%D0%BE%20%D1%84%D0%B8%D0%B7%D0%B8%D0%BA%D0%B5%20%D0%BF%D0%BE%D0%B4%20%D1%88%D0%B8%D0%BD%D0%BE%D0%B9%3A%20%D0%BE%D1%82%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%2C%20%D0%B7%D0%B0%D0%BA%D1%80%D1%8B%D0%B2%D0%B0%D1%8E%D1%89%D0%B8%D0%B9%D1%81%D1%8F%20%D0%B3%D0%BB%D0%B0%D0%B7%2C%20%D1%81%D0%BB%D0%BE%D0%B2%D0%BE%20ECC%C2%BB%3A%20https%3A%2F%2Ft27.ai%2Fru%2Fblog%2Fthree-widgets-under-the-bus%2F%0A%0A%D0%9D%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A">Обсудить задачу</a><a class="btn sec" href="/ru/about/">Как я работаю</a></div><nav class="work-links" aria-label="Услуги"><span>Услуги:</span><a href="/ru/verification/">Верификация</a><a href="/ru/ip/">Лицензирование IP</a><a href="/ru/course/">Курсы и воркшопы</a><a href="/ru/about/">Контрактная работа</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
