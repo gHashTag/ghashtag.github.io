@@ -6,7 +6,17 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 11 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 12 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>A WASM interpreter ran on the board: 134 of 134, from a spec</title>
+      <link>https://t27.ai/#/blog/a-wasm-interpreter-ran-on-the-board</link>
+      <guid isPermaLink="false">a-wasm-interpreter-ran-on-the-board</guid>
+      <pubDate>Mon, 12 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[the programs live in a ROM built from the spec; the wire carries requests, not .wasm binaries; one board, one night, six runs] A t27 spec in gHashTag/t27 (branch wasm-board, 351e3cdf4) became a Verilog core through t27c gen-verilog, passed through openXC7 onto an ALINX AX7203, and answered 134 of 134 requests exactly -- six runs in a row, 804 of 804. 21 opcodes of the WASM MVP set, a 14-program 101-byte ROM, i32.mul as a 32-clock shift-add microsequence; timing went from 18.57 to 70.41 MHz against a 68.7 bar at one percent of the LUTs -- every frequency here is a nextpnr estimate, not sign-off timing. The self-tested conformance harness caught a wire-offset bug that would have failed 76 checks against a perfectly working board.</description>
+      <category>t27</category>
+      <category>FPGA</category>
+      <category>WASM</category>
+    </item>
     <item>
       <title>Rebuild only what changed: t27 reuses a spec's verdict until something it depends on moves</title>
       <link>https://t27.ai/#/blog/rebuild-only-what-changed</link>
