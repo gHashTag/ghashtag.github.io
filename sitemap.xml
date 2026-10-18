@@ -32,7 +32,7 @@
   <url><loc>https://t27.ai/ru/proof/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/resources/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/verification/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-10-12</lastmod></url>
+  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://t27.ai/blog/a-3-mb-compiler-spec-to-aarch64-in-5-ms/</loc><lastmod>2026-10-11</lastmod></url>
   <url><loc>https://t27.ai/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-10-08</lastmod></url>
@@ -84,6 +84,7 @@
   <url><loc>https://t27.ai/blog/i-wrote-the-post-then-did-the-thing/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/mask-over-scale-ternary-drafts-that-compile/</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://t27.ai/blog/merge-diff-ci-boundaries/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://t27.ai/blog/neural-networks-in-t27-a-widget-per-lesson/</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://t27.ai/blog/nine-modules-of-three-again/</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://t27.ai/blog/ninety-tests-were-unreachable/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/nobodys-example/</loc><lastmod>2026-10-08</lastmod></url>
@@ -141,7 +142,7 @@
   <url><loc>https://t27.ai/blog/two-bitstreams-one-bit-apart/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/two-courses-twenty-seven-lessons-each/</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://t27.ai/blog/two-keys-one-verdict/</loc><lastmod>2026-10-10</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-10-12</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-3-mb-compiler-spec-to-aarch64-in-5-ms/</loc><lastmod>2026-10-11</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-10-08</lastmod></url>
@@ -193,6 +194,7 @@
   <url><loc>https://t27.ai/ru/blog/i-wrote-the-post-then-did-the-thing/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/mask-over-scale-ternary-drafts-that-compile/</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/merge-diff-ci-boundaries/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/neural-networks-in-t27-a-widget-per-lesson/</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/nine-modules-of-three-again/</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/ninety-tests-were-unreachable/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/nobodys-example/</loc><lastmod>2026-10-08</lastmod></url>

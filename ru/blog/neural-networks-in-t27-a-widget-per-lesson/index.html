@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Нейросети на t27: 27 уроков, и в каждом виджет, который исполняет спеку specs/ml · TRINITY</title>
+<meta name="description" content="[каждый виджет исполняет тела функций спеки gHashTag/t27 specs/ml, собранные в wasm; урок 10 это усредняющий пулинг, пока не слита t27#10612; фикстуры взяты из самих спек, на настоящих данных ничего не обучалось] Курс 10 открывает части, которыми думают агенты проекта: ReLU, GELU и softmax, эмбеддинги и dropout, пулинг и пакетную нормализацию, MSE, перекрёстную энтропию и функцию Хьюбера, SGD, RMSProp, Adam и LAMB, обратное распространение, сеть 2-8-1, которая учит XOR в браузере, рекуррентную ячейку, вентили LSTM, внимание, позиционное кодирование, блок энкодера и PPO." />
+<link rel="canonical" href="https://t27.ai/ru/blog/neural-networks-in-t27-a-widget-per-lesson/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/neural-networks-in-t27-a-widget-per-lesson/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/neural-networks-in-t27-a-widget-per-lesson/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/neural-networks-in-t27-a-widget-per-lesson/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/neural-networks-in-t27-a-widget-per-lesson/" />
+<meta property="og:title" content="Нейросети на t27: 27 уроков, и в каждом виджет, который исполняет спеку specs/ml" />
+<meta property="og:description" content="[каждый виджет исполняет тела функций спеки gHashTag/t27 specs/ml, собранные в wasm; урок 10 это усредняющий пулинг, пока не слита t27#10612; фикстуры взяты из самих спек, на настоящих данных ничего не обучалось] Курс 10 открывает части, которыми думают агенты проекта: ReLU, GELU и softmax, эмбеддинги и dropout, пулинг и пакетную нормализацию, MSE, перекрёстную энтропию и функцию Хьюбера, SGD, RMSProp, Adam и LAMB, обратное распространение, сеть 2-8-1, которая учит XOR в браузере, рекуррентную ячейку, вентили LSTM, внимание, позиционное кодирование, блок энкодера и PPO." />
+<meta property="og:image" content="https://t27.ai/og-blog-neural-networks-in-t27-a-widget-per-lesson-ru.png?v=5a2e276b8f08" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Нейросети на t27: 27 уроков, и в каждом виджет, который исполняет спеку specs/ml" />
+<meta name="twitter:description" content="[каждый виджет исполняет тела функций спеки gHashTag/t27 specs/ml, собранные в wasm; урок 10 это усредняющий пулинг, пока не слита t27#10612; фикстуры взяты из самих спек, на настоящих данных ничего не обучалось] Курс 10 открывает части, которыми думают агенты проекта: ReLU, GELU и softmax, эмбеддинги и dropout, пулинг и пакетную нормализацию, MSE, перекрёстную энтропию и функцию Хьюбера, SGD, RMSProp, Adam и LAMB, обратное распространение, сеть 2-8-1, которая учит XOR в браузере, рекуррентную ячейку, вентили LSTM, внимание, позиционное кодирование, блок энкодера и PPO." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Нейросети на t27: 27 уроков, и в каждом виджет, который исполняет спеку specs/ml","description":"[каждый виджет исполняет тела функций спеки gHashTag/t27 specs/ml, собранные в wasm; урок 10 это усредняющий пулинг, пока не слита t27#10612; фикстуры взяты из самих спек, на настоящих данных ничего не обучалось] Курс 10 открывает части, которыми думают агенты проекта: ReLU, GELU и softmax, эмбеддинги и dropout, пулинг и пакетную нормализацию, MSE, перекрёстную энтропию и функцию Хьюбера, SGD, RMSProp, Adam и LAMB, обратное распространение, сеть 2-8-1, которая учит XOR в браузере, рекуррентную ячейку, вентили LSTM, внимание, позиционное кодирование, блок энкодера и PPO.","url":"https://t27.ai/ru/blog/neural-networks-in-t27-a-widget-per-lesson/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/neural-networks-in-t27-a-widget-per-lesson/"},"image":"https://t27.ai/og-blog-neural-networks-in-t27-a-widget-per-lesson-ru.png?v=5a2e276b8f08","datePublished":"2026-10-18","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"t27, Course, AI"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Нейросети на t27: 27 уроков, и в каждом виджет, который исполняет спеку specs/ml</h1>
+<p class="meta">2026-10-18 · 4 мин чтения</p>
+<p class="lede">[каждый виджет исполняет тела функций спеки gHashTag/t27 specs/ml, собранные в wasm; урок 10 это усредняющий пулинг, пока не слита t27#10612; фикстуры взяты из самих спек, на настоящих данных ничего не обучалось] Курс 10 открывает части, которыми думают агенты проекта: ReLU, GELU и softmax, эмбеддинги и dropout, пулинг и пакетную нормализацию, MSE, перекрёстную энтропию и функцию Хьюбера, SGD, RMSProp, Adam и LAMB, обратное распространение, сеть 2-8-1, которая учит XOR в браузере, рекуррентную ячейку, вентили LSTM, внимание, позиционное кодирование, блок энкодера и PPO.</p>
+<figure class="blog-cover"><a href="/og-blog-neural-networks-in-t27-a-widget-per-lesson-ru.png?v=5a2e276b8f08" target="_blank" rel="noopener" aria-label="Открыть титульную карточку в исходном размере — Нейросети на t27: 27 уроков, и в каждом виджет, который исполняет спеку specs/ml"><img src="/og-blog-neural-networks-in-t27-a-widget-per-lesson-ru.png?v=5a2e276b8f08" alt="Титульная карточка статьи, иллюстрации пока нет: Нейросети на t27: 27 уроков, и в каждом виджет, который исполняет спеку specs/ml" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-neural-networks-in-t27-a-widget-per-lesson-ru.png?v=5a2e276b8f08" target="_blank" rel="noopener" aria-label="Открыть титульную карточку в исходном размере — Нейросети на t27: 27 уроков, и в каждом виджет, который исполняет спеку specs/ml">Открыть титульную карточку в исходном размере</a></figcaption></figure>
+<div class="tags"><span class="tag">#t27</span><span class="tag">#Course</span><span class="tag">#AI</span></div>
+<p>На t27.ai вышел курс 10: Нейросети на t27, от одного нейрона до блока трансформера. Агенты этого проекта думают нейросетями, а части, из которых эти сети собраны, уже лежат в gHashTag/t27 спеками с числовыми тестами: функции активации, слои, функции потерь, оптимизаторы, рекуррентные ячейки, внимание, блок трансформера. Курс открывает их по одной. В нём 27 уроков в 9 модулях, каждый урок начинается с вопроса, который задал бы любопытный человек, и виджет отвечает на него числами, которые вычисляют тела fn самой спеки, скомпилированные в WebAssembly и запущенные в вашем браузере.</p>
+<h2>Девять модулей, двадцать семь виджетов</h2>
+<div class="tw"><table><thead><tr><th>Модуль</th><th>Виджеты</th><th>Спеки в specs/ml</th></tr></thead><tbody><tr><td>Один нейрон</td><td>nn-relu, nn-sigmoid, nn-tanh</td><td>relu_activation, sigmoid_activation, tanh_activation</td></tr><tr><td>Новые изгибы</td><td>nn-gelu, nn-silu, nn-elu</td><td>gelu_activation, silu_swish_activation, elu_activation</td></tr><tr><td>Слой</td><td>nn-softmax, nn-embedding, nn-dropout</td><td>softmax, embedding_layer, dropout_layer</td></tr><tr><td>Картинки</td><td>nn-conv, nn-maxpool, nn-batchnorm</td><td>avgpool2d_layer, maxpool2d_layer, batchnorm_layer</td></tr><tr><td>Ошибка</td><td>nn-mse, nn-bce, nn-huber</td><td>mse_loss, binary_crossentropy_loss, huber_loss</td></tr><tr><td>Под гору</td><td>nn-sgd, nn-rmsprop, nn-adam</td><td>sgd, rmsprop, adam</td></tr><tr><td>Обучение</td><td>nn-backprop, nn-xor, nn-lamb</td><td>dense_layer, mlp, lamb</td></tr><tr><td>Память и внимание</td><td>nn-rnn, nn-lstm, nn-attention</td><td>rnn_cell, lstm_single, attention_mechanism</td></tr><tr><td>Трансформер и награда</td><td>nn-positions, nn-encoder, nn-ppo</td><td>positional_encoding, encoder_block, ppo_clip_loss</td></tr></tbody></table></div>
+<p>Картинки показывают, как выглядят числа: кривые активации, по которым можно вести курсор, вместе с наклоном, столбики softmax, которые заостряются, когда охлаждаешь температуру, окна пулинга как тепловые карты, вес, спускающийся в чашу под SGD, RMSProp и Adam, две головы внимания как сетки и позиции как стрелки четырёх часов.</p>
+<h2>Сеть, которая учится в браузере</h2>
+<p>Урок 20 обучает сеть. mlp.t27 хранит сеть 2-8-1 из ReLU и тест, что она выучивает XOR за 2000 эпох при lr 0.05. Собранная в wasm, та же fn xor(epochs, which) работает в виджете, заново для каждой точки кривой потерь. Потеря падает с 0.8896 в эпохе 1 до 1.8e-13, а четыре ответа выходят в пределах 4e-7 от 0, 1, 1 и 0. Рисунок ниже нарисован этой собранной fn.</p>
+<figure><svg viewBox='0 0 720 270' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Потеря обучения XOR падает с 0.8896 до 1.8e-13 за 2000 эпох; выходы 0, 1, 1, 0' style='width:100%;height:auto;font-family:inherit'><line x1='64' x2='530' y1='20.0' y2='20.0' stroke='currentColor' stroke-opacity='0.12'/><text x='58' y='24.0' font-size='11' text-anchor='end' fill='currentColor' fill-opacity='0.7'>1e0</text><line x1='64' x2='530' y1='49.4' y2='49.4' stroke='currentColor' stroke-opacity='0.12'/><text x='58' y='53.4' font-size='11' text-anchor='end' fill='currentColor' fill-opacity='0.7'>1e-2</text><line x1='64' x2='530' y1='78.9' y2='78.9' stroke='currentColor' stroke-opacity='0.12'/><text x='58' y='82.9' font-size='11' text-anchor='end' fill='currentColor' fill-opacity='0.7'>1e-4</text><line x1='64' x2='530' y1='108.3' y2='108.3' stroke='currentColor' stroke-opacity='0.12'/><text x='58' y='112.3' font-size='11' text-anchor='end' fill='currentColor' fill-opacity='0.7'>1e-6</text><line x1='64' x2='530' y1='137.7' y2='137.7' stroke='currentColor' stroke-opacity='0.12'/><text x='58' y='141.7' font-size='11' text-anchor='end' fill='currentColor' fill-opacity='0.7'>1e-8</text><line x1='64' x2='530' y1='167.1' y2='167.1' stroke='currentColor' stroke-opacity='0.12'/><text x='58' y='171.1' font-size='11' text-anchor='end' fill='currentColor' fill-opacity='0.7'>1e-10</text><line x1='64' x2='530' y1='196.6' y2='196.6' stroke='currentColor' stroke-opacity='0.12'/><text x='58' y='200.6' font-size='11' text-anchor='end' fill='currentColor' fill-opacity='0.7'>1e-12</text><line x1='64' x2='530' y1='226.0' y2='226.0' stroke='currentColor' stroke-opacity='0.12'/><text x='58' y='230.0' font-size='11' text-anchor='end' fill='currentColor' fill-opacity='0.7'>1e-14</text><text x='64.0' y='242' font-size='11' text-anchor='middle' fill='currentColor' fill-opacity='0.7'>0</text><text x='180.5' y='242' font-size='11' text-anchor='middle' fill='currentColor' fill-opacity='0.7'>500</text><text x='297.0' y='242' font-size='11' text-anchor='middle' fill='currentColor' fill-opacity='0.7'>1000</text><text x='413.5' y='242' font-size='11' text-anchor='middle' fill='currentColor' fill-opacity='0.7'>1500</text><text x='530.0' y='242' font-size='11' text-anchor='middle' fill='currentColor' fill-opacity='0.7'>2000</text><text x='297.0' y='264' font-size='12' text-anchor='middle' fill='currentColor' fill-opacity='0.8'>эпохи</text><text x='14' y='123.0' font-size='12' text-anchor='middle' fill='currentColor' fill-opacity='0.8' transform='rotate(-90 14 123.0)'>потеря (log)</text><path d='M64.2,20.7L69.8,30.0L75.7,38.1L81.5,48.3L87.3,57.5L93.1,66.2L98.9,74.8L104.8,83.4L110.6,92.0L116.4,100.5L122.3,109.1L128.1,117.8L133.9,126.4L139.7,135.1L145.6,143.7L151.4,152.3L157.2,161.1L163.0,169.7L168.9,178.7L174.7,187.4L180.5,192.9L186.3,194.9L192.2,196.6L198.0,198.0L203.8,199.2L209.6,200.8L215.5,200.8L221.3,202.1L227.1,202.5L232.9,202.5L238.8,203.0L244.6,204.5L250.4,204.5L256.2,204.9L262.0,204.4L267.9,204.9L273.7,204.7L279.5,204.9L285.4,206.2L291.2,205.2L297.0,206.2L302.8,206.6L308.6,206.7L314.5,206.8L320.3,205.5L326.1,206.8L331.9,206.8L337.8,206.9L343.6,206.9L349.4,207.3L355.3,207.2L361.1,207.2L366.9,207.3L372.7,207.4L378.6,207.5L384.4,207.0L390.2,207.5L396.0,207.5L401.8,207.5L407.7,206.9L413.5,207.5L419.3,207.5L425.2,207.5L431.0,206.9L436.8,207.5L442.6,207.5L448.4,207.5L454.3,207.0L460.1,207.5L465.9,207.5L471.8,207.4L477.6,208.4L483.4,207.7L489.2,207.1L495.1,207.6L500.9,207.1L506.7,207.6L512.5,207.1L518.3,207.6L524.2,207.1L530.0,207.6' fill='none' stroke='#d4af37' stroke-width='2.5'/><circle cx='64.2' cy='20.7' r='4' fill='#d4af37'/><text x='72.2' y='24.7' font-size='11' fill='currentColor'>0.8896</text><circle cx='530.0' cy='207.6' r='4' fill='#d4af37'/><text x='524.0' y='199.6' font-size='11' text-anchor='end' fill='currentColor'>1.8e-13</text><text x='626' y='40' font-size='11' text-anchor='middle' fill='currentColor' fill-opacity='0.8'>после 2000 эпох</text><rect x='570' y='50' width='52' height='52' rx='6' fill='#d4af37' fill-opacity='0.08' stroke='currentColor' stroke-opacity='0.3'/><text x='596' y='74' font-size='11' text-anchor='middle' fill='currentColor'>0 0</text><text x='596' y='89' font-size='12' font-weight='700' text-anchor='middle' fill='currentColor'>0.000</text><rect x='626' y='50' width='52' height='52' rx='6' fill='#d4af37' fill-opacity='0.88' stroke='currentColor' stroke-opacity='0.3'/><text x='652' y='74' font-size='11' text-anchor='middle' fill='currentColor'>0 1</text><text x='652' y='89' font-size='12' font-weight='700' text-anchor='middle' fill='currentColor'>1.000</text><rect x='570' y='106' width='52' height='52' rx='6' fill='#d4af37' fill-opacity='0.88' stroke='currentColor' stroke-opacity='0.3'/><text x='596' y='130' font-size='11' text-anchor='middle' fill='currentColor'>1 0</text><text x='596' y='145' font-size='12' font-weight='700' text-anchor='middle' fill='currentColor'>1.000</text><rect x='626' y='106' width='52' height='52' rx='6' fill='#d4af37' fill-opacity='0.08' stroke='currentColor' stroke-opacity='0.3'/><text x='652' y='130' font-size='11' text-anchor='middle' fill='currentColor'>1 1</text><text x='652' y='145' font-size='12' font-weight='700' text-anchor='middle' fill='currentColor'>0.000</text></svg><figcaption>Потеря обучения XOR сети 2-8-1 из mlp.t27 по эпохам в логарифмической шкале и четыре её выхода после 2000 эпох, посчитанные собранной спекой, которую исполняет виджет nn-xor. Потеря падает с 0.8896 до 1.8e-13 и выполаживается около точности f32 примерно после 600 эпох.</figcaption></figure>
+<h2>Как спеки попали в браузер</h2>
+<p>Ни один виджет не копирует формулу. scripts/t27-logic.mjs из 999-multibots-telegraf запускает t27c gen на спеке, собирает Zig через Zig 0.16 под wasm32 и пишет небольшой модуль с одной функцией на каждую fn спеки; scripts/widget-logic.mjs сайта кладёт его рядом с виджетом вместе с побайтной копией спеки и останавливает сборку, если они разошлись. Функции specs/ml принимают индекс как usize, и t27-logic.mjs научился его понижать в 999#4017; после этого 27 спек дали 27 виджетам их логику без единой переписанной строки. Читатель спек на сайте в том же изменении научился читать эпсилон, записанный как 1e-8.</p>
+<h2>Чего это не показывает</h2>
+<ul><li>Урок 10 это усредняющий пулинг по окнам 2 x 2, а не свёртка: спека скользящей conv2d, t27#10612, ещё открыта, и урок говорит об этом.</li><li>Сетка XOR показывает четыре входа, которые открывает спека, а не область решения на плоскости: у спеки нет fn для точки между углами.</li><li>Фикстуры это маленькие фикстуры самих спек, 3 входа, 4 токена, 3 позиции: ничто здесь не обучалось на настоящих данных.</li></ul>
+<h2>Попробовать</h2>
+<ul><li>Курс: t27.ai/learn/neural-networks/</li><li>t27.ai/widgets/nn-softmax/, t27.ai/widgets/nn-xor/, t27.ai/widgets/nn-attention/, t27.ai/widgets/nn-positions/</li><li>Спеки: gHashTag/t27 specs/ml/</li></ul>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Урок 10 усредняет каждое окно 2 x 2; свёртка с выученным ядром ждёт t27#10612.</li><li>Виджет XOR показывает четыре входа, которые открывает спека, а не область решения на плоскости.</li><li>Каждая фикстура это маленькая фикстура самой спеки; ни один виджет не исполняет модель, обученную на настоящих данных.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/trinity/issues/1695">trinity#1695: the course issue, 27 widgets on gHashTag/t27 specs/ml</a></li><li><a href="https://t27.ai/learn/neural-networks/">The course: Neural networks in t27</a></li><li><a href="https://t27.ai/widgets/nn-xor/">The XOR widget: a network trained in the browser</a></li><li><a href="https://t27.ai/widgets/nn-softmax/">The softmax widget</a></li><li><a href="https://t27.ai/widgets/nn-attention/">The attention widget</a></li><li><a href="https://github.com/gHashTag/t27/issues/10612">t27#10612: the sliding conv2d spec lesson 10 waits for</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/?lang=ru#/blog/neural-networks-in-t27-a-widget-per-lesson">Открыть интерактивную версию</a><a class="btn sec" href="/blog/neural-networks-in-t27-a-widget-per-lesson/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Поработаем вместе</p><h2 id="blog-work-offer-title">Нужно довести FPGA/RTL-задачу до замеров на железе?</h2><p>Работаю по контракту и part-time с hardware-AI, FPGA/RTL и ML-системами — от спецификации и открытого тулчейна до воспроизводимых измерений.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%B4%D0%BB%D1%8F%20T27%20%E2%80%94%20%D0%9D%D0%B5%D0%B9%D1%80%D0%BE%D1%81%D0%B5%D1%82%D0%B8%20%D0%BD%D0%B0%20t27%3A%2027%20%D1%83%D1%80%D0%BE%D0%BA%D0%BE%D0%B2%2C%20%D0%B8%20%D0%B2%20%D0%BA%D0%B0%D0%B6%D0%B4%D0%BE%D0%BC%20%D0%B2%D0%B8%D0%B4%D0%B6%D0%B5%D1%82%2C%20%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D1%8B%D0%B9%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D0%BD%D1%8F%D0%B5%D1%82%20%D1%81%D0%BF%D0%B5%D0%BA%D1%83%20specs%2Fml&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%21%20%D0%AF%20%D0%BF%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D0%BB%28%D0%B0%29%20%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8E%20%C2%AB%D0%9D%D0%B5%D0%B9%D1%80%D0%BE%D1%81%D0%B5%D1%82%D0%B8%20%D0%BD%D0%B0%20t27%3A%2027%20%D1%83%D1%80%D0%BE%D0%BA%D0%BE%D0%B2%2C%20%D0%B8%20%D0%B2%20%D0%BA%D0%B0%D0%B6%D0%B4%D0%BE%D0%BC%20%D0%B2%D0%B8%D0%B4%D0%B6%D0%B5%D1%82%2C%20%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D1%8B%D0%B9%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D0%BD%D1%8F%D0%B5%D1%82%20%D1%81%D0%BF%D0%B5%D0%BA%D1%83%20specs%2Fml%C2%BB%3A%20https%3A%2F%2Ft27.ai%2Fru%2Fblog%2Fneural-networks-in-t27-a-widget-per-lesson%2F%0A%0A%D0%9D%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A">Обсудить задачу</a><a class="btn sec" href="/ru/about/">Как я работаю</a></div><nav class="work-links" aria-label="Услуги"><span>Услуги:</span><a href="/ru/verification/">Верификация</a><a href="/ru/ip/">Лицензирование IP</a><a href="/ru/course/">Курсы и воркшопы</a><a href="/ru/about/">Контрактная работа</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

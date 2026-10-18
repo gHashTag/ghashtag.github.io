@@ -6,7 +6,17 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 12 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Neural networks in t27: 27 lessons, and a widget in each one that runs a specs/ml spec</title>
+      <link>https://t27.ai/#/blog/neural-networks-in-t27-a-widget-per-lesson</link>
+      <guid isPermaLink="false">neural-networks-in-t27-a-widget-per-lesson</guid>
+      <pubDate>Sun, 18 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[every widget runs fn bodies of a gHashTag/t27 specs/ml spec compiled to wasm; lesson 10 is average pooling until t27#10612 merges; the fixtures are the specs' own, nothing is trained on real data] Course 10 opens the parts the project's agents think with: ReLU, GELU and softmax, embeddings and dropout, pooling and batch norm, MSE, cross-entropy and Huber, SGD, RMSProp, Adam and LAMB, backpropagation, a 2-8-1 network that learns XOR in the browser, a recurrent cell, LSTM gates, attention, positional encoding, an encoder block and PPO.</description>
+      <category>t27</category>
+      <category>Course</category>
+      <category>AI</category>
+    </item>
     <item>
       <title>A WASM interpreter ran on the board: 134 of 134, from a spec</title>
       <link>https://t27.ai/#/blog/a-wasm-interpreter-ran-on-the-board</link>
