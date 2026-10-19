@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://t27.ai/</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://t27.ai/</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://t27.ai/gft/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/verification/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/proof/</loc><lastmod>2026-10-08</lastmod></url>
@@ -32,7 +32,7 @@
   <url><loc>https://t27.ai/ru/proof/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/resources/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/verification/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://t27.ai/blog/a-3-mb-compiler-spec-to-aarch64-in-5-ms/</loc><lastmod>2026-10-11</lastmod></url>
   <url><loc>https://t27.ai/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-10-08</lastmod></url>
@@ -120,6 +120,7 @@
   <url><loc>https://t27.ai/blog/the-gate-was-right-and-nothing-stopped/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/the-generated-file-was-three-years-old/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/the-only-stable-speed-belonged-to-the-tool/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://t27.ai/blog/the-queen-and-the-hive-a-course-on-how-the-project-builds-itself/</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://t27.ai/blog/the-ratchet-counted-a-total-as-an-error/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/the-required-check-was-an-echo/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/the-scanner-scored-what-it-could-not-see/</loc><lastmod>2026-10-08</lastmod></url>
@@ -142,7 +143,7 @@
   <url><loc>https://t27.ai/blog/two-bitstreams-one-bit-apart/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/blog/two-courses-twenty-seven-lessons-each/</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://t27.ai/blog/two-keys-one-verdict/</loc><lastmod>2026-10-10</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-3-mb-compiler-spec-to-aarch64-in-5-ms/</loc><lastmod>2026-10-11</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-10-08</lastmod></url>
@@ -230,6 +231,7 @@
   <url><loc>https://t27.ai/ru/blog/the-gate-was-right-and-nothing-stopped/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-generated-file-was-three-years-old/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-only-stable-speed-belonged-to-the-tool/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/the-queen-and-the-hive-a-course-on-how-the-project-builds-itself/</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-ratchet-counted-a-total-as-an-error/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-required-check-was-an-echo/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/the-scanner-scored-what-it-could-not-see/</loc><lastmod>2026-10-08</lastmod></url>

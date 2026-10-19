@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Queen and the hive: a course on how the project builds itself, 27 widgets on compiled specs · TRINITY</title>
+<meta name="description" content="[every widget runs fn bodies of a gHashTag/t27 specs/queen or specs/automation spec compiled to wasm; no widget reads the live Queen; the game widgets are flat sketches] Course 11 opens the rules the Queen runs the hive by: shaping an issue and its boundary, priority, aging and review first, a task&#x27;s state machine, the ship in the game, a deploy mid-flight, the reviewer&#x27;s concurrency and back-off, the merge gate, the review jam and inherited red, refused keys and the next key, credit and token prices, agent bots in one group, the night watch, the public board and the comb." />
+<link rel="canonical" href="https://t27.ai/blog/the-queen-and-the-hive-a-course-on-how-the-project-builds-itself/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/the-queen-and-the-hive-a-course-on-how-the-project-builds-itself/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/the-queen-and-the-hive-a-course-on-how-the-project-builds-itself/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/the-queen-and-the-hive-a-course-on-how-the-project-builds-itself/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/the-queen-and-the-hive-a-course-on-how-the-project-builds-itself/" />
+<meta property="og:title" content="The Queen and the hive: a course on how the project builds itself, 27 widgets on compiled specs" />
+<meta property="og:description" content="[every widget runs fn bodies of a gHashTag/t27 specs/queen or specs/automation spec compiled to wasm; no widget reads the live Queen; the game widgets are flat sketches] Course 11 opens the rules the Queen runs the hive by: shaping an issue and its boundary, priority, aging and review first, a task&#x27;s state machine, the ship in the game, a deploy mid-flight, the reviewer&#x27;s concurrency and back-off, the merge gate, the review jam and inherited red, refused keys and the next key, credit and token prices, agent bots in one group, the night watch, the public board and the comb." />
+<meta property="og:image" content="https://t27.ai/og-blog-the-queen-and-the-hive-a-course-on-how-the-project-builds-itself.png?v=333677d3e09a" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The Queen and the hive: a course on how the project builds itself, 27 widgets on compiled specs" />
+<meta name="twitter:description" content="[every widget runs fn bodies of a gHashTag/t27 specs/queen or specs/automation spec compiled to wasm; no widget reads the live Queen; the game widgets are flat sketches] Course 11 opens the rules the Queen runs the hive by: shaping an issue and its boundary, priority, aging and review first, a task&#x27;s state machine, the ship in the game, a deploy mid-flight, the reviewer&#x27;s concurrency and back-off, the merge gate, the review jam and inherited red, refused keys and the next key, credit and token prices, agent bots in one group, the night watch, the public board and the comb." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The Queen and the hive: a course on how the project builds itself, 27 widgets on compiled specs","description":"[every widget runs fn bodies of a gHashTag/t27 specs/queen or specs/automation spec compiled to wasm; no widget reads the live Queen; the game widgets are flat sketches] Course 11 opens the rules the Queen runs the hive by: shaping an issue and its boundary, priority, aging and review first, a task's state machine, the ship in the game, a deploy mid-flight, the reviewer's concurrency and back-off, the merge gate, the review jam and inherited red, refused keys and the next key, credit and token prices, agent bots in one group, the night watch, the public board and the comb.","url":"https://t27.ai/blog/the-queen-and-the-hive-a-course-on-how-the-project-builds-itself/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/the-queen-and-the-hive-a-course-on-how-the-project-builds-itself/"},"image":"https://t27.ai/og-blog-the-queen-and-the-hive-a-course-on-how-the-project-builds-itself.png?v=333677d3e09a","datePublished":"2026-10-19","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"t27, Course, Queen"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>The Queen and the hive: a course on how the project builds itself, 27 widgets on compiled specs</h1>
+<p class="meta">2026-10-19 · 4 min read</p>
+<p class="lede">[every widget runs fn bodies of a gHashTag/t27 specs/queen or specs/automation spec compiled to wasm; no widget reads the live Queen; the game widgets are flat sketches] Course 11 opens the rules the Queen runs the hive by: shaping an issue and its boundary, priority, aging and review first, a task&#x27;s state machine, the ship in the game, a deploy mid-flight, the reviewer&#x27;s concurrency and back-off, the merge gate, the review jam and inherited red, refused keys and the next key, credit and token prices, agent bots in one group, the night watch, the public board and the comb.</p>
+<figure class="blog-cover"><a href="/og-blog-the-queen-and-the-hive-a-course-on-how-the-project-builds-itself.png?v=333677d3e09a" target="_blank" rel="noopener" aria-label="View the title card at full size — The Queen and the hive: a course on how the project builds itself, 27 widgets on compiled specs"><img src="/og-blog-the-queen-and-the-hive-a-course-on-how-the-project-builds-itself.png?v=333677d3e09a" alt="Title card, no illustration yet, for: The Queen and the hive: a course on how the project builds itself, 27 widgets on compiled specs" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-the-queen-and-the-hive-a-course-on-how-the-project-builds-itself.png?v=333677d3e09a" target="_blank" rel="noopener" aria-label="View the title card at full size — The Queen and the hive: a course on how the project builds itself, 27 widgets on compiled specs">View the title card at full size</a></figcaption></figure>
+<div class="tags"><span class="tag">#t27</span><span class="tag">#Course</span><span class="tag">#Queen</span></div>
+<p>Course 11 of t27.ai is out: the Queen and the hive. It tells how this project builds itself. An issue becomes a task for a bee, the bee writes a .t27 spec, a reviewer bee checks it, it merges, and the site regenerates. The Queen who runs that loop is not a black box: her rules live in gHashTag/t27 specs/queen and specs/automation as specs with numeric tests. The course has 27 lessons in 9 modules, each opening with a question, and each widget answers it with the spec&#x27;s own fn bodies compiled to WebAssembly.</p>
+<h2>Nine modules, twenty-seven widgets</h2>
+<div class="tw"><table><thead><tr><th>Module</th><th>Widgets</th><th>Specs</th></tr></thead><tbody><tr><td>The task</td><td>hive-shape, hive-boundary, hive-task-filter</td><td>queen/shaping, queen/tasks</td></tr><tr><td>Who goes next</td><td>hive-aging, hive-rank, hive-review-first</td><td>queen/priority, queen/review_first</td></tr><tr><td>A bee&#x27;s life</td><td>hive-lifecycle, hive-ship, hive-drain</td><td>queen/dispatch, queen/hive, queen/drain</td></tr><tr><td>The reviewer bee</td><td>hive-reviewers, hive-revisit, hive-gate</td><td>queen/reviewer, queen/merger_gate</td></tr><tr><td>The review jam</td><td>hive-jam, hive-jam-action, hive-master-red</td><td>automation/review-jam, queen/merger_gate</td></tr><tr><td>Keys</td><td>hive-key-error, hive-key-rest, hive-next-key</td><td>queen/key_failover</td></tr><tr><td>Credit and money</td><td>hive-credit, hive-price, hive-burn</td><td>automation/queen-contributor-keys, automation/token-wallet</td></tr><tr><td>Agents among themselves</td><td>hive-called, hive-chain, hive-cooldown</td><td>automation/agent-hive-group</td></tr><tr><td>Night and the board</td><td>hive-night, hive-column, hive-cell</td><td>automation/card-chat-night-watch, queen/dispatch, queen/hive</td></tr></tbody></table></div>
+<p>The pictures are the rules in motion: a kanban card that lands in the column a spec fn names, a review gate that opens or stays shut, a state machine whose illegal events grey out, a ship that flies home and fades over 2400 ms, a pool of keys where the next free one gets a ring, a ladder of agents that falls silent at depth 3, a cooldown clock, and comb cells that flash gold, amber, red or grey.</p>
+<h2>Where a stuck pull request lands</h2>
+<p>review-jam.t27 sorts a pull request that will not move into one of 10 cases, and the earliest rule that matches wins. The figure runs its compiled jam_case on every one of the 512 combinations of its 9 facts. Half of them, 256, are unmeasured, because a PR the Queen could not read is never reported as free; 128 are a draft or fresh PR, and only 2 are no jam at all. jam_is_queens_turn says 318 of the 512 are the Queen&#x27;s move.</p>
+<figure><svg viewBox='0 0 720 284' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='jam_case over all 512 combinations of 9 facts: unmeasured 256, draft or fresh 128, stacked on open 64, conflicting 32, labeled not merged 16, refused then pushed 4, refused not fixed 4, noise red 4, no reviewer 2, none 2' style='width:100%;height:auto;font-family:inherit'><text x='182' y='30' fill='currentColor' fill-opacity='0.8' font-size='13' text-anchor='end'>1. unmeasured</text><rect x='190' y='17' width='460.0' height='18' rx='4' fill='#e0a800'/><text x='656.0' y='30' fill='currentColor' font-size='13'>256</text><text x='182' y='54' fill='currentColor' fill-opacity='0.8' font-size='13' text-anchor='end'>2. draft or fresh</text><rect x='190' y='41' width='230.0' height='18' rx='4' fill='#7d8f89'/><text x='426.0' y='54' fill='currentColor' font-size='13'>128</text><text x='182' y='78' fill='currentColor' fill-opacity='0.8' font-size='13' text-anchor='end'>3. stacked on open</text><rect x='190' y='65' width='115.0' height='18' rx='4' fill='#7d8f89'/><text x='311.0' y='78' fill='currentColor' font-size='13'>64</text><text x='182' y='102' fill='currentColor' fill-opacity='0.8' font-size='13' text-anchor='end'>4. conflicting</text><rect x='190' y='89' width='57.5' height='18' rx='4' fill='#e0a800'/><text x='253.5' y='102' fill='currentColor' font-size='13'>32</text><text x='182' y='126' fill='currentColor' fill-opacity='0.8' font-size='13' text-anchor='end'>5. labeled not merged</text><rect x='190' y='113' width='28.8' height='18' rx='4' fill='#e0a800'/><text x='224.8' y='126' fill='currentColor' font-size='13'>16</text><text x='182' y='150' fill='currentColor' fill-opacity='0.8' font-size='13' text-anchor='end'>6. refused then pushed</text><rect x='190' y='137' width='7.2' height='18' rx='4' fill='#e0a800'/><text x='203.2' y='150' fill='currentColor' font-size='13'>4</text><text x='182' y='174' fill='currentColor' fill-opacity='0.8' font-size='13' text-anchor='end'>7. refused not fixed</text><rect x='190' y='161' width='7.2' height='18' rx='4' fill='#e0a800'/><text x='203.2' y='174' fill='currentColor' font-size='13'>4</text><text x='182' y='198' fill='currentColor' fill-opacity='0.8' font-size='13' text-anchor='end'>8. noise red</text><rect x='190' y='185' width='7.2' height='18' rx='4' fill='#e0a800'/><text x='203.2' y='198' fill='currentColor' font-size='13'>4</text><text x='182' y='222' fill='currentColor' fill-opacity='0.8' font-size='13' text-anchor='end'>9. no reviewer</text><rect x='190' y='209' width='3.6' height='18' rx='4' fill='#e0a800'/><text x='199.6' y='222' fill='currentColor' font-size='13'>2</text><text x='182' y='246' fill='currentColor' fill-opacity='0.8' font-size='13' text-anchor='end'>10. none</text><rect x='190' y='233' width='3.6' height='18' rx='4' fill='#7d8f89'/><text x='199.6' y='246' fill='currentColor' font-size='13'>2</text><text x='190' y='274' fill='currentColor' fill-opacity='0.7' font-size='12'>of 512 combinations of the 9 facts; gold: the Queen's turn</text></svg><figcaption>jam_case of review-jam.t27 over all 512 combinations of its 9 facts, rules in their order of priority, computed by the compiled spec the hive-jam widget runs. Gold bars are cases jam_is_queens_turn gives to the Queen.</figcaption></figure>
+<h2>How the specs got into the browser</h2>
+<p>No widget copies a rule. scripts/t27-logic.mjs of 999-multibots-telegraf runs t27c gen on a spec, builds the Zig with Zig 0.16 for wasm32 and writes a module with one function per spec fn, and scripts/widget-logic.mjs puts it beside the widget with a byte-identical copy of the spec. On t27 master, 137 of the 139 specs in the three folders ran green and 1302 fns lowered. review-jam found two bugs in that door, fixed in 999#4020: a param named case, which TypeScript refuses, and a bool read with all 32 bits, which made jam_is_queens_turn answer true for none.</p>
+<h2>What it does not show</h2>
+<ul><li>No widget reads the live Queen: every input is what the reader sets, and the measured numbers are the ones the specs record, such as 29 dispatches waiting on 2026-10-18.</li><li>Lesson 26 shows a finding of dispatch.t27 as it stands: once an issue is closed, the public board draws every finished claim as done.</li><li>The game widgets are flat sketches of the 3D game at app.t27.ai/game, not the game itself.</li></ul>
+<h2>Try it</h2>
+<ul><li>Course: t27.ai/learn/queen-and-hive/</li><li>t27.ai/widgets/hive-jam/, t27.ai/widgets/hive-next-key/, t27.ai/widgets/hive-chain/, t27.ai/widgets/hive-cell/</li><li>Specs: gHashTag/t27 specs/queen/ and specs/automation/</li></ul>
+<div class="box"><h2>What this does not settle</h2><ul><li>No widget reads the live Queen; the measured numbers are the ones the specs record.</li><li>Lesson 26 shows the board drawing a closed issue&#x27;s finished claims as done, a finding dispatch.t27 records.</li><li>The game widgets are flat sketches of the 3D game, not the game.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/trinity/issues/1698">trinity#1698: the course issue, 27 widgets on gHashTag/t27 specs/queen and specs/automation</a></li><li><a href="https://t27.ai/learn/queen-and-hive/">The course: the Queen and the hive</a></li><li><a href="https://t27.ai/widgets/hive-jam/">The review jam widget</a></li><li><a href="https://t27.ai/widgets/hive-next-key/">The next key widget</a></li><li><a href="https://github.com/gHashTag/999-multibots-telegraf/pull/4020">999#4020: two door fixes review-jam needed</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/the-queen-and-the-hive-a-course-on-how-the-project-builds-itself">Open the interactive version</a><a class="btn sec" href="/ru/blog/the-queen-and-the-hive-a-course-on-how-the-project-builds-itself/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Need an FPGA/RTL problem taken to measured hardware?</h2><p>I work contract and part-time on hardware-AI, FPGA/RTL and ML systems — from specification and open toolchains to reproducible measurements.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20The%20Queen%20and%20the%20hive%3A%20a%20course%20on%20how%20the%20project%20builds%20itself%2C%2027%20widgets%20on%20compiled%20specs&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CThe%20Queen%20and%20the%20hive%3A%20a%20course%20on%20how%20the%20project%20builds%20itself%2C%2027%20widgets%20on%20compiled%20specs%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fthe-queen-and-the-hive-a-course-on-how-the-project-builds-itself%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/about/">See how I work</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

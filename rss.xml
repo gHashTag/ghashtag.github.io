@@ -6,7 +6,17 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 18 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 19 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The Queen and the hive: a course on how the project builds itself, 27 widgets on compiled specs</title>
+      <link>https://t27.ai/#/blog/the-queen-and-the-hive-a-course-on-how-the-project-builds-itself</link>
+      <guid isPermaLink="false">the-queen-and-the-hive-a-course-on-how-the-project-builds-itself</guid>
+      <pubDate>Mon, 19 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[every widget runs fn bodies of a gHashTag/t27 specs/queen or specs/automation spec compiled to wasm; no widget reads the live Queen; the game widgets are flat sketches] Course 11 opens the rules the Queen runs the hive by: shaping an issue and its boundary, priority, aging and review first, a task's state machine, the ship in the game, a deploy mid-flight, the reviewer's concurrency and back-off, the merge gate, the review jam and inherited red, refused keys and the next key, credit and token prices, agent bots in one group, the night watch, the public board and the comb.</description>
+      <category>t27</category>
+      <category>Course</category>
+      <category>Queen</category>
+    </item>
     <item>
       <title>Neural networks in t27: 27 lessons, and a widget in each one that runs a specs/ml spec</title>
       <link>https://t27.ai/#/blog/neural-networks-in-t27-a-widget-per-lesson</link>
