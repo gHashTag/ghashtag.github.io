@@ -1,6 +1,6 @@
 {
  "format": "t27f-live-recorded-log-v1",
- "source": "specs/t27f/work_graph_fixture.t27 KIND[0..23] at master 50ea972f7e",
+ "source": "specs/t27f/work_graph_fixture.t27 KIND[0..23] at master 1c17a1008c",
  "events": [
   {
    "seq": 1,
@@ -59,12 +59,12 @@
   },
   {
    "seq": 12,
-   "kind": "deliver",
+   "kind": "down",
    "tick": 11
   },
   {
    "seq": 13,
-   "kind": "deliver",
+   "kind": "restart",
    "tick": 12
   },
   {
@@ -74,17 +74,17 @@
   },
   {
    "seq": 15,
-   "kind": "down",
+   "kind": "deliver",
    "tick": 14
   },
   {
    "seq": 16,
-   "kind": "restart",
+   "kind": "deliver",
    "tick": 15
   },
   {
    "seq": 17,
-   "kind": "exit",
+   "kind": "deliver",
    "tick": 16
   },
   {
@@ -94,7 +94,7 @@
   },
   {
    "seq": 19,
-   "kind": "delivers",
+   "kind": "exit",
    "tick": 18
   },
   {
@@ -104,22 +104,22 @@
   },
   {
    "seq": 21,
-   "kind": "deliver",
+   "kind": "down",
    "tick": 20
   },
   {
    "seq": 22,
-   "kind": "deliver",
+   "kind": "restart",
    "tick": 21
   },
   {
    "seq": 23,
-   "kind": "delivers",
+   "kind": "deliver",
    "tick": 22
   },
   {
    "seq": 24,
-   "kind": "down",
+   "kind": "deliver",
    "tick": 23
   }
  ]
