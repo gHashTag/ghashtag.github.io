@@ -283,7 +283,17 @@ PYCTA
   if [ -z "$blogjs" ] || [ ! -f "assets/$blogjs" ]; then
     red "cannot find the shipped Blog chunk — the drift check did not run"
   else
-    shipped=$(grep -oE 'slug:"[a-z0-9-]+"' "assets/$blogjs" | sed 's/slug://;s/"//g' | sort -u)
+    # The chunk ships every post including drafts, but blog/ rightly builds no
+    # page for an unpublished draft: the publication gate, not this check,
+    # decides what is public (Trinity-S-AI-DNA/trinity#1761). Each post is one
+    # object whose slug leads and whose published flag follows inside the same
+    # object, so the chunk split on slug:" marks the slug whose own segment
+    # carries published:!1, and the comparison keeps only published slugs.
+    allslugs=$(grep -oE 'slug:"[a-z0-9-]+"' "assets/$blogjs" | sed 's/slug://;s/"//g' | sort -u)
+    drafts=$(awk '{ gsub(/slug:"/, "\n&"); print }' "assets/$blogjs" \
+      | awk '{ if (match($0, /slug:"[a-z0-9-]+"/)) { cur = substr($0, RSTART + 6, RLENGTH - 7) } if (cur != "" && $0 ~ /,published:!1/) { print cur; cur = "" } }' \
+      | sort -u)
+    shipped=$(comm -23 <(printf '%s\n' "$allslugs") <(printf '%s\n' "$drafts"))
     static=$(ls -d blog/*/ 2>/dev/null | sed 's|blog/||;s|/$||' | sort)
     if [ "$shipped" = "$static" ]; then
       green "static blog matches the shipped app ($(echo "$shipped" | wc -w | tr -d ' ') posts)"
