@@ -4,7 +4,8 @@
 // law's tick grid, rendered at display frame rate. Every frame number comes
 // from the wasm module's arrival_frame law. Below the graph: the fleet panel,
 // live from the GitHub API -- pull requests, activity, and the queen lane
-// (workflow dispatches and crons). The log can grow: it is re-fetched
+// (workflow dispatches and crons), then the static $0 model-fleet matrix
+// (the probe receipt on t27#12170). The log can grow: it is re-fetched
 // cache-busted every 5 minutes and the delta replays. See PROVENANCE.txt.
 const url = new URL('t27f.wasm', import.meta.url)
 const refuse = (m) => ({ refused: true, message: m })
@@ -32,6 +33,35 @@ const GX_KC = [C.restart, C.active, '#a371f7', C.text, C.spawn] // spec amber, a
 const GX_KN = ['spec','agent','task','action','artifact']
 const GX_SEED = [[96,96],[320,200],[544,96],[544,304],[320,336]] // kind clusters, then the force layout
 
+// THE LAYOUT DISCOVERY SURFACE -- the struct-path's const plane landing in the browser. The LAW
+// is specs/t27f/live_glue_layout.t27 (gHashTag/t27#12040): 23 CONSTANT gx_ exports -- the
+// ptr/len pairs of the fixed 143,692-byte layout the contract card #12005 pins -- read OFF the
+// module at load, never hardcoded in this file, so a layout change in the card breaks the
+// module (this page refuses it) instead of silently shifting every region. Discovery only:
+// the scalar replay stays the live surface, and a missing or misshaped module is reported as
+// a refusal, never faked. The 10 stateful names (gx_replay/gx_live/gx_reset, the two set_len
+// commits, the stream getters) wait for the stateful emitter floors (t27#5980) and are
+// deliberately absent from the module.
+const LAYOUT_NAMES = [
+  'gx_ev_ptr','gx_ev_cap','gx_batch_ptr','gx_batch_cap',
+  'gx_graph_ptr','gx_graph_len','gx_digest_ptr','gx_digest_len','gx_stream_ptr',
+  'gx_node_kind_ptr','gx_node_kind_len','gx_node_label_ptr','gx_node_label_len',
+  'gx_node_id_ptr','gx_node_id_len','gx_edge_kind_ptr','gx_edge_kind_len',
+  'gx_edge_from_ptr','gx_edge_from_len','gx_edge_to_ptr','gx_edge_to_len',
+  'gx_edge_label_ptr','gx_edge_label_len',
+]
+async function discoverLayout() {
+  let L
+  try {
+    L = (await WebAssembly.instantiateStreaming(fetch(new URL('layout.wasm', import.meta.url)), {})
+      .catch(async () => WebAssembly.instantiate(await (await fetch(new URL('layout.wasm', import.meta.url))).arrayBuffer(), {}))).instance.exports
+  } catch { return { ok: false, line: 'gx layout refused: layout.wasm did not load -- the layout plane is not published; nothing is invented.' } }
+  for (const n of LAYOUT_NAMES) if (typeof L[n] !== 'function') return { ok: false, line: `gx layout refused: the module lacks ${n} -- nothing is invented.` }
+  const v = (n) => L[n]()
+  const pairs = `graph ${v('gx_graph_ptr')}+${v('gx_graph_len')}, ev ${v('gx_ev_ptr')}+${v('gx_ev_cap')}, batch ${v('gx_batch_ptr')}+${v('gx_batch_cap')}, stream@${v('gx_stream_ptr')}`
+  return { ok: true, line: `gx layout: ${LAYOUT_NAMES.length} constants discovered off layout.wasm (${pairs}); the struct path reads its regions from the module, not from this file (specs/t27f/live_glue_layout.t27, t27#12040).` }
+}
+
 export async function replay(el, log) {
   let R
   try { R = (await WebAssembly.instantiateStreaming(fetch(url),{}).catch(async()=>WebAssembly.instantiate(await(await fetch(url)).arrayBuffer(),{}))).instance.exports }
@@ -40,13 +70,18 @@ export async function replay(el, log) {
   const evts = Array.isArray(log.events) ? log.events : []
   if (!evts.length) return refuse('the recorded log holds no events.')
 
+  // The layout discovery surface: read the 23 gx_ layout constants off layout.wasm and report
+  // one honest line either way. Discovery never gates the replay: a refused or missing module
+  // leaves the scalar plane exactly as it was.
+  const gxLayout = await discoverLayout()
+
   // The gx consumer: when the module carries the law's own graph (live_graph_export.t27,
   // t27#12148), the page stops simulating agents and reads the real topology out of the
   // module -- nodes, names and edges straight from linear memory. Today's module exports
   // none of it, so this stays dormant and the simulation below runs exactly as before;
   // any gx_ refusal or throw below falls back to that path silently.
   if (typeof R.gx_node_count === 'function') {
-    try { const feed = gxFeed(R, evts); if (feed) return gxReplay(el, R, log, evts, feed) }
+    try { const feed = gxFeed(R, evts); if (feed) { const g = gxReplay(el, R, log, evts, feed); g.message = gxLayout.line + ' ' + g.message; return g } }
     catch { /* the module refused its own graph: the simulation path stands */ }
   }
 
@@ -168,7 +203,7 @@ export async function replay(el, log) {
   setInterval(async()=>{ try{ await pollFeed() }catch{ // feed down or foreign: the recorded log, at its own cadence
       if(Date.now()-lastLog<300000)return; lastLog=Date.now(); try{ await pollLog() }catch{} } },15000)
 
-  return { refused:false, message:`${evts.length} events on the law's tick grid, ${agents.size} named agents at display frame rate; below: pull requests, activity and the queen lane, live from the GitHub API. Press play to watch the replay.` }
+  return { refused:false, message: gxLayout.line + ` ${evts.length} events on the law's tick grid, ${agents.size} named agents at display frame rate; below: pull requests, activity and the queen lane, live from the GitHub API. Press play to watch the replay.` }
 }
 
 // Encode one log event as its 32-byte #12005 record at offset o. Fields the log does not
@@ -356,13 +391,38 @@ function mountFleet(root){
   const qP=document.createElement('div'); qP.style.cssText=`border:1px solid ${FC.border};border-radius:8px;background:${FC.bg};padding:10px;overflow-y:auto;max-height:240px;margin-top:8px`
   const h3=document.createElement('div'); h3.textContent='the queen -- dispatches and crons (workflow runs)'; h3.style.cssText=`color:${FC.text};font:bold 12px monospace;margin:0 0 8px`
   qP.append(h3)
+  // The model fleet: the $0 capacity matrix, STATIC from the probe receipt on
+  // t27#12170 (2026-10-25). The pool flapped 8->2 alive cells within hours that
+  // day, so the law (specs/queen/api_fleet.t27) is re-probe, never replace the
+  // pool. The live scanner lands as t27#12375; this panel switches to its fresh
+  // matrix then. No fetch, no timer: a dated snapshot, honestly labelled.
+  const flP=document.createElement('div'); flP.style.cssText=`border:1px solid ${FC.border};border-radius:8px;background:${FC.bg};padding:10px;margin-top:8px`
+  const h5=document.createElement('div'); h5.textContent='the model fleet -- $0 capacity (probe 2026-10-25)'; h5.style.cssText=`color:${FC.text};font:bold 12px monospace;margin:0 0 8px`
+  const flT=document.createElement('table'); flT.style.cssText='width:100%;border-collapse:collapse;font:11px monospace'
+  const flRows=[['route','model','keys alive','price'],
+    ['zai-coding-plan','glm-5.3-flash','probe subagent','$0'],
+    ['z.ai','glm-4.5-flash','5/5 keys that day','$0'],
+    ['z.ai','glm-4.7-flash','3 probed','$0'],
+    ['zai-coding-plan','glm-5.3-highspeed','REFUSED by plan','--']]
+  flRows.forEach((r,ri)=>{ const tr=document.createElement('tr')
+    r.forEach((c,ci)=>{ const td=document.createElement('td'); td.style.cssText='padding:3px 6px;border-bottom:1px solid #21262d;color:'+FC.text
+      if(ri===0)td.style.color=FC.dim
+      else if(c.indexOf('REFUSED')===0)td.style.color='#f85149'
+      else if(c==='$0')td.style.color='#d29922'
+      td.textContent=c; tr.append(td) })
+    flT.append(tr) })
+  const flF=document.createElement('div'); flF.style.cssText=`color:${FC.dim};font:10px monospace;margin-top:6px`
+  flF.textContent='re-probe before routing; 401 refuses the ROUTE, never the key (specs/queen/api_fleet.t27)'
+  const flC=document.createElement('div'); flC.style.cssText=`color:${FC.dim};font:10px monospace;margin-top:3px`
+  flC.textContent='static matrix from the probe receipt (t27#12170); the live scanner lands as t27#12375 and this panel switches to its fresh matrix then'
+  flP.append(h5,flT,flF,flC)
   const vid=document.createElement('div'); vid.style.cssText=`border:1px solid ${FC.border};border-radius:8px;background:${FC.bg};padding:10px;margin-top:8px`
   const h4=document.createElement('div'); h4.textContent='recorded footage -- 900 frames from frame_render.t27, rendered by the lab (110.11 fps, 9.08 ms/frame)'; h4.style.cssText=`color:${FC.text};font:bold 12px monospace;margin:0 0 8px`
   const v=document.createElement('video'); v.controls=true; v.playsInline=true; v.preload='metadata'
   v.style.cssText='width:100%;max-height:420px;border-radius:6px;background:#000'
   v.src='./queen-live.mp4'
   vid.append(h4,v)
-  prP.append(h1); acP.append(h2); cols.append(prP,acP); root.append(cols,qP,vid)
+  prP.append(h1); acP.append(h2); cols.append(prP,acP); root.append(cols,qP,flP,vid)
   const etags=new Map()
   const gh=async(p)=>{ const h={Accept:'application/vnd.github+json'}; if(etags.has(p))h['If-None-Match']=etags.get(p)
     const r=await fetch(API+p,{headers:h})
