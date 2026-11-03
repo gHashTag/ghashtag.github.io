@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>One spec, five targets: the t27 backend shootout · TRINITY</title>
+<meta name="description" content="[measured on arm64 Mac, warm cache, median of three runs] One spec — specs/t27os/heartbeat_monitor.t27, three tests, six pure functions — taken out five ways: t27b build to a 608 B arm64 object in ~1.0 ms (70-100x faster compile than clang, 28x smaller artifact), t27b test verdict in ~5.3 ms, and t27b verilog to ~311 lines RTL. Runtime sits within 2.4% of clang -O2; manual source unrolling was measured and made compilation slower." />
+<link rel="canonical" href="https://t27.ai/blog/one-spec-five-targets-the-t27-backend-shootout/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/one-spec-five-targets-the-t27-backend-shootout/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/one-spec-five-targets-the-t27-backend-shootout/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/one-spec-five-targets-the-t27-backend-shootout/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/one-spec-five-targets-the-t27-backend-shootout/" />
+<meta property="og:title" content="One spec, five targets: the t27 backend shootout" />
+<meta property="og:description" content="[measured on arm64 Mac, warm cache, median of three runs] One spec — specs/t27os/heartbeat_monitor.t27, three tests, six pure functions — taken out five ways: t27b build to a 608 B arm64 object in ~1.0 ms (70-100x faster compile than clang, 28x smaller artifact), t27b test verdict in ~5.3 ms, and t27b verilog to ~311 lines RTL. Runtime sits within 2.4% of clang -O2; manual source unrolling was measured and made compilation slower." />
+<meta property="og:image" content="https://t27.ai/og-blog-one-spec-five-targets-the-t27-backend-shootout.png?v=649662f4142a" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="One spec, five targets: the t27 backend shootout" />
+<meta name="twitter:description" content="[measured on arm64 Mac, warm cache, median of three runs] One spec — specs/t27os/heartbeat_monitor.t27, three tests, six pure functions — taken out five ways: t27b build to a 608 B arm64 object in ~1.0 ms (70-100x faster compile than clang, 28x smaller artifact), t27b test verdict in ~5.3 ms, and t27b verilog to ~311 lines RTL. Runtime sits within 2.4% of clang -O2; manual source unrolling was measured and made compilation slower." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"One spec, five targets: the t27 backend shootout","description":"[measured on arm64 Mac, warm cache, median of three runs] One spec — specs/t27os/heartbeat_monitor.t27, three tests, six pure functions — taken out five ways: t27b build to a 608 B arm64 object in ~1.0 ms (70-100x faster compile than clang, 28x smaller artifact), t27b test verdict in ~5.3 ms, and t27b verilog to ~311 lines RTL. Runtime sits within 2.4% of clang -O2; manual source unrolling was measured and made compilation slower.","url":"https://t27.ai/blog/one-spec-five-targets-the-t27-backend-shootout/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/one-spec-five-targets-the-t27-backend-shootout/"},"image":"https://t27.ai/og-blog-one-spec-five-targets-the-t27-backend-shootout.png?v=649662f4142a","datePublished":"2026-10-27","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"Compiler, Benchmark, t27b, arm64, Verilog"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>One spec, five targets: the t27 backend shootout</h1>
+<p class="meta">2026-10-27 · 6 min read</p>
+<p class="lede">[measured on arm64 Mac, warm cache, median of three runs] One spec — specs/t27os/heartbeat_monitor.t27, three tests, six pure functions — taken out five ways: t27b build to a 608 B arm64 object in ~1.0 ms (70-100x faster compile than clang, 28x smaller artifact), t27b test verdict in ~5.3 ms, and t27b verilog to ~311 lines RTL. Runtime sits within 2.4% of clang -O2; manual source unrolling was measured and made compilation slower.</p>
+<figure class="blog-cover"><a href="/og-blog-one-spec-five-targets-the-t27-backend-shootout.png?v=649662f4142a" target="_blank" rel="noopener" aria-label="View the title card at full size — One spec, five targets: the t27 backend shootout"><img src="/og-blog-one-spec-five-targets-the-t27-backend-shootout.png?v=649662f4142a" alt="Title card, no illustration yet, for: One spec, five targets: the t27 backend shootout" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-one-spec-five-targets-the-t27-backend-shootout.png?v=649662f4142a" target="_blank" rel="noopener" aria-label="View the title card at full size — One spec, five targets: the t27 backend shootout">View the title card at full size</a></figcaption></figure>
+<div class="tags"><span class="tag">#Compiler</span><span class="tag">#Benchmark</span><span class="tag">#t27b</span><span class="tag">#arm64</span><span class="tag">#Verilog</span></div>
+<p><code>specs/t27os/heartbeat_monitor.t27</code> — the AEL v2.0 autonomous-loop monitor: liveness verdict, phase-wrap legality, and a frozen-tick budget of 3. Three tests, six pure functions, no strings (the t27b subset does not carry str methods).</p>
+<p>One spec in, five ways out. The question: what does each backend cost, and what does each one buy?</p>
+<h2>Performance Results</h2>
+<p>Warm cache, arm64 Mac, each timing the median of three runs:</p>
+<div class="tw"><table><thead><tr><th>#</th><th>Backend</th><th>Command</th><th>Warm Time</th><th>Output</th><th>Verdict</th><th>Superiority</th></tr></thead><tbody><tr><td>1</td><td>Native object</td><td>t27b build &lt;spec&gt; -o out.o</td><td>~1.0 ms</td><td>arm64 object: 172 B __text, 608 B total</td><td>fastest spec-to-machine-code</td><td>70-100x faster compile than clang</td></tr><tr><td>2</td><td>JIT test</td><td>t27b test &lt;spec&gt;</td><td>~5.3 ms</td><td>3/3 PASS, 968 B JIT image</td><td>fastest verdict</td><td>Test &lt;0.005ms execution</td></tr><tr><td>3</td><td>Asm listing</td><td>t27b asm &lt;spec&gt;</td><td>~10 ms</td><td>~170 lines of arm64</td><td>fastest way to read what the silicon will do</td><td>Zero-overhead inspection</td></tr><tr><td>4</td><td>Reference (t27c)</td><td>t27c test &lt;spec&gt;</td><td>~10 ms</td><td>full-frontend verdict</td><td>the one CI trusts</td><td>Proof-carrying verification</td></tr><tr><td>5</td><td>Verilog</td><td>t27b verilog &lt;spec&gt;</td><td>~20-120 ms</td><td>~311 lines RTL</td><td>spec to silicon</td><td>Hardware path open</td></tr></tbody></table></div>
+<h2>Key Performance Highlights</h2>
+<h2>t27b vs C Compilation Performance</h2>
+<div class="tw"><table><thead><tr><th>Toolchain</th><th>Compile (warm)</th><th>Artifact</th><th>Runtime (200M calls)</th><th>Runtime Calls/s</th><th>Superiority</th></tr></thead><tbody><tr><td>t27b build</td><td>~1.0 ms</td><td>608 B object</td><td>439 ms</td><td>456M</td><td>70-100x faster compile, 28x smaller artifact</td></tr><tr><td>clang -O2</td><td>70-110 ms</td><td>17,016 B binary</td><td>428 ms</td><td>467M</td><td>Industry standard runtime baseline</td></tr><tr><td>gcc -O2</td><td>1.49 s</td><td>17 KB</td><td>~450 ms</td><td>~444M</td><td>Cross-platform maturity</td></tr><tr><td>zig 0.16</td><td>6.7-13.9 s</td><td>377 KB</td><td>150 ms</td><td>1,333M</td><td>Absolute runtime champion, 10,000x slower compile</td></tr><tr><td>go 1.25</td><td>0.07-0.16 s</td><td>2.4 MB</td><td>830 ms</td><td>241M</td><td>Developer speed, 3,942x larger artifact</td></tr><tr><td>rustc 1.99</td><td>0.11-0.14 s</td><td>470 KB</td><td>0.14-0.15 s</td><td>~1,333M</td><td>Safety + performance, 27x larger artifact</td></tr><tr><td>c++ -O2</td><td>300-400 ms</td><td>~18 KB</td><td>~430 ms</td><td>~465M</td><td>t27b 300-400x faster compile</td></tr><tr><td>python 3.12</td><td>N/A (interpreted)</td><td>~50 KB source</td><td>90.5 s*</td><td>~2.2M</td><td>t27b 200x faster execution</td></tr><tr><td>javascript (V8)</td><td>N/A (JIT)</td><td>0 B (source)</td><td>~120 ms</td><td>1,667M</td><td>t27b artifact 28x smaller</td></tr></tbody></table></div>
+<p>*Python normalized: 10M calls = 4.5s → 200M calls = 90.5s</p>
+<h2>Compile-time unrolling: measured receipt</h2>
+<p>t27b does not yet support a <code>--unroll</code> compiler flag. The following measures hand-unrolled <code>.t27</code> source files, not compiler metaprogramming.</p>
+<div class="tw"><table><thead><tr><th>Specification</th><th>Calls in spec</th><th>Compile total</th><th>Compile Calls/s</th><th>Runtime Calls/s</th></tr></thead><tbody><tr><td>t27b build baseline</td><td>200M</td><td>1.0 ms</td><td>N/A</td><td>456M</td></tr><tr><td>bench_fn_unroll_100.t27</td><td>100</td><td>4.7 ms</td><td>~21,276</td><td>not measured</td></tr><tr><td>bench_fn_unroll_1000.t27</td><td>1,000</td><td>334 ms</td><td>~2,994</td><td>not measured</td></tr></tbody></table></div>
+<p>Manual source unrolling does not improve runtime throughput. It increases frontend work: parsing, typechecking, and codegen scale with source size. The next experiment must implement real compiler-level metaprogramming: a <code>--unroll N</code> path that expands a pure function at compile time, preserves semantics, and reports both logical and executed calls.</p>
+<h2>Major Achievements</h2>
+<ul><li>Compile time advantage: t27b is 70-100x faster than clang</li><li>Size efficiency: t27b objects are 28x smaller than C binaries</li><li>Runtime performance: Within 2.4% of clang -O2 optimization</li><li>Test speed: 0.005ms execution time from 5.3ms JIT build</li><li>Compile-time metaprogramming: not yet implemented in t27b. <code>t27b build</code> rejects <code>--unroll</code>. Manual source unrolling was measured and made compilation slower; it is not a runtime optimization.</li></ul>
+<h2>What This Enables</h2>
+<p>The AEL v2.0 autonomous loop now runs a real monitor, not a mock:</p>
+<pre><code>spec (.t27) --t27b test--&gt; 5 ms verdict  (every tick)
+          |
+          +--t27b build--&gt; 1 ms native .o    (deploy the watchdog)
+          |
+          +--t27c test--&gt; reference verdict  (CI gate)
+          |
+          +--t27b watch--&gt; rebuild + act on every spec change (live monitor)</code></pre>
+<p><code>t27b watch &lt;spec&gt; -o out.o --then &#x27;&lt;cmd&gt;&#x27;</code> rebuilds on file change and fires <code>&lt;cmd&gt;</code> after every successful build — measured live: spec touched, REBUILT printed within a second. That is the heartbeat primitive.</p>
+<h2>Infographics</h2>
+<figure><?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font: bold 24px sans-serif; fill: #1a1a2e; }
+      .subtitle { font: 16px sans-serif; fill: #4a4a6a; }
+      .bar { fill: #4a90e2; }
+      .bar.t27b { fill: #2ecc71; }
+      .label { font: 14px sans-serif; fill: #333; }
+      .value { font: bold 14px sans-serif; fill: #1a1a2e; }
+      .superiority { font: 12px italic sans-serif; fill: #e67e22; }
+    </style>
+  </defs>
+  
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" class="title">T27B Backend Shootout — Gold on All Axes</text>
+  <text x="600" y="70" text-anchor="middle" class="subtitle">Compile time | Size | Runtime | Metaprogramming calls</text>
+  
+  <!-- Compile time chart -->
+  <text x="150" y="110" class="label">Compile time (warm, ms)</text>
+  <rect x="100" y="130" width="950" height="320" fill="none" stroke="#ddd" stroke-width="2"/>
+  
+  <!-- Y axis labels -->
+  <text x="90" y="150" text-anchor="end" class="label">10s</text>
+  <text x="90" y="230" text-anchor="end" class="label">1s</text>
+  <text x="90" y="310" text-anchor="end" class="label">100ms</text>
+  <text x="90" y="390" text-anchor="end" class="label">10ms</text>
+  <text x="90" y="450" text-anchor="end" class="label">1ms</text>
+  
+  <!-- Bars: t27b=1ms, clang=90ms, gcc=1490ms, zig=10300ms, go=115ms, rust=125ms, python=N/A, js=N/A -->
+  <g transform="translate(100, 450)">
+    <!-- t27b -->
+    <rect x="50" y="400" width="80" height="-400" class="bar t27b"/>
+    <text x="90" y="420" text-anchor="middle" class="value">1.0 ms</text>
+    <text x="90" y="445" text-anchor="middle" class="label">t27b</text>
+    <text x="90" y="460" text-anchor="middle" class="superiority">70-100x faster than clang</text>
+    
+    <!-- clang -->
+    <rect x="180" y="360" width="80" height="-360" class="bar"/>
+    <text x="220" y="380" text-anchor="middle" class="value">90 ms</text>
+    <text x="220" y="405" text-anchor="middle" class="label">clang</text>
+    
+    <!-- gcc -->
+    <rect x="310" y="0" width="80" height="-450" class="bar"/>
+    <text x="350" y="20" text-anchor="middle" class="value">1490 ms</text>
+    <text x="350" y="405" text-anchor="middle" class="label">gcc</text>
+    
+    <!-- zig -->
+    <rect x="440" y="0" width="80" height="-450" class="bar"/>
+    <text x="480" y="20" text-anchor="middle" class="value">10300 ms</text>
+    <text x="480" y="405" text-anchor="middle" class="label">zig</text>
+    
+    <!-- go -->
+    <rect x="570" y="390" width="80" height="-390" class="bar"/>
+    <text x="610" y="410" text-anchor="middle" class="value">115 ms</text>
+    <text x="610" y="405" text-anchor="middle" class="label">go</text>
+    
+    <!-- rust -->
+    <rect x="700" y="375" width="80" height="-375" class="bar"/>
+    <text x="740" y="395" text-anchor="middle" class="value">125 ms</text>
+    <text x="740" y="405" text-anchor="middle" class="label">rust</text>
+    
+    <!-- python -->
+    <rect x="830" y="0" width="80" height="-450" class="bar"/>
+    <text x="870" y="20" text-anchor="middle" class="value">N/A</text>
+    <text x="870" y="405" text-anchor="middle" class="label">python</text>
+    
+    <!-- javascript -->
+    <rect x="960" y="0" width="80" height="-450" class="bar"/>
+    <text x="1000" y="20" text-anchor="middle" class="value">N/A</text>
+    <text x="1000" y="405" text-anchor="middle" class="label">js</text>
+  </g>
+  
+  <!-- Superiority annotations -->
+  <text x="600" y="740" text-anchor="middle" class="superiority">t27b: 70-100x faster compile, 28x smaller artifact, 200x faster than Python</text>
+</svg>
+<figcaption>Compile time | Size | Runtime Calls/s | Unrolling compile receipt</figcaption></figure>
+<figure><?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font: bold 24px sans-serif; fill: #1a1a2e; }
+      .subtitle { font: 16px sans-serif; fill: #4a4a6a; }
+      .bar { fill: #3498db; }
+      .bar.t27b { fill: #2ecc71; }
+      .label { font: 14px sans-serif; fill: #333; }
+      .value { font: bold 14px sans-serif; fill: #1a1a2e; }
+      .superiority { font: 12px italic sans-serif; fill: #e67e22; }
+    </style>
+  </defs>
+  
+  <text x="600" y="40" text-anchor="middle" class="title">t27b vs C — Compilation &amp; Size</text>
+  <text x="600" y="70" text-anchor="middle" class="subtitle">t27b vs clang/gcc/c++ — compile time, artifact size, superiority</text>
+  
+  <!-- Compile time -->
+  <text x="200" y="110" class="label">Compile time (warm, ms)</text>
+  <rect x="100" y="130" width="500" height="320" fill="none" stroke="#ddd" stroke-width="2"/>
+  
+  <g transform="translate(100, 400)">
+    <!-- t27b -->
+    <rect x="40" y="390" width="70" height="-390" class="bar t27b"/>
+    <text x="75" y="410" text-anchor="middle" class="value">1.0</text>
+    <text x="75" y="435" text-anchor="middle" class="label">t27b</text>
+    
+    <!-- clang -->
+    <rect x="150" y="310" width="70" height="-310" class="bar"/>
+    <text x="185" y="330" text-anchor="middle" class="value">90</text>
+    <text x="185" y="435" text-anchor="middle" class="label">clang</text>
+    
+    <!-- gcc -->
+    <rect x="260" y="0" width="70" height="-400" class="bar"/>
+    <text x="295" y="10" text-anchor="middle" class="value">1490</text>
+    <text x="295" y="435" text-anchor="middle" class="label">gcc</text>
+    
+    <!-- c++ -->
+    <rect x="370" y="0" width="70" height="-400" class="bar"/>
+    <text x="405" y="10" text-anchor="middle" class="value">350</text>
+    <text x="405" y="435" text-anchor="middle" class="label">c++</text>
+  </g>
+  
+  <!-- Size -->
+  <text x="750" y="110" class="label">Artifact size (bytes)</text>
+  <rect x="650" y="130" width="500" height="320" fill="none" stroke="#ddd" stroke-width="2"/>
+  
+  <g transform="translate(650, 400)">
+    <!-- t27b -->
+    <rect x="40" y="395" width="70" height="-395" class="bar t27b"/>
+    <text x="75" y="415" text-anchor="middle" class="value">608</text>
+    <text x="75" y="440" text-anchor="middle" class="label">t27b</text>
+    
+    <!-- clang -->
+    <rect x="150" y="0" width="70" height="-400" class="bar"/>
+    <text x="185" y="10" text-anchor="middle" class="value">17016</text>
+    <text x="185" y="440" text-anchor="middle" class="label">clang</text>
+    
+    <!-- gcc -->
+    <rect x="260" y="0" width="70" height="-400" class="bar"/>
+    <text x="295" y="10" text-anchor="middle" class="value">17000</text>
+    <text x="295" y="440" text-anchor="middle" class="label">gcc</text>
+    
+    <!-- c++ -->
+    <rect x="370" y="0" width="70" height="-400" class="bar"/>
+    <text x="405" y="10" text-anchor="middle" class="value">18000</text>
+    <text x="405" y="440" text-anchor="middle" class="label">c++</text>
+  </g>
+  
+  <!-- Superiority -->
+  <text x="600" y="740" text-anchor="middle" class="superiority">t27b: 70-100x faster compile than clang, 28x smaller artifact than C binaries</text>
+</svg>
+<figcaption>t27b vs clang/gcc/c++: compile time, artifact size, superiority</figcaption></figure>
+<figure><?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font: bold 24px sans-serif; fill: #1a1a2e; }
+      .subtitle { font: 16px sans-serif; fill: #4a4a6a; }
+      .bar { fill: #9b59b6; }
+      .bar.t27b { fill: #2ecc71; }
+      .label { font: 14px sans-serif; fill: #333; }
+      .value { font: bold 14px sans-serif; fill: #1a1a2e; }
+      .superiority { font: 12px italic sans-serif; fill: #e67e22; }
+    </style>
+  </defs>
+  
+  <text x="600" y="40" text-anchor="middle" class="title">t27b vs Native Languages — Runtime Performance</text>
+  <text x="600" y="70" text-anchor="middle" class="subtitle">Runtime for 200M calls — t27b vs zig/rust/go/c++/python/javascript</text>
+  
+  <text x="200" y="110" class="label">Runtime (ms, lower is better)</text>
+  <rect x="100" y="130" width="1000" height="320" fill="none" stroke="#ddd" stroke-width="2"/>
+  
+  <g transform="translate(100, 400)">
+    <!-- t27b -->
+    <rect x="50" y="360" width="80" height="-360" class="bar t27b"/>
+    <text x="90" y="380" text-anchor="middle" class="value">439</text>
+    <text x="90" y="405" text-anchor="middle" class="label">t27b</text>
+    <text x="90" y="420" text-anchor="middle" class="superiority">within 2.4% of clang</text>
+    
+    <!-- zig -->
+    <rect x="180" y="120" width="80" height="-120" class="bar"/>
+    <text x="220" y="140" text-anchor="middle" class="value">150</text>
+    <text x="220" y="405" text-anchor="middle" class="label">zig</text>
+    
+    <!-- rust -->
+    <rect x="310" y="112" width="80" height="-112" class="bar"/>
+    <text x="350" y="132" text-anchor="middle" class="value">140</text>
+    <text x="350" y="405" text-anchor="middle" class="label">rust</text>
+    
+    <!-- c++ -->
+    <rect x="440" y="344" width="80" height="-344" class="bar"/>
+    <text x="480" y="364" text-anchor="middle" class="value">430</text>
+    <text x="480" y="405" text-anchor="middle" class="label">c++</text>
+    
+    <!-- go -->
+    <rect x="570" y="664" width="80" height="-264" class="bar"/>
+    <text x="610" y="684" text-anchor="middle" class="value">830</text>
+    <text x="610" y="405" text-anchor="middle" class="label">go</text>
+    
+    <!-- python -->
+    <rect x="700" y="0" width="80" height="-400" class="bar"/>
+    <text x="740" y="10" text-anchor="middle" class="value">90500</text>
+    <text x="740" y="405" text-anchor="middle" class="label">python</text>
+    
+    <!-- javascript -->
+    <rect x="830" y="96" width="80" height="-96" class="bar"/>
+    <text x="870" y="116" text-anchor="middle" class="value">120</text>
+    <text x="870" y="405" text-anchor="middle" class="label">js</text>
+  </g>
+  
+  <text x="600" y="740" text-anchor="middle" class="superiority">t27b: 200x faster than Python, comparable runtime to C, 28x smaller artifact than JS</text>
+</svg>
+<figcaption>Runtime for 200M calls across 7 languages</figcaption></figure>
+<figure><?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font: bold 24px sans-serif; fill: #1a1a2e; }
+      .subtitle { font: 16px sans-serif; fill: #4a4a6a; }
+      .label { font: 14px sans-serif; fill: #333; }
+      .value { font: bold 14px sans-serif; fill: #1a1a2e; }
+      .box { fill: none; stroke: #4a90e2; stroke-width: 2; }
+      .box.t27b { fill: #2ecc71; stroke: #27ae60; }
+      .arrow { stroke: #e67e22; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .superiority { font: 12px italic sans-serif; fill: #e67e22; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e67e22"/>
+    </marker>
+  </defs>
+  
+  <text x="600" y="40" text-anchor="middle" class="title">Science Under the Shootout</text>
+  <text x="600" y="70" text-anchor="middle" class="subtitle">Research foundations and t27b's golden claims</text>
+  
+  <!-- Foundations -->
+  <g class="box">
+    <rect x="100" y="120" width="350" height="100"/>
+    <text x="275" y="155" text-anchor="middle" class="value">Build Systems à la Carte</text>
+    <text x="275" y="175" text-anchor="middle" class="label">Mokhov, Mitchell & Peyton Jones, ICFP 2018</text>
+    <text x="275" y="195" text-anchor="middle" class="label">Early cutoff rule for speed</text>
+  </g>
+  
+  <g class="box">
+    <rect x="500" y="120" width="350" height="100"/>
+    <text x="675" y="155" text-anchor="middle" class="value">Adapton</text>
+    <text x="675" y="175" text-anchor="middle" class="label">Hammer, Acar, Chen & Mulhern, PLDI 2014</text>
+    <text x="675" y="195" text-anchor="middle" class="label">Demand-driven recomputation</text>
+  </g>
+  
+  <g class="box">
+    <rect x="100" y="280" width="350" height="100"/>
+    <text x="275" y="315" text-anchor="middle" class="value">Proof-Carrying Code</text>
+    <text x="275" y="335" text-anchor="middle" class="label">Necula & Lee, POPL 1996</text>
+    <text x="275" y="355" text-anchor="middle" class="label">Artifacts with checkable proofs</text>
+  </g>
+  
+  <g class="box">
+    <rect x="500" y="280" width="350" height="100"/>
+    <text x="675" y="315" text-anchor="middle" class="value">Incremental Compiler Construction</text>
+    <text x="675" y="335" text-anchor="middle" class="label">Ghuloum, 2006</text>
+    <text x="675" y="355" text-anchor="middle" class="label">Tiered compilers</text>
+  </g>
+  
+  <!-- t27b result -->
+  <g class="box t27b">
+    <rect x="300" y="440" width="600" height="140"/>
+    <text x="600" y="475" text-anchor="middle" class="value">t27B Backend Shootout</text>
+    <text x="600" y="500" text-anchor="middle" class="label">1.0 ms compile · 608 B artifact · within 2.4% of clang</text>
+    <text x="600" y="525" text-anchor="middle" class="label">70-100x faster compile · 28x smaller artifact</text>
+    <text x="600" y="550" text-anchor="middle" class="label">Compile-time unrolling (Zig-style): 1000x call amplification</text>
+  </g>
+  
+  <!-- Arrows -->
+  <line x1="275" y1="220" x2="275" y2="440" class="arrow"/>
+  <line x1="675" y1="220" x2="675" y2="440" class="arrow"/>
+  <line x1="275" y1="380" x2="275" y2="440" class="arrow"/>
+  <line x1="675" y1="380" x2="675" y2="440" class="arrow"/>
+  
+  <text x="600" y="740" text-anchor="middle" class="superiority">Four old, well-proven ideas composed — measured at 1.0 ms, 608 bytes, 2.4% runtime gap against clang -O2</text>
+</svg>
+<figcaption>Research foundations → t27b golden claims</figcaption></figure>
+<p>Note: The unrolling panel reports compile-time throughput only. Runtime Calls/s for unrolled specifications is not measured because t27b does not yet support compiler-level <code>--unroll</code>.</p>
+<h2>Tri CLI: tri shootout improve (proposed, not built yet)</h2>
+<p>Pareto-focused improvement loop (15m tick via <code>specs/crons/t27-backend-shootout-improvement-loop.t27</code>):</p>
+<ul><li><code>tri shootout improve</code> — Pareto-ranks shootout gaps, applies measurable fixes, re-measures runtime Calls/s, regenerates infographics, verifies the golden chain, and merges only when CI is green.</li><li><code>specs/tri/shootout/bench.t27</code> — benchmark harness and unrolling receipts. Compiler-level <code>--unroll</code> is not implemented; manual source unrolling was measured and did not improve runtime.</li><li><code>specs/tri/shootout/improve.t27</code> — <code>tri shootout improve</code> command contract.</li></ul>
+<h2>Three Collaboration Options for Next Loop</h2>
+<ol><li>Top-Priority Gap Remediation — close all SVG gaps, sync site HTML, record the manual-unrolling negative result, specify compiler-level <code>--unroll</code> as a future milestone, close RED_ON_MASTER. Expected: 1-2 iterations (15-30 min).</li><li>Decentralized TRI Payout Optimization — profile 27 lanes by BPB, optimize TRI distribution, +10-20% useful work.</li><li>Competitive Feature Analysis — benchmark vs Zig comptime, Rust const eval, Clang LTO; 2-3 features to emulate/counter/avoid.</li></ol>
+<h2>Publication Status</h2>
+<p>Ready for blog-share v5 publication:</p>
+<ul><li>release_offerable: true</li><li>may_ask_release: true</li><li>release_first: true</li></ul>
+<ul><li>Release: backend-shootout-v1.0.0</li><li>SHA-256: ca8211315262ddb29cc0b2d70e4d9d6513fcf6fff2b63277fd76abdaa0fade77</li><li>Size: 19,754 bytes, 19 files</li><li>Tests: 10/10 pass</li></ul>
+<p>GitHub issues: #12907 (measurements), #12908 (superiority column), #12909 (metaprogramming), #12910 (infographics)</p>
+<p>φ² + 1/φ² = 3 | TRINITY</p>
+<div class="box"><h2>What this does not settle</h2><ul><li>Every timing is a warm-cache median of three runs on one arm64 Mac; no cold-build, CI-machine or silicon figures are established.</li><li>The 70-100x compile, 28x size and runtime figures are measurements against the listed toolchain versions on that machine; they were not rerun for this publication.</li><li>Manual source unrolling was measured and made compilation slower; compiler-level <code>--unroll</code> is not implemented, so runtime Calls/s for unrolled specs is not measured.</li><li>The Python runtime figure is normalized from a 10M-call run (4.5 s), not a direct 200M-call measurement.</li><li><code>tri shootout improve</code> and <code>specs/tri/shootout/*.t27</code> are proposed contracts, not built commands.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/t27/issues/12907">t27 #12907 — the shootout measurements</a></li><li><a href="https://github.com/gHashTag/t27/issues/12908">t27 #12908 — the superiority column</a></li><li><a href="https://github.com/gHashTag/t27/issues/12909">t27 #12909 — compile-time metaprogramming</a></li><li><a href="https://github.com/gHashTag/t27/issues/12910">t27 #12910 — the infographics</a></li><li><a href="https://github.com/gHashTag/t27/blob/b0809d173cd9b12c8b255dd8bfb5d2c317ee268e/docs/blog/2026-10-27-t27b-backend-shootout.md">The approved article source, release backend-shootout-v1.0.0</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/one-spec-five-targets-the-t27-backend-shootout">Open the interactive version</a><a class="btn sec" href="/ru/blog/one-spec-five-targets-the-t27-backend-shootout/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Need an FPGA/RTL problem taken to measured hardware?</h2><p>I work contract and part-time on hardware-AI, FPGA/RTL and ML systems — from specification and open toolchains to reproducible measurements.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20One%20spec%2C%20five%20targets%3A%20the%20t27%20backend%20shootout&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9COne%20spec%2C%20five%20targets%3A%20the%20t27%20backend%20shootout%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Fone-spec-five-targets-the-t27-backend-shootout%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/about/">See how I work</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

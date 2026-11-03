@@ -6,7 +6,19 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 19 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>One spec, five targets: the t27 backend shootout</title>
+      <link>https://t27.ai/#/blog/one-spec-five-targets-the-t27-backend-shootout</link>
+      <guid isPermaLink="false">one-spec-five-targets-the-t27-backend-shootout</guid>
+      <pubDate>Tue, 27 Oct 2026 12:00:00 GMT</pubDate>
+      <description>[measured on arm64 Mac, warm cache, median of three runs] One spec — specs/t27os/heartbeat_monitor.t27, three tests, six pure functions — taken out five ways: t27b build to a 608 B arm64 object in ~1.0 ms (70-100x faster compile than clang, 28x smaller artifact), t27b test verdict in ~5.3 ms, and t27b verilog to ~311 lines RTL. Runtime sits within 2.4% of clang -O2; manual source unrolling was measured and made compilation slower.</description>
+      <category>Compiler</category>
+      <category>Benchmark</category>
+      <category>t27b</category>
+      <category>arm64</category>
+      <category>Verilog</category>
+    </item>
     <item>
       <title>The Queen and the hive: a course on how the project builds itself, 27 widgets on compiled specs</title>
       <link>https://t27.ai/#/blog/the-queen-and-the-hive-a-course-on-how-the-project-builds-itself</link>
