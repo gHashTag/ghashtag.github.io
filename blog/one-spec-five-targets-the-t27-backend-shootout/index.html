@@ -116,285 +116,284 @@ footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d
           +--t27b watch--&gt; rebuild + act on every spec change (live monitor)</code></pre>
 <p><code>t27b watch &lt;spec&gt; -o out.o --then &#x27;&lt;cmd&gt;&#x27;</code> rebuilds on file change and fires <code>&lt;cmd&gt;</code> after every successful build — measured live: spec touched, REBUILT printed within a second. That is the heartbeat primitive.</p>
 <h2>Infographics</h2>
-<figure><?xml version="1.0" encoding="UTF-8"?>
-<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+<figure><svg id='shootout-compile' width='1200' height='800' xmlns='http://www.w3.org/2000/svg'>
   <defs>
     <style>
-      .title { font: bold 24px sans-serif; fill: #1a1a2e; }
-      .subtitle { font: 16px sans-serif; fill: #4a4a6a; }
-      .bar { fill: #4a90e2; }
-      .bar.t27b { fill: #2ecc71; }
-      .label { font: 14px sans-serif; fill: #333; }
-      .value { font: bold 14px sans-serif; fill: #1a1a2e; }
-      .superiority { font: 12px italic sans-serif; fill: #e67e22; }
+      #shootout-compile .title { font-family: sans-serif; font-size: 24px; font-weight: 700; fill: #1a1a2e; }
+      #shootout-compile .subtitle { font-family: sans-serif; font-size: 16px; fill: #4a4a6a; }
+      #shootout-compile .bar { fill: #4a90e2; }
+      #shootout-compile .bar.t27b { fill: #2ecc71; }
+      #shootout-compile .grid { stroke: #e4e4ee; stroke-width: 1; }
+      #shootout-compile .axis { stroke: #999; stroke-width: 1.5; }
+      #shootout-compile .label { font-family: sans-serif; font-size: 14px; fill: #333; }
+      #shootout-compile .na { font-family: sans-serif; font-size: 14px; fill: #999; }
+      #shootout-compile .value { font-family: sans-serif; font-size: 14px; font-weight: 700; fill: #1a1a2e; }
+      #shootout-compile .superiority { font-family: sans-serif; font-style: italic; font-size: 12px; fill: #e67e22; }
     </style>
   </defs>
-  
-  <!-- Title -->
-  <text x="600" y="40" text-anchor="middle" class="title">T27B Backend Shootout — Gold on All Axes</text>
-  <text x="600" y="70" text-anchor="middle" class="subtitle">Compile time | Size | Runtime | Metaprogramming calls</text>
-  
-  <!-- Compile time chart -->
-  <text x="150" y="110" class="label">Compile time (warm, ms)</text>
-  <rect x="100" y="130" width="950" height="320" fill="none" stroke="#ddd" stroke-width="2"/>
-  
-  <!-- Y axis labels -->
-  <text x="90" y="150" text-anchor="end" class="label">10s</text>
-  <text x="90" y="230" text-anchor="end" class="label">1s</text>
-  <text x="90" y="310" text-anchor="end" class="label">100ms</text>
-  <text x="90" y="390" text-anchor="end" class="label">10ms</text>
-  <text x="90" y="450" text-anchor="end" class="label">1ms</text>
-  
-  <!-- Bars: t27b=1ms, clang=90ms, gcc=1490ms, zig=10300ms, go=115ms, rust=125ms, python=N/A, js=N/A -->
-  <g transform="translate(100, 450)">
-    <!-- t27b -->
-    <rect x="50" y="400" width="80" height="-400" class="bar t27b"/>
-    <text x="90" y="420" text-anchor="middle" class="value">1.0 ms</text>
-    <text x="90" y="445" text-anchor="middle" class="label">t27b</text>
-    <text x="90" y="460" text-anchor="middle" class="superiority">70-100x faster than clang</text>
-    
-    <!-- clang -->
-    <rect x="180" y="360" width="80" height="-360" class="bar"/>
-    <text x="220" y="380" text-anchor="middle" class="value">90 ms</text>
-    <text x="220" y="405" text-anchor="middle" class="label">clang</text>
-    
-    <!-- gcc -->
-    <rect x="310" y="0" width="80" height="-450" class="bar"/>
-    <text x="350" y="20" text-anchor="middle" class="value">1490 ms</text>
-    <text x="350" y="405" text-anchor="middle" class="label">gcc</text>
-    
-    <!-- zig -->
-    <rect x="440" y="0" width="80" height="-450" class="bar"/>
-    <text x="480" y="20" text-anchor="middle" class="value">10300 ms</text>
-    <text x="480" y="405" text-anchor="middle" class="label">zig</text>
-    
-    <!-- go -->
-    <rect x="570" y="390" width="80" height="-390" class="bar"/>
-    <text x="610" y="410" text-anchor="middle" class="value">115 ms</text>
-    <text x="610" y="405" text-anchor="middle" class="label">go</text>
-    
-    <!-- rust -->
-    <rect x="700" y="375" width="80" height="-375" class="bar"/>
-    <text x="740" y="395" text-anchor="middle" class="value">125 ms</text>
-    <text x="740" y="405" text-anchor="middle" class="label">rust</text>
-    
-    <!-- python -->
-    <rect x="830" y="0" width="80" height="-450" class="bar"/>
-    <text x="870" y="20" text-anchor="middle" class="value">N/A</text>
-    <text x="870" y="405" text-anchor="middle" class="label">python</text>
-    
-    <!-- javascript -->
-    <rect x="960" y="0" width="80" height="-450" class="bar"/>
-    <text x="1000" y="20" text-anchor="middle" class="value">N/A</text>
-    <text x="1000" y="405" text-anchor="middle" class="label">js</text>
+
+  <text x='600' y='40' text-anchor='middle' class='title'>T27B Backend Shootout — Gold on All Axes</text>
+  <text x='600' y='70' text-anchor='middle' class='subtitle'>Compile time | Size | Runtime | Metaprogramming calls</text>
+
+  <text x='150' y='110' class='label'>Compile time (warm, ms — log scale)</text>
+  <text x='1050' y='110' text-anchor='end' class='label'>bars show range midpoints — full ranges in the table above</text>
+  <rect x='100' y='130' width='950' height='320' fill='none' stroke='#ddd' stroke-width='2'/>
+
+  <text x='90' y='454' text-anchor='end' class='label'>1ms</text>
+  <text x='90' y='374' text-anchor='end' class='label'>10ms</text>
+  <text x='90' y='294' text-anchor='end' class='label'>100ms</text>
+  <text x='90' y='214' text-anchor='end' class='label'>1s</text>
+  <text x='90' y='134' text-anchor='end' class='label'>10s</text>
+
+  <g transform='translate(100, 450)'>
+    <line x1='0' y1='-320' x2='950' y2='-320' class='grid'/>
+    <line x1='0' y1='-240' x2='950' y2='-240' class='grid'/>
+    <line x1='0' y1='-160' x2='950' y2='-160' class='grid'/>
+    <line x1='0' y1='-80' x2='950' y2='-80' class='grid'/>
+    <line x1='0' y1='0' x2='950' y2='0' class='axis'/>
+
+    <rect x='40' y='-8' width='80' height='8' class='bar t27b'/>
+    <text x='80' y='-16' text-anchor='middle' class='value'>1.0 ms</text>
+    <text x='80' y='22' text-anchor='middle' class='label'>t27b</text>
+    <text x='80' y='38' text-anchor='middle' class='superiority'>70-100x faster than clang</text>
+
+    <rect x='155' y='-156' width='80' height='156' class='bar'/>
+    <text x='195' y='-164' text-anchor='middle' class='value'>90 ms</text>
+    <text x='195' y='22' text-anchor='middle' class='label'>clang</text>
+
+    <rect x='270' y='-254' width='80' height='254' class='bar'/>
+    <text x='310' y='-262' text-anchor='middle' class='value'>1.49 s</text>
+    <text x='310' y='22' text-anchor='middle' class='label'>gcc</text>
+
+    <rect x='385' y='-320' width='80' height='320' class='bar'/>
+    <text x='425' y='-328' text-anchor='middle' class='value'>10.3 s</text>
+    <text x='425' y='22' text-anchor='middle' class='label'>zig</text>
+
+    <rect x='500' y='-165' width='80' height='165' class='bar'/>
+    <text x='540' y='-173' text-anchor='middle' class='value'>115 ms</text>
+    <text x='540' y='22' text-anchor='middle' class='label'>go</text>
+
+    <rect x='615' y='-168' width='80' height='168' class='bar'/>
+    <text x='655' y='-176' text-anchor='middle' class='value'>125 ms</text>
+    <text x='655' y='22' text-anchor='middle' class='label'>rust</text>
+
+    <text x='770' y='-8' text-anchor='middle' class='na'>N/A</text>
+    <text x='770' y='22' text-anchor='middle' class='label'>python</text>
+
+    <text x='885' y='-8' text-anchor='middle' class='na'>N/A</text>
+    <text x='885' y='22' text-anchor='middle' class='label'>js</text>
   </g>
-  
-  <!-- Superiority annotations -->
-  <text x="600" y="740" text-anchor="middle" class="superiority">t27b: 70-100x faster compile, 28x smaller artifact, 200x faster than Python</text>
-</svg>
-<figcaption>Compile time | Size | Runtime Calls/s | Unrolling compile receipt</figcaption></figure>
-<figure><?xml version="1.0" encoding="UTF-8"?>
-<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+
+  <text x='600' y='740' text-anchor='middle' class='superiority'>t27b: 70-100x faster compile, 28x smaller artifact, 200x faster than Python</text>
+</svg><figcaption>Compile time (warm, ms, log scale) — bars show range midpoints; Python/JS have no compile step</figcaption></figure>
+<figure><svg id='shootout-vs-c' width='1200' height='800' xmlns='http://www.w3.org/2000/svg'>
   <defs>
     <style>
-      .title { font: bold 24px sans-serif; fill: #1a1a2e; }
-      .subtitle { font: 16px sans-serif; fill: #4a4a6a; }
-      .bar { fill: #3498db; }
-      .bar.t27b { fill: #2ecc71; }
-      .label { font: 14px sans-serif; fill: #333; }
-      .value { font: bold 14px sans-serif; fill: #1a1a2e; }
-      .superiority { font: 12px italic sans-serif; fill: #e67e22; }
+      #shootout-vs-c .title { font-family: sans-serif; font-size: 24px; font-weight: 700; fill: #1a1a2e; }
+      #shootout-vs-c .subtitle { font-family: sans-serif; font-size: 16px; fill: #4a4a6a; }
+      #shootout-vs-c .bar { fill: #3498db; }
+      #shootout-vs-c .bar.t27b { fill: #2ecc71; }
+      #shootout-vs-c .grid { stroke: #e4e4ee; stroke-width: 1; }
+      #shootout-vs-c .axis { stroke: #999; stroke-width: 1.5; }
+      #shootout-vs-c .label { font-family: sans-serif; font-size: 14px; fill: #333; }
+      #shootout-vs-c .value { font-family: sans-serif; font-size: 14px; font-weight: 700; fill: #1a1a2e; }
+      #shootout-vs-c .superiority { font-family: sans-serif; font-style: italic; font-size: 12px; fill: #e67e22; }
     </style>
   </defs>
-  
-  <text x="600" y="40" text-anchor="middle" class="title">t27b vs C — Compilation &amp; Size</text>
-  <text x="600" y="70" text-anchor="middle" class="subtitle">t27b vs clang/gcc/c++ — compile time, artifact size, superiority</text>
-  
-  <!-- Compile time -->
-  <text x="200" y="110" class="label">Compile time (warm, ms)</text>
-  <rect x="100" y="130" width="500" height="320" fill="none" stroke="#ddd" stroke-width="2"/>
-  
-  <g transform="translate(100, 400)">
-    <!-- t27b -->
-    <rect x="40" y="390" width="70" height="-390" class="bar t27b"/>
-    <text x="75" y="410" text-anchor="middle" class="value">1.0</text>
-    <text x="75" y="435" text-anchor="middle" class="label">t27b</text>
-    
-    <!-- clang -->
-    <rect x="150" y="310" width="70" height="-310" class="bar"/>
-    <text x="185" y="330" text-anchor="middle" class="value">90</text>
-    <text x="185" y="435" text-anchor="middle" class="label">clang</text>
-    
-    <!-- gcc -->
-    <rect x="260" y="0" width="70" height="-400" class="bar"/>
-    <text x="295" y="10" text-anchor="middle" class="value">1490</text>
-    <text x="295" y="435" text-anchor="middle" class="label">gcc</text>
-    
-    <!-- c++ -->
-    <rect x="370" y="0" width="70" height="-400" class="bar"/>
-    <text x="405" y="10" text-anchor="middle" class="value">350</text>
-    <text x="405" y="435" text-anchor="middle" class="label">c++</text>
+
+  <text x='600' y='40' text-anchor='middle' class='title'>t27b vs C — Compilation &amp; Size</text>
+  <text x='600' y='70' text-anchor='middle' class='subtitle'>t27b vs clang/gcc/c++ — compile time (log scale), artifact size (linear)</text>
+
+  <text x='120' y='110' class='label'>Compile time (warm, ms)</text>
+  <rect x='100' y='130' width='500' height='320' fill='none' stroke='#ddd' stroke-width='2'/>
+
+  <text x='90' y='454' text-anchor='end' class='label'>1ms</text>
+  <text x='90' y='374' text-anchor='end' class='label'>10ms</text>
+  <text x='90' y='294' text-anchor='end' class='label'>100ms</text>
+  <text x='90' y='214' text-anchor='end' class='label'>1s</text>
+  <text x='90' y='134' text-anchor='end' class='label'>10s</text>
+
+  <g transform='translate(100, 450)'>
+    <line x1='0' y1='-320' x2='500' y2='-320' class='grid'/>
+    <line x1='0' y1='-240' x2='500' y2='-240' class='grid'/>
+    <line x1='0' y1='-160' x2='500' y2='-160' class='grid'/>
+    <line x1='0' y1='-80' x2='500' y2='-80' class='grid'/>
+    <line x1='0' y1='0' x2='500' y2='0' class='axis'/>
+
+    <rect x='45' y='-8' width='70' height='8' class='bar t27b'/>
+    <text x='80' y='-16' text-anchor='middle' class='value'>1.0 ms</text>
+    <text x='80' y='22' text-anchor='middle' class='label'>t27b</text>
+
+    <rect x='155' y='-156' width='70' height='156' class='bar'/>
+    <text x='190' y='-164' text-anchor='middle' class='value'>90 ms</text>
+    <text x='190' y='22' text-anchor='middle' class='label'>clang</text>
+
+    <rect x='265' y='-254' width='70' height='254' class='bar'/>
+    <text x='300' y='-262' text-anchor='middle' class='value'>1.49 s</text>
+    <text x='300' y='22' text-anchor='middle' class='label'>gcc</text>
+
+    <rect x='375' y='-204' width='70' height='204' class='bar'/>
+    <text x='410' y='-212' text-anchor='middle' class='value'>350 ms</text>
+    <text x='410' y='22' text-anchor='middle' class='label'>c++</text>
   </g>
-  
-  <!-- Size -->
-  <text x="750" y="110" class="label">Artifact size (bytes)</text>
-  <rect x="650" y="130" width="500" height="320" fill="none" stroke="#ddd" stroke-width="2"/>
-  
-  <g transform="translate(650, 400)">
-    <!-- t27b -->
-    <rect x="40" y="395" width="70" height="-395" class="bar t27b"/>
-    <text x="75" y="415" text-anchor="middle" class="value">608</text>
-    <text x="75" y="440" text-anchor="middle" class="label">t27b</text>
-    
-    <!-- clang -->
-    <rect x="150" y="0" width="70" height="-400" class="bar"/>
-    <text x="185" y="10" text-anchor="middle" class="value">17016</text>
-    <text x="185" y="440" text-anchor="middle" class="label">clang</text>
-    
-    <!-- gcc -->
-    <rect x="260" y="0" width="70" height="-400" class="bar"/>
-    <text x="295" y="10" text-anchor="middle" class="value">17000</text>
-    <text x="295" y="440" text-anchor="middle" class="label">gcc</text>
-    
-    <!-- c++ -->
-    <rect x="370" y="0" width="70" height="-400" class="bar"/>
-    <text x="405" y="10" text-anchor="middle" class="value">18000</text>
-    <text x="405" y="440" text-anchor="middle" class="label">c++</text>
+
+  <text x='670' y='110' class='label'>Artifact size (bytes)</text>
+  <rect x='650' y='130' width='500' height='320' fill='none' stroke='#ddd' stroke-width='2'/>
+
+  <text x='642' y='454' text-anchor='end' class='label'>0</text>
+  <text x='642' y='374' text-anchor='end' class='label'>5KB</text>
+  <text x='642' y='294' text-anchor='end' class='label'>10KB</text>
+  <text x='642' y='214' text-anchor='end' class='label'>15KB</text>
+  <text x='642' y='134' text-anchor='end' class='label'>20KB</text>
+
+  <g transform='translate(650, 450)'>
+    <line x1='0' y1='-320' x2='500' y2='-320' class='grid'/>
+    <line x1='0' y1='-240' x2='500' y2='-240' class='grid'/>
+    <line x1='0' y1='-160' x2='500' y2='-160' class='grid'/>
+    <line x1='0' y1='-80' x2='500' y2='-80' class='grid'/>
+    <line x1='0' y1='0' x2='500' y2='0' class='axis'/>
+
+    <rect x='45' y='-10' width='70' height='10' class='bar t27b'/>
+    <text x='80' y='-18' text-anchor='middle' class='value'>608 B</text>
+    <text x='80' y='22' text-anchor='middle' class='label'>t27b</text>
+
+    <rect x='155' y='-272' width='70' height='272' class='bar'/>
+    <text x='190' y='-280' text-anchor='middle' class='value'>17,016 B</text>
+    <text x='190' y='22' text-anchor='middle' class='label'>clang</text>
+
+    <rect x='265' y='-272' width='70' height='272' class='bar'/>
+    <text x='300' y='-280' text-anchor='middle' class='value'>17 KB</text>
+    <text x='300' y='22' text-anchor='middle' class='label'>gcc</text>
+
+    <rect x='375' y='-288' width='70' height='288' class='bar'/>
+    <text x='410' y='-296' text-anchor='middle' class='value'>~18 KB</text>
+    <text x='410' y='22' text-anchor='middle' class='label'>c++</text>
   </g>
-  
-  <!-- Superiority -->
-  <text x="600" y="740" text-anchor="middle" class="superiority">t27b: 70-100x faster compile than clang, 28x smaller artifact than C binaries</text>
-</svg>
-<figcaption>t27b vs clang/gcc/c++: compile time, artifact size, superiority</figcaption></figure>
-<figure><?xml version="1.0" encoding="UTF-8"?>
-<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+
+  <text x='600' y='740' text-anchor='middle' class='superiority'>t27b: 70-100x faster compile than clang, 28x smaller artifact than C binaries</text>
+</svg><figcaption>t27b vs clang/gcc/c++: compile time, artifact size, superiority</figcaption></figure>
+<figure><svg id='shootout-runtime' width='1200' height='800' xmlns='http://www.w3.org/2000/svg'>
   <defs>
     <style>
-      .title { font: bold 24px sans-serif; fill: #1a1a2e; }
-      .subtitle { font: 16px sans-serif; fill: #4a4a6a; }
-      .bar { fill: #9b59b6; }
-      .bar.t27b { fill: #2ecc71; }
-      .label { font: 14px sans-serif; fill: #333; }
-      .value { font: bold 14px sans-serif; fill: #1a1a2e; }
-      .superiority { font: 12px italic sans-serif; fill: #e67e22; }
+      #shootout-runtime .title { font-family: sans-serif; font-size: 24px; font-weight: 700; fill: #1a1a2e; }
+      #shootout-runtime .subtitle { font-family: sans-serif; font-size: 16px; fill: #4a4a6a; }
+      #shootout-runtime .bar { fill: #9b59b6; }
+      #shootout-runtime .bar.t27b { fill: #2ecc71; }
+      #shootout-runtime .grid { stroke: #e4e4ee; stroke-width: 1; }
+      #shootout-runtime .axis { stroke: #999; stroke-width: 1.5; }
+      #shootout-runtime .label { font-family: sans-serif; font-size: 14px; fill: #333; }
+      #shootout-runtime .value { font-family: sans-serif; font-size: 14px; font-weight: 700; fill: #1a1a2e; }
+      #shootout-runtime .superiority { font-family: sans-serif; font-style: italic; font-size: 12px; fill: #e67e22; }
     </style>
   </defs>
-  
-  <text x="600" y="40" text-anchor="middle" class="title">t27b vs Native Languages — Runtime Performance</text>
-  <text x="600" y="70" text-anchor="middle" class="subtitle">Runtime for 200M calls — t27b vs zig/rust/go/c++/python/javascript</text>
-  
-  <text x="200" y="110" class="label">Runtime (ms, lower is better)</text>
-  <rect x="100" y="130" width="1000" height="320" fill="none" stroke="#ddd" stroke-width="2"/>
-  
-  <g transform="translate(100, 400)">
-    <!-- t27b -->
-    <rect x="50" y="360" width="80" height="-360" class="bar t27b"/>
-    <text x="90" y="380" text-anchor="middle" class="value">439</text>
-    <text x="90" y="405" text-anchor="middle" class="label">t27b</text>
-    <text x="90" y="420" text-anchor="middle" class="superiority">within 2.4% of clang</text>
-    
-    <!-- zig -->
-    <rect x="180" y="120" width="80" height="-120" class="bar"/>
-    <text x="220" y="140" text-anchor="middle" class="value">150</text>
-    <text x="220" y="405" text-anchor="middle" class="label">zig</text>
-    
-    <!-- rust -->
-    <rect x="310" y="112" width="80" height="-112" class="bar"/>
-    <text x="350" y="132" text-anchor="middle" class="value">140</text>
-    <text x="350" y="405" text-anchor="middle" class="label">rust</text>
-    
-    <!-- c++ -->
-    <rect x="440" y="344" width="80" height="-344" class="bar"/>
-    <text x="480" y="364" text-anchor="middle" class="value">430</text>
-    <text x="480" y="405" text-anchor="middle" class="label">c++</text>
-    
-    <!-- go -->
-    <rect x="570" y="664" width="80" height="-264" class="bar"/>
-    <text x="610" y="684" text-anchor="middle" class="value">830</text>
-    <text x="610" y="405" text-anchor="middle" class="label">go</text>
-    
-    <!-- python -->
-    <rect x="700" y="0" width="80" height="-400" class="bar"/>
-    <text x="740" y="10" text-anchor="middle" class="value">90500</text>
-    <text x="740" y="405" text-anchor="middle" class="label">python</text>
-    
-    <!-- javascript -->
-    <rect x="830" y="96" width="80" height="-96" class="bar"/>
-    <text x="870" y="116" text-anchor="middle" class="value">120</text>
-    <text x="870" y="405" text-anchor="middle" class="label">js</text>
+
+  <text x='600' y='40' text-anchor='middle' class='title'>t27b vs Native Languages — Runtime Performance</text>
+  <text x='600' y='70' text-anchor='middle' class='subtitle'>Runtime for 200M calls — t27b vs zig/rust/go/c++/python/javascript (log scale)</text>
+
+  <text x='150' y='110' class='label'>Runtime (ms, lower is better)</text>
+  <text x='1100' y='110' text-anchor='end' class='label'>python normalized from 10M calls (see table)</text>
+  <rect x='100' y='130' width='1000' height='320' fill='none' stroke='#ddd' stroke-width='2'/>
+
+  <text x='90' y='454' text-anchor='end' class='label'>10ms</text>
+  <text x='90' y='374' text-anchor='end' class='label'>100ms</text>
+  <text x='90' y='294' text-anchor='end' class='label'>1s</text>
+  <text x='90' y='214' text-anchor='end' class='label'>10s</text>
+  <text x='90' y='134' text-anchor='end' class='label'>100s</text>
+
+  <g transform='translate(100, 450)'>
+    <line x1='0' y1='-320' x2='1000' y2='-320' class='grid'/>
+    <line x1='0' y1='-240' x2='1000' y2='-240' class='grid'/>
+    <line x1='0' y1='-160' x2='1000' y2='-160' class='grid'/>
+    <line x1='0' y1='-80' x2='1000' y2='-80' class='grid'/>
+    <line x1='0' y1='0' x2='1000' y2='0' class='axis'/>
+
+    <rect x='60' y='-131' width='80' height='131' class='bar t27b'/>
+    <text x='100' y='-139' text-anchor='middle' class='value'>439</text>
+    <text x='100' y='22' text-anchor='middle' class='label'>t27b</text>
+    <text x='100' y='38' text-anchor='middle' class='superiority'>within 2.4% of clang</text>
+
+    <rect x='190' y='-94' width='80' height='94' class='bar'/>
+    <text x='230' y='-102' text-anchor='middle' class='value'>150</text>
+    <text x='230' y='22' text-anchor='middle' class='label'>zig</text>
+
+    <rect x='320' y='-92' width='80' height='92' class='bar'/>
+    <text x='360' y='-100' text-anchor='middle' class='value'>140</text>
+    <text x='360' y='22' text-anchor='middle' class='label'>rust</text>
+
+    <rect x='450' y='-131' width='80' height='131' class='bar'/>
+    <text x='490' y='-139' text-anchor='middle' class='value'>430</text>
+    <text x='490' y='22' text-anchor='middle' class='label'>c++</text>
+
+    <rect x='580' y='-154' width='80' height='154' class='bar'/>
+    <text x='620' y='-162' text-anchor='middle' class='value'>830</text>
+    <text x='620' y='22' text-anchor='middle' class='label'>go</text>
+
+    <rect x='710' y='-316' width='80' height='316' class='bar'/>
+    <text x='750' y='-324' text-anchor='middle' class='value'>90,500</text>
+    <text x='750' y='22' text-anchor='middle' class='label'>python</text>
+
+    <rect x='840' y='-86' width='80' height='86' class='bar'/>
+    <text x='880' y='-94' text-anchor='middle' class='value'>120</text>
+    <text x='880' y='22' text-anchor='middle' class='label'>js</text>
   </g>
-  
-  <text x="600" y="740" text-anchor="middle" class="superiority">t27b: 200x faster than Python, comparable runtime to C, 28x smaller artifact than JS</text>
-</svg>
-<figcaption>Runtime for 200M calls across 7 languages</figcaption></figure>
-<figure><?xml version="1.0" encoding="UTF-8"?>
-<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+
+  <text x='600' y='740' text-anchor='middle' class='superiority'>t27b: 200x faster than Python, comparable runtime to C, artifact 28x smaller than C binaries</text>
+</svg><figcaption>Runtime for 200M calls across 7 languages</figcaption></figure>
+<figure><svg id='shootout-science' width='1200' height='800' xmlns='http://www.w3.org/2000/svg'>
   <defs>
     <style>
-      .title { font: bold 24px sans-serif; fill: #1a1a2e; }
-      .subtitle { font: 16px sans-serif; fill: #4a4a6a; }
-      .label { font: 14px sans-serif; fill: #333; }
-      .value { font: bold 14px sans-serif; fill: #1a1a2e; }
-      .box { fill: none; stroke: #4a90e2; stroke-width: 2; }
-      .box.t27b { fill: #2ecc71; stroke: #27ae60; }
-      .arrow { stroke: #e67e22; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
-      .superiority { font: 12px italic sans-serif; fill: #e67e22; }
+      #shootout-science .title { font-family: sans-serif; font-size: 24px; font-weight: 700; fill: #1a1a2e; }
+      #shootout-science .subtitle { font-family: sans-serif; font-size: 16px; fill: #4a4a6a; }
+      #shootout-science .boxrect { fill: none; stroke: #4a90e2; stroke-width: 2; }
+      #shootout-science .resultrect { fill: #2ecc71; stroke: #27ae60; stroke-width: 2; }
+      #shootout-science .label { font-family: sans-serif; font-size: 14px; fill: #333; }
+      #shootout-science .value { font-family: sans-serif; font-size: 14px; font-weight: 700; fill: #1a1a2e; }
+      #shootout-science .gtitle { font-family: sans-serif; font-size: 15px; font-weight: 700; fill: #ffffff; }
+      #shootout-science .glabel { font-family: sans-serif; font-size: 14px; fill: #eafff2; }
+      #shootout-science .arrow { stroke: #e67e22; stroke-width: 2; fill: none; marker-end: url(#arrowhead-science); }
+      #shootout-science .superiority { font-family: sans-serif; font-style: italic; font-size: 12px; fill: #e67e22; }
     </style>
-    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#e67e22"/>
+    <marker id='arrowhead-science' markerWidth='10' markerHeight='7' refX='0' refY='3.5' orient='auto'>
+      <polygon points='0 0, 10 3.5, 0 7' fill='#e67e22'/>
     </marker>
   </defs>
-  
-  <text x="600" y="40" text-anchor="middle" class="title">Science Under the Shootout</text>
-  <text x="600" y="70" text-anchor="middle" class="subtitle">Research foundations and t27b's golden claims</text>
-  
-  <!-- Foundations -->
-  <g class="box">
-    <rect x="100" y="120" width="350" height="100"/>
-    <text x="275" y="155" text-anchor="middle" class="value">Build Systems à la Carte</text>
-    <text x="275" y="175" text-anchor="middle" class="label">Mokhov, Mitchell & Peyton Jones, ICFP 2018</text>
-    <text x="275" y="195" text-anchor="middle" class="label">Early cutoff rule for speed</text>
-  </g>
-  
-  <g class="box">
-    <rect x="500" y="120" width="350" height="100"/>
-    <text x="675" y="155" text-anchor="middle" class="value">Adapton</text>
-    <text x="675" y="175" text-anchor="middle" class="label">Hammer, Acar, Chen & Mulhern, PLDI 2014</text>
-    <text x="675" y="195" text-anchor="middle" class="label">Demand-driven recomputation</text>
-  </g>
-  
-  <g class="box">
-    <rect x="100" y="280" width="350" height="100"/>
-    <text x="275" y="315" text-anchor="middle" class="value">Proof-Carrying Code</text>
-    <text x="275" y="335" text-anchor="middle" class="label">Necula & Lee, POPL 1996</text>
-    <text x="275" y="355" text-anchor="middle" class="label">Artifacts with checkable proofs</text>
-  </g>
-  
-  <g class="box">
-    <rect x="500" y="280" width="350" height="100"/>
-    <text x="675" y="315" text-anchor="middle" class="value">Incremental Compiler Construction</text>
-    <text x="675" y="335" text-anchor="middle" class="label">Ghuloum, 2006</text>
-    <text x="675" y="355" text-anchor="middle" class="label">Tiered compilers</text>
-  </g>
-  
-  <!-- t27b result -->
-  <g class="box t27b">
-    <rect x="300" y="440" width="600" height="140"/>
-    <text x="600" y="475" text-anchor="middle" class="value">t27B Backend Shootout</text>
-    <text x="600" y="500" text-anchor="middle" class="label">1.0 ms compile · 608 B artifact · within 2.4% of clang</text>
-    <text x="600" y="525" text-anchor="middle" class="label">70-100x faster compile · 28x smaller artifact</text>
-    <text x="600" y="550" text-anchor="middle" class="label">Compile-time unrolling (Zig-style): 1000x call amplification</text>
-  </g>
-  
-  <!-- Arrows -->
-  <line x1="275" y1="220" x2="275" y2="440" class="arrow"/>
-  <line x1="675" y1="220" x2="675" y2="440" class="arrow"/>
-  <line x1="275" y1="380" x2="275" y2="440" class="arrow"/>
-  <line x1="675" y1="380" x2="675" y2="440" class="arrow"/>
-  
-  <text x="600" y="740" text-anchor="middle" class="superiority">Four old, well-proven ideas composed — measured at 1.0 ms, 608 bytes, 2.4% runtime gap against clang -O2</text>
-</svg>
-<figcaption>Research foundations → t27b golden claims</figcaption></figure>
+
+  <text x='600' y='40' text-anchor='middle' class='title'>Science Under the Shootout</text>
+  <text x='600' y='70' text-anchor='middle' class='subtitle'>Research foundations and t27b's golden claims</text>
+
+  <rect x='100' y='120' width='350' height='100' class='boxrect'/>
+  <text x='275' y='155' text-anchor='middle' class='value'>Build Systems à la Carte</text>
+  <text x='275' y='175' text-anchor='middle' class='label'>Mokhov, Mitchell &amp; Peyton Jones, ICFP 2018</text>
+  <text x='275' y='195' text-anchor='middle' class='label'>Early cutoff rule for speed</text>
+
+  <rect x='500' y='120' width='350' height='100' class='boxrect'/>
+  <text x='675' y='155' text-anchor='middle' class='value'>Adapton</text>
+  <text x='675' y='175' text-anchor='middle' class='label'>Hammer, Acar, Chen &amp; Mulhern, PLDI 2014</text>
+  <text x='675' y='195' text-anchor='middle' class='label'>Demand-driven recomputation</text>
+
+  <rect x='100' y='280' width='350' height='100' class='boxrect'/>
+  <text x='275' y='315' text-anchor='middle' class='value'>Proof-Carrying Code</text>
+  <text x='275' y='335' text-anchor='middle' class='label'>Necula &amp; Lee, POPL 1996</text>
+  <text x='275' y='355' text-anchor='middle' class='label'>Artifacts with checkable proofs</text>
+
+  <rect x='500' y='280' width='350' height='100' class='boxrect'/>
+  <text x='675' y='315' text-anchor='middle' class='value'>Incremental Compiler Construction</text>
+  <text x='675' y='335' text-anchor='middle' class='label'>Ghuloum, 2006</text>
+  <text x='675' y='355' text-anchor='middle' class='label'>Tiered compilers</text>
+
+  <rect x='300' y='440' width='600' height='140' class='resultrect'/>
+  <text x='600' y='475' text-anchor='middle' class='gtitle'>t27B Backend Shootout</text>
+  <text x='600' y='500' text-anchor='middle' class='glabel'>1.0 ms compile · 608 B artifact · within 2.4% of clang</text>
+  <text x='600' y='525' text-anchor='middle' class='glabel'>70-100x faster compile · 28x smaller artifact</text>
+  <text x='600' y='550' text-anchor='middle' class='glabel'>Compile-time unrolling: not yet implemented — manual unroll measured, compile slower</text>
+
+  <line x1='275' y1='220' x2='275' y2='440' class='arrow'/>
+  <line x1='675' y1='220' x2='675' y2='440' class='arrow'/>
+  <line x1='275' y1='380' x2='275' y2='440' class='arrow'/>
+  <line x1='675' y1='380' x2='675' y2='440' class='arrow'/>
+
+  <text x='600' y='740' text-anchor='middle' class='superiority'>Four old, well-proven ideas composed — measured at 1.0 ms, 608 bytes, 2.4% runtime gap against clang -O2</text>
+</svg><figcaption>Research foundations → t27b golden claims</figcaption></figure>
 <p>Note: The unrolling panel reports compile-time throughput only. Runtime Calls/s for unrolled specifications is not measured because t27b does not yet support compiler-level <code>--unroll</code>.</p>
 <h2>Tri CLI: tri shootout improve (proposed, not built yet)</h2>
 <p>Pareto-focused improvement loop (15m tick via <code>specs/crons/t27-backend-shootout-improvement-loop.t27</code>):</p>
