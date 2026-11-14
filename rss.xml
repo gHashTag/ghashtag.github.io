@@ -6,7 +6,17 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 27 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Twenty-seven widgets with no script, written by specs</title>
+      <link>https://t27.ai/#/blog/twenty-seven-widgets-with-no-script-written-by-specs</link>
+      <guid isPermaLink="false">twenty-seven-widgets-with-no-script-written-by-specs</guid>
+      <pubDate>Sat, 14 Nov 2026 12:00:00 GMT</pubDate>
+      <description>[counts and sizes are read from the specs and the emitted pages of the pull request that ships the course; a page cannot read what you type] Course 12, Vibecoding from zero, has 27 widgets and none runs a script: every widget state is one section of one HTML page, every click is a link to a fragment, and the CSS :target rule shows the one section the address names. A t27 spec writes each page, and a workflow fails when a committed page differs from the emitted one by a single byte. 18 pages are infographics, 9 have state, and the loop page, the largest, is 92 sections and 55,132 bytes.</description>
+      <category>t27</category>
+      <category>Course</category>
+      <category>Widgets</category>
+    </item>
     <item>
       <title>One spec, five targets: the t27 backend shootout</title>
       <link>https://t27.ai/#/blog/one-spec-five-targets-the-t27-backend-shootout</link>
