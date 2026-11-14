@@ -28,6 +28,16 @@
       <category>FPGA</category>
     </item>
     <item>
+      <title>Vibecoding course: lesson texts expanded to fill the chat grounding budget</title>
+      <link>https://t27.ai/#/blog/vibecoding-lesson-texts-fill-chat-budget</link>
+      <guid isPermaLink="false">vibecoding-lesson-texts-fill-chat-budget</guid>
+      <pubDate>Sat, 14 Nov 2026 12:00:00 GMT</pubDate>
+      <description>[lengths are from course-from-spec --check on eb7d0c2a7; API probes done in-browser] All 27 English lesson texts in the Vibecoding from Zero course were expanded from 361–685 bytes to 1170–1403 bytes each to fill the 1500-byte CHAT_BODY_MAX slot that course-chat.t27 injects into the system prompt. Nine Russian texts were updated for number parity, and eight superlative phrases were rephrased.</description>
+      <category>t27</category>
+      <category>Course</category>
+      <category>Vibecoding</category>
+    </item>
+    <item>
       <title>One spec, five targets: the t27 backend shootout</title>
       <link>https://t27.ai/#/blog/one-spec-five-targets-the-t27-backend-shootout</link>
       <guid isPermaLink="false">one-spec-five-targets-the-t27-backend-shootout</guid>
