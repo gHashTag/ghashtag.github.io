@@ -18,6 +18,16 @@
       <category>Widgets</category>
     </item>
     <item>
+      <title>The FPGA course names its bench board</title>
+      <link>https://t27.ai/#/blog/the-course-names-its-bench-board</link>
+      <guid isPermaLink="false">the-course-names-its-bench-board</guid>
+      <pubDate>Sat, 14 Nov 2026 12:00:00 GMT</pubDate>
+      <description>[the board is the one identified on the bench on 2026-10-08; the still was checked by decoding the PNG, not in a browser] Two lessons of the FPGA course now name the board on our bench, an ALINX AX7203 with the XC7A200T in the 484-ball FBG484 package, and the course lead lists the two X accounts.</description>
+      <category>t27</category>
+      <category>Course</category>
+      <category>FPGA</category>
+    </item>
+    <item>
       <title>One spec, five targets: the t27 backend shootout</title>
       <link>https://t27.ai/#/blog/one-spec-five-targets-the-t27-backend-shootout</link>
       <guid isPermaLink="false">one-spec-five-targets-the-t27-backend-shootout</guid>
