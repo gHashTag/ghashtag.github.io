@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru" data-theme="dark">
 <head>
-    <script>window.__WWB_API_BASE__ = "https://woody-130-17-9-230.sslip.io";</script>
-    <meta charset="utf-8"/>
-    <meta name="theme-color" content="#000000"/>
+    <script>window.__WWB_API_BASE__ = "https://woody-app-130-17-9-230.sslip.io";</script>
+    <!-- Establish TLS connection to Telegram CDN before the script tag is parsed. -->
+    <link rel="preconnect" href="https://telegram.org" crossorigin>
+    <link rel="dns-prefetch" href="https://telegram.org">
     <!-- Paint the loader immediately even when telegram.org is slow. The
          generated WASM module awaits this promise, so Telegram initData is
          still available before the Rust app starts. A hard SDK network error
@@ -13,12 +14,8 @@
         window.__resolveTelegramReady = resolve;
       });
     </script>
-    <!-- Preconnect the one origin the Lighthouse gate flags (Refs #78).
-         catalog_data.json is a CORS fetch (anonymous pool, so crossorigin).
-         One link only: at two or more, Lighthouse 12 stops judging the audit. -->
-    <link rel="preconnect" href="https://givelphuket.com" crossorigin>
-    <script async src="https://telegram.org/js/telegram-web-app.js?v=4" fetchpriority="high"
-            onload="window.__resolveTelegramReady(); window.dispatchEvent(new Event('tri-claw:telegram-ready'))"
+    <script async src="https://telegram.org/js/telegram-web-app.js?v=4"
+            onload="window.__resolveTelegramReady(); window.dispatchEvent(new Event('woody:telegram-ready'))"
             onerror="window.__resolveTelegramReady()"></script>
     <script>
     // Telegram lifecycle: keep the mini-app EXPANDED and painted in the saved
@@ -29,7 +26,7 @@
     (function () {
       function savedTheme() {
         try {
-          return localStorage.getItem('tri_claw_theme') === 'light' ? 'light' : 'dark';
+          return localStorage.getItem('wwb_theme') === 'light' ? 'light' : 'dark';
         } catch (e) {
           return 'dark';
         }
@@ -37,15 +34,8 @@
       function themeColor(theme) {
         return theme === 'dark' ? '#000000' : '#ffffff';
       }
-      // A link may pick the theme once (?theme=light|dark); it is saved like
-      // a click on the switch. The Lighthouse gate measures both themes so.
-      try {
-        var asked = new URLSearchParams(location.search).get('theme');
-        if (asked === 'light' || asked === 'dark') localStorage.setItem('tri_claw_theme', asked);
-      } catch (e) {}
       var theme = savedTheme();
       document.documentElement.setAttribute('data-theme', theme);
-      var readySent = false;
       function applyTg() {
         var w = window.Telegram && window.Telegram.WebApp;
         var color = themeColor(savedTheme());
@@ -58,15 +48,14 @@
         }
         if (meta) meta.setAttribute('content', color);
         if (!w) return;
-        // ready() is a one-time signal; expand and colours repeat on resume.
-        if (!readySent) { readySent = true; try { w.ready(); } catch (e) {} }
+        try { w.ready(); } catch (e) {}
         try { w.expand(); } catch (e) {}
         try { w.setBackgroundColor(color); } catch (e) {}
         try { w.setHeaderColor(color); } catch (e) {}
         try { if (w.disableVerticalSwipes) w.disableVerticalSwipes(); } catch (e) {}
       }
       applyTg();
-      window.addEventListener('tri-claw:telegram-ready', applyTg);
+      window.addEventListener('woody:telegram-ready', applyTg);
       document.addEventListener('DOMContentLoaded', applyTg);
       document.addEventListener('visibilitychange', function () {
         if (!document.hidden) applyTg();
@@ -75,27 +64,17 @@
       window.addEventListener('pageshow', applyTg);
     })();
     </script>
-    <!-- Pinch zoom stays available (Lighthouse meta-viewport, #78). The rapid
-         taps in the game no longer zoom: `touch-action: manipulation` on
-         html/body below turns off double-tap zoom only. viewport-fit=cover
-         for the safe area. -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-    <title>GIVEL PHUKET - консьерж в Telegram: виллы и кондо на Пхукете</title>
-    <meta name="description" content="Консьерж GIVEL PHUKET в Telegram: каталог вилл и кондо на Пхукете, услуги (трансфер, доставка, персональный ассистент) и заявка менеджеру."/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:site_name" content="GIVEL PHUKET"/>
-    <meta property="og:locale" content="ru_RU"/>
-    <meta property="og:title" content="GIVEL PHUKET - консьерж в Telegram"/>
-    <meta property="og:description" content="Каталог вилл и кондо на Пхукете, услуги консьержа (трансфер, доставка, персональный ассистент) и заявка менеджеру."/>
-    <meta name="twitter:card" content="summary"/>
-    <meta name="twitter:title" content="GIVEL PHUKET - консьерж в Telegram"/>
-    <meta name="twitter:description" content="Каталог вилл и кондо на Пхукете, услуги консьержа (трансфер, доставка, персональный ассистент) и заявка менеджеру."/>
-    <link rel="icon" href="/apps/turbobot/assets/favicon.svg">
-    <link rel="stylesheet" href="/apps/turbobot/assets/fonts/inter.css">
-    <link rel="stylesheet" href="/apps/turbobot/variables-eaf19e0ac93cfd06.css"/>
-    <link rel="stylesheet" href="/apps/turbobot/main-62e50b8fc65f1d16.css"/>
+    <meta charset="utf-8"/>
+    <!-- App-like mini-app: disable pinch / double-tap zoom (the rapid taps in the
+         "ловля шишек" game were triggering browser zoom). maximum-scale +
+         user-scalable=no; viewport-fit=cover for safe-area. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+    <title>Woody Weed Bot</title>
+    <link rel="icon" href="/assets/favicon.svg">
+    <link rel="stylesheet" href="/assets/fonts/inter.css">
+    <link rel="stylesheet" href="/apps/turbobot/variables-c7c0d81eeba20662.css"/>
+    <link rel="stylesheet" href="/apps/turbobot/main-c03667ed9227b06d.css"/>
     <link rel="stylesheet" href="/apps/turbobot/admin-1a8278f17259b522.css"/>
-    
     
     <script>
     // Safari/WKWebView reports an interrupted fetch as the opaque
@@ -160,8 +139,8 @@
     </script>
     
 <script type="module">
-import init, * as bindings from '/tri-claw-concierge-e26f637533f07e.js';
-const wasm = await init({ module_or_path: '/tri-claw-concierge-e26f637533f07e_bg.wasm' });
+import init, * as bindings from '/apps/turbobot/woody-weed-bot-22a6d7ef9122982f.js';
+const wasm = await init({ module_or_path: '/apps/turbobot/woody-weed-bot-22a6d7ef9122982f_bg.wasm' });
 
 
 window.wasmBindings = bindings;
@@ -181,7 +160,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
     // navigation, not an HTTP redirect, so it does not drop initData.
     (function () {
       function clearAndGo(targetVersion) {
-        try { sessionStorage.setItem('__tri_claw_version_redirected', '1'); } catch (e) {}
+        try { sessionStorage.setItem('__wwb_version_redirected', '1'); } catch (e) {}
         if (window.caches) {
           try {
             caches.keys().then(function (keys) {
@@ -195,9 +174,9 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
         location.replace(url.toString());
       }
       try {
-        if (sessionStorage.getItem('__tri_claw_version_redirected')) return;
+        if (sessionStorage.getItem('__wwb_version_redirected')) return;
         var moduleScript = document.querySelector('script[type="module"]');
-        var match = moduleScript && moduleScript.textContent.match(/\/tri-claw-concierge-([a-f0-9]+)\.js/);
+        var match = moduleScript && moduleScript.textContent.match(/\/woody-weed-bot-([a-f0-9]+)\.js/);
         var localVersion = match ? match[1] : '';
         fetch('/version.txt?cb=' + Date.now(), { cache: 'no-store', credentials: 'same-origin' })
           .then(function (r) {
@@ -234,7 +213,6 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             min-width: 0;
             min-height: 100%;
             overflow-x: hidden;
-            touch-action: manipulation;
         }
         #preloader {
             position: fixed;
@@ -389,7 +367,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                     })
                     .then(function (v) {
                         var version = ((v || '').trim().match(/^[a-f0-9]{16,}$/i) || [])[0] || Date.now().toString();
-                        try { sessionStorage.setItem('__tri_claw_version_redirected', '1'); } catch (e) {}
+                        try { sessionStorage.setItem('__wwb_version_redirected', '1'); } catch (e) {}
                         if (window.caches) {
                             try {
                                 caches.keys().then(function (keys) {
@@ -449,7 +427,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
         }, true);
     });
     </script>
-<link rel="modulepreload" href="/apps/turbobot/tri-claw-concierge-e26f637533f07e.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-interpreter-js-53424282ea002554/src/js/hydrate.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-interpreter-js-53424282ea002554/inline0.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-cli-config-24e80746d3c500cd/inline0.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-interpreter-js-53424282ea002554/src/js/patch_console.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-web-bf44d47c344f35d0/inline1.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-web-bf44d47c344f35d0/src/js/eval.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-interpreter-js-53424282ea002554/src/js/common.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-web-bf44d47c344f35d0/inline0.js" crossorigin="anonymous"><link rel="preload" href="/apps/turbobot/tri-claw-concierge-e26f637533f07e_bg.wasm" crossorigin="anonymous" as="fetch" type="application/wasm"></head>
+<link rel="modulepreload" href="/apps/turbobot/woody-weed-bot-22a6d7ef9122982f.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-web-bf44d47c344f35d0/inline0.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-web-bf44d47c344f35d0/src/js/eval.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-interpreter-js-53424282ea002554/src/js/hydrate.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-web-bf44d47c344f35d0/inline1.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-interpreter-js-53424282ea002554/src/js/patch_console.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-interpreter-js-53424282ea002554/src/js/common.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-cli-config-24e80746d3c500cd/inline0.js" crossorigin="anonymous"><link rel="modulepreload" href="/apps/turbobot/snippets/dioxus-interpreter-js-53424282ea002554/inline0.js" crossorigin="anonymous"><link rel="preload" href="/apps/turbobot/woody-weed-bot-22a6d7ef9122982f_bg.wasm" crossorigin="anonymous" as="fetch" type="application/wasm"></head>
 <body>
     <div id="preloader">
         <div class="spinner"></div>
