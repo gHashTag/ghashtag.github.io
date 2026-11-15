@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>What five backends teach about single-source verification · TRINITY</title>
+<meta name="description" content="[numbers are from docs/reports/t27b-bench-2026-10.md and the receipts it cites; not rerun for this publication] Five backends, one spec source: the whole-corpus differential run compares t27b against the reference test by test - 0 of 8,344 tests disagree - while Zig, clang and gcc pipelines disagree with themselves across optimization levels. The article also states what the zero does not prove: no independent front end exists, the fuzzer still finds 7 disagreements per 1,000 programs, and only 12% of the code t27b runs is generated." />
+<link rel="canonical" href="https://t27.ai/blog/five-backends-single-source-verification/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/five-backends-single-source-verification/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/five-backends-single-source-verification/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/five-backends-single-source-verification/" />
+<link rel="alternate" type="application/atom+xml" title="Blog · TRINITY" href="https://t27.ai/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://t27.ai/blog/five-backends-single-source-verification/" />
+<meta property="og:title" content="What five backends teach about single-source verification" />
+<meta property="og:description" content="[numbers are from docs/reports/t27b-bench-2026-10.md and the receipts it cites; not rerun for this publication] Five backends, one spec source: the whole-corpus differential run compares t27b against the reference test by test - 0 of 8,344 tests disagree - while Zig, clang and gcc pipelines disagree with themselves across optimization levels. The article also states what the zero does not prove: no independent front end exists, the fuzzer still finds 7 disagreements per 1,000 programs, and only 12% of the code t27b runs is generated." />
+<meta property="og:image" content="https://t27.ai/og-blog-five-backends-single-source-verification.png?v=901b23d61a97" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="What five backends teach about single-source verification" />
+<meta name="twitter:description" content="[numbers are from docs/reports/t27b-bench-2026-10.md and the receipts it cites; not rerun for this publication] Five backends, one spec source: the whole-corpus differential run compares t27b against the reference test by test - 0 of 8,344 tests disagree - while Zig, clang and gcc pipelines disagree with themselves across optimization levels. The article also states what the zero does not prove: no independent front end exists, the fuzzer still finds 7 disagreements per 1,000 programs, and only 12% of the code t27b runs is generated." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"What five backends teach about single-source verification","description":"[numbers are from docs/reports/t27b-bench-2026-10.md and the receipts it cites; not rerun for this publication] Five backends, one spec source: the whole-corpus differential run compares t27b against the reference test by test - 0 of 8,344 tests disagree - while Zig, clang and gcc pipelines disagree with themselves across optimization levels. The article also states what the zero does not prove: no independent front end exists, the fuzzer still finds 7 disagreements per 1,000 programs, and only 12% of the code t27b runs is generated.","url":"https://t27.ai/blog/five-backends-single-source-verification/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/blog/five-backends-single-source-verification/"},"image":"https://t27.ai/og-blog-five-backends-single-source-verification.png?v=901b23d61a97","datePublished":"2026-11-15","inLanguage":"en","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"verification, compilers, differential-testing, trust, backends"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Blog</p>
+<h1>What five backends teach about single-source verification</h1>
+<p class="meta">2026-11-15 · 9 min read</p>
+<p class="lede">[numbers are from docs/reports/t27b-bench-2026-10.md and the receipts it cites; not rerun for this publication] Five backends, one spec source: the whole-corpus differential run compares t27b against the reference test by test - 0 of 8,344 tests disagree - while Zig, clang and gcc pipelines disagree with themselves across optimization levels. The article also states what the zero does not prove: no independent front end exists, the fuzzer still finds 7 disagreements per 1,000 programs, and only 12% of the code t27b runs is generated.</p>
+<figure class="blog-cover"><a href="/og-blog-five-backends-single-source-verification.png?v=901b23d61a97" target="_blank" rel="noopener" aria-label="View the title card at full size — What five backends teach about single-source verification"><img src="/og-blog-five-backends-single-source-verification.png?v=901b23d61a97" alt="Title card, no illustration yet, for: What five backends teach about single-source verification" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-five-backends-single-source-verification.png?v=901b23d61a97" target="_blank" rel="noopener" aria-label="View the title card at full size — What five backends teach about single-source verification">View the title card at full size</a></figcaption></figure>
+<div class="tags"><span class="tag">#verification</span><span class="tag">#compilers</span><span class="tag">#DifferentialTesting</span><span class="tag">#trust</span><span class="tag">#backends</span></div>
+<p>Our earlier article, [One spec, five targets: the t27 backend shootout](/blog/one-spec-five-targets-the-t27-backend-shootout/), ranked five backends on speed and size. This article is deliberately not that. Speed and size answer &quot;which build should you ship.&quot; A different question matters more when the thing you build is a compiler: how do you know its output is correct? This piece is about verification - what the same five-backend setup can prove about trust, and what it cannot.</p>
+<h2>The one-disagreement budget</h2>
+<p>The t27 repository keeps one correctness budget, stated as a number: the number of tests where two backends disagree. For the newest backend, t27b, the budget is spent at exactly zero.</p>
+<p>The whole-corpus differential run compares t27b against the reference pipeline (t27c&#x27;s generated Zig, built in Debug mode and run natively). Over 1,315 spec files that both sides ran, the verdicts were compared test by test, by name: <strong>0 of 8,344 tests disagree</strong>. The same zero holds when the reference itself is rebuilt for aarch64 and executed under emulation.</p>
+<p>That single number is the article&#x27;s thesis. A compiler project that cannot state its disagreement count as one figure does not yet have a verification story; it has a test suite. A test suite tells you the code runs. A differential budget tells you the code agrees with something else that was built a different way.</p>
+<p>The budget only means something because the other backends spend it. In the same run:</p>
+<pre><code>./scripts/tri test
+./target/release/t27c suite --repo-root .</code></pre>
+<p>Zig&#x27;s own ReleaseFast build disagrees with its Debug build on 7 files (11 tests). The generated C, compiled by clang at <code>-O0</code> versus <code>-O2</code>, differs on 39 files (107 tests); gcc at the two optimization levels differs on 4 files. Those disagreements exist because the generated C contains undefined behavior - the verdict depends on the optimization level - and because ReleaseFast optimizes differently from Debug.</p>
+<p>So the picture is not &quot;t27b is perfect.&quot; It is: one backend agrees with its reference on every single test, while the mainstream pipelines cannot even agree with themselves across optimization levels. Exact agreement with a reference is worth more than approximate agreement with a family of your own builds.</p>
+<h2>Per-test reference diffing</h2>
+<p>Agreement at the file level (&quot;the pipeline passed&quot;) is weak. A file can pass while one test inside it silently returns the wrong verdict. So the corpus runner compares at the test level, and it does so over the entire spec corpus, not a sample: 1,819 <code>.t27</code> files under <code>specs/</code>, the same set <code>t27b corpus specs</code> walks, with nothing left out for being slow or broken.</p>
+<p>The invocation:</p>
+<pre><code>./target/release/t27b test specs/a/b_c.t27 --overflow trap</code></pre>
+<p>shows the unit of comparison: one spec, its tests run in the JIT with overflow checks that trap. At corpus scale the same command becomes a walk over every file, and <code>--reference</code> adds the other side:</p>
+<pre><code>./target/release/t27b corpus specs --blockers --reference ./target/release/t27c</code></pre>
+<p>With <code>--reference</code>, every file also goes through the reference path (<code>t27c test-report</code>, the Zig backend), and where both sides ran a file&#x27;s tests, the runner compares verdicts test by test and counts files where a test differs, or where only one side has it. The files the reference itself fails are left out of the denominator, so the comparison is honest about what was actually compared: at this tree, 1,311 files pass with at least one test in the reference, and t27b passes 1,296 of them (98.9%).</p>
+<p>The smallest disagreement the differential ever catches is instructive, and it is not in t27b. <code>specs/a/b_c.t27</code> makes the generated C emit <code>bool dummy(void) { true; }</code> with no <code>return</code>: it passes under gcc <code>-O0</code> and clang <code>-O2</code>, and aborts under gcc <code>-O2</code> and clang <code>-O0</code>. Four build configurations, one function, four verdicts. That is the failure mode per-test diffing exists to catch, and the reason the budget is counted per test, not per file.</p>
+<h2>What it does NOT prove</h2>
+<p>This is the section that matters most, and the one a marketing page would omit.</p>
+<p>The 0-of-8,344 result is <strong>not</strong> independent verification. The repository ran a Diverse Double-Compiling check - build the self-compile three ways, compare stage-2 outputs - and the signed receipt records the verdict honestly: <code>DDC_BACKEND_AGREEMENT</code>, <strong>not</strong> <code>DDC_INDEPENDENT</code>, with filter C4 FALSE. All three routes share one hand-written front end. The reference that t27b agrees with on 8,344 tests is produced by the same front end that t27b mounts. Agreement here proves the backends implement the same front end the same way. It cannot catch a bug that lives in the shared front end.</p>
+<p>The other checks have the same shape:</p>
+<ul><li>The JIT-versus-interpreter check (0 mismatches) compares two executors of the same intermediate representation. It checks the code generator, not the front end or the lowering.</li><li>The random-program fuzzer, the one check that reaches beyond the fixed corpus, currently finds <strong>7 disagreements per 1,000 programs</strong> (latest run, seed 1791653965: 1,000 programs, 1,975 tests, 1,915 agree, 7 disagree, 51 rejected, 2 unjudged) - and it too compares against <code>t27c gen</code> plus Zig.</li><li>Only <strong>12%</strong> of the code t27b runs is generated from <code>.t27</code>; the rest, including the front end and the hand-written test suite, is ordinary Rust compiled by rustc. t27b is not self-hosted, so its &quot;self&quot; is not actually under test.</li></ul>
+<p>No check in the current setup compares t27b against an independently written t27 front end. That is the honest boundary: the verification is unusually *visible* - signed receipts for every commit, a per-test differential over the whole corpus - but almost all of it is internal consistency, not independence.</p>
+<h2>The shape of the trade</h2>
+<p>Verification at this level is not free, and the shootout article&#x27;s speed numbers are the price tag. The reference pipeline compiles a spec in 3.05 seconds (Zig Debug, with LLVM and a link step); t27b does the same work, tests included, in 4.8 ms per spec. Its whole binary is 3.08 MB, with no assembler and no linker.</p>
+<p>The trade cuts the other way too. The negative result is stated as plainly as the positive one: over the tier-1 benchmarks, t27b executes <strong>3.4x the instructions</strong> of gcc <code>-O2</code> and produces code <strong>1.8x the size</strong>. Its generated code sits at gcc <code>-O0</code> quality, behind every optimizing pipeline in the comparison. Coverage also trails the reference it mirrors: 15 files the reference passes do not pass in t27b.</p>
+<p>Most projects would bury one of these halves. The shape of the trade is the finding: a backend can be near-zero on the disagreement budget and simultaneously last on code quality, because agreement with a reference and quality of output are orthogonal axes. A fast, small, exactly-agreeing baseline compiler is a useful artifact even when its optimized output loses - provided you say which axis each claim lives on.</p>
+<p>There is also a shipping boundary, stated so nobody over-reads the result: t27b emits object files only (ELF64 or Mach-O), it does not link, and it refuses module-level variables in an object file. It is a test runner and a code generator, not yet a producer of runnable executables.</p>
+<h2>Limitations</h2>
+<p>The honest list, so the next reader does not have to rediscover it:</p>
+<ol><li><strong>One shared front end.</strong> Everything above reduces to &quot;the backends agree about the front end.&quot; Independence would require a second, separately written front end; none exists.</li><li><strong>The fuzzer is small.</strong> 1,000 programs per run against one reference is a smoke test, not a falsification campaign. The 7-per-1,000 disagreement rate is a live number to drive down, not a solved quantity.</li><li><strong>Coverage gap.</strong> 15 files behind the reference, with a known blocker list (i128, escaping frame addresses, empty typed array literals, <code>@cos</code>, <code>anytype</code>, <code>std.*</code>, a frame-size limit). The 98.9% figure is coverage of the reference-passing set, not of the corpus.</li><li><strong>No executables.</strong> Object-only output, no link, no module-level variables; on Linux, t27b runs tests in its JIT.</li><li><strong>Self-generated share.</strong> At 12% of the code it runs, t27b cannot meaningfully compile itself end to end; the trust story is about agreement with a sibling, not about self-hosting.</li></ol>
+<p>The conclusion is not &quot;therefore distrust t27b.&quot; It is that a verification claim is only as good as its stated boundary, and every number above is published with the command that produced it. That habit - receipt, command, count - is portable to any compiler project, whatever its backends.</p>
+<h2>Sources</h2>
+<p>Every claim above, with the file and the command that backs it:</p>
+<div class="tw"><table><thead><tr><th>Claim</th><th>Source (file)</th><th>Command</th></tr></thead><tbody><tr><td>0 of 8,344 tests disagree, t27b vs reference, 1,315 files</td><td>docs/reports/t27b-bench-2026-10.md (disagreements table, &quot;Reading these numbers&quot;)</td><td>./target/release/t27b corpus specs --blockers --reference ./target/release/t27c</td></tr><tr><td>Zig Debug vs ReleaseFast: 7 files / 11 tests; clang -O0/-O2: 39 files / 107 tests; gcc -O0/-O2: 4 files</td><td>same report, disagreements table</td><td>./scripts/tri test</td></tr><tr><td>specs/a/b_c.t27 missing-return example</td><td>same report, &quot;The C pipelines disagree with themselves&quot;</td><td>./target/release/t27b test specs/a/b_c.t27 --overflow trap</td></tr><tr><td>Corpus 1,819 files; t27b passes 1,296/1,311 (98.9%)</td><td>same report, &quot;Denominator&quot; and coverage tables</td><td>./target/release/t27b corpus specs --blockers --reference ./target/release/t27c</td></tr><tr><td>DDC_BACKEND_AGREEMENT, not DDC_INDEPENDENT; filter C4 FALSE</td><td>same report, trust table (receipt #7706)</td><td>signed DDC receipt (t27b lab, commit 0e8564505)</td></tr><tr><td>Fuzzer: 7 disagreements per 1,000 programs, seed 1791653965</td><td>same report, trust table (receipt #6442)</td><td>random-program fuzzer, t27b lab run</td></tr><tr><td>12% self-generated share</td><td>same report, trust table</td><td>line counts: gen/rust/tri/t27b vs cli/t27b/src + bootstrap/src/compiler.rs</td></tr><tr><td>4.8 ms/spec vs 3.05 s zig Debug; 3.08 MB binary</td><td>same report, compile-speed table and footprint table</td><td>./target/release/t27b test &lt;spec&gt; --time / binary size</td></tr><tr><td>3.4x gcc -O2 instructions, 1.8x size</td><td>same report, axis C sections and limitations list</td><td>qemu instruction-count plugin runs</td></tr><tr><td>Object only (ELF64/Mach-O), no link, no module-level vars</td><td>same report, &quot;no ahead-of-time executable&quot;; cli/t27b/src/codegen.rs (&quot;no writable data section&quot;)</td><td>./target/release/t27b --help</td></tr></tbody></table></div>
+<p>Speed and size context: [One spec, five targets: the t27 backend shootout](/blog/one-spec-five-targets-the-t27-backend-shootout/). Everything else about the project: [t27.ai](https://t27.ai).</p>
+<figure><svg viewBox='0 0 720 250' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Horizontal bar chart of test files where compiler optimization settings disagree across 1315 test files: clang -O0 vs -O2 39 files, zig Debug vs ReleaseFast 7 files, gcc -O0 vs -O2 4 files, and t27b versus the reference compiler 0 files.' style='width:100%;height:auto;font-family:inherit'>
+<text x='0' y='18' font-size='15' font-weight='700' fill='currentColor'>Test files where compiler settings disagree</text>
+<text x='0' y='36' font-size='11' fill='currentColor' fill-opacity='0.6'>1,315 test files; each bar counts files whose results changed between settings</text>
+<line x1='104' y1='52' x2='104' y2='196' stroke='currentColor' stroke-opacity='0.14' stroke-width='1'/>
+<text x='104' y='48' font-size='10' text-anchor='middle' fill='currentColor' fill-opacity='0.55'>0</text>
+<text x='233' y='48' font-size='10' text-anchor='middle' fill='currentColor' fill-opacity='0.55'>10</text>
+<text x='362' y='48' font-size='10' text-anchor='middle' fill='currentColor' fill-opacity='0.55'>20</text>
+<text x='491' y='48' font-size='10' text-anchor='middle' fill='currentColor' fill-opacity='0.55'>30</text>
+<text x='620' y='48' font-size='10' text-anchor='middle' fill='currentColor' fill-opacity='0.55'>40</text>
+<text x='92' y='72' font-size='12' text-anchor='end' fill='currentColor'>clang -O0 vs -O2</text>
+<rect x='104' y='60' width='459.9' height='12' fill='currentColor' fill-opacity='0.32'/>
+<text x='716' y='70' font-size='11' font-weight='600' text-anchor='end' fill='currentColor'>39 files</text>
+<text x='92' y='104' font-size='12' text-anchor='end' fill='currentColor'>zig Debug vs ReleaseFast</text>
+<rect x='104' y='92' width='82.5' height='12' fill='currentColor' fill-opacity='0.32'/>
+<text x='716' y='102' font-size='11' font-weight='600' text-anchor='end' fill='currentColor'>7 files</text>
+<text x='92' y='136' font-size='12' text-anchor='end' fill='currentColor'>gcc -O0 vs -O2</text>
+<rect x='104' y='124' width='47.1' height='12' fill='currentColor' fill-opacity='0.32'/>
+<text x='716' y='134' font-size='11' font-weight='600' text-anchor='end' fill='currentColor'>4 files</text>
+<text x='92' y='168' font-size='12' text-anchor='end' fill='currentColor'>t27b vs reference</text>
+<rect x='104' y='156' width='2.0' height='12' fill='#d4af37'/>
+<text x='716' y='166' font-size='11' font-weight='600' text-anchor='end' fill='#d4af37'>0 files</text>
+<text x='0' y='216' font-size='12' font-weight='600' fill='#d4af37'>t27b vs the reference compiler: 0 of 8,344 tests disagree</text>
+</svg><figcaption>Compiler-setting disagreements across 1,315 test files - clang -O0 vs -O2 leads; t27b vs reference: 0</figcaption></figure>
+<div class="box"><h2>What this does not settle</h2><ul><li>The zero-disagreement result is backend agreement, not independent verification: all compared routes share one hand-written front end, and no independently written t27 front end exists.</li><li>The fuzzer&#x27;s 7 disagreements per 1,000 programs is one run at seed 1791653965 (1,000 programs); it is a live number, not a solved quantity.</li><li>The 98.9% coverage figure is over the 1,311 files the reference passes, not over the full 1,819-file corpus; 15 files the reference passes do not pass in t27b.</li><li>The speed, size and instruction-count figures (4.8 ms/spec, 3.08 MB, 3.4x gcc -O2 instructions, 1.8x size) come from the bench report and were not rerun for this publication.</li></ul></div>
+<div class="box"><h2>Receipts</h2><ul><li><a href="https://github.com/gHashTag/t27/issues/8817">t27 #8817 - the bench report the article cites</a></li><li><a href="https://github.com/gHashTag/trinity/issues/12907">trinity #12907 - the shootout measurements</a></li><li><a href="https://github.com/gHashTag/trinity/issues/12908">trinity #12908 - the superiority column</a></li><li><a href="https://github.com/gHashTag/t27/issues/6441">t27 #6441 - the signed receipts chain</a></li><li><a href="https://github.com/gHashTag/t27/issues/6442">t27 #6442 - the fuzzer receipt</a></li><li><a href="https://github.com/gHashTag/t27/issues/7706">t27 #7706 - the DDC receipt (DDC_BACKEND_AGREEMENT)</a></li><li><a href="https://github.com/gHashTag/t27/issues/7576">t27 #7576 - the coverage/blockers receipt</a></li><li><a href="https://github.com/gHashTag/t27/blob/master/docs/blog/seo-01-five-backends-single-source-verification.md">The approved article source</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/#/blog/five-backends-single-source-verification">Open the interactive version</a><a class="btn sec" href="/ru/blog/five-backends-single-source-verification/" hreflang="ru" lang="ru">Читать по-русски</a><a class="btn sec" href="/blog/">All posts</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Work with me</p><h2 id="blog-work-offer-title">Want this kind of check on your own design?</h2><p>I audit RTL and build independent, bit-exact models, then take the result through synthesis and, when useful, onto an Artix-7 board. The first conformance module is free.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=Project%20for%20T27%20%E2%80%94%20What%20five%20backends%20teach%20about%20single-source%20verification&amp;body=Hi%20Dmitrii%2C%20I%20read%20%E2%80%9CWhat%20five%20backends%20teach%20about%20single-source%20verification%E2%80%9D%3A%20https%3A%2F%2Ft27.ai%2Fblog%2Ffive-backends-single-source-verification%2F%0A%0AOur%20project%3A">Discuss your project</a><a class="btn sec" href="/verification/">See the verification service</a></div><nav class="work-links" aria-label="Services"><span>Services:</span><a href="/verification/">Verification</a><a href="/ip/">IP licensing</a><a href="/course/">Courses and workshops</a><a href="/about/">Contract work</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>

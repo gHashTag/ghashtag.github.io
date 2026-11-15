@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://t27.ai/</loc><lastmod>2026-11-14</lastmod></url>
+  <url><loc>https://t27.ai/</loc><lastmod>2026-11-15</lastmod></url>
   <url><loc>https://t27.ai/gft/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/verification/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/proof/</loc><lastmod>2026-11-12</lastmod></url>
@@ -32,7 +32,7 @@
   <url><loc>https://t27.ai/ru/proof/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/ru/resources/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/ru/verification/</loc><lastmod>2026-11-12</lastmod></url>
-  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-11-14</lastmod></url>
+  <url><loc>https://t27.ai/blog/</loc><lastmod>2026-11-15</lastmod></url>
   <url><loc>https://t27.ai/blog/a-3-mb-compiler-spec-to-aarch64-in-5-ms/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-11-12</lastmod></url>
@@ -70,6 +70,7 @@
   <url><loc>https://t27.ai/blog/equal-stored-width-removed-an-accuracy-lead/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/blog/features-that-change-no-bits/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/blog/fifteen-merged-nine-credited/</loc><lastmod>2026-11-12</lastmod></url>
+  <url><loc>https://t27.ai/blog/five-backends-single-source-verification/</loc><lastmod>2026-11-15</lastmod></url>
   <url><loc>https://t27.ai/blog/five-reasons-the-build-was-red/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/blog/formal-was-green-and-had-never-run-a-solver/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/blog/four-hundred-and-twelve-tests-that-were-sentences/</loc><lastmod>2026-11-12</lastmod></url>
@@ -147,7 +148,7 @@
   <url><loc>https://t27.ai/blog/two-courses-twenty-seven-lessons-each/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/blog/two-keys-one-verdict/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/blog/vibecoding-lesson-texts-fill-chat-budget/</loc><lastmod>2026-11-14</lastmod></url>
-  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-11-14</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/</loc><lastmod>2026-11-15</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-3-mb-compiler-spec-to-aarch64-in-5-ms/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-broken-reference-looks-exactly-like-broken-code/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/a-clean-merge-is-not-a-semantic-no-op/</loc><lastmod>2026-11-12</lastmod></url>
@@ -185,6 +186,7 @@
   <url><loc>https://t27.ai/ru/blog/equal-stored-width-removed-an-accuracy-lead/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/features-that-change-no-bits/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/fifteen-merged-nine-credited/</loc><lastmod>2026-11-12</lastmod></url>
+  <url><loc>https://t27.ai/ru/blog/five-backends-single-source-verification/</loc><lastmod>2026-11-15</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/five-reasons-the-build-was-red/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/formal-was-green-and-had-never-run-a-solver/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://t27.ai/ru/blog/four-hundred-and-twelve-tests-that-were-sentences/</loc><lastmod>2026-11-12</lastmod></url>

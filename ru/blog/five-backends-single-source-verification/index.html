@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Чему учат пять бэкендов: верификация с одним источником · TRINITY</title>
+<meta name="description" content="Пять бэкендов, один источник спецификаций: диффинг по каждому тесту показывает, что компилятор может доказать о своём доверии - и чего он честно доказать не может." />
+<link rel="canonical" href="https://t27.ai/ru/blog/five-backends-single-source-verification/" />
+<link rel="alternate" hreflang="en" href="https://t27.ai/blog/five-backends-single-source-verification/" />
+<link rel="alternate" hreflang="ru" href="https://t27.ai/ru/blog/five-backends-single-source-verification/" />
+<link rel="alternate" hreflang="x-default" href="https://t27.ai/blog/five-backends-single-source-verification/" />
+<link rel="alternate" type="application/atom+xml" title="Блог · TRINITY" href="https://t27.ai/ru/blog/feed.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="TRINITY" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" content="https://t27.ai/ru/blog/five-backends-single-source-verification/" />
+<meta property="og:title" content="Чему учат пять бэкендов: верификация с одним источником" />
+<meta property="og:description" content="Пять бэкендов, один источник спецификаций: диффинг по каждому тесту показывает, что компилятор может доказать о своём доверии - и чего он честно доказать не может." />
+<meta property="og:image" content="https://t27.ai/og-blog-five-backends-single-source-verification-ru.png?v=7c798b1667d6" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Чему учат пять бэкендов: верификация с одним источником" />
+<meta name="twitter:description" content="Пять бэкендов, один источник спецификаций: диффинг по каждому тесту показывает, что компилятор может доказать о своём доверии - и чего он честно доказать не может." />
+<link rel="icon" href="/favicon.svg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Чему учат пять бэкендов: верификация с одним источником","description":"Пять бэкендов, один источник спецификаций: диффинг по каждому тесту показывает, что компилятор может доказать о своём доверии - и чего он честно доказать не может.","url":"https://t27.ai/ru/blog/five-backends-single-source-verification/","mainEntityOfPage":{"@type":"WebPage","@id":"https://t27.ai/ru/blog/five-backends-single-source-verification/"},"image":"https://t27.ai/og-blog-five-backends-single-source-verification-ru.png?v=7c798b1667d6","datePublished":"2026-11-15","inLanguage":"ru","author":{"@type":"Person","name":"Dmitrii Vasilev","url":"https://github.com/gHashTag"},"publisher":{"@type":"Person","name":"Dmitrii Vasilev"},"keywords":"verification, compilers, differential-testing, trust, backends"}</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070a;color:#e8efec;font:16px/1.65 Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+a{color:#d8bc7a;text-decoration:none}a:hover{color:#f0d79a;text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+header.top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:3rem}
+.brand{font-weight:700;letter-spacing:3px;color:#d8bc7a}
+nav.top{display:flex;flex-wrap:wrap;gap:1rem;font-size:.9rem}
+nav.top a{color:#9fb3ab}
+.eyebrow{color:#00ff88;letter-spacing:3px;text-transform:uppercase;font-size:.75rem;margin:0 0 .75rem}
+h1{font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.15;margin:0 0 1rem}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.25;margin:2.5rem 0 .75rem}
+h3{font-size:1.05rem;margin:1.75rem 0 .5rem;color:#00ff88}
+.meta{color:#7d928b;font-size:.9rem;margin:0 0 2rem}
+.lede{font-size:1.1rem;color:#c7d6d0;margin:0 0 2rem}
+p{margin:0 0 1rem}
+ul,ol{margin:0 0 1rem;padding-left:1.3rem}li{margin:.35rem 0}
+blockquote{margin:1.5rem 0;padding:.4rem 0 .4rem 1.1rem;border-left:3px solid #1d4b3a;color:#a9bdb5;font-style:italic}
+pre{background:#0a1014;border:1px solid #16241f;border-radius:6px;padding:1rem;overflow-x:auto;font-size:.85rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tw{overflow-x:auto;margin:0 0 1.25rem}
+figure{margin:0 0 1.8rem;overflow-x:auto}
+figure svg{max-width:100%;height:auto}
+figcaption{font-size:.86rem;opacity:.75;margin-top:.6rem;line-height:1.5}
+.blog-cover{margin:0 0 1.8rem;overflow:visible}
+.blog-cover>a{display:block}
+.blog-cover img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:contain;background:#000}
+.blog-cover figcaption{opacity:1;color:#a9bdb5}
+.cover-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;list-style:none;padding:0;margin:.6rem 0 .75rem}
+.cover-panels li{margin:0;min-width:0;overflow-wrap:anywhere}
+.cover-panels strong,.cover-panels span{display:block}
+.cover-panels strong{color:#e8efec;font-size:.8rem}
+.cover-language{margin:.3rem 0;font-size:.8rem}
+@media(max-width:600px){.cover-panels{grid-template-columns:1fr;gap:.6rem}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid #1d2b2a;padding:.5rem .7rem;text-align:left}
+th{color:#00ff88;font-weight:600}
+.box{border:1px solid #1d2b2a;border-radius:8px;padding:1.1rem 1.25rem;margin:2rem 0;background:#070c10}
+.box h2{margin-top:0;font-size:1.1rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem}
+.tag{border:1px solid #5f5238;border-radius:99px;padding:.15rem .7rem;font-size:.78rem;color:#d8bc7a}
+.cta{border-top:1px solid #1d2b2a;margin-top:3rem;padding-top:1.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{border:1px solid #8f7a50;border-radius:6px;padding:.55rem 1rem;font-size:.9rem;color:#d8bc7a}
+.btn.sec{border-color:#1d2b2a;color:#c7d6d0}
+.work-cta{border:1px solid #1d2b2a;border-left:3px solid #00ff88;border-radius:10px;margin-top:3rem;padding:1.35rem 1.5rem;background:#070c10}
+.work-cta h2{margin:.35rem 0 .7rem;font-size:1.45rem}
+.work-cta .eyebrow{margin:0;color:#00ff88}
+.work-cta p{color:#c7d6d0}
+.work-links{display:flex;flex-wrap:wrap;gap:.45rem 1rem;margin-top:1.1rem;font-size:.9rem;color:#7d928b}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #1d2b2a;color:#7d928b;font-size:.85rem}
+.posts{list-style:none;padding:0;margin:0}
+.posts>li{border-top:1px solid #1d2b2a;padding:1.5rem 0}
+.posts h2{margin:0 0 .4rem;font-size:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="/">T27.AI</a>
+  <nav class="top"><a href="/gft/">Format</a><a href="/verification/">Verification</a><a href="/proof/">Proof</a><a href="/ip/">IP</a><a href="/course/">Course</a><a href="/cases/">Cases</a><a href="/about/">About</a></nav>
+</header>
+<p class="eyebrow">Блог</p>
+<h1>Чему учат пять бэкендов: верификация с одним источником</h1>
+<p class="meta">2026-11-15 · 9 мин чтения</p>
+<p class="lede">Пять бэкендов, один источник спецификаций: диффинг по каждому тесту показывает, что компилятор может доказать о своём доверии - и чего он честно доказать не может.</p>
+<figure class="blog-cover"><a href="/og-blog-five-backends-single-source-verification-ru.png?v=7c798b1667d6" target="_blank" rel="noopener" aria-label="Открыть титульную карточку в исходном размере — Чему учат пять бэкендов: верификация с одним источником"><img src="/og-blog-five-backends-single-source-verification-ru.png?v=7c798b1667d6" alt="Титульная карточка статьи, иллюстрации пока нет: Чему учат пять бэкендов: верификация с одним источником" width="1200" height="630" loading="eager" decoding="async" /></a><figcaption><a href="/og-blog-five-backends-single-source-verification-ru.png?v=7c798b1667d6" target="_blank" rel="noopener" aria-label="Открыть титульную карточку в исходном размере — Чему учат пять бэкендов: верификация с одним источником">Открыть титульную карточку в исходном размере</a></figcaption></figure>
+<div class="tags"><span class="tag">#verification</span><span class="tag">#compilers</span><span class="tag">#DifferentialTesting</span><span class="tag">#trust</span><span class="tag">#backends</span></div>
+<p>Наша ранняя статья, [Одна спека, пять целей: shootout бэкендов t27](/blog/one-spec-five-targets-the-t27-backend-shootout/), ранжировала пять бэкендов по скорости и размеру. Эта статья намеренно не про это. Скорость и размер отвечают на вопрос &quot;какую сборку поставлять&quot;. Когда то, что ты строишь, - компилятор, важнее другой вопрос: откуда ты знаешь, что его вывод корректен? Эта статья - про верификацию: что та же установка из пяти бэкендов может доказать о доверии и чего доказать не может.</p>
+<h2>Бюджет одного расхождения</h2>
+<p>Репозиторий t27 держит один бюджет корректности, выраженный числом: число тестов, где два бэкенда расходятся. Для новейшего бэкенда, t27b, бюджет потрачен ровно на нуле.</p>
+<p>Дифф-прогон по всему корпусу сравнивает t27b с эталонным конвейером (сгенерированный Zig из t27c, собранный в Debug и запущенный нативно). По 1,315 спек-файлов, которые прогнали обе стороны, вердикты сравнивались тест за тестом, по имени: <strong>0 из 8,344 тестов расходятся</strong>. Тот же ноль держится, когда эталон пересобирается под aarch64 и исполняется под эмуляцией.</p>
+<p>Это одно число - тезис статьи. Компиляторный проект, который не может назвать своё число расхождений одной цифрой, ещё не имеет истории верификации; у него есть тест-сьют. Тест-сьют говорит, что код запускается. Дифф-бюджет говорит, что код согласуется с чем-то ещё, построенным другим способом.</p>
+<p>Бюджет что-то значит только потому, что другие бэкенды его тратят. В том же прогоне:</p>
+<pre><code>./scripts/tri test
+./target/release/t27c suite --repo-root .</code></pre>
+<p>Собственная сборка Zig ReleaseFast расходится со своей Debug-сборкой на 7 файлах (11 тестов). Сгенерированный C, собранный clang на <code>-O0</code> против <code>-O2</code>, расходится на 39 файлах (107 тестов); gcc на двух уровнях оптимизации - на 4 файлах. Эти расхождения существуют, потому что сгенерированный C содержит неопределённое поведение - вердикт зависит от уровня оптимизации - и потому что ReleaseFast оптимизирует иначе, чем Debug.</p>
+<p>Так что картина не &quot;t27b идеален&quot;. Она такая: один бэкенд согласуется с эталоном в каждом тесте, тогда как мейнстримные конвейеры не могут согласоваться даже с собой между уровнями оптимизации. Точное согласие с эталоном стоит больше, чем приблизительное согласие с семейством собственных сборок.</p>
+<h2>Диффинг по каждому тесту</h2>
+<p>Согласие на уровне файла (&quot;конвейер прошёл&quot;) слабо. Файл может пройти, пока один тест внутри молча возвращает неверный вердикт. Поэтому корпусный раннер сравнивает на уровне тестов, и делает это по всему корпусу спек, а не по выборке: 1,819 файлов <code>.t27</code> под <code>specs/</code>, тот же набор, который обходит <code>t27b corpus specs</code>, без исключений за медлительность или поломанность.</p>
+<p>Вызов:</p>
+<pre><code>./target/release/t27b test specs/a/b_c.t27 --overflow trap</code></pre>
+<p>показывает единицу сравнения: одна спека, её тесты в JIT с trap-проверками переполнения. В масштабе корпуса та же команда становится обходом каждого файла, а <code>--reference</code> добавляет вторую сторону:</p>
+<pre><code>./target/release/t27b corpus specs --blockers --reference ./target/release/t27c</code></pre>
+<p>С <code>--reference</code> каждый файл также проходит эталонный путь (<code>t27c test-report</code>, бэкенд Zig), и там, где обе стороны прогнали тесты файла, раннер сравнивает вердикты тест за тестом и считает файлы, где тест расходится или есть только у одной стороны. Файлы, которые сам эталон не проходит, исключены из знаменателя, так что сравнение честно насчёт того, что реально сравнивалось: на этом дереве 1,311 файлов проходят с хотя бы одним тестом в эталоне, и t27b проходит 1,296 из них (98.9%).</p>
+<p>Минимальное расхождение, которое дифф когда-либо ловил, поучительно, и оно не в t27b. <code>specs/a/b_c.t27</code> заставляет сгенерированный C выдать <code>bool dummy(void) { true; }</code> без <code>return</code>: проходит под gcc <code>-O0</code> и clang <code>-O2</code>, падает под gcc <code>-O2</code> и clang <code>-O0</code>. Четыре конфигурации сборки, одна функция, четыре вердикта. Это режим отказа, ради которого существует диффинг по тестам, и причина, почему бюджет считается по тестам, а не по файлам.</p>
+<h2>Чего это НЕ доказывает</h2>
+<p>Это самый важный раздел, и тот, который маркетинговая страница опустила бы.</p>
+<p>Результат 0-из-8,344 - это <strong>не</strong> независимая верификация. Репозиторий прогнал проверку Diverse Double-Compiling - собрать самосборку тремя способами, сравнить выходы stage-2 - и подписанная квитанция честно записывает вердикт: <code>DDC_BACKEND_AGREEMENT</code>, <strong>не</strong> <code>DDC_INDEPENDENT</code>, с фильтром C4 FALSE. Все три маршрута делят один рукописный фронтенд. Эталон, с которым t27b согласен в 8,344 тестах, произведён тем же фронтендом, который t27b монтирует. Согласие здесь доказывает, что бэкенды реализуют один фронтенд одинаково. Оно не может поймать баг, живущий в общем фронтенде.</p>
+<p>Остальные проверки той же формы:</p>
+<ul><li>Проверка JIT против интерпретатора (0 несовпадений) сравнивает двух исполнителей одного промежуточного представления. Она проверяет генератор кода, а не фронтенд или lowering.</li><li>Фаззер случайных программ, единственная проверка, выходящая за фиксированный корпус, сейчас находит <strong>7 расхождений на 1,000 программ</strong> (последний запуск, seed 1791653965: 1,000 программ, 1,975 тестов, 1,915 согласны, 7 расходятся, 51 отклонена, 2 без вердикта) - и он тоже сравнивает с <code>t27c gen</code> плюс Zig.</li><li>Только <strong>12%</strong> кода, который исполняет t27b, сгенерировано из <code>.t27</code>; остальное, включая фронтенд и рукописный тест-сьют, - обычный Rust, собранный rustc. t27b не селф-хостится, так что его &quot;сам&quot; фактически не под тестом.</li></ul>
+<p>Ни одна проверка в текущей установке не сравнивает t27b с независимо написанным фронтендом t27. Это честная граница: верификация необычно *видима* - подписанные квитанции на каждый коммит, дифф по каждому тесту по всему корпусу - но почти вся она - внутренняя согласованность, а не независимость.</p>
+<h2>Форма компромисса</h2>
+<p>Верификация на этом уровне не бесплатна, и числа скорости из shootout-статьи - ценник. Эталонный конвейер компилирует спеку за 3.05 секунды (Zig Debug, с LLVM и линковкой); t27b делает ту же работу, с тестами, за 4.8 мс на спеку. Весь его бинарник - 3.08 MB, без ассемблера и линкера.</p>
+<p>Компромисс режет и в другую сторону. Негативный результат заявлен так же прямо, как позитивный: на tier-1 бенчмарках t27b исполняет <strong>в 3.4 раза больше инструкций</strong>, чем gcc <code>-O2</code>, и производит код <strong>в 1.8 раза большего размера</strong>. Его сгенерированный код сидит на качестве gcc <code>-O0</code>, позади каждого оптимизирующего конвейера в сравнении. Покрытие тоже отстаёт от эталона, который он зеркалит: 15 файлов, которые эталон проходит, в t27b не проходят.</p>
+<p>Большинство проектов похоронило бы одну из этих половин. Форма компромисса и есть находка: бэкенд может быть около нуля по бюджету расхождений и одновременно последним по качеству кода, потому что согласие с эталоном и качество вывода - ортогональные оси. Быстрый, маленький, точно-согласованный базовый компилятор - полезный артефакт, даже когда его оптимизированный вывод проигрывает - при условии, что ты говоришь, на какой оси живёт каждое утверждение.</p>
+<p>Есть и граница поставки, заявленная, чтобы никто не перечитал результат: t27b выдаёт только объектные файлы (ELF64 или Mach-O), не линкует и отвергает переменные уровня модуля в объектном файле. Он - тест-раннер и генератор кода, ещё не производитель исполнимых файлов.</p>
+<h2>Ограничения</h2>
+<p>Честный список, чтобы следующий читатель не переоткрывал его:</p>
+<ol><li><strong>Один общий фронтенд.</strong> Всё выше сводится к &quot;бэкенды согласны о фронтенде&quot;. Независимость потребовала бы второго, отдельно написанного фронтенда; его нет.</li><li><strong>Фаззер мал.</strong> 1,000 программ за запуск против одного эталона - дымовой тест, а не кампания фальсификации. Уровень 7-на-1,000 - живое число, которое надо снижать, а не решённая величина.</li><li><strong>Разрыв покрытия.</strong> 15 файлов позади эталона, с известным списком блокеров (i128, убегающие адреса кадров, пустые типизированные литералы массивов, <code>@cos</code>, <code>anytype</code>, <code>std.*</code>, лимит размера кадра). Цифра 98.9% - покрытие проходящего-в-эталоне множества, не корпуса.</li><li><strong>Нет исполнимых файлов.</strong> Только объектный вывод, без линковки, без переменных уровня модуля; на Linux t27b гоняет тесты в своём JIT.</li><li><strong>Доля самогенерации.</strong> При 12% кода, который он исполняет, t27b не может осмысленно скомпилировать себя от конца до конца; история доверия - про согласие с братом, а не про селф-хостинг.</li></ol>
+<p>Вывод не &quot;поэтому не доверяй t27b&quot;. Он в том, что утверждение о верификации не лучше своей заявленной границы, и каждое число выше опубликовано с командой, которая его произвела. Эта привычка - квитанция, команда, число - переносима на любой компиляторный проект, каковы бы ни были его бэкенды.</p>
+<h2>Источники</h2>
+<p>Каждое утверждение выше, с файлом и командой, которые его подкрепляют:</p>
+<div class="tw"><table><thead><tr><th>Утверждение</th><th>Источник (файл)</th><th>Команда</th></tr></thead><tbody><tr><td>0 из 8,344 тестов расходятся, t27b против эталона, 1,315 файлов</td><td>docs/reports/t27b-bench-2026-10.md (таблица расхождений, &quot;Reading these numbers&quot;)</td><td>./target/release/t27b corpus specs --blockers --reference ./target/release/t27c</td></tr><tr><td>Zig Debug против ReleaseFast: 7 файлов / 11 тестов; clang -O0/-O2: 39 файлов / 107 тестов; gcc -O0/-O2: 4 файла</td><td>тот же отчёт, таблица расхождений</td><td>./scripts/tri test</td></tr><tr><td>Пример отсутствующего return в specs/a/b_c.t27</td><td>тот же отчёт, &quot;The C pipelines disagree with themselves&quot;</td><td>./target/release/t27b test specs/a/b_c.t27 --overflow trap</td></tr><tr><td>Корпус 1,819 файлов; t27b проходит 1,296/1,311 (98.9%)</td><td>тот же отчёт, &quot;Denominator&quot; и таблицы покрытия</td><td>./target/release/t27b corpus specs --blockers --reference ./target/release/t27c</td></tr><tr><td>DDC_BACKEND_AGREEMENT, не DDC_INDEPENDENT; фильтр C4 FALSE</td><td>тот же отчёт, таблица доверия (квитанция #7706)</td><td>подписанная DDC-квитанция (лаборатория t27b, коммит 0e8564505)</td></tr><tr><td>Фаззер: 7 расхождений на 1,000 программ, seed 1791653965</td><td>тот же отчёт, таблица доверия (квитанция #6442)</td><td>фаззер случайных программ, запуск в лаборатории t27b</td></tr><tr><td>12% самогенерации</td><td>тот же отчёт, таблица доверия</td><td>счёт строк: gen/rust/tri/t27b против cli/t27b/src + bootstrap/src/compiler.rs</td></tr><tr><td>4.8 мс/спека против 3.05 с zig Debug; бинарник 3.08 MB</td><td>тот же отчёт, таблицы скорости компиляции и следа</td><td>./target/release/t27b test &lt;спека&gt; --time / размер бинарника</td></tr><tr><td>В 3.4 раза больше инструкций, чем gcc -O2, размер в 1.8 раза больше</td><td>тот же отчёт, секции оси C и список ограничений</td><td>прогоны qemu-плагина счёта инструкций</td></tr><tr><td>Только объекты (ELF64/Mach-O), без линковки, без переменных уровня модуля</td><td>тот же отчёт, &quot;no ahead-of-time executable&quot;; cli/t27b/src/codegen.rs (&quot;no writable data section&quot;)</td><td>./target/release/t27b --help</td></tr></tbody></table></div>
+<p>Контекст скорости и размера: [Одна спека, пять целей: shootout бэкендов t27](/blog/one-spec-five-targets-the-t27-backend-shootout/). Всё остальное о проекте: [t27.ai](https://t27.ai).</p>
+<figure><svg viewBox='0 0 720 250' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Horizontal bar chart in Russian of test files where compiler optimization settings disagree across 1315 test files: clang -O0 vs -O2 39 files, zig Debug vs ReleaseFast 7 files, gcc -O0 vs -O2 4 files, and t27b versus the reference compiler 0 files.' style='width:100%;height:auto;font-family:inherit'>
+<text x='0' y='18' font-size='15' font-weight='700' fill='currentColor'>Файлы с расхождениями настроек компиляторов</text>
+<text x='0' y='36' font-size='11' fill='currentColor' fill-opacity='0.6'>1 315 тестовых файлов; столбец - число файлов, где результат изменился между настройками</text>
+<line x1='104' y1='52' x2='104' y2='196' stroke='currentColor' stroke-opacity='0.14' stroke-width='1'/>
+<text x='104' y='48' font-size='10' text-anchor='middle' fill='currentColor' fill-opacity='0.55'>0</text>
+<text x='233' y='48' font-size='10' text-anchor='middle' fill='currentColor' fill-opacity='0.55'>10</text>
+<text x='362' y='48' font-size='10' text-anchor='middle' fill='currentColor' fill-opacity='0.55'>20</text>
+<text x='491' y='48' font-size='10' text-anchor='middle' fill='currentColor' fill-opacity='0.55'>30</text>
+<text x='620' y='48' font-size='10' text-anchor='middle' fill='currentColor' fill-opacity='0.55'>40</text>
+<text x='92' y='72' font-size='12' text-anchor='end' fill='currentColor'>clang -O0 vs -O2</text>
+<rect x='104' y='60' width='459.9' height='12' fill='currentColor' fill-opacity='0.32'/>
+<text x='716' y='70' font-size='11' font-weight='600' text-anchor='end' fill='currentColor'>39 файлов</text>
+<text x='92' y='104' font-size='12' text-anchor='end' fill='currentColor'>zig Debug vs ReleaseFast</text>
+<rect x='104' y='92' width='82.5' height='12' fill='currentColor' fill-opacity='0.32'/>
+<text x='716' y='102' font-size='11' font-weight='600' text-anchor='end' fill='currentColor'>7 файлов</text>
+<text x='92' y='136' font-size='12' text-anchor='end' fill='currentColor'>gcc -O0 vs -O2</text>
+<rect x='104' y='124' width='47.1' height='12' fill='currentColor' fill-opacity='0.32'/>
+<text x='716' y='134' font-size='11' font-weight='600' text-anchor='end' fill='currentColor'>4 файла</text>
+<text x='92' y='168' font-size='12' text-anchor='end' fill='currentColor'>t27b vs референс</text>
+<rect x='104' y='156' width='2.0' height='12' fill='#d4af37'/>
+<text x='716' y='166' font-size='11' font-weight='600' text-anchor='end' fill='#d4af37'>0 файлов</text>
+<text x='0' y='216' font-size='12' font-weight='600' fill='#d4af37'>t27b против референса: 0 из 8 344 тестов расходятся</text>
+</svg><figcaption>Расхождения настроек компиляторов на 1 315 тестовых файлах - лидирует clang -O0 vs -O2; t27b против референса: 0</figcaption></figure>
+<div class="box"><h2>Чего это не решает</h2><ul><li>Результат нуля расхождений - согласие бэкендов, а не независимая верификация: все сравненные маршруты делят один рукописный фронтенд, и независимо написанного фронтенда t27 не существует.</li><li>7 расхождений на 1,000 программ у фаззера - один запуск с seed 1791653965 (1,000 программ); это живое число, а не решённая величина.</li><li>Цифра покрытия 98.9% - по 1,311 файлам, которые проходит эталон, а не по полному корпусу в 1,819 файлов; 15 файлов, которые проходит эталон, в t27b не проходят.</li><li>Цифры скорости, размера и числа инструкций (4.8 мс/спека, 3.08 MB, в 3.4 раза больше инструкций gcc -O2, размер в 1.8 раза больше) взяты из бенч-отчёта и для этой публикации не повторялись.</li></ul></div>
+<div class="box"><h2>Пруфы</h2><ul><li><a href="https://github.com/gHashTag/t27/issues/8817">t27 #8817 - the bench report the article cites</a></li><li><a href="https://github.com/gHashTag/trinity/issues/12907">trinity #12907 - the shootout measurements</a></li><li><a href="https://github.com/gHashTag/trinity/issues/12908">trinity #12908 - the superiority column</a></li><li><a href="https://github.com/gHashTag/t27/issues/6441">t27 #6441 - the signed receipts chain</a></li><li><a href="https://github.com/gHashTag/t27/issues/6442">t27 #6442 - the fuzzer receipt</a></li><li><a href="https://github.com/gHashTag/t27/issues/7706">t27 #7706 - the DDC receipt (DDC_BACKEND_AGREEMENT)</a></li><li><a href="https://github.com/gHashTag/t27/issues/7576">t27 #7576 - the coverage/blockers receipt</a></li><li><a href="https://github.com/gHashTag/t27/blob/master/docs/blog/seo-01-five-backends-single-source-verification.md">The approved article source</a></li></ul></div>
+<div class="cta"><div class="btns"><a class="btn sec" href="/?lang=ru#/blog/five-backends-single-source-verification">Открыть интерактивную версию</a><a class="btn sec" href="/blog/five-backends-single-source-verification/" hreflang="en" lang="en">Read in English</a><a class="btn sec" href="/ru/blog/">Все статьи</a></div></div>
+<section class="work-cta" aria-labelledby="blog-work-offer-title"><p class="eyebrow">Поработаем вместе</p><h2 id="blog-work-offer-title">Хотите так же проверить собственный дизайн?</h2><p>Я аудирую RTL и строю независимые побитово точные модели, затем провожу результат через синтез и, когда это полезно, проверяю на плате Artix-7. Первый модуль проверки — бесплатно.</p><div class="btns"><a class="btn" href="mailto:admin@t27.ai?subject=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D0%B4%D0%BB%D1%8F%20T27%20%E2%80%94%20%D0%A7%D0%B5%D0%BC%D1%83%20%D1%83%D1%87%D0%B0%D1%82%20%D0%BF%D1%8F%D1%82%D1%8C%20%D0%B1%D1%8D%D0%BA%D0%B5%D0%BD%D0%B4%D0%BE%D0%B2%3A%20%D0%B2%D0%B5%D1%80%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F%20%D1%81%20%D0%BE%D0%B4%D0%BD%D0%B8%D0%BC%20%D0%B8%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%D0%BE%D0%BC&amp;body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%21%20%D0%AF%20%D0%BF%D1%80%D0%BE%D1%87%D0%B8%D1%82%D0%B0%D0%BB%28%D0%B0%29%20%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8E%20%C2%AB%D0%A7%D0%B5%D0%BC%D1%83%20%D1%83%D1%87%D0%B0%D1%82%20%D0%BF%D1%8F%D1%82%D1%8C%20%D0%B1%D1%8D%D0%BA%D0%B5%D0%BD%D0%B4%D0%BE%D0%B2%3A%20%D0%B2%D0%B5%D1%80%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F%20%D1%81%20%D0%BE%D0%B4%D0%BD%D0%B8%D0%BC%20%D0%B8%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%D0%BE%D0%BC%C2%BB%3A%20https%3A%2F%2Ft27.ai%2Fru%2Fblog%2Ffive-backends-single-source-verification%2F%0A%0A%D0%9D%D0%B0%D1%88%D0%B0%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A">Обсудить задачу</a><a class="btn sec" href="/ru/verification/">Услуга верификации</a></div><nav class="work-links" aria-label="Услуги"><span>Услуги:</span><a href="/ru/verification/">Верификация</a><a href="/ru/ip/">Лицензирование IP</a><a href="/ru/course/">Курсы и воркшопы</a><a href="/ru/about/">Контрактная работа</a></nav></section>
+<footer>
+  Dmitrii Vasilev — hardware-AI and FPGA/RTL engineer.
+  <a href="https://github.com/gHashTag">GitHub</a> ·
+  <a href="https://linkedin.com/in/neurocoder">LinkedIn</a> ·
+  <a href="https://t27.ai/cv.pdf">CV</a> ·
+  <a href="https://arxiv.org/abs/2606.05017">arXiv:2606.05017</a> ·
+  <a href="https://arxiv.org/abs/2606.09686">arXiv:2606.09686</a>
+</footer>
+</div>
+</body>
+</html>
