@@ -45,8 +45,6 @@
       one. Outside Telegram the greeting reaches nobody and changes nothing.
     -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- The companion ask route (apps/bot on the VPS, CORS allows t27.ai). -->
-    <script>window.__leelaAsk = "https://leela-ask-130-17-9-230.sslip.io";</script>
 
     <!--
       The light, before the first paint.
@@ -76,7 +74,7 @@
               : 'dark';
       } catch (e) {}
     </script>
-    <script type="module" crossorigin src="./assets/index-CK2mCOz1.js"></script>
+    <script type="module" crossorigin src="./assets/index-BtigTVTS.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-0fTq2BXs.css">
   </head>
   <body>
@@ -338,54 +336,6 @@
         </button>
       </form>
     </section>
-
-
-  <!-- Events of the community, straight from the shared Woody DB. One origin,
-       one fetch, two lists: upcoming first, past after — same contract the
-       Woody/GIVEL/TURBOTBOT storefronts use. -->
-  <section id="events" style="max-width:720px;margin:32px auto;padding:0 16px;font-family:system-ui,sans-serif;">
-    <h2 style="font-size:20px;margin:0 0 4px 0;">События комьюнити</h2>
-    <p style="font-size:13px;opacity:0.7;margin:0 0 16px 0;">Ближайшие встречи, игры и вечера — запись через Telegram-бота.</p>
-    <div id="events-upcoming" style="display:grid;gap:10px;"></div>
-    <h3 id="events-past-title" style="display:none;font-size:15px;opacity:0.7;margin:24px 0 10px 0;">Прошедшие</h3>
-    <div id="events-past" style="display:grid;gap:8px;"></div>
-  </section>
-  <script>
-  (function () {
-    var API = "https://woody-app-130-17-9-230.sslip.io/api/events";
-    fetch(API).then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); }).then(function (d) {
-      var all = d.events || [];
-      var now = Date.now();
-      function ts(ev) { var t = Date.parse(ev.starts_at); return isNaN(t) ? 0 : t; }
-      var up = all.filter(function (e) { return ts(e) >= now; }).sort(function (a, b) { return ts(a) - ts(b); });
-      var past = all.filter(function (e) { return ts(e) < now; }).sort(function (a, b) { return ts(b) - ts(a); }).slice(0, 8);
-      var upEl = document.getElementById("events-upcoming");
-      upEl.innerHTML = up.length ? "" : "<p style=\"font-size:13px;opacity:0.6;\">Скоро: следите за анонсами.</p>";
-      up.slice(0, 6).forEach(function (e) {
-        var card = document.createElement("div");
-        card.style.cssText = "background:rgba(128,128,128,0.12);padding:12px 14px;border-radius:10px;border-left:3px solid #8a6;";
-        var loc = e.location_text ? "<div style=\"font-size:12px;opacity:0.7;margin-top:2px;\">📍 " + e.location_text + "</div>" : "";
-        card.innerHTML = "<div style=\"font-weight:600;font-size:14px;\">" + e.title + "</div>" +
-          "<div style=\"font-size:12px;opacity:0.7;margin-top:2px;\">🕒 " + e.starts_at.replace("T", " ").slice(0, 16) + "</div>" + loc;
-        upEl.appendChild(card);
-      });
-      if (past.length) {
-        document.getElementById("events-past-title").style.display = "block";
-        var pastEl = document.getElementById("events-past");
-        past.forEach(function (e) {
-          var card = document.createElement("div");
-          card.style.cssText = "background:rgba(128,128,128,0.08);padding:10px 14px;border-radius:8px;opacity:0.75;";
-          card.innerHTML = "<div style=\"font-size:13px;font-weight:600;\">" + e.title + "</div>" +
-            "<div style=\"font-size:11px;opacity:0.7;\">🕒 " + e.starts_at.replace("T", " ").slice(0, 16) + "</div>";
-          pastEl.appendChild(card);
-        });
-      }
-    }).catch(function () {
-      document.getElementById("events-upcoming").innerHTML =
-        "<p style=\"font-size:13px;opacity:0.6;\">События временно недоступны.</p>";
-    });
-  })();
-  </script>
 
   </body>
 </html>
