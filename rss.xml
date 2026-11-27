@@ -6,7 +6,18 @@
     <atom:link href="https://t27.ai/rss.xml" rel="self" type="application/rss+xml" />
     <description>Measured results and the methods behind them. Every post names what is not proven.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 15 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 27 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Golden Ruler: a calibration ruler for numeric formats</title>
+      <link>https://t27.ai/#/blog/golden-ruler-a-calibration-ruler-for-numeric-formats</link>
+      <guid isPermaLink="false">golden-ruler-a-calibration-ruler-for-numeric-formats</guid>
+      <pubDate>Fri, 27 Nov 2026 12:00:00 GMT</pubDate>
+      <description>[software vectors, not hardware measurements; the ml_dtypes cross-validation is as reported in the paper] Golden Ruler (arXiv:2606.09686) is a catalogue of 109 numeric formats in 13 clusters and six bit-exact conformance packs: GF16, MXFP4 element, BF16, FP8 E4M3, FP8 E5M2 and E8M0 block scale. Each pack is a self-contained JSON document with a SHA-256 fingerprint, a single row schema and an anchor vector that encodes 3.0 through the identity phi^2 + 1/phi^2 = 3 as a cross-pack sanity check. The ml_dtypes 0.5.4 cross-validation as reported in the paper covers element-level rounding of the float formats; the block-scale formats were checked separately, their divergences documented as permitted interpretation gaps, not hidden.</description>
+      <category>Number formats</category>
+      <category>Verification</category>
+      <category>GF16</category>
+      <category>Open source</category>
+    </item>
     <item>
       <title>What five backends teach about single-source verification</title>
       <link>https://t27.ai/#/blog/five-backends-single-source-verification</link>
